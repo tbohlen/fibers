@@ -1,0 +1,6 @@
+[submodule "lib/gl-matrix"]
+	path = lib/gl-matrix
+	url = https://github.com/toji/gl-matrix
+[submodule "lib/three"]
+	path = lib/three
+	url = https://github.com/mrdoob/three.js/
