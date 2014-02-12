@@ -43,7 +43,6 @@ class Game {
 
     void initCanvas() {
         _camera = new JsObject(context['THREE']['PerspectiveCamera'], [60, 4/3, 0.1, 10000]);
-        _camera['useQuaternion'] = true;
 
         _scene = new JsObject(context['THREE']['Scene'], []);
 
