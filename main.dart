@@ -18,6 +18,8 @@ class Game {
     var _scene;
     var _directionalLight;
     var _ambientLight;
+    var _playerGeom; // the geometry of the player
+    
     Game(Player player) {
         _player = player;
         _offset = new List(2);
@@ -58,6 +60,16 @@ class Game {
     }
 
     void initScene() {
+        var playerSphere = new JsObject(context['THREE']['SphereGeometry'],
+                                       [2, 8, 6, 0, 2*PI, 0, PI]);
+        var playerParams = new JsObject.jsify({'color': 0x00aa00});
+        var playerMaterial = new JsObject(context['THREE']['MeshPhongMaterial'],
+                                         [playerParams]);
+        _playerGeom = new JsObject(context['THREE']['Mesh'], 
+                                   [playerSphere, playerMaterial]);
+        _playerGeom['position'].callMethod('set', [2, 2, 2]);
+        this.addObject(_playerGeom);
+      
         for (var i = 0; i < 3; i++) {
             var geometry = new JsObject(context['THREE']['CylinderGeometry'], [1, 1, 8, 20, 1, false]);
             geometry.callMethod('computeVertexNormals', []);
@@ -113,6 +125,9 @@ class Game {
         _camera['position']['x'] = _player.pos[0];
         _camera['position']['y'] = _player.pos[1];
         _camera['position']['z'] = _player.pos[2];
+        
+        _playerGeom['position'].callMethod('set', [_player.pos[0], 2, _player.pos[2]]);
+        
         //context['console'].callMethod('log', [_player.pos[0] + _player.lookDir[0]]);
         //context['console'].callMethod('log', [_player.pos[1] + _player.lookDir[1]]);
         //context['console'].callMethod('log', [_player.pos[2]]);
