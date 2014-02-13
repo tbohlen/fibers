@@ -68,6 +68,18 @@ class Game {
             this.addObject(cylinder);
         }
 
+        // make a ground
+        var geometry = new JsObject(context['THREE']['PlaneGeometry'], [50, 50]);
+        geometry.callMethod('computeVertexNormals', []);
+        var phongParams = new JsObject.jsify({'color': 0xcccccc});
+        var material = new JsObject(context['THREE']['MeshPhongMaterial'], [phongParams]);
+        var plane = new JsObject(context['THREE']['Mesh'], [geometry, material]);
+        plane['position'].callMethod('set', [-25, 0, -25]);
+        var matrix = new JsObject(context['THREE']['Matrix4'], []);
+        matrix.callMethod('makeRotationX', [(-3.141592/2.0)]);
+        plane.callMethod('applyMatrix', [matrix]);
+        this.addObject(plane);
+        
         // add a directional light for shading
         _directionalLight = new JsObject(context['THREE']['DirectionalLight'], [0xffffff, 1.0, 1]);
         _directionalLight['position'].callMethod('set', [5, 5, 8]);
@@ -85,19 +97,31 @@ class Game {
 
 
     void drawScene(num time) {
+        _player.update(this);
+
         // find the camera position
-        /*var newPos = new JsObject(context['THREE']['Vector3'], [10, 0, 0]);*/
+        /*var pos = new JsObject(context['THREE']['Vector3'], [_player.pos[0], _player.pos[1], _player.pos[2]]);*/
         /*var quat = new JsObject(context['THREE']['Quaternion'], []);*/
-        /*newPos.callMethod('copy', [context['gameEnv']['ship']['position']);*/
         /*quat.callMethod('copy', [context['gameEnv']['ship']['quaternion]);*/
-        /*var lookDir = new context['THREE'].Vector3(0, 0, 1);*/
+        var lookDir = new JsObject(context['THREE']['Vector3'], [_player.pos[0] + _player.lookDir[0], _player.pos[1] + _player.lookDir[1], _player.pos[2] + _player.lookDir[2]]);
+        //var lookDir = new JsObject(context['THREE']['Vector3'], [_player.lookDir[0], _player.lookDir[1], _player.lookDir[2]]);
+        //var lookDir = new JsObject(context['THREE']['Vector3'], [0, 0, 0]);
 
         // transform the -z vector, our look direction, by the quaternion
         /*quat.multiplyVector3(lookDir);*/
-        /*lookDir.multiplyScalar(5);*/
-        _player.update(this);
 
-        _camera['position']['z'] = 20;
+        _camera['position']['x'] = _player.pos[0];
+        _camera['position']['y'] = _player.pos[1];
+        _camera['position']['z'] = _player.pos[2];
+        //context['console'].callMethod('log', [_player.pos[0] + _player.lookDir[0]]);
+        //context['console'].callMethod('log', [_player.pos[1] + _player.lookDir[1]]);
+        //context['console'].callMethod('log', [_player.pos[2]]);
+        //context['console'].callMethod('log', ["Done"]);
+        //_camera.callMethod('lookAt', [[_player.pos[0] + _player.lookDir[0], _player.pos[1] + _player.lookDir[1], 10 + _player.lookDir[2]]]);
+        _camera.callMethod('lookAt', [lookDir]);
+        _camera['up']['x'] = _player.up[0];
+        _camera['up']['y'] = _player.up[1];
+        _camera['up']['z'] = _player.up[2];
         /*context.gameEnv.camera.quaternion = quat;*/
         _camera.callMethod('updateProjectionMatrix', []);
 
@@ -118,16 +142,23 @@ class Game {
  */
 class Player {
     final double VEL_SCALE = 0.1;
-    final double LOOK_VEL_SCALE = 0.1;
+    final double MOUSE_VEL_SCALE = 0.001;
+    final double LOOK_VEL_SCALE = 0.0001;
 
     int _controlStyle;
-    List _pos = [0, 0, 0];
+    List _pos = [0, 20, 0];
     // velocity is used differently depending on control scheme
     List _vel = [0, 0, 0];
     bool _holding = false;
-    List _lookDir = [0, 0, 1];
+    List _lookDir = [0, 0, 0];
     List _lookDirDelta = [0, 0, 0];
+    List _up = [0, 0, -1];
     List _mousePos = [0, 0];
+    bool leftButton = false;
+    bool upButton = false;
+    bool downButton = false;
+    bool rightButton = false;
+    
 
     Player() {
         _pos = [0, 0, 0];
@@ -140,70 +171,29 @@ class Player {
         body.onKeyUp.listen(handleKeyUp);
     }
 
-    void handleKeyDown(KeyboardEvent e) {
-        KeyEvent event = new KeyEvent(keyboardEvent);
+    List get lookDir => _lookDir;
+    List get pos => _pos;
+    List get up => _up;
+
+    void handleKeyDown(KeyboardEvent event) {
         switch (event.keyCode) {
-            case 65:
+            case KeyCode.A:
                 // a
-                if (_controlStyle == 2) {
-                    // direction of motion
-                    _vel[0] = -1;
-                }
-                else if (_controlStyle == 3) {
-                    // direction of motion
-                    _vel[0] = -1;
-                }
-                else if (_controlStyle == 4) {
-                    // direction of motion
-                    _vel[0] = -1;
-                }
+                leftButton = true;
                 break;
-            case 87:
+            case KeyCode.W:
                 // w
-                if (_controlStyle == 2) {
-                    // direction of motion
-                    _vel[2] = 1;
-                }
-                else if (_controlStyle == 3) {
-                    // direction of motion
-                    _vel[2] = 1;
-                }
-                else if (_controlStyle == 4) {
-                    // direction of motion
-                    _vel[2] = 1;
-                }
+                upButton = true;
                 break;
-            case 91:
+            case KeyCode.D:
                 // d
-                if (_controlStyle == 2) {
-                    // direction of motion
-                    _vel[0] = 1;
-                }
-                else if (_controlStyle == 3) {
-                    // direction of motion
-                    _vel[0] = 1;
-                }
-                else if (_controlStyle == 4) {
-                    // direction of motion
-                    _vel[0] = 1;
-                }
+                rightButton = true;
                 break;
-            case 83:
+            case KeyCode.S:
                 // s
-                if (_controlStyle == 2) {
-                    // direction of motion
-                    _vel[2] = -1;
-                }
-                else if (_controlStyle == 3) {
-                    // direction of motion
-                    _vel[2] = -1;
-                }
-                else if (_controlStyle == 4) {
-                    // direction of motion
-                    _vel[2] = -1;
-                }
+                downButton = true;
                 break;
-            case 32:
+            case KeyCode.SPACE:
                 // space
                 if (_controlStyle == 2 || _controlStyle == 4) {
                     _holding = true;
@@ -213,37 +203,99 @@ class Player {
         }
     }
 
-    void handleKeyUp(Event e) {
-        switch (e.keyCode) {
-            case 32:
+    void handleKeyUp(KeyboardEvent event) {
+        switch (event.keyCode) {
+            case KeyCode.SPACE:
                 // space
                 if (_controlStyle == 2 || _controlStyle == 4) {
                     _holding = false;
                 }
                 break;
-            case 49:
+            case KeyCode.ONE:
                 // 1
+                context['console'].callMethod('log', ['Control one']);
                 _controlStyle = 1;
+                // position starts high
+                _pos[0] = 0;
+                _pos[1] = 20;
+                _pos[2] = 0;
                 // lookdir in 2D is straight down
-                _lookDir = [0, -1, 0];
+                _lookDir[0] = 0;
+                _lookDir[1] = 0;
+                _lookDir[2] = 0;
+                
+                _vel[0] = 0;
+                _vel[1] = 0;
+                _vel[2] = 0;
+                
+                _up[0] = 0;
+                _up[1] = 0;
+                _up[2] = -1;
                 break;
-            case 50:
+            case KeyCode.TWO:
                 // 2
+                context['console'].callMethod('log', ['Control two']);
                 _controlStyle = 2;
                 // lookdir in 2D is straight down
-                _lookDir = [0, -1, 0];
+                _lookDir[0] = 0;
+                _lookDir[1] = -1;
+                _lookDir[2] = 0;
+                
+                _pos[0] = 0;
+                _pos[1] = 20;
+                _pos[2] = 0;
+                
+                _vel[0] = 0;
+                _vel[1] = 0;
+                _vel[2] = 0;
+                
+                _up[0] = 0;
+                _up[1] = 0;
+                _up[2] = -1;
                 break;
-            case 51:
+            case KeyCode.THREE:
                 // 3
+                context['console'].callMethod('log', ['Control three']);
                 _controlStyle = 3;
                 // starting lookdir in mode 3 is straight ahead
-                _lookDir = _vel;
+                _lookDir[0] = 0;
+                _lookDir[1] = 0;
+                _lookDir[2] = -1;
+                
+                _pos[0] = 0;
+                _pos[1] = 5;
+                _pos[2] = 10;
+                
+                _vel[0] = 0;
+                _vel[1] = 0;
+                _vel[2] = 0;
+                
+                _up[0] = 0;
+                _up[1] = 1;
+                _up[2] = 0;
                 break;
-            case 52:
+            case KeyCode.FOUR:
+                context['console'].callMethod('log', ['Control four']);
                 // 4
                 _controlStyle = 4;
                 // lookdir in 4 is always straight ahead
                 _lookDir = _vel;
+                break;
+            case KeyCode.A:
+                // a
+                leftButton = false;
+                break;
+            case KeyCode.W:
+                // w
+                upButton = false;
+                break;
+            case KeyCode.D:
+                // d
+                rightButton = false;
+                break;
+            case KeyCode.S:
+                // s
+                downButton = false;
                 break;
             default:
         }
@@ -251,16 +303,8 @@ class Player {
 
     void handleMouseMove(Event e) {
         // just saves the mouse position. This can then be used to update the player as needed
-        _mousePos[0] = e.pageX;
-        _mousePos[1] = e.pageY;
-        if (_controlStyle == 1) {
-            _vel[0] = _mousePos[0] - game.offset[0] - game.canvasSize[0];
-            _vel[1] = _mousePos[1] - game.offset[1] - game.canvasSize[1];
-        }
-        if (_controlStyle == 3) {
-            _lookDirDelta[0] = _mousePos[0] - game.offset[0] - game.canvasSize[0];
-            _lookDirDelta[1] = _mousePos[1] - game.offset[1] - game.canvasSize[1];
-        }
+        _mousePos[0] = (e as MouseEvent).clientX;
+        _mousePos[1] = (e as MouseEvent).clientY;
     }
 
     void handleMouseDown(Event e) {
@@ -276,58 +320,88 @@ class Player {
     }
 
     void update(Game game) {
-        // update the position with the last velocity
-        _pos += normalize(_vel) * VEL_SCALE;
-
         switch (_controlStyle) {
             case 1:
-                List normVel = normalize(_val);
-                _pos[0] += normVel[0] * VEL_SCALE;
-                _pos[1] += normVel[1] * VEL_SCALE;
+                // calculate velocity from mouse position
+                _vel[0] = _mousePos[0] - game.offset[0] - game.canvasSize[0]/2;
+                _vel[2] = _mousePos[1] - game.offset[1] - game.canvasSize[1]/2;
+
+                List normVel = normalize(_vel);
+                _pos[0] += _vel[0] * MOUSE_VEL_SCALE;
+                _pos[1] = 20;
+                _pos[2] += _vel[2] * MOUSE_VEL_SCALE;
+
+                _lookDir[0] = 0;
+                _lookDir[1] = -1;
+                _lookDir[2] = 0;
                 break;
             case 2:
-                List normVel = normalize(_val);
+                _vel[0] = (leftButton) ? -1 : (rightButton) ? 1 : 0;
+                _vel[2] = (upButton) ? -1 : (downButton) ? 1 : 0;
+                List normVel = normalize(_vel);
                 _pos[0] += normVel[0] * VEL_SCALE;
-                _pos[1] += normVel[1] * VEL_SCALE;
+                _pos[1] = 20;
+                _pos[2] += normVel[2] * VEL_SCALE;
+
+                _lookDir[0] = 0;
+                _lookDir[1] = -1;
+                _lookDir[2] = 0;
                 break;
             case 3:
+                _vel[0] = (leftButton) ? -1 : (rightButton) ? 1 : 0;
+                _vel[2] = (upButton) ? -1 : (downButton) ? 1 : 0;
+              
+                // calculate look dir from mouse position
+                _lookDirDelta[0] = _mousePos[0] - game.offset[0] - game.canvasSize[0]/2;
+                _lookDirDelta[1] = _mousePos[1] - game.offset[1] - game.canvasSize[1]/2;
+
                 // first update position by moving relative to look dir
-                List normVel = normalize(_val);
+                List normVel = normalize(_vel);
                 List moveDir = normalize([_lookDir[0], _lookDir[2]]); // only x and z
 
                 // move parallel to the look dir (along camera z)
-                _pos[0] += normVel[2] * VEL_SCALE * moveDir[0];
-                _pos[1] += normVel[2] * VEL_SCALE * moveDir[1];
+                _pos[0] += -normVel[2] * VEL_SCALE * moveDir[0];
+                _pos[2] += -normVel[2] * VEL_SCALE * moveDir[1];
 
                 // move perpendicularly to the look dir (along camera x)
                 List orthoMoveDir = ortho(moveDir);
-                _pos[0] += -normVel[0] * VEL_SCALE * orthoMoveDir[0];
-                _pos[1] += -normVel[0] * VEL_SCALE * orthoMoveDir[1];
+                _pos[0] += normVel[0] * VEL_SCALE * orthoMoveDir[0];
+                _pos[1] = 2;
+                _pos[2] += normVel[0] * VEL_SCALE * orthoMoveDir[1];
 
                 // change the look dir
-                List upVec = normalize(cross([1, 0, 0], _lookDir));
-                List rightVec = normalize(cross(_lookDir, upVec));
+                // choose either x or y for the cross product based on lookDir
+                var perpDir = [-_lookDir[2], 0, _lookDir[0]];
+                
+                var upVec = normalize(cross(perpDir, _lookDir));
+                var rightVec = normalize(cross(_lookDir, upVec));
 
                 // add the horizontal components
-                _lookDir[0] = _lookDirDelta[0] * rightVec[0];
-                _lookDir[1] = _lookDirDelta[0] * rightVec[1];
-                _lookDir[2] = _lookDirDelta[0] * rightVec[2];
+                _lookDir[0] += _lookDirDelta[0] * rightVec[0] * LOOK_VEL_SCALE;
+                _lookDir[1] += _lookDirDelta[0] * rightVec[1] * LOOK_VEL_SCALE;
+                _lookDir[2] += _lookDirDelta[0] * rightVec[2] * LOOK_VEL_SCALE;
                 // add the vertical components
-                _lookDir[0] = _lookDirDelta[1] * upVec[0];
-                _lookDir[1] = _lookDirDelta[1] * upVec[1];
-                _lookDir[2] = _lookDirDelta[1] * upVec[2];
+                _lookDir[0] += _lookDirDelta[1] * -upVec[0] * LOOK_VEL_SCALE;
+                _lookDir[1] += _lookDirDelta[1] * -upVec[1] * LOOK_VEL_SCALE;
+                _lookDir[2] += _lookDirDelta[1] * -upVec[2] * LOOK_VEL_SCALE;
                 break;
             case 4:
-                List normVel = normalize(_val);
+                _vel[0] = (leftButton) ? -1 : (rightButton) ? 1 : 0;
+                _vel[2] = (upButton) ? -1 : (downButton) ? 1 : 0;
+                List normVel = normalize(_vel);
                 _pos[0] += normVel[0] * VEL_SCALE;
-                _pos[1] += normVel[1] * VEL_SCALE;
+                _pos[1] = 2;
+                _pos[2] += normVel[2] * VEL_SCALE;
+                _lookDir[0] = normVel[0];
+                _lookDir[1] = 0;
+                _lookDir[2] = normVel[2];
                 break;
         }
     }
 }
 
 List normalize(List vec) {
-    int len = length(vec);
+    double len = length(vec);
     if (len == 0) {
         return vec;
     }
@@ -340,16 +414,16 @@ List normalize(List vec) {
     }
 }
 
-int length(List vec) {
-    int sum = 0;
+double length(List vec) {
+    double sum = 0.0;
     for (int i = 0; i < vec.length; i++) {
-        sum += vec[i] * vec[i];
+        sum += (vec[i] * vec[i]);
     }
     return sqrt(sum);
 }
 
 List getOffset(Element elem) {
-    DocumentElement docElem = document.documentElement;
+    Element docElem = document.documentElement;
     final box = elem.getBoundingClientRect();
     return [(box.left + window.pageXOffset - docElem.clientLeft),
             (box.top  + window.pageYOffset - docElem.clientTop)];
@@ -360,7 +434,7 @@ List ortho(List vec) {
     return [-vec[1], vec[0]];
 }
 
-List cross(List one, List two) {
+List cross(var one, var two) {
     // calculate 3 2x2 determinates
     num iDet = one[1] * two[2] - one[2] * two[1];
     num jDet = -1 * (one[0] * two[2] - one[2] * two[0]);
