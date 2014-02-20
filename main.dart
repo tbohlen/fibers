@@ -61,7 +61,7 @@ class Game {
 
     void initScene() {
         var playerSphere = new JsObject(context['THREE']['SphereGeometry'],
-                                       [2, 8, 6, 0, 2*PI, 0, PI]);
+                                       [0.5, 8, 6, 0, 2*PI, 0, PI]);
         var playerParams = new JsObject.jsify({'color': 0x00aa00});
         var playerMaterial = new JsObject(context['THREE']['MeshPhongMaterial'],
                                          [playerParams]);
@@ -115,18 +115,18 @@ class Game {
         /*var pos = new JsObject(context['THREE']['Vector3'], [_player.pos[0], _player.pos[1], _player.pos[2]]);*/
         /*var quat = new JsObject(context['THREE']['Quaternion'], []);*/
         /*quat.callMethod('copy', [context['gameEnv']['ship']['quaternion]);*/
-        var lookDir = new JsObject(context['THREE']['Vector3'], [_player.pos[0] + _player.lookDir[0], _player.pos[1] + _player.lookDir[1], _player.pos[2] + _player.lookDir[2]]);
+        var lookDir = new JsObject(context['THREE']['Vector3'], [_player.camPos[0] + _player.lookDir[0], _player.camPos[1] + _player.lookDir[1], _player.camPos[2] + _player.lookDir[2]]);
         //var lookDir = new JsObject(context['THREE']['Vector3'], [_player.lookDir[0], _player.lookDir[1], _player.lookDir[2]]);
         //var lookDir = new JsObject(context['THREE']['Vector3'], [0, 0, 0]);
 
         // transform the -z vector, our look direction, by the quaternion
         /*quat.multiplyVector3(lookDir);*/
 
-        _camera['position']['x'] = _player.pos[0];
-        _camera['position']['y'] = _player.pos[1];
-        _camera['position']['z'] = _player.pos[2];
+        _camera['position']['x'] = _player.camPos[0];
+        _camera['position']['y'] = _player.camPos[1];
+        _camera['position']['z'] = _player.camPos[2];
         
-        _playerGeom['position'].callMethod('set', [_player.pos[0], 2, _player.pos[2]]);
+        _playerGeom['position'].callMethod('set', [_player.pos[0], _player.pos[1], _player.pos[2]]);
         
         //context['console'].callMethod('log', [_player.pos[0] + _player.lookDir[0]]);
         //context['console'].callMethod('log', [_player.pos[1] + _player.lookDir[1]]);
@@ -161,7 +161,8 @@ class Player {
     final double LOOK_VEL_SCALE = 0.0001;
 
     int _controlStyle;
-    List _pos = [0, 20, 0];
+    List _pos = [0, 2, 0];
+    List _camPos = [0, 20, 0];
     // velocity is used differently depending on control scheme
     List _vel = [0, 0, 0];
     bool _holding = false;
@@ -189,6 +190,7 @@ class Player {
     List get lookDir => _lookDir;
     List get pos => _pos;
     List get up => _up;
+    List get camPos => _camPos;
 
     void handleKeyDown(KeyboardEvent event) {
         switch (event.keyCode) {
@@ -232,8 +234,13 @@ class Player {
                 _controlStyle = 1;
                 // position starts high
                 _pos[0] = 0;
-                _pos[1] = 20;
+                _pos[1] = 2;
                 _pos[2] = 0;
+                
+                _camPos[0] = 0;
+                _camPos[1] = 20;
+                _camPos[2] = 0;
+                
                 // lookdir in 2D is straight down
                 _lookDir[0] = 0;
                 _lookDir[1] = 0;
@@ -257,8 +264,12 @@ class Player {
                 _lookDir[2] = 0;
                 
                 _pos[0] = 0;
-                _pos[1] = 20;
+                _pos[1] = 2;
                 _pos[2] = 0;
+                
+                _camPos[0] = 0;
+                _camPos[1] = 20;
+                _camPos[2] = 0;
                 
                 _vel[0] = 0;
                 _vel[1] = 0;
@@ -280,6 +291,10 @@ class Player {
                 _pos[0] = 0;
                 _pos[1] = 5;
                 _pos[2] = 10;
+                
+                _camPos[0] = 0;
+                _camPos[1] = 5;
+                _camPos[2] = 10;
                 
                 _vel[0] = 0;
                 _vel[1] = 0;
@@ -340,23 +355,32 @@ class Player {
                 // calculate velocity from mouse position
                 _vel[0] = _mousePos[0] - game.offset[0] - game.canvasSize[0]/2;
                 _vel[2] = _mousePos[1] - game.offset[1] - game.canvasSize[1]/2;
-
-                List normVel = normalize(_vel);
+                
                 _pos[0] += _vel[0] * MOUSE_VEL_SCALE;
-                _pos[1] = 20;
+                _pos[1] = 2;
                 _pos[2] += _vel[2] * MOUSE_VEL_SCALE;
+                
+                _camPos[0] = 0;
+                _camPos[1] = 20;
+                _camPos[2] = 10;
 
                 _lookDir[0] = 0;
-                _lookDir[1] = -1;
-                _lookDir[2] = 0;
+                _lookDir[1] = -2;
+                _lookDir[2] = -1;
                 break;
             case 2:
                 _vel[0] = (leftButton) ? -1 : (rightButton) ? 1 : 0;
                 _vel[2] = (upButton) ? -1 : (downButton) ? 1 : 0;
+                
                 List normVel = normalize(_vel);
+                
                 _pos[0] += normVel[0] * VEL_SCALE;
-                _pos[1] = 20;
+                _pos[1] = 2;
                 _pos[2] += normVel[2] * VEL_SCALE;
+                
+                _camPos[0] = 0;
+                _camPos[1] = 20;
+                _camPos[2] = 0;
 
                 _lookDir[0] = 0;
                 _lookDir[1] = -1;
@@ -383,6 +407,10 @@ class Player {
                 _pos[0] += normVel[0] * VEL_SCALE * orthoMoveDir[0];
                 _pos[1] = 2;
                 _pos[2] += normVel[0] * VEL_SCALE * orthoMoveDir[1];
+                
+                _camPos[0] = _pos[0];
+                _camPos[1] = _pos[1];
+                _camPos[2] = _pos[2];
 
                 // change the look dir
                 // choose either x or y for the cross product based on lookDir
