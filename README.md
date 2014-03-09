@@ -20,6 +20,11 @@ Put this project in the turbulenz games devserver directory, eg:
 
 Now visit `http://127.0.0.1:8070`
 
+Press the '+' on the left hand side on the web page, and specify `fibers`
+as the game directory. Now you can try it! Click `Play -> fibers.debug.html`.
+
+Yay.
+
 `http://127.0.0.1:8070/#/play/samples`
 
 has lots of great, self-contained examples.
