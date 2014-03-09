@@ -13,16 +13,16 @@ source start_env
 ./start_local.sh
 ```
 
+Put this project in the turbulenz games devserver directory, eg:
+```
+/Users/ethanis/Turbulenz/SDK/0.27.0/devserver/games
+```
+
 Now visit `http://127.0.0.1:8070`
 
 `http://127.0.0.1:8070/#/play/samples`
 
 has lots of great, self-contained examples.
-
-Adding assets is a little weird:
-```
-python scripts/buildassets.py --root . --assets-path assets
-```
 
 We should probably just use protolib for as long as possible:
 http://docs.turbulenz.com/protolib/protolib_api.html#protolib-draw2dsprite
