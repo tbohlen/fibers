@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="10" tilewidth="21" tileheight="21">
+ <tileset firstgid="1" name="spritesheet" tilewidth="21" tileheight="21" spacing="2">
+  <image source="../sample_tiles/spritesheet.png" trans="5881a5" width="1024" height="512"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="50" height="10">
+  <data encoding="base64" compression="zlib">
+   eJztyrcNgDAUQEGzHTnNQk6zkFPNPqzCW8KShX5x3dmWUrYQGjhw4cFHgBARYiRIDb8ZchQoUaFGgxYdegyG3xETZixYsWHHgRMXbsPvo/7hFUKDD6ZgF/c=
+  </data>
+ </layer>
+ <objectgroup name="ground" width="50" height="10">
+  <object name="ground" type="solid" x="0" y="126" width="1050" height="84"/>
+ </objectgroup>
+ <objectgroup name="mushrooms" width="50" height="10">
+  <object gid="669" x="147" y="126"/>
+  <object gid="669" x="441" y="126"/>
+  <object gid="669" x="714" y="126"/>
+  <object gid="669" x="924" y="126"/>
+ </objectgroup>
+</map>

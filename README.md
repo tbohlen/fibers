@@ -31,3 +31,7 @@ has lots of great, self-contained examples.
 
 We should probably just use protolib for as long as possible:
 http://docs.turbulenz.com/protolib/protolib_api.html#protolib-draw2dsprite
+
+Here is a tutorial on tiled map editor:
+http://gamedevelopment.tutsplus.com/tutorials/introduction-to-tiled-map-editor-a-great-platform-agnostic-tool-for-making-level-maps--gamedev-2838
+
