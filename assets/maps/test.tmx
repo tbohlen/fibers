@@ -5,7 +5,7 @@
  </tileset>
  <layer name="Tile Layer 1" width="50" height="10">
   <data encoding="base64" compression="zlib">
-   eJztyrURgEAUQMGju8OlFtxqwS2mH1rhNUD+h7lgs9WWUtoQxYYDFx58BAgRIUYi/KbIkKNAiQo1GrTo0Au/A0ZMmLFgxYYdB05cwu+t/uExDOPTC6KrNUM=
+   eJztyrcRgDAUBNEv1YJ31VMG3qW0gYcNSMk1jIIX3NzWSqS2jFGgRPXuBi069BgwYjK8XbBiw44DJy7cEC2ioLXZrcPnwoOPACEixEiQItNmt7n8w2xZ1qcHUB95lQ==
   </data>
  </layer>
  <objectgroup name="mushrooms" width="50" height="10">
