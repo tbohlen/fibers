@@ -1,6 +1,6 @@
 aspect_ratio: '16:9'
 canvas_main: fibers.debug.html
-cover_art: ''
+cover_art: 'assets/cover_art.png'
 deploy_files:
 - fibers.tzjs
 - fibers.debug.html
