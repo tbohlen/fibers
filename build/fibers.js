@@ -1,3 +1,33 @@
+var Player = (function () {
+    function Player() {
+        this.SPEED = 2;
+        this._position = [0, 0];
+        this.vx = 0;
+    }
+    Player.prototype.getPosition = function () {
+        return this._position;
+    };
+
+    Player.prototype.stopWalking = function () {
+        this.vx = 0;
+    };
+
+    Player.prototype.walkLeft = function () {
+        this.vx = -1 * this.SPEED;
+    };
+
+    Player.prototype.walkRight = function () {
+        this.vx = this.SPEED;
+    };
+
+    Player.prototype.update = function () {
+        this._position[0] += this.vx;
+        if (this._position[0] < 0) {
+            this._position[0] = 0;
+        }
+    };
+    return Player;
+})();
 var BASE_MAP_URL = "assets/maps/";
 
 var Tileset = (function () {
@@ -94,6 +124,7 @@ var Tileset = (function () {
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/utilities.d.ts" />
 /// <reference path="jslib-modular/vmath.d.ts" />
+/// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 /*global WebGLTurbulenzEngine*/
 TurbulenzEngine = WebGLTurbulenzEngine.create({
@@ -101,6 +132,8 @@ TurbulenzEngine = WebGLTurbulenzEngine.create({
 });
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice({});
+var inputDevice = TurbulenzEngine.createInputDevice({});
+
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
 });
@@ -113,12 +146,28 @@ var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 var viewport = draw2D.getScreenSpaceViewport();
 
-var origin = [110, 0];
-
 var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
+
+var player = new Player();
+
+inputDevice.addEventListener("keydown", function (keycode) {
+    if (keycode === inputDevice.keyCodes.LEFT) {
+        player.walkLeft();
+    } else if (keycode === inputDevice.keyCodes.RIGHT) {
+        player.walkRight();
+    } else {
+        console.log(keycode);
+    }
+});
+
+inputDevice.addEventListener("keyup", function (keycode) {
+    player.stopWalking();
+});
 
 function update() {
     if (graphicsDevice.beginFrame()) {
+        player.update();
+
         graphicsDevice.clear(bgColor, 1.0);
 
         draw2D.begin();
@@ -129,7 +178,7 @@ function update() {
                     var tileIndex = 0;
                     for (; tileIndex < tileset.mapWidth * tileset.mapHeight; tileIndex += 1) {
                         var tileGID = layer.data[tileIndex];
-                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, origin);
+                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, player.getPosition());
                         if (drawObject) {
                             draw2D.draw(drawObject);
                         }

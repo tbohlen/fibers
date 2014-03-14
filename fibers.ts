@@ -7,7 +7,10 @@
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/utilities.d.ts" />
 /// <reference path="jslib-modular/vmath.d.ts" />
+
+/// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
+
 /*global WebGLTurbulenzEngine*/
 
 TurbulenzEngine = WebGLTurbulenzEngine.create({
@@ -15,6 +18,8 @@ TurbulenzEngine = WebGLTurbulenzEngine.create({
 });
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
+var inputDevice = TurbulenzEngine.createInputDevice({});
+
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
 });
@@ -27,14 +32,33 @@ var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 var viewport = draw2D.getScreenSpaceViewport();
 
-var origin:number[] = [110,0];
-
 var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
+
+var player = new Player();
+
+inputDevice.addEventListener("keydown", function(keycode){
+    if (keycode === inputDevice.keyCodes.LEFT)
+    {
+        player.walkLeft();
+    } else if (keycode === inputDevice.keyCodes.RIGHT)
+    {
+        player.walkRight();
+    } else
+    {
+        console.log(keycode);
+    }
+});
+
+inputDevice.addEventListener("keyup", function(keycode){
+    player.stopWalking();
+});
 
 function update()
 {
     if (graphicsDevice.beginFrame())
     {
+        player.update();
+
         graphicsDevice.clear( bgColor, 1.0 );
 
         draw2D.begin();
@@ -48,7 +72,7 @@ function update()
                     for (; tileIndex < tileset.mapWidth*tileset.mapHeight; tileIndex += 1)
                     {
                         var tileGID:number = layer.data[tileIndex];
-                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, origin);
+                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, player.getPosition());
                         if (drawObject)
                         {
                             draw2D.draw(drawObject);
