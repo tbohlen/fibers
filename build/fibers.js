@@ -127,10 +127,14 @@ var Tileset = (function () {
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 /*global WebGLTurbulenzEngine*/
+var canvas = document.getElementById("canvas");
+
 TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: document.getElementById("canvas")
+    canvas: canvas
 });
 
+//var ctx:any = canvas.getContext("2d");
+//ctx.webkitImageSmoothingEnabled = false;
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice({});
 var inputDevice = TurbulenzEngine.createInputDevice({});
 
