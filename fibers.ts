@@ -58,6 +58,24 @@ inputDevice.addEventListener("keyup", function(keycode){
     player.stopWalking();
 });
 
+// this must be called inside of draw2D.begin!
+function drawLayer(tileSet, layerData)
+{
+    if (layerData)
+    {
+        var tileIndex:number = 0;
+        for (; tileIndex < tileSet.mapWidth*tileSet.mapHeight; tileIndex += 1)
+        {
+            var tileGID:number = layerData[tileIndex];
+            var drawObject = tileSet.tileDrawObject(tileIndex, tileGID, player.getPosition());
+            if (drawObject)
+            {
+                draw2D.draw(drawObject);
+            }
+        }
+    }
+}
+
 function update()
 {
     if (graphicsDevice.beginFrame())
@@ -73,16 +91,7 @@ function update()
             tileset.getLayers().forEach(function(layer){
                 if (layer.data)
                 {
-                    var tileIndex = 0;
-                    for (; tileIndex < tileset.mapWidth*tileset.mapHeight; tileIndex += 1)
-                    {
-                        var tileGID:number = layer.data[tileIndex];
-                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, player.getPosition());
-                        if (drawObject)
-                        {
-                            draw2D.draw(drawObject);
-                        }
-                    }
+                    drawLayer(tileset, layer.data);
                 }
             });
         }

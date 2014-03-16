@@ -1,5 +1,8 @@
 var BASE_MAP_URL:string = "assets/maps/";
 
+// @TODO: Add support for multiple layers
+// later, multiple tilesets
+
 class Tileset {
 
   mapTexture:any;

@@ -1,11 +1,11 @@
 var Player = (function () {
     function Player() {
         this.SPEED = 2;
-        this._position = [0, 0];
+        this.position = [0, 0];
         this.vx = 0;
     }
     Player.prototype.getPosition = function () {
-        return this._position;
+        return this.position;
     };
 
     Player.prototype.stopWalking = function () {
@@ -21,15 +21,17 @@ var Player = (function () {
     };
 
     Player.prototype.update = function () {
-        this._position[0] += this.vx;
-        if (this._position[0] < 0) {
-            this._position[0] = 0;
+        this.position[0] += this.vx;
+        if (this.position[0] < 0) {
+            this.position[0] = 0;
         }
     };
     return Player;
 })();
 var BASE_MAP_URL = "assets/maps/";
 
+// @TODO: Add support for multiple layers
+// later, multiple tilesets
 var Tileset = (function () {
     function Tileset(mapFilename, graphicsDevice, engine) {
         var _this = this;
@@ -168,6 +170,20 @@ inputDevice.addEventListener("keyup", function (keycode) {
     player.stopWalking();
 });
 
+// this must be called inside of draw2D.begin!
+function drawLayer(tileSet, layerData) {
+    if (layerData) {
+        var tileIndex = 0;
+        for (; tileIndex < tileSet.mapWidth * tileSet.mapHeight; tileIndex += 1) {
+            var tileGID = layerData[tileIndex];
+            var drawObject = tileSet.tileDrawObject(tileIndex, tileGID, player.getPosition());
+            if (drawObject) {
+                draw2D.draw(drawObject);
+            }
+        }
+    }
+}
+
 function update() {
     if (graphicsDevice.beginFrame()) {
         player.update();
@@ -179,14 +195,7 @@ function update() {
         if (tileset.isLoaded()) {
             tileset.getLayers().forEach(function (layer) {
                 if (layer.data) {
-                    var tileIndex = 0;
-                    for (; tileIndex < tileset.mapWidth * tileset.mapHeight; tileIndex += 1) {
-                        var tileGID = layer.data[tileIndex];
-                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, player.getPosition());
-                        if (drawObject) {
-                            draw2D.draw(drawObject);
-                        }
-                    }
+                    drawLayer(tileset, layer.data);
                 }
             });
         }
