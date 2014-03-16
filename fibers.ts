@@ -13,10 +13,14 @@
 
 /*global WebGLTurbulenzEngine*/
 
-TurbulenzEngine = WebGLTurbulenzEngine.create(
-{
-    canvas: document.getElementById( "canvas" )
+var canvas = document.getElementById( "canvas" );
+
+TurbulenzEngine = WebGLTurbulenzEngine.create({
+    canvas: canvas
 });
+
+//var ctx:any = canvas.getContext("2d");
+//ctx.webkitImageSmoothingEnabled = false;
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
@@ -88,6 +92,7 @@ function update( )
                     }
                 }
             });
+            tileset.drawLayers( draw2D );
         }
 
         draw2D.end( );
