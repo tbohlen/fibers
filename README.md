@@ -61,3 +61,17 @@ Add the following references to the TypeScript file. They should be specified af
 /// <reference path="jslib-modular/utilities.d.ts" />
 
 And then in the html file we include the corresponding jslib-modular script files...
+
+
+For now, the lousy build setup is:
+```
+tsc --out build/fibers.js -d fibers.ts
+```
+
+We should be able to make builds properly automatic, especially with WebStorm. I just haven't gotten around to it yet.
+
+
+To make new components, create a new .ts file, then refer to it in the file which depends on it, like this:
+```
+/// <reference path="player.ts"/>
+```
