@@ -1,11 +1,11 @@
 var Player = (function () {
     function Player() {
         this.SPEED = 2;
-        this._position = [0, 0];
+        this.position = [0, 0];
         this.vx = 0;
     }
     Player.prototype.getPosition = function () {
-        return this._position;
+        return this.position;
     };
 
     Player.prototype.stopWalking = function () {
@@ -21,9 +21,9 @@ var Player = (function () {
     };
 
     Player.prototype.update = function () {
-        this._position[0] += this.vx;
-        if (this._position[0] < 0) {
-            this._position[0] = 0;
+        this.position[0] += this.vx;
+        if (this.position[0] < 0) {
+            this.position[0] = 0;
         }
     };
     return Player;

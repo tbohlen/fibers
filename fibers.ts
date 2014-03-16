@@ -13,78 +13,86 @@
 
 /*global WebGLTurbulenzEngine*/
 
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: document.getElementById("canvas")
+TurbulenzEngine = WebGLTurbulenzEngine.create(
+{
+    canvas: document.getElementById( "canvas" )
 });
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
-var inputDevice = TurbulenzEngine.createInputDevice({});
+var inputDevice = TurbulenzEngine.createInputDevice( {} );
 
-var draw2D = Draw2D.create({
+var draw2D = Draw2D.create(
+{
     graphicsDevice: graphicsDevice
 });
-var success = draw2D.configure({
+var success = draw2D.configure(
+{
     scaleMode: 'scale',
     viewportRectangle: [0, 0, 320, 240]
 });
 
-var bgColor = [0.0, 0.0, 0.0, 1.0];
+var bgColor = [ 0.0, 0.0, 0.0, 1.0 ];
 
-var viewport = draw2D.getScreenSpaceViewport();
+var viewport = draw2D.getScreenSpaceViewport( );
 
-var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
+var tileset = new Tileset( "test.json", graphicsDevice, TurbulenzEngine );
 
-var player = new Player();
+var player = new Player( );
 
-inputDevice.addEventListener("keydown", function(keycode){
-    if (keycode === inputDevice.keyCodes.LEFT)
+inputDevice.addEventListener( "keydown", function( keycode )
+{
+    if ( keycode === inputDevice.keyCodes.LEFT )
     {
         player.walkLeft();
-    } else if (keycode === inputDevice.keyCodes.RIGHT)
+    }
+    else if ( keycode === inputDevice.keyCodes.RIGHT )
     {
-        player.walkRight();
-    } else
+        player.walkRight( );
+    }
+    else
     {
-        console.log(keycode);
+        console.log( keycode );
     }
 });
 
-inputDevice.addEventListener("keyup", function(keycode){
-    player.stopWalking();
+inputDevice.addEventListener( "keyup", function( keycode )
+{
+    player.stopWalking( );
 });
 
-function update()
+function update( )
 {
-    if (graphicsDevice.beginFrame())
+    if ( graphicsDevice.beginFrame( ) )
     {
-        player.update();
+        player.update( );
 
         graphicsDevice.clear( bgColor, 1.0 );
 
-        draw2D.begin();
+        draw2D.begin( );
 
-        if (tileset.isLoaded())
+        if ( tileset.isLoaded( ) )
         {
-            tileset.getLayers().forEach(function(layer){
-                if (layer.data)
+            tileset.getLayers( ).forEach( function( layer )
+            {
+                if ( layer.data )
                 {
                     var tileIndex = 0;
-                    for (; tileIndex < tileset.mapWidth*tileset.mapHeight; tileIndex += 1)
+                    for ( ; tileIndex < tileset.mapWidth*tileset.mapHeight; tileIndex += 1 )
                     {
-                        var tileGID:number = layer.data[tileIndex];
-                        var drawObject = tileset.tileDrawObject(tileIndex, tileGID, player.getPosition());
-                        if (drawObject)
+                        var tileGID:number = layer.data[ tileIndex ];
+                        var drawObject = tileset.tileDrawObject( tileIndex, tileGID, player.getPosition( ) );
+                        if ( drawObject )
                         {
-                            draw2D.draw(drawObject);
+                            draw2D.draw( drawObject );
                         }
                     }
                 }
             });
         }
 
-        draw2D.end();
+        draw2D.end( );
 
-        graphicsDevice.endFrame();
+        graphicsDevice.endFrame( );
     }
 }
 

@@ -1909,7 +1909,7 @@ var Draw2D = (function () {
                 },
                 "vp_draw2D": {
                     "type": "vertex",
-                    "code": "#ifdef GL_ES\n#define TZ_LOWP lowp\nprecision mediump float;\nprecision mediump int;\n#else\n#define TZ_LOWP\n#endif\nvarying TZ_LOWP vec4 tz_Color;varying vec4 tz_TexCoord[1];attribute vec4 ATTR0;attribute vec4 ATTR3;attribute vec4 ATTR8;\nvec4 _OUTPosition1;vec4 _OUTColor1;vec2 _OUTTexCoord01;uniform vec4 clipSpace;void main()\n{vec2 _position;_position=ATTR0.xy*clipSpace.xy+clipSpace.zw;_OUTPosition1.x=_position.x;_OUTPosition1.y=_position.y;_OUTPosition1.z=0.0;_OUTPosition1.w=1.0;_OUTColor1=ATTR3;_OUTTexCoord01=ATTR8.xy;tz_TexCoord[0].xy=ATTR8.xy;tz_Color=ATTR3;gl_Position=_OUTPosition1;}"
+                    "code": "#ifdef GL_ES\n#define TZ_LOWP lowp\nprecision mediump float;\nprecision mediump int;\n#else\n#define TZ_LOWP\n#endif\nvarying TZ_LOWP vec4 tz_Color;varying vec4 tz_TexCoord[1];attribute vec4 ATTR0;attribute vec4 ATTR3;attribute vec4 ATTR8;\nvec4 _OUTPosition1;vec4 _OUTColor1;vec2 _OUTTexCoord01;uniform vec4 clipSpace;void main()\n{vec2 position;position=ATTR0.xy*clipSpace.xy+clipSpace.zw;_OUTPosition1.x=position.x;_OUTPosition1.y=position.y;_OUTPosition1.z=0.0;_OUTPosition1.w=1.0;_OUTColor1=ATTR3;_OUTTexCoord01=ATTR8.xy;tz_TexCoord[0].xy=ATTR8.xy;tz_Color=ATTR3;gl_Position=_OUTPosition1;}"
                 }
             }
         });

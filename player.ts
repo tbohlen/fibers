@@ -1,11 +1,11 @@
 class Player {
     SPEED = 2;
 
-    _position:number[] = [0,0];
+    position:number[] = [0,0];
     vx:number = 0;
 
     getPosition(): number[] {
-        return this._position;
+        return this.position;
     }
 
     stopWalking()
@@ -25,10 +25,10 @@ class Player {
 
     update()
     {
-        this._position[0] += this.vx;
-        if (this._position[0] < 0)
+        this.position[0] += this.vx;
+        if (this.position[0] < 0)
         {
-            this._position[0] = 0;
+            this.position[0] = 0;
         }
     }
 }
