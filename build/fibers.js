@@ -32,6 +32,7 @@ var BASE_MAP_URL = "assets/maps/";
 
 // @TODO: Add support for multiple layers
 // later, multiple tilesets
+// do something clever with transparent color to blend:
 var Tileset = (function () {
     function Tileset(mapFilename, graphicsDevice, engine) {
         var _this = this;
@@ -80,14 +81,53 @@ var Tileset = (function () {
         return this.mapData.layers;
     };
 
-    // return an object to be passed to draw2D.draw() given a tile index
-    // on a map (index 0 = top left of a map)
-    Tileset.prototype.tileDrawObject = function (tileIndex, tileGID, origin) {
-        var tileMapCol = tileIndex % this.mapWidth;
-        var tileMapRow = Math.floor(tileIndex / this.mapWidth);
-        var tileMapX = tileMapCol * this.tileWidth;
-        var tileMapY = tileMapRow * this.tileHeight;
+    // this must be called inside of draw2D.begin!
+    Tileset.prototype.drawObjectLayer = function (draw2D, layer) {
+        if (layer.objects) {
+            var tileCount = layer.objects.length;
+            for (var tileIndex = 0; tileIndex < tileCount; tileIndex += 1) {
+                var layerObject = layer.objects[tileIndex];
+                var tileGID = layerObject.gid;
+                if (tileGID) {
+                    var x = layerObject.x;
+                    var y = layerObject.y;
+                    var drawObject = this.tileDrawObjectAtPos(x, y, tileGID, player.getPosition());
+                    if (drawObject) {
+                        draw2D.draw(drawObject);
+                    }
+                }
+            }
+        }
+    };
 
+    // this must be called inside of draw2D.begin!
+    Tileset.prototype.drawTileLayer = function (draw2D, layer) {
+        var tileIndex = 0;
+        var tileCount = this.mapWidth * this.mapHeight;
+
+        if (layer.data) {
+            for (; tileIndex < tileCount; tileIndex += 1) {
+                var tileGID = layer.data[tileIndex];
+                var drawObject = this.tileDrawObjectAtIndex(tileIndex, tileGID, player.getPosition());
+                if (drawObject) {
+                    draw2D.draw(drawObject);
+                }
+            }
+        }
+    };
+
+    Tileset.prototype.drawLayers = function (draw2D) {
+        var _this = this;
+        this.getLayers().forEach(function (layer) {
+            if (layer.type === "tilelayer") {
+                _this.drawTileLayer(draw2D, layer);
+            } else if (layer.type === "objectgroup") {
+                _this.drawObjectLayer(draw2D, layer);
+            }
+        });
+    };
+
+    Tileset.prototype.tileDrawObjectAtPos = function (x, y, tileGID, origin) {
         var tileSetIndex = tileGID - this.firstGID;
         var tileSetCol = tileSetIndex % this.imageCols;
         var tileSetRow = Math.floor(tileSetIndex / this.imageCols);
@@ -96,8 +136,8 @@ var Tileset = (function () {
         var tileSetX = tileSetCol * (this.tileWidth + this.spacing) + this.margin;
         var tileSetY = tileSetRow * (this.tileHeight + this.spacing) + this.margin;
 
-        var destX = tileMapX - origin[0];
-        var destY = tileMapY - origin[1];
+        var destX = x - origin[0];
+        var destY = y - origin[1];
 
         if (this.mapTexture) {
             return {
@@ -114,6 +154,20 @@ var Tileset = (function () {
         } else {
             return null;
         }
+    };
+
+    // return an object to be passed to draw2D.draw() given a tile index
+    // on a map (index 0 = top left of a map)
+    Tileset.prototype.tileDrawObjectAtIndex = function (tileIndex, tileGID, origin) {
+        var tileMapCol = tileIndex % this.mapWidth;
+        var tileMapRow = Math.floor(tileIndex / this.mapWidth);
+        var tileMapX = tileMapCol * this.tileWidth;
+        var tileMapY = tileMapRow * this.tileHeight;
+
+        var x = tileMapX;
+        var y = tileMapY;
+
+        return this.tileDrawObjectAtPos(x, y, tileGID, origin);
     };
     return Tileset;
 })();
@@ -170,20 +224,6 @@ inputDevice.addEventListener("keyup", function (keycode) {
     player.stopWalking();
 });
 
-// this must be called inside of draw2D.begin!
-function drawLayer(tileSet, layerData) {
-    if (layerData) {
-        var tileIndex = 0;
-        for (; tileIndex < tileSet.mapWidth * tileSet.mapHeight; tileIndex += 1) {
-            var tileGID = layerData[tileIndex];
-            var drawObject = tileSet.tileDrawObject(tileIndex, tileGID, player.getPosition());
-            if (drawObject) {
-                draw2D.draw(drawObject);
-            }
-        }
-    }
-}
-
 function update() {
     if (graphicsDevice.beginFrame()) {
         player.update();
@@ -193,11 +233,7 @@ function update() {
         draw2D.begin();
 
         if (tileset.isLoaded()) {
-            tileset.getLayers().forEach(function (layer) {
-                if (layer.data) {
-                    drawLayer(tileset, layer.data);
-                }
-            });
+            tileset.drawLayers(draw2D);
         }
 
         draw2D.end();
