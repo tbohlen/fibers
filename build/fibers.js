@@ -66,6 +66,7 @@ var BASE_MAP_URL = "assets/maps/";
 // Ensure that objects have a width and height!
 // Double click an object on the map and set its w/h in tiles!
 // So a 1-tile image will have width = 1, height = 1
+// only represent physics objects as sprites...
 var Tileset = (function () {
     function Tileset(mapFilename, graphicsDevice, engine) {
         var _this = this;
@@ -153,14 +154,9 @@ var Tileset = (function () {
     //    loadMap( draw2D:Draw2D )
     //    {
     //        this.mapData.layers.forEach((layer) =>
-    //            if (layer.type === "tilelayer")
+    //            if (layer.type === "objectgroup")
     //            {
-    //                Draw2DSprite[] tiles = this.createTileLayer( draw2D, layer );
-    //                this.layers.append(tiles);
-    //            } else if (layer.type === "objectgroup")
-    //            {
-    //                Draw2DSprite[] objects = this.createObjectLayer( draw2D, layer );
-    //                this.layers.append(objects);
+    //
     //            }
     //        );
     //    }
