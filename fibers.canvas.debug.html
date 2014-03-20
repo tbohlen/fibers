@@ -1,14 +1,10 @@
 <html>
 <head>
     <title>Turbulenz - API - Textured Sprite Example</title>
+	<script src="jslib/debug.js"></script>
     <script src="jslib/webgl/turbulenzengine.js"></script>
 
     <style type="text/css">
-        #canvas {
-            image-rendering: optimizeSpeed;
-            image-rendering: -moz-crisp-edges;
-            image-rendering: -webkit-optimize-contrast;
-        }
     </style>
 </head>
 <body>
@@ -17,10 +13,10 @@
     <script>
         // there is probably a better way to do this
         var canvas = document.getElementById("canvas");
+		console.log("hi ethan");
         window.TurbulenzEngine = window.WebGLTurbulenzEngine.create({canvas:canvas});
     </script>
 
-    <script src="jslib/debug.js"></script>
     <script src="jslib/vmath.js"></script>
     <script src="jslib/draw2d.js"></script>
     <script src="jslib/physics2ddevice.js"></script>
