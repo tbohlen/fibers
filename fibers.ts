@@ -11,14 +11,6 @@
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 
-/*global WebGLTurbulenzEngine*/
-
-var canvas = document.getElementById( "canvas" );
-
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: canvas
-});
-
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
 
@@ -45,8 +37,6 @@ var success = draw2D.configure({
 });
 
 var bgColor = [ 0.0, 0.0, 0.0, 1.0 ];
-
-var viewport = draw2D.getScreenSpaceViewport( );
 
 // store information about the size of the screen
 var viewport:number[] = [];
@@ -135,26 +125,6 @@ function update()
 
         if ( tileset.isLoaded( ) )
         {
-            tileset.getLayers( ).forEach( function( layer )
-            {
-                if ( layer.data )
-                {
-                    var tileIndex = 0;
-                    for ( ; tileIndex < tileset.mapWidth*tileset.mapHeight; tileIndex += 1 )
-                    {
-                        var tileGID:number = layer.data[ tileIndex ];
-                        var drawObject = tileset.tileDrawObject( tileIndex, tileGID, player.getPosition( ) );
-                        if ( drawObject )
-                        {
-                            draw2D.draw( drawObject );
-                        }
-                    }
-                }
-            });
-            tileset.drawLayers( draw2D, player.getPosition() );
-        }
-
-        draw2D.end( );
             tileset.drawLayers( draw2D, player.getPosition() );
         }
 
@@ -165,6 +135,6 @@ function update()
 
         graphicsDevice.endFrame( );
     }
-//}
+}
 
 TurbulenzEngine.setInterval( update, 1000/60 );
