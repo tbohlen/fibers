@@ -11,22 +11,14 @@
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 
-/*global WebGLTurbulenzEngine*/
-
-var canvas = document.getElementById("canvas");
-
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: canvas
-});
-
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
-var inputDevice = TurbulenzEngine.createInputDevice({});
+var inputDevice = TurbulenzEngine.createInputDevice( {} );
 
 // build the physics device to allow 2D constraint physics
-var physicsDevice = TurbulenzEngine.createPhysicsDevice({});
+var physicsDevice = TurbulenzEngine.createPhysicsDevice( {} );
 
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
