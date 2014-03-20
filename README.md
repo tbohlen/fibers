@@ -36,7 +36,7 @@ http://gamedevelopment.tutsplus.com/tutorials/introduction-to-tiled-map-editor-a
 
 For now, the lousy build setup is:
 ```
-tsc --out build/fibers.js -d fibers.ts
+tsc --sourcemap -w --out build/fibers.js -d fibers.ts
 ```
 
 We should be able to make builds properly automatic, especially with WebStorm. I just haven't gotten around to it yet.
