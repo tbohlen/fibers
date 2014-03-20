@@ -12,16 +12,9 @@
 /// <reference path="tileset.ts"/>
 /// <reference path="rigidSprite.ts"/>
 
-/*global WebGLTurbulenzEngine*/
-
-var canvas = document.getElementById( "canvas" );
-
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: canvas
-});
-
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
+// whee
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
@@ -44,9 +37,7 @@ var success = draw2D.configure({
     viewportRectangle: [0, 0, 320, 240]
 });
 
-var bgColor = [ 0.0, 0.0, 0.0, 1.0 ];
-
-var viewport = draw2D.getScreenSpaceViewport( );
+var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // store information about the size of the screen
 var viewport:number[] = [];
@@ -56,6 +47,7 @@ var width:number = viewport[2]-viewport[0];
 
 // the tileset device manages the tiled maps
 var tileset:Tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
+
 
 // next we build a player, including the rigid body, sprite, and managing object
 var playerParams:any = {
@@ -95,26 +87,25 @@ var player:Player = new Player(playerRigidSprite, [width/2, 25]);
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
 
+
 // add event listeners
 inputDevice.addEventListener("keydown", function(keycode){
     if (keycode === inputDevice.keyCodes.LEFT)
     {
         player.walkLeft();
-    }
-    else if ( keycode === inputDevice.keyCodes.RIGHT )
+    } else if (keycode === inputDevice.keyCodes.RIGHT)
     {
-        player.walkRight( );
-    }
-    else
+        player.walkRight();
+    } else
     {
-        console.log( keycode );
+        console.log(keycode);
     }
 });
 
-inputDevice.addEventListener( "keyup", function( keycode )
-{
-    player.stopWalking( );
+inputDevice.addEventListener("keyup", function(keycode){
+    player.stopWalking();
 });
+
 
 // run the game
 function update()
@@ -122,45 +113,25 @@ function update()
     var i:number = 0;
     if (graphicsDevice.beginFrame())
     {
-        dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
+            dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
         player.update();
 
         graphicsDevice.clear( bgColor, 1.0 );
 
-        draw2D.begin( );
+        draw2D.begin();
 
-        if ( tileset.isLoaded( ) )
+        if (tileset.isLoaded())
         {
-            tileset.getLayers( ).forEach( function( layer )
-            {
-                if ( layer.data )
-                {
-                    var tileIndex = 0;
-                    for ( ; tileIndex < tileset.mapWidth*tileset.mapHeight; tileIndex += 1 )
-                    {
-                        var tileGID:number = layer.data[ tileIndex ];
-                        var drawObject = tileset.tileDrawObject( tileIndex, tileGID, player.getPosition( ) );
-                        if ( drawObject )
-                        {
-                            draw2D.draw( drawObject );
-                        }
-                    }
-                }
-            });
-            tileset.drawLayers( draw2D, player.getPosition() );
-        }
-
-        draw2D.end( );
-            tileset.drawLayers( draw2D, player.getPosition() );
+            tileset.drawLayers(draw2D, player.getPosition());
         }
 
         // draw the player to the screen
-        player.draw( draw2D );
+        player.draw(draw2D);
 
-        draw2D.end( );
+        draw2D.end();
 
-        graphicsDevice.endFrame( );
+        graphicsDevice.endFrame();
     }
-//}
+}
 
 TurbulenzEngine.setInterval( update, 1000/60 );
