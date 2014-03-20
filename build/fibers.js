@@ -35,7 +35,10 @@ var BASE_MAP_URL = "assets/maps/";
 // do something clever with transparent color to blend:
 // need to maintain a list of the actual Sprite objects
 // so we can attach physics attributes to them
-// Tips for making proper tilesets in tiled.app:
+// convert this to a 2-pass setup:
+// 1. create a list of layers of draw2dsprites,
+// then redraw the sprites
+// Tips for making proper tilesets in Tiled.app:
 // Ensure that objects have a width and height!
 // Double click an object on the map and set its w/h in tiles!
 // So a 1-tile image will have width = 1, height = 1
@@ -83,10 +86,6 @@ var Tileset = (function () {
         return (this.mapData != null);
     };
 
-    Tileset.prototype.getLayers = function () {
-        return this.mapData.layers;
-    };
-
     // this must be called inside of draw2D.begin!
     Tileset.prototype.drawObjectLayer = function (draw2D, layer, playerPosition) {
         if (layer.objects) {
@@ -102,6 +101,11 @@ var Tileset = (function () {
                         draw2D.draw(drawObject);
                     }
                 }
+                // this should be upon crea
+                //                var rigidBodyType:string = layerObject.properties.rigidBody;
+                //                if (rigidBodyType)
+                //                {
+                //                }
             }
         }
     };
@@ -122,9 +126,23 @@ var Tileset = (function () {
         }
     };
 
+    //    loadMap( draw2D:Draw2D )
+    //    {
+    //        this.mapData.layers.forEach((layer) =>
+    //            if (layer.type === "tilelayer")
+    //            {
+    //                Draw2DSprite[] tiles = this.createTileLayer( draw2D, layer );
+    //                this.layers.append(tiles);
+    //            } else if (layer.type === "objectgroup")
+    //            {
+    //                Draw2DSprite[] objects = this.createObjectLayer( draw2D, layer );
+    //                this.layers.append(objects);
+    //            }
+    //        );
+    //    }
     Tileset.prototype.drawLayers = function (draw2D, playerPosition) {
         var _this = this;
-        this.getLayers().forEach(function (layer) {
+        this.mapData.layers.forEach(function (layer) {
             if (layer.type === "tilelayer") {
                 _this.drawTileLayer(draw2D, layer, playerPosition);
             } else if (layer.type === "objectgroup") {
