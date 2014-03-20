@@ -1,53 +1,53 @@
+/// <reference path="rigidSprite.ts"/>
+
 class Player {
     SPEED = 0.1;
 
-    sprite:any = null;
-    body:any = null;
+    rigidSprite:RigidSprite = null;
 
-    constructor (playerSprite, playerObject, position:number[])
+    constructor (rigidSprite, position:number[])
     {
-        this.sprite = playerSprite;
-        this.body = playerObject;
-        this.body.setPosition(position);
+        this.rigidSprite = rigidSprite;
+        this.rigidSprite.body.setPosition(position); // should be added to rigidSprite...
     }
 
     // sets the texture used to display the character. If no texture is null, displays a white box
     setTexture(texture) {
-        if (this.sprite != null)
+        if (this.rigidSprite.sprite != null)
         {
-            this.sprite.setTexture(texture);
+            this.rigidSprite.sprite.setTexture(texture);
         }
     }
 
     // just calls into sprite
     setTextureRectangle(params)
     {
-        if (this.sprite != null)
+        if (this.rigidSprite.sprite != null)
         {
-            this.sprite.setTextureRectangle(params);
+            this.rigidSprite.sprite.setTextureRectangle(params);
         }
     }
 
     getPosition(): number[] {
-        return this.body.getPosition();
+        return this.rigidSprite.body.getPosition();
     }
 
     stopWalking()
     {
-        var vel:number[] = this.body.getVelocity();
-        this.body.setVelocity([0, vel[1]]);
+        var vel:number[] = this.rigidSprite.body.getVelocity();
+        this.rigidSprite.body.setVelocity([0, vel[1]]);
     }
 
     walkLeft()
     {
-        var vel:number[] = this.body.getVelocity();
-        this.body.setVelocity([-1*this.SPEED, vel[1]]);
+        var vel:number[] = this.rigidSprite.body.getVelocity();
+        this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
     }
 
     walkRight()
     {
-        var vel:number[] = this.body.getVelocity();
-        this.body.setVelocity([this.SPEED, vel[1]]);
+        var vel:number[] = this.rigidSprite.body.getVelocity();
+        this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
     }
 
     update()
@@ -55,11 +55,8 @@ class Player {
     }
 
     // draws the player's sprite to the screen
-    draw(draw2D)
+    draw(draw2D:Draw2D)
     {
-        var pos:number[] = this.body.getPosition();
-        this.sprite.x = pos[0];
-        this.sprite.y = pos[1];
-        draw2D.drawSprite(this.sprite);
+        this.rigidSprite.draw(draw2D)
     }
 }
