@@ -1,9 +1,26 @@
 var Player = (function () {
-    function Player() {
+    function Player(playerSprite, position) {
         this.SPEED = 2;
         this.position = [0, 0];
         this.vx = 0;
+        this.sprite = null;
+        this.sprite = playerSprite;
+        this.position = position;
     }
+    // sets the texture used to display the character. If no texture is null, displays a white box
+    Player.prototype.setTexture = function (texture) {
+        if (this.sprite != null) {
+            this.sprite.setTexture(texture);
+        }
+    };
+
+    // just calls into sprite
+    Player.prototype.setTextureRectangle = function (params) {
+        if (this.sprite != null) {
+            this.sprite.setTextureRectangle(params);
+        }
+    };
+
     Player.prototype.getPosition = function () {
         return this.position;
     };
@@ -25,6 +42,13 @@ var Player = (function () {
         if (this.position[0] < 0) {
             this.position[0] = 0;
         }
+    };
+
+    // draws the player's sprite to the screen
+    Player.prototype.draw = function (draw2D) {
+        this.sprite.x = this.position[0];
+        this.sprite.y = this.position[1];
+        draw2D.drawSprite(this.sprite);
     };
     return Player;
 })();
@@ -218,9 +242,13 @@ TurbulenzEngine = WebGLTurbulenzEngine.create({
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice({});
 var inputDevice = TurbulenzEngine.createInputDevice({});
 
+// build the physics device to allow 2D constraint physics
+var physicsDevice = TurbulenzEngine.createPhysicsDevice({});
+
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
 });
+
 var success = draw2D.configure({
     scaleMode: 'scale',
     viewportRectangle: [0, 0, 320, 240]
@@ -228,11 +256,37 @@ var success = draw2D.configure({
 
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
-var viewport = draw2D.getScreenSpaceViewport();
+// this is throwing an error... no idea why
+var viewport = draw2D.getViewport();
+var height = viewport[3] - viewport[1];
+var width = viewport[2] - viewport[0];
 
 var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
-var player = new Player();
+// NOTE: nothing is actually wrong here even though the IDE complains. In the version of turbulenz we are using the
+// scale is expected to be a single number but should actually be an array... IDK why
+var playerSprite = Draw2DSprite.create({
+    width: 100,
+    height: 200,
+    x: 0,
+    y: 0,
+    color: [0.0, 1.0, 1.0, 1.0],
+    scale: [0.25, 0.25]
+});
+
+// import an image to use as the player display and when loading is done set it as the player's texture
+var playerTexture = graphicsDevice.createTexture({
+    src: "assets/player/playerProfile.png",
+    mipmaps: true,
+    onload: function (texture) {
+        if (texture != null) {
+            //player.setTexture(texture);
+            //player.setTextureRectangle([0, 0, texture.width, texture.height])
+        }
+    }
+});
+
+var player = new Player(playerSprite, [width / 2, 25]);
 
 inputDevice.addEventListener("keydown", function (keycode) {
     if (keycode === inputDevice.keyCodes.LEFT) {
@@ -259,6 +313,9 @@ function update() {
         if (tileset.isLoaded()) {
             tileset.drawLayers(draw2D, player.getPosition());
         }
+
+        // draw the player to the screen
+        player.draw(draw2D);
 
         draw2D.end();
 
