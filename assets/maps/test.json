@@ -112,10 +112,11 @@
          "objects":[
                 {
                  "height":105,
-                 "name":"",
+                 "name":"ground",
                  "properties":
                     {
-
+                     "rigidBody":"static",
+                     "shape":"rectangle"
                     },
                  "type":"",
                  "visible":true,

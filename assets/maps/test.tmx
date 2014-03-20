@@ -17,6 +17,11 @@
   <object name="a" gid="669" x="882" y="105" width="21" height="21"/>
  </objectgroup>
  <objectgroup name="ground" width="50" height="10">
-  <object x="0" y="105" width="1050" height="105"/>
+  <object name="ground" x="0" y="105" width="1050" height="105">
+   <properties>
+    <property name="rigidBody" value="static"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
