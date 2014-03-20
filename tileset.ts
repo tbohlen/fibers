@@ -3,6 +3,16 @@ var BASE_MAP_URL:string = "assets/maps/";
 // @TODO: Add support for multiple layers
 // later, multiple tilesets
 // do something clever with transparent color to blend:
+// need to maintain a list of the actual Sprite objects
+// so we can attach physics attributes to them
+// convert this to a 2-pass setup:
+// 1. create a list of layers of draw2dsprites,
+// then redraw the sprites
+
+// Tips for making proper tilesets in Tiled.app:
+// Ensure that objects have a width and height!
+// Double click an object on the map and set its w/h in tiles!
+// So a 1-tile image will have width = 1, height = 1
 
 class Tileset {
 
@@ -21,6 +31,8 @@ class Tileset {
     firstGID:number;
 
     tileSet:any;
+
+    layers:Draw2DSprite[][];
 
     mapLoadedCallback: (jsonData) => void;
 
@@ -73,13 +85,8 @@ class Tileset {
         return (this.mapData != null);
     }
 
-    getLayers():any[]
-    {
-        return this.mapData.layers;
-    }
-
     // this must be called inside of draw2D.begin!
-    drawObjectLayer( draw2D:Draw2D, layer )
+    drawObjectLayer( draw2D:Draw2D, layer, playerPosition:number[] )
     {
         if (layer.objects)
         {
@@ -91,19 +98,25 @@ class Tileset {
                 if (tileGID)
                 {
                     var x:number = layerObject.x;
-                    var y:number = layerObject.y;
-                    var drawObject = this.tileDrawObjectAtPos( x, y, tileGID, player.getPosition() );
+                    var y:number = layerObject.y - layerObject.height;
+                    var drawObject = this.tileDrawObjectAtPos( x, y, tileGID, playerPosition );
                     if (drawObject)
                     {
                         draw2D.draw(drawObject);
                     }
                 }
+
+// this should be upon creation
+//                var rigidBodyType:string = layerObject.properties.rigidBody;
+//                if (rigidBodyType)
+//                {
+//                }
             }
         }
     }
 
     // this must be called inside of draw2D.begin!
-    drawTileLayer( draw2D:Draw2D, layer )
+    drawTileLayer( draw2D:Draw2D, layer, playerPosition:number[] )
     {
         var tileIndex:number = 0;
         var tileCount:number =  this.mapWidth*this.mapHeight;
@@ -113,7 +126,7 @@ class Tileset {
             for (; tileIndex < tileCount; tileIndex += 1)
             {
                 var tileGID:number = layer.data[tileIndex];
-                var drawObject = this.tileDrawObjectAtIndex( tileIndex, tileGID, player.getPosition() );
+                var drawObject = this.tileDrawObjectAtIndex( tileIndex, tileGID, playerPosition );
                 if (drawObject)
                 {
                     draw2D.draw(drawObject);
@@ -122,16 +135,31 @@ class Tileset {
         }
     }
 
-    drawLayers( draw2D:Draw2D )
+//    loadMap( draw2D:Draw2D )
+//    {
+//        this.mapData.layers.forEach((layer) =>
+//            if (layer.type === "tilelayer")
+//            {
+//                Draw2DSprite[] tiles = this.createTileLayer( draw2D, layer );
+//                this.layers.append(tiles);
+//            } else if (layer.type === "objectgroup")
+//            {
+//                Draw2DSprite[] objects = this.createObjectLayer( draw2D, layer );
+//                this.layers.append(objects);
+//            }
+//        );
+//    }
+
+    drawLayers( draw2D:Draw2D, playerPosition:number[] )
     {
-        this.getLayers().forEach((layer) =>
+        this.mapData.layers.forEach((layer) =>
         {
             if (layer.type === "tilelayer")
             {
-                this.drawTileLayer( draw2D, layer );
+                this.drawTileLayer( draw2D, layer, playerPosition );
             } else if (layer.type === "objectgroup")
             {
-                this.drawObjectLayer( draw2D, layer );
+                this.drawObjectLayer( draw2D, layer, playerPosition );
             }
         });
     }

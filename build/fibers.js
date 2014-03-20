@@ -1,30 +1,54 @@
 var Player = (function () {
-    function Player() {
+    function Player(playerSprite, playerObject, position) {
         this.SPEED = 2;
-        this.position = [0, 0];
-        this.vx = 0;
+        this.sprite = null;
+        this.body = null;
+        this.sprite = playerSprite;
+        this.body = playerObject;
+        this.body.setPosition(position);
     }
+    // sets the texture used to display the character. If no texture is null, displays a white box
+    Player.prototype.setTexture = function (texture) {
+        if (this.sprite != null) {
+            this.sprite.setTexture(texture);
+        }
+    };
+
+    // just calls into sprite
+    Player.prototype.setTextureRectangle = function (params) {
+        if (this.sprite != null) {
+            this.sprite.setTextureRectangle(params);
+        }
+    };
+
     Player.prototype.getPosition = function () {
-        return this.position;
+        return this.body.getPosition();
     };
 
     Player.prototype.stopWalking = function () {
-        this.vx = 0;
+        var vel = this.body.getVelocity();
+        this.body.setVelocity([0, vel[1]]);
     };
 
     Player.prototype.walkLeft = function () {
-        this.vx = -1 * this.SPEED;
+        var vel = this.body.getVelocity();
+        this.body.setVelocity([-1 * this.SPEED, vel[1]]);
     };
 
     Player.prototype.walkRight = function () {
-        this.vx = this.SPEED;
+        var vel = this.body.getVelocity();
+        this.body.setVelocity([this.SPEED, vel[1]]);
     };
 
     Player.prototype.update = function () {
-        this.position[0] += this.vx;
-        if (this.position[0] < 0) {
-            this.position[0] = 0;
-        }
+    };
+
+    // draws the player's sprite to the screen
+    Player.prototype.draw = function (draw2D) {
+        var pos = this.body.getPosition();
+        this.sprite.x = pos[0];
+        this.sprite.y = pos[1];
+        draw2D.drawSprite(this.sprite);
     };
     return Player;
 })();
@@ -33,6 +57,15 @@ var BASE_MAP_URL = "assets/maps/";
 // @TODO: Add support for multiple layers
 // later, multiple tilesets
 // do something clever with transparent color to blend:
+// need to maintain a list of the actual Sprite objects
+// so we can attach physics attributes to them
+// convert this to a 2-pass setup:
+// 1. create a list of layers of draw2dsprites,
+// then redraw the sprites
+// Tips for making proper tilesets in Tiled.app:
+// Ensure that objects have a width and height!
+// Double click an object on the map and set its w/h in tiles!
+// So a 1-tile image will have width = 1, height = 1
 var Tileset = (function () {
     function Tileset(mapFilename, graphicsDevice, engine) {
         var _this = this;
@@ -77,12 +110,8 @@ var Tileset = (function () {
         return (this.mapData != null);
     };
 
-    Tileset.prototype.getLayers = function () {
-        return this.mapData.layers;
-    };
-
     // this must be called inside of draw2D.begin!
-    Tileset.prototype.drawObjectLayer = function (draw2D, layer) {
+    Tileset.prototype.drawObjectLayer = function (draw2D, layer, playerPosition) {
         if (layer.objects) {
             var tileCount = layer.objects.length;
             for (var tileIndex = 0; tileIndex < tileCount; tileIndex += 1) {
@@ -90,25 +119,30 @@ var Tileset = (function () {
                 var tileGID = layerObject.gid;
                 if (tileGID) {
                     var x = layerObject.x;
-                    var y = layerObject.y;
-                    var drawObject = this.tileDrawObjectAtPos(x, y, tileGID, player.getPosition());
+                    var y = layerObject.y - layerObject.height;
+                    var drawObject = this.tileDrawObjectAtPos(x, y, tileGID, playerPosition);
                     if (drawObject) {
                         draw2D.draw(drawObject);
                     }
                 }
+                // this should be upon creation
+                //                var rigidBodyType:string = layerObject.properties.rigidBody;
+                //                if (rigidBodyType)
+                //                {
+                //                }
             }
         }
     };
 
     // this must be called inside of draw2D.begin!
-    Tileset.prototype.drawTileLayer = function (draw2D, layer) {
+    Tileset.prototype.drawTileLayer = function (draw2D, layer, playerPosition) {
         var tileIndex = 0;
         var tileCount = this.mapWidth * this.mapHeight;
 
         if (layer.data) {
             for (; tileIndex < tileCount; tileIndex += 1) {
                 var tileGID = layer.data[tileIndex];
-                var drawObject = this.tileDrawObjectAtIndex(tileIndex, tileGID, player.getPosition());
+                var drawObject = this.tileDrawObjectAtIndex(tileIndex, tileGID, playerPosition);
                 if (drawObject) {
                     draw2D.draw(drawObject);
                 }
@@ -116,13 +150,27 @@ var Tileset = (function () {
         }
     };
 
-    Tileset.prototype.drawLayers = function (draw2D) {
+    //    loadMap( draw2D:Draw2D )
+    //    {
+    //        this.mapData.layers.forEach((layer) =>
+    //            if (layer.type === "tilelayer")
+    //            {
+    //                Draw2DSprite[] tiles = this.createTileLayer( draw2D, layer );
+    //                this.layers.append(tiles);
+    //            } else if (layer.type === "objectgroup")
+    //            {
+    //                Draw2DSprite[] objects = this.createObjectLayer( draw2D, layer );
+    //                this.layers.append(objects);
+    //            }
+    //        );
+    //    }
+    Tileset.prototype.drawLayers = function (draw2D, playerPosition) {
         var _this = this;
-        this.getLayers().forEach(function (layer) {
+        this.mapData.layers.forEach(function (layer) {
             if (layer.type === "tilelayer") {
-                _this.drawTileLayer(draw2D, layer);
+                _this.drawTileLayer(draw2D, layer, playerPosition);
             } else if (layer.type === "objectgroup") {
-                _this.drawObjectLayer(draw2D, layer);
+                _this.drawObjectLayer(draw2D, layer, playerPosition);
             }
         });
     };
@@ -182,21 +230,23 @@ var Tileset = (function () {
 /// <reference path="jslib-modular/vmath.d.ts" />
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
-/*global WebGLTurbulenzEngine*/
-var canvas = document.getElementById("canvas");
-
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: canvas
-});
-
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice({});
 var inputDevice = TurbulenzEngine.createInputDevice({});
 
+// build the physics device to allow 2D constraint physics
+var physicsDevice = Physics2DDevice.create();
+var dynamicWorld = physicsDevice.createWorld({
+    gravity: [0, 10],
+    velocityIterations: 8,
+    positionIterations: 8
+});
+
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
 });
+
 var success = draw2D.configure({
     scaleMode: 'scale',
     viewportRectangle: [0, 0, 320, 240]
@@ -204,11 +254,51 @@ var success = draw2D.configure({
 
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
-var viewport = draw2D.getScreenSpaceViewport();
+// this is throwing an error... no idea why
+var viewport = [];
+draw2D.getViewport(viewport);
+var height = viewport[3] - viewport[1];
+var width = viewport[2] - viewport[0];
 
 var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
-var player = new Player();
+// NOTE: nothing is actually wrong here even though the IDE complains. In the version of turbulenz we are using the
+// scale is expected to be a single number but should actually be an array... IDK why
+var playerParams = {
+    x: 0,
+    y: 0,
+    width: 100,
+    height: 200,
+    color: [0.0, 1.0, 1.0, 1.0],
+    scale: [0.25, 0.25]
+};
+
+var playerSprite = Draw2DSprite.create(playerParams);
+
+// create the player physics object
+var playerVertices = physicsDevice.createRectangleVertices(0, 0, 100, 200);
+var playerShape = physicsDevice.createPolygonShape({
+    vertices: playerVertices
+});
+var playerBody = physicsDevice.createRigidBody({
+    type: 'kinematic',
+    shapes: [playerShape],
+    mass: 10
+});
+
+// import an image to use as the player display and when loading is done set it as the player's texture
+var playerTexture = graphicsDevice.createTexture({
+    src: "assets/player/playerProfile.png",
+    mipmaps: true,
+    onload: function (texture) {
+        if (texture != null) {
+            //player.setTexture(texture);
+            //player.setTextureRectangle([0, 0, texture.width, texture.height])
+        }
+    }
+});
+
+var player = new Player(playerSprite, playerBody, [width / 2, 25]);
 
 inputDevice.addEventListener("keydown", function (keycode) {
     if (keycode === inputDevice.keyCodes.LEFT) {
@@ -226,6 +316,7 @@ inputDevice.addEventListener("keyup", function (keycode) {
 
 function update() {
     if (graphicsDevice.beginFrame()) {
+        dynamicWorld.step(1000 / 60); // I think this should go elsewhere... or be wrapped in a test and looped
         player.update();
 
         graphicsDevice.clear(bgColor, 1.0);
@@ -233,8 +324,11 @@ function update() {
         draw2D.begin();
 
         if (tileset.isLoaded()) {
-            tileset.drawLayers(draw2D);
+            tileset.drawLayers(draw2D, player.getPosition());
         }
+
+        // draw the player to the screen
+        player.draw(draw2D);
 
         draw2D.end();
 

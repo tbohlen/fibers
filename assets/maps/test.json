@@ -17,128 +17,86 @@
          "objects":[
                 {
                  "gid":669,
-                 "height":0,
-                 "name":"",
+                 "height":21,
+                 "name":"a",
                  "properties":
                     {
 
                     },
                  "type":"",
                  "visible":true,
-                 "width":0,
+                 "width":21,
                  "x":105,
                  "y":105
                 }, 
                 {
                  "gid":669,
-                 "height":0,
-                 "name":"",
+                 "height":21,
+                 "name":"a",
                  "properties":
                     {
 
                     },
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":357,
+                 "width":21,
+                 "x":189,
                  "y":105
                 }, 
                 {
                  "gid":669,
-                 "height":0,
-                 "name":"",
+                 "height":21,
+                 "name":"a",
                  "properties":
                     {
 
                     },
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":567,
+                 "width":21,
+                 "x":189,
+                 "y":84
+                }, 
+                {
+                 "gid":669,
+                 "height":21,
+                 "name":"a",
+                 "properties":
+                    {
+
+                    },
+                 "type":"",
+                 "visible":true,
+                 "width":21,
+                 "x":441,
                  "y":105
                 }, 
                 {
                  "gid":669,
-                 "height":0,
-                 "name":"",
+                 "height":21,
+                 "name":"a",
                  "properties":
                     {
 
                     },
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":588,
+                 "width":21,
+                 "x":693,
                  "y":105
                 }, 
                 {
                  "gid":669,
-                 "height":0,
-                 "name":"",
+                 "height":21,
+                 "name":"a",
                  "properties":
                     {
 
                     },
                  "type":"",
                  "visible":true,
-                 "width":0,
-                 "x":609,
-                 "y":105
-                }, 
-                {
-                 "gid":669,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":819,
-                 "y":105
-                }, 
-                {
-                 "gid":669,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":987,
-                 "y":105
-                }, 
-                {
-                 "gid":669,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":798,
-                 "y":105
-                }, 
-                {
-                 "gid":669,
-                 "height":0,
-                 "name":"",
-                 "properties":
-                    {
-
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":336,
+                 "width":21,
+                 "x":882,
                  "y":105
                 }],
          "opacity":1,
@@ -154,10 +112,11 @@
          "objects":[
                 {
                  "height":105,
-                 "name":"",
+                 "name":"ground",
                  "properties":
                     {
-
+                     "rigidBody":"static",
+                     "shape":"rectangle"
                     },
                  "type":"",
                  "visible":true,
