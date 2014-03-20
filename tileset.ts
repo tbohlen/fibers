@@ -5,6 +5,9 @@ var BASE_MAP_URL:string = "assets/maps/";
 // do something clever with transparent color to blend:
 // need to maintain a list of the actual Sprite objects
 // so we can attach physics attributes to them
+// convert this to a 2-pass setup:
+// 1. create a list of layers of draw2dsprites,
+// then redraw the sprites
 
 // Tips for making proper tilesets in Tiled.app:
 // Ensure that objects have a width and height!
@@ -28,6 +31,8 @@ class Tileset {
     firstGID:number;
 
     tileSet:any;
+
+    layers:Draw2DSprite[][];
 
     mapLoadedCallback: (jsonData) => void;
 
@@ -80,11 +85,6 @@ class Tileset {
         return (this.mapData != null);
     }
 
-    getLayers():any[]
-    {
-        return this.mapData.layers;
-    }
-
     // this must be called inside of draw2D.begin!
     drawObjectLayer( draw2D:Draw2D, layer, playerPosition:number[] )
     {
@@ -105,6 +105,12 @@ class Tileset {
                         draw2D.draw(drawObject);
                     }
                 }
+
+// this should be upon creation
+//                var rigidBodyType:string = layerObject.properties.rigidBody;
+//                if (rigidBodyType)
+//                {
+//                }
             }
         }
     }
@@ -129,9 +135,24 @@ class Tileset {
         }
     }
 
+//    loadMap( draw2D:Draw2D )
+//    {
+//        this.mapData.layers.forEach((layer) =>
+//            if (layer.type === "tilelayer")
+//            {
+//                Draw2DSprite[] tiles = this.createTileLayer( draw2D, layer );
+//                this.layers.append(tiles);
+//            } else if (layer.type === "objectgroup")
+//            {
+//                Draw2DSprite[] objects = this.createObjectLayer( draw2D, layer );
+//                this.layers.append(objects);
+//            }
+//        );
+//    }
+
     drawLayers( draw2D:Draw2D, playerPosition:number[] )
     {
-        this.getLayers().forEach((layer) =>
+        this.mapData.layers.forEach((layer) =>
         {
             if (layer.type === "tilelayer")
             {

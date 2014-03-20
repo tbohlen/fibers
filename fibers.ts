@@ -11,19 +11,11 @@
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 
-/*global WebGLTurbulenzEngine*/
-
-var canvas = document.getElementById("canvas");
-
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: canvas
-});
-
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
 
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
-var inputDevice = TurbulenzEngine.createInputDevice({});
+var inputDevice = TurbulenzEngine.createInputDevice( {} );
 
 // build the physics device to allow 2D constraint physics
 var physicsDevice = Physics2DDevice.create();
@@ -45,7 +37,8 @@ var success = draw2D.configure({
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // this is throwing an error... no idea why
-var viewport:number[] = draw2D.getViewport();
+var viewport:number[] = [];
+draw2D.getViewport(viewport);
 var height:number = viewport[3]-viewport[1];
 var width:number = viewport[2]-viewport[0];
 
@@ -53,14 +46,16 @@ var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
 // NOTE: nothing is actually wrong here even though the IDE complains. In the version of turbulenz we are using the
 // scale is expected to be a single number but should actually be an array... IDK why
-var playerSprite:any = Draw2DSprite.create({
-    width: 100,
-    height: 200,
+var playerParams:any = {
     x: 0,
     y: 0,
+    width: 100,
+    height: 200,
     color: [0.0, 1.0, 1.0, 1.0],
     scale: [0.25, 0.25]
-});
+};
+
+var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
 
 // create the player physics object
 var playerVertices:number[] = physicsDevice.createRectangleVertices(0, 0, 100, 200);

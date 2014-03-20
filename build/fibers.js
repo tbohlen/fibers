@@ -59,6 +59,9 @@ var BASE_MAP_URL = "assets/maps/";
 // do something clever with transparent color to blend:
 // need to maintain a list of the actual Sprite objects
 // so we can attach physics attributes to them
+// convert this to a 2-pass setup:
+// 1. create a list of layers of draw2dsprites,
+// then redraw the sprites
 // Tips for making proper tilesets in Tiled.app:
 // Ensure that objects have a width and height!
 // Double click an object on the map and set its w/h in tiles!
@@ -107,10 +110,6 @@ var Tileset = (function () {
         return (this.mapData != null);
     };
 
-    Tileset.prototype.getLayers = function () {
-        return this.mapData.layers;
-    };
-
     // this must be called inside of draw2D.begin!
     Tileset.prototype.drawObjectLayer = function (draw2D, layer, playerPosition) {
         if (layer.objects) {
@@ -126,6 +125,11 @@ var Tileset = (function () {
                         draw2D.draw(drawObject);
                     }
                 }
+                // this should be upon creation
+                //                var rigidBodyType:string = layerObject.properties.rigidBody;
+                //                if (rigidBodyType)
+                //                {
+                //                }
             }
         }
     };
@@ -146,9 +150,23 @@ var Tileset = (function () {
         }
     };
 
+    //    loadMap( draw2D:Draw2D )
+    //    {
+    //        this.mapData.layers.forEach((layer) =>
+    //            if (layer.type === "tilelayer")
+    //            {
+    //                Draw2DSprite[] tiles = this.createTileLayer( draw2D, layer );
+    //                this.layers.append(tiles);
+    //            } else if (layer.type === "objectgroup")
+    //            {
+    //                Draw2DSprite[] objects = this.createObjectLayer( draw2D, layer );
+    //                this.layers.append(objects);
+    //            }
+    //        );
+    //    }
     Tileset.prototype.drawLayers = function (draw2D, playerPosition) {
         var _this = this;
-        this.getLayers().forEach(function (layer) {
+        this.mapData.layers.forEach(function (layer) {
             if (layer.type === "tilelayer") {
                 _this.drawTileLayer(draw2D, layer, playerPosition);
             } else if (layer.type === "objectgroup") {
@@ -212,13 +230,6 @@ var Tileset = (function () {
 /// <reference path="jslib-modular/vmath.d.ts" />
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
-/*global WebGLTurbulenzEngine*/
-var canvas = document.getElementById("canvas");
-
-TurbulenzEngine = WebGLTurbulenzEngine.create({
-    canvas: canvas
-});
-
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice({});
@@ -244,7 +255,8 @@ var success = draw2D.configure({
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // this is throwing an error... no idea why
-var viewport = draw2D.getViewport();
+var viewport = [];
+draw2D.getViewport(viewport);
 var height = viewport[3] - viewport[1];
 var width = viewport[2] - viewport[0];
 
@@ -252,14 +264,16 @@ var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
 // NOTE: nothing is actually wrong here even though the IDE complains. In the version of turbulenz we are using the
 // scale is expected to be a single number but should actually be an array... IDK why
-var playerSprite = Draw2DSprite.create({
-    width: 100,
-    height: 200,
+var playerParams = {
     x: 0,
     y: 0,
+    width: 100,
+    height: 200,
     color: [0.0, 1.0, 1.0, 1.0],
     scale: [0.25, 0.25]
-});
+};
+
+var playerSprite = Draw2DSprite.create(playerParams);
 
 // create the player physics object
 var playerVertices = physicsDevice.createRectangleVertices(0, 0, 100, 200);
