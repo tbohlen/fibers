@@ -10,6 +10,7 @@
 
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
+/// <reference path="rigidSprite.ts"/>
 
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
@@ -18,8 +19,8 @@ var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
 
 // build the physics device to allow 2D constraint physics
-var physicsDevice = Physics2DDevice.create();
-var dynamicWorld = physicsDevice.createWorld({
+var physicsDevice:Physics2DDevice = Physics2DDevice.create();
+var dynamicWorld:Physics2DWorld = physicsDevice.createWorld({
     gravity: [0, 0.01],
     velocityIterations: 8,
     positionIterations: 8
@@ -44,7 +45,7 @@ var height:number = viewport[3]-viewport[1];
 var width:number = viewport[2]-viewport[0];
 
 // the tileset device manages the tiled maps
-var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
+var tileset:Tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
 
 // next we build a player, including the rigid body, sprite, and managing object
@@ -58,14 +59,15 @@ var playerParams:any = {
 };
 var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
 var playerVertices:number[] = physicsDevice.createRectangleVertices(0, 0, 64, 128);
-var playerShape = physicsDevice.createPolygonShape({
+var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
     vertices: playerVertices
 });
-var playerBody = physicsDevice.createRigidBody({
+var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
     type: 'dynamic',
     shapes: [playerShape],
     mass: 10
 });
+var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, playerBody);
 // import an image to use as the player display and when loading is done set it as the player's texture
 //var layerTexture = graphicsDevice.createTexture({
     //src: "assets/player/playerProfile.png",
@@ -79,7 +81,7 @@ var playerBody = physicsDevice.createRigidBody({
         //}
     //}
 //});
-var player:Player = new Player(playerSprite, playerBody, [width/2, 25]);
+var player:Player = new Player(playerRigidSprite, [width/2, 25]);
 
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
