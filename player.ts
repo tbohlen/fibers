@@ -1,5 +1,5 @@
 class Player {
-    SPEED = 2;
+    SPEED = 0.1;
 
     sprite:any = null;
     body:any = null;
