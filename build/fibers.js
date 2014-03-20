@@ -1,6 +1,6 @@
 var Player = (function () {
     function Player(playerSprite, playerObject, position) {
-        this.SPEED = 2;
+        this.SPEED = 0.1;
         this.sprite = null;
         this.body = null;
         this.sprite = playerSprite;
@@ -300,6 +300,9 @@ var playerTexture = graphicsDevice.createTexture({
 
 var player = new Player(playerSprite, playerBody, [width / 2, 25]);
 
+// add the player to the world
+dynamicWorld.addRigidBody(playerBody);
+
 inputDevice.addEventListener("keydown", function (keycode) {
     if (keycode === inputDevice.keyCodes.LEFT) {
         player.walkLeft();
@@ -315,6 +318,7 @@ inputDevice.addEventListener("keyup", function (keycode) {
 });
 
 function update() {
+    var i = 0;
     if (graphicsDevice.beginFrame()) {
         dynamicWorld.step(1000 / 60); // I think this should go elsewhere... or be wrapped in a test and looped
         player.update();
@@ -337,3 +341,4 @@ function update() {
 }
 
 TurbulenzEngine.setInterval(update, 1000 / 60);
+//# sourceMappingURL=fibers.js.map

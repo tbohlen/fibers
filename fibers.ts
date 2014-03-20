@@ -84,6 +84,9 @@ var playerTexture = graphicsDevice.createTexture({
 
 var player:Player = new Player(playerSprite, playerBody, [width/2, 25]);
 
+// add the player to the world
+dynamicWorld.addRigidBody(playerBody);
+
 inputDevice.addEventListener("keydown", function(keycode){
     if (keycode === inputDevice.keyCodes.LEFT)
     {
@@ -103,9 +106,10 @@ inputDevice.addEventListener("keyup", function(keycode){
 
 function update()
 {
+    var i:number = 0;
     if (graphicsDevice.beginFrame())
     {
-        dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
+            dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
         player.update();
 
         graphicsDevice.clear( bgColor, 1.0 );
