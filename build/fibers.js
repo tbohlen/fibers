@@ -238,11 +238,12 @@ var inputDevice = TurbulenzEngine.createInputDevice({});
 // build the physics device to allow 2D constraint physics
 var physicsDevice = Physics2DDevice.create();
 var dynamicWorld = physicsDevice.createWorld({
-    gravity: [0, 10],
+    gravity: [0, 0.01],
     velocityIterations: 8,
     positionIterations: 8
 });
 
+// this object draws everything to the screen
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
 });
@@ -254,55 +255,54 @@ var success = draw2D.configure({
 
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
-// this is throwing an error... no idea why
+// store information about the size of the screen
 var viewport = [];
 draw2D.getViewport(viewport);
 var height = viewport[3] - viewport[1];
 var width = viewport[2] - viewport[0];
 
+// the tileset device manages the tiled maps
 var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
-// NOTE: nothing is actually wrong here even though the IDE complains. In the version of turbulenz we are using the
-// scale is expected to be a single number but should actually be an array... IDK why
+// next we build a player, including the rigid body, sprite, and managing object
 var playerParams = {
     x: 0,
     y: 0,
-    width: 100,
-    height: 200,
+    width: 64,
+    height: 128,
     color: [0.0, 1.0, 1.0, 1.0],
     scale: [0.25, 0.25]
 };
-
 var playerSprite = Draw2DSprite.create(playerParams);
-
-// create the player physics object
-var playerVertices = physicsDevice.createRectangleVertices(0, 0, 100, 200);
+var playerVertices = physicsDevice.createRectangleVertices(0, 0, 64, 128);
 var playerShape = physicsDevice.createPolygonShape({
     vertices: playerVertices
 });
 var playerBody = physicsDevice.createRigidBody({
-    type: 'kinematic',
+    type: 'dynamic',
     shapes: [playerShape],
     mass: 10
 });
 
 // import an image to use as the player display and when loading is done set it as the player's texture
-var playerTexture = graphicsDevice.createTexture({
-    src: "assets/player/playerProfile.png",
-    mipmaps: true,
-    onload: function (texture) {
-        if (texture != null) {
-            //player.setTexture(texture);
-            //player.setTextureRectangle([0, 0, texture.width, texture.height])
-        }
-    }
-});
-
+//var layerTexture = graphicsDevice.createTexture({
+//src: "assets/player/playerProfile.png",
+//mipmaps: true,
+//onload: function (texture)
+//{
+//if (texture != null)
+//{
+//player.setTexture(texture);
+//player.setTextureRectangle([0, 0, texture.width, texture.height])
+//}
+//}
+//});
 var player = new Player(playerSprite, playerBody, [width / 2, 25]);
 
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
 
+// add event listeners
 inputDevice.addEventListener("keydown", function (keycode) {
     if (keycode === inputDevice.keyCodes.LEFT) {
         player.walkLeft();
@@ -317,6 +317,7 @@ inputDevice.addEventListener("keyup", function (keycode) {
     player.stopWalking();
 });
 
+// run the game
 function update() {
     var i = 0;
     if (graphicsDevice.beginFrame()) {
