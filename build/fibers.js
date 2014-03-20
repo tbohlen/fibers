@@ -1,11 +1,11 @@
 var Player = (function () {
-    function Player(playerSprite, position) {
+    function Player(playerSprite, playerObject, position) {
         this.SPEED = 2;
-        this.position = [0, 0];
-        this.vx = 0;
         this.sprite = null;
+        this.body = null;
         this.sprite = playerSprite;
-        this.position = position;
+        this.body = playerObject;
+        this.body.setPosition(position);
     }
     // sets the texture used to display the character. If no texture is null, displays a white box
     Player.prototype.setTexture = function (texture) {
@@ -22,32 +22,32 @@ var Player = (function () {
     };
 
     Player.prototype.getPosition = function () {
-        return this.position;
+        return this.body.getPosition();
     };
 
     Player.prototype.stopWalking = function () {
-        this.vx = 0;
+        var vel = this.body.getVelocity();
+        this.body.setVelocity([0, vel[1]]);
     };
 
     Player.prototype.walkLeft = function () {
-        this.vx = -1 * this.SPEED;
+        var vel = this.body.getVelocity();
+        this.body.setVelocity([-1 * this.SPEED, vel[1]]);
     };
 
     Player.prototype.walkRight = function () {
-        this.vx = this.SPEED;
+        var vel = this.body.getVelocity();
+        this.body.setVelocity([this.SPEED, vel[1]]);
     };
 
     Player.prototype.update = function () {
-        this.position[0] += this.vx;
-        if (this.position[0] < 0) {
-            this.position[0] = 0;
-        }
     };
 
     // draws the player's sprite to the screen
     Player.prototype.draw = function (draw2D) {
-        this.sprite.x = this.position[0];
-        this.sprite.y = this.position[1];
+        var pos = this.body.getPosition();
+        this.sprite.x = pos[0];
+        this.sprite.y = pos[1];
         draw2D.drawSprite(this.sprite);
     };
     return Player;
@@ -59,7 +59,7 @@ var BASE_MAP_URL = "assets/maps/";
 // do something clever with transparent color to blend:
 // need to maintain a list of the actual Sprite objects
 // so we can attach physics attributes to them
-// Tips for making proper tilesets in tiled.app:
+// Tips for making proper tilesets in Tiled.app:
 // Ensure that objects have a width and height!
 // Double click an object on the map and set its w/h in tiles!
 // So a 1-tile image will have width = 1, height = 1
@@ -225,7 +225,12 @@ var graphicsDevice = TurbulenzEngine.createGraphicsDevice({});
 var inputDevice = TurbulenzEngine.createInputDevice({});
 
 // build the physics device to allow 2D constraint physics
-var physicsDevice = TurbulenzEngine.createPhysicsDevice({});
+var physicsDevice = Physics2DDevice.create();
+var dynamicWorld = physicsDevice.createWorld({
+    gravity: [0, 10],
+    velocityIterations: 8,
+    positionIterations: 8
+});
 
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
@@ -256,6 +261,17 @@ var playerSprite = Draw2DSprite.create({
     scale: [0.25, 0.25]
 });
 
+// create the player physics object
+var playerVertices = physicsDevice.createRectangleVertices(0, 0, 100, 200);
+var playerShape = physicsDevice.createPolygonShape({
+    vertices: playerVertices
+});
+var playerBody = physicsDevice.createRigidBody({
+    type: 'kinematic',
+    shapes: [playerShape],
+    mass: 10
+});
+
 // import an image to use as the player display and when loading is done set it as the player's texture
 var playerTexture = graphicsDevice.createTexture({
     src: "assets/player/playerProfile.png",
@@ -268,7 +284,7 @@ var playerTexture = graphicsDevice.createTexture({
     }
 });
 
-var player = new Player(playerSprite, [width / 2, 25]);
+var player = new Player(playerSprite, playerBody, [width / 2, 25]);
 
 inputDevice.addEventListener("keydown", function (keycode) {
     if (keycode === inputDevice.keyCodes.LEFT) {
@@ -286,6 +302,7 @@ inputDevice.addEventListener("keyup", function (keycode) {
 
 function update() {
     if (graphicsDevice.beginFrame()) {
+        dynamicWorld.step(1000 / 60); // I think this should go elsewhere... or be wrapped in a test and looped
         player.update();
 
         graphicsDevice.clear(bgColor, 1.0);
@@ -306,4 +323,3 @@ function update() {
 }
 
 TurbulenzEngine.setInterval(update, 1000 / 60);
-//# sourceMappingURL=fibers.js.map
