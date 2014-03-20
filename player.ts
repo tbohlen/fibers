@@ -1,14 +1,14 @@
 class Player {
-    SPEED = 2;
+    SPEED = 0.1;
 
-    position:number[] = [0,0];
-    vx:number = 0;
     sprite:any = null;
+    body:any = null;
 
-    constructor (playerSprite, position:number[])
+    constructor (playerSprite, playerObject, position:number[])
     {
         this.sprite = playerSprite;
-        this.position = position;
+        this.body = playerObject;
+        this.body.setPosition(position);
     }
 
     // sets the texture used to display the character. If no texture is null, displays a white box
@@ -29,38 +29,37 @@ class Player {
     }
 
     getPosition(): number[] {
-        return this.position;
+        return this.body.getPosition();
     }
 
     stopWalking()
     {
-        this.vx = 0;
+        var vel:number[] = this.body.getVelocity();
+        this.body.setVelocity([0, vel[1]]);
     }
 
     walkLeft()
     {
-        this.vx = -1*this.SPEED;
+        var vel:number[] = this.body.getVelocity();
+        this.body.setVelocity([-1*this.SPEED, vel[1]]);
     }
 
     walkRight()
     {
-        this.vx = this.SPEED;
+        var vel:number[] = this.body.getVelocity();
+        this.body.setVelocity([this.SPEED, vel[1]]);
     }
 
     update()
     {
-        this.position[0] += this.vx;
-        if (this.position[0] < 0)
-        {
-            this.position[0] = 0;
-        }
     }
 
     // draws the player's sprite to the screen
     draw(draw2D)
     {
-        this.sprite.x = this.position[0];
-        this.sprite.y = this.position[1];
+        var pos:number[] = this.body.getPosition();
+        this.sprite.x = pos[0];
+        this.sprite.y = pos[1];
         draw2D.drawSprite(this.sprite);
     }
 }
