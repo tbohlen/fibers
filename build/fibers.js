@@ -257,7 +257,8 @@ var success = draw2D.configure({
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // this is throwing an error... no idea why
-var viewport = draw2D.getViewport();
+var viewport = [];
+draw2D.getViewport(viewport);
 var height = viewport[3] - viewport[1];
 var width = viewport[2] - viewport[0];
 
@@ -265,14 +266,16 @@ var tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 
 // NOTE: nothing is actually wrong here even though the IDE complains. In the version of turbulenz we are using the
 // scale is expected to be a single number but should actually be an array... IDK why
-var playerSprite = Draw2DSprite.create({
-    width: 100,
-    height: 200,
+var playerParams = {
     x: 0,
     y: 0,
+    width: 100,
+    height: 200,
     color: [0.0, 1.0, 1.0, 1.0],
     scale: [0.25, 0.25]
-});
+};
+
+var playerSprite = Draw2DSprite.create(playerParams);
 
 // import an image to use as the player display and when loading is done set it as the player's texture
 var playerTexture = graphicsDevice.createTexture({
