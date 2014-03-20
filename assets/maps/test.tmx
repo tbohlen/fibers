@@ -9,15 +9,12 @@
   </data>
  </layer>
  <objectgroup name="mushrooms" width="50" height="10">
-  <object gid="669" x="105" y="105"/>
-  <object gid="669" x="357" y="105"/>
-  <object gid="669" x="567" y="105"/>
-  <object gid="669" x="588" y="105"/>
-  <object gid="669" x="609" y="105"/>
-  <object gid="669" x="819" y="105"/>
-  <object gid="669" x="987" y="105"/>
-  <object gid="669" x="798" y="105"/>
-  <object gid="669" x="336" y="105"/>
+  <object name="a" gid="669" x="105" y="105" width="21" height="21"/>
+  <object name="a" gid="669" x="189" y="105" width="21" height="21"/>
+  <object name="a" gid="669" x="189" y="84" width="21" height="21"/>
+  <object name="a" gid="669" x="441" y="105" width="21" height="21"/>
+  <object name="a" gid="669" x="693" y="105" width="21" height="21"/>
+  <object name="a" gid="669" x="882" y="105" width="21" height="21"/>
  </objectgroup>
  <objectgroup name="ground" width="50" height="10">
   <object x="0" y="105" width="1050" height="105"/>

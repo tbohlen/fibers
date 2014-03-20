@@ -70,7 +70,7 @@ function update()
 
         if (tileset.isLoaded())
         {
-            tileset.drawLayers(draw2D);
+            tileset.drawLayers(draw2D, player.getPosition());
         }
 
         draw2D.end();

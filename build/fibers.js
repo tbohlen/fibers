@@ -33,6 +33,12 @@ var BASE_MAP_URL = "assets/maps/";
 // @TODO: Add support for multiple layers
 // later, multiple tilesets
 // do something clever with transparent color to blend:
+// need to maintain a list of the actual Sprite objects
+// so we can attach physics attributes to them
+// Tips for making proper tilesets in tiled.app:
+// Ensure that objects have a width and height!
+// Double click an object on the map and set its w/h in tiles!
+// So a 1-tile image will have width = 1, height = 1
 var Tileset = (function () {
     function Tileset(mapFilename, graphicsDevice, engine) {
         var _this = this;
@@ -82,7 +88,7 @@ var Tileset = (function () {
     };
 
     // this must be called inside of draw2D.begin!
-    Tileset.prototype.drawObjectLayer = function (draw2D, layer) {
+    Tileset.prototype.drawObjectLayer = function (draw2D, layer, playerPosition) {
         if (layer.objects) {
             var tileCount = layer.objects.length;
             for (var tileIndex = 0; tileIndex < tileCount; tileIndex += 1) {
@@ -90,8 +96,8 @@ var Tileset = (function () {
                 var tileGID = layerObject.gid;
                 if (tileGID) {
                     var x = layerObject.x;
-                    var y = layerObject.y;
-                    var drawObject = this.tileDrawObjectAtPos(x, y, tileGID, player.getPosition());
+                    var y = layerObject.y - layerObject.height;
+                    var drawObject = this.tileDrawObjectAtPos(x, y, tileGID, playerPosition);
                     if (drawObject) {
                         draw2D.draw(drawObject);
                     }
@@ -101,14 +107,14 @@ var Tileset = (function () {
     };
 
     // this must be called inside of draw2D.begin!
-    Tileset.prototype.drawTileLayer = function (draw2D, layer) {
+    Tileset.prototype.drawTileLayer = function (draw2D, layer, playerPosition) {
         var tileIndex = 0;
         var tileCount = this.mapWidth * this.mapHeight;
 
         if (layer.data) {
             for (; tileIndex < tileCount; tileIndex += 1) {
                 var tileGID = layer.data[tileIndex];
-                var drawObject = this.tileDrawObjectAtIndex(tileIndex, tileGID, player.getPosition());
+                var drawObject = this.tileDrawObjectAtIndex(tileIndex, tileGID, playerPosition);
                 if (drawObject) {
                     draw2D.draw(drawObject);
                 }
@@ -116,13 +122,13 @@ var Tileset = (function () {
         }
     };
 
-    Tileset.prototype.drawLayers = function (draw2D) {
+    Tileset.prototype.drawLayers = function (draw2D, playerPosition) {
         var _this = this;
         this.getLayers().forEach(function (layer) {
             if (layer.type === "tilelayer") {
-                _this.drawTileLayer(draw2D, layer);
+                _this.drawTileLayer(draw2D, layer, playerPosition);
             } else if (layer.type === "objectgroup") {
-                _this.drawObjectLayer(draw2D, layer);
+                _this.drawObjectLayer(draw2D, layer, playerPosition);
             }
         });
     };
@@ -233,7 +239,7 @@ function update() {
         draw2D.begin();
 
         if (tileset.isLoaded()) {
-            tileset.drawLayers(draw2D);
+            tileset.drawLayers(draw2D, player.getPosition());
         }
 
         draw2D.end();
@@ -243,3 +249,4 @@ function update() {
 }
 
 TurbulenzEngine.setInterval(update, 1000 / 60);
+//# sourceMappingURL=fibers.js.map
