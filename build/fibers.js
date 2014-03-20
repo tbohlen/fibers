@@ -125,7 +125,7 @@ var Tileset = (function () {
                         draw2D.draw(drawObject);
                     }
                 }
-                // this should be upon crea
+                // this should be upon creation
                 //                var rigidBodyType:string = layerObject.properties.rigidBody;
                 //                if (rigidBodyType)
                 //                {
