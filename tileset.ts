@@ -114,7 +114,7 @@ class Tileset {
      * Method: loadObjectLayer
      *
      * Loads all of the objects in a given object layer, building rigidSprites for each element.
-     * Each rigidSprite successfully build is then added to this.rigidSprites.
+     * Each rigidSprite successfully built is then added to this.rigidSprites.
      * A number of checks are done to make sure that all the objects properties match our expectations.
      */
     loadObjectLayer(layer:any, physicsDevice:Physics2DDevice, world:Physics2DWorld) {
@@ -129,6 +129,7 @@ class Tileset {
                 {
                     var rigidSprite:RigidSprite = null;
                     // build the sprite
+                    // what is the interaction between defined color and texture?
                     var spriteParams:Draw2DSpriteParams = {
                         height: obj.height,
                         width: obj.width,
@@ -164,10 +165,11 @@ class Tileset {
                     }
 
                     // if the map is already loaded, set the texture
-                    if (this.isLoaded())
-                    {
-                        this.setTexture(rigidSprite);
-                    }
+                    // what happens if the map is not loaded?
+//                    if (this.isLoaded())
+//                    {
+//                        this.setTexture(rigidSprite);
+//                    }
                     // store this rigid sprite
                     this.rigidSprites.push(rigidSprite);
                 }
@@ -206,10 +208,10 @@ class Tileset {
                 rigidSprite = new RigidSprite(sprite, [screenCoords[0], screenCoords[1]], layer.data[i]);
 
                 // if the map is already loaded, set the texture
-                if (this.isLoaded())
-                {
-                    this.setTexture(rigidSprite);
-                }
+//                if (this.isLoaded())
+//                {
+//                    this.setTexture(rigidSprite);
+//                }
 
                 // store this rigid sprite
                 this.rigidSprites.push(rigidSprite);
@@ -243,10 +245,14 @@ class Tileset {
     {
         var num:number = this.rigidSprites.length;
         for(var i:number = num-1; i >= 0; i--) {
+            var rigidSprite:RigidSprite = this.rigidSprites[i];
+            if (!rigidSprite.sprite.getTexture() && this.mapTexture)
+            {
+                this.setTexture(rigidSprite);
+            }
             this.rigidSprites[i].draw(draw2D);
         }
     }
-
 
     /*
      * Method: getTileCoordinatesForIndex
