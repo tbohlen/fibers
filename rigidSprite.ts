@@ -31,6 +31,7 @@ class RigidSprite {
             var pos:number[] = this.body.getPosition();
             this.sprite.x = pos[0];
             this.sprite.y = pos[1];
+            this.sprite.rotation = this.body.getRotation();
         }
         // and draw it to the screen
         draw2D.drawSprite(this.sprite);

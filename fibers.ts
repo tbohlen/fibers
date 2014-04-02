@@ -100,6 +100,18 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.RIGHT)
     {
         player.walkRight();
+    } else if (keycode === inputDevice.keyCodes.W)
+    {
+        platform.rigidSprite.body.setVelocity([0, -1]);
+    } else if (keycode === inputDevice.keyCodes.A)
+    {
+        platform.rigidSprite.body.setVelocity([-1, 0]);
+    } else if (keycode === inputDevice.keyCodes.S)
+    {
+        platform.rigidSprite.body.setVelocity([0, 1]);
+    } else if (keycode === inputDevice.keyCodes.D)
+    {
+        platform.rigidSprite.body.setVelocity([1, 0]);
     } else
     {
         console.log(keycode);
@@ -108,6 +120,8 @@ inputDevice.addEventListener("keydown", function(keycode){
 
 inputDevice.addEventListener("keyup", function(keycode){
     player.stopWalking();
+    platform.rigidSprite.body.setVelocity([0, 0]);
+    console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
 
 // run the game
@@ -116,7 +130,7 @@ function update()
     var i:number = 0;
     if (graphicsDevice.beginFrame())
     {
-            dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
+        dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
 
         player.update();
 
