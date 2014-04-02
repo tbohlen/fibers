@@ -12,13 +12,12 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="platform.ts"/>
 
-//var ctx:any = canvas.getContext("2d");
-//ctx.webkitImageSmoothingEnabled = false;
-// whee
 
+////////////////////////////////////////////////////////////////////////////////
+// Create important objects and set up the game
+////////////////////////////////////////////////////////////////////////////////
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
-
 // build the physics device to allow 2D constraint physics
 var physicsDevice:Physics2DDevice = Physics2DDevice.create();
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld({
@@ -26,29 +25,40 @@ var dynamicWorld:Physics2DWorld = physicsDevice.createWorld({
     velocityIterations: 8,
     positionIterations: 8
 });
-
 // this object draws everything to the screen
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
 });
-
 var success = draw2D.configure({
     scaleMode: 'scale',
     viewportRectangle: [0, 0, 640, 480]
 });
-
-var bgColor = [0.0, 0.0, 0.0, 1.0];
-
 // store information about the size of the screen
 var viewport:number[] = [];
 draw2D.getViewport(viewport);
 var height:number = viewport[3]-viewport[1];
 var width:number = viewport[2]-viewport[0];
 
+
+///////////////////////////////////////////////////////////////////////////////
+// The Game Object contains all high-level objects that support the game inself.
+// Pretty much, put anything in here that you want to easily pass to a number of
+// other objects.
+// TODO: Make a template for this
+///////////////////////////////////////////////////////////////////////////////
+var game:Object = {
+    graphicsDevice : graphicsDevice,
+    inputDevice: inputDevice,
+    draw2D : draw2D,
+    viewport : [width, height],
+    physicsDevice : physicsDevice,
+    dynamicWorld : dynamicWorld
+};
+
+
+var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
 var tileset:Tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
-
-
 // next we build a player, including the rigid body, sprite, and managing object
 var playerParams:any = {
     x: 0,
@@ -71,22 +81,20 @@ var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
 var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, playerBody);
 // import an image to use as the player display and when loading is done set it as the player's texture
 //var layerTexture = graphicsDevice.createTexture({
-    //src: "assets/player/playerProfile.png",
-    //mipmaps: true,
-    //onload: function (texture)
-    //{
-        //if (texture != null)
-        //{
-            //player.setTexture(texture);
-            //player.setTextureRectangle([0, 0, texture.width, texture.height])
-        //}
-    //}
+//src: "assets/player/playerProfile.png",
+//mipmaps: true,
+//onload: function (texture)
+//{
+//if (texture != null)
+//{
+//player.setTexture(texture);
+//player.setTextureRectangle([0, 0, texture.width, texture.height])
+//}
+//}
 //});
 var player:Player = new Player(playerRigidSprite, [width/2, 0]);
-
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
-
 // make platform, currently only used for testing
 //TODO: remove this at some point and replace by generalized data structure
 var platform = new Platform(physicsDevice, dynamicWorld);
