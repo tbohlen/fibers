@@ -11,6 +11,7 @@
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 /// <reference path="rigidSprite.ts"/>
+/// <reference path="platform.ts"/>
 
 //var ctx:any = canvas.getContext("2d");
 //ctx.webkitImageSmoothingEnabled = false;
@@ -87,6 +88,10 @@ var player:Player = new Player(playerRigidSprite, [width/2, 25]);
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
 
+// make platform, currently only used for testing
+//TODO: remove this at some point and replace by generalized data structure
+var platform = new Platform(physicsDevice, dynamicWorld);
+
 
 // add event listeners
 inputDevice.addEventListener("keydown", function(keycode){
@@ -128,6 +133,9 @@ function update()
 
         // draw the player to the screen
         player.draw(draw2D);
+
+        // draw platform
+        platform.draw(draw2D);
 
         draw2D.end();
 
