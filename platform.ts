@@ -5,11 +5,12 @@
 
 class Platform {
     rigidSprite:RigidSprite = null;
+    body:Physics2DRigidBody = null;
 
     constructor (phys2D:Physics2DDevice, world:Physics2DWorld)
     {
         var shapeSize = 20;
-        var platformMaterial = phys2D.createMaterial({
+        var platformMaterial:Physics2DMaterial = phys2D.createMaterial({
             elasticity : 0,
             staticFriction : 10,
             dynamicFriction : 8
@@ -20,7 +21,7 @@ class Platform {
                 material : platformMaterial
             })
         ];
-        var body:Physics2DRigidBody = phys2D.createRigidBody({
+        this.body = phys2D.createRigidBody({
             type : 'kinematic',
             shapes : shapes,
             position : [150, 200]
@@ -31,12 +32,12 @@ class Platform {
             origin : [shapeSize / 2, shapeSize / 2],
             color: [0.3, .3, 1.0, 1.0]
         });
-        world.addRigidBody(body);
-        this.rigidSprite = new RigidSprite(sprite, body);
+        world.addRigidBody(this.body);
+        this.rigidSprite = new RigidSprite(sprite, [0,0], 0, this.body);
     }
 
-    draw(draw2D:Draw2D)
+    draw(draw2D:Draw2D, playerOffset:number[])
     {
-        this.rigidSprite.draw(draw2D);
+        this.rigidSprite.draw(draw2D, playerOffset);
     }
 }

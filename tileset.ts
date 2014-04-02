@@ -222,6 +222,7 @@ class Tileset {
 
     loadMap( physicsDevice:Physics2DDevice, world:Physics2DWorld)
     {
+        console.log("loading map...")
         this.ranLoadMap = true;
         this.mapData.layers.forEach((layer) =>
         {
@@ -241,7 +242,7 @@ class Tileset {
      *
      * Draws all sprites in rigidSprites to the screen
      */
-    draw(draw2D:Draw2D)
+    draw(draw2D:Draw2D, playerOffset:number[])
     {
         var num:number = this.rigidSprites.length;
         for(var i:number = num-1; i >= 0; i--) {
@@ -250,7 +251,7 @@ class Tileset {
             {
                 this.setTexture(rigidSprite);
             }
-            this.rigidSprites[i].draw(draw2D);
+            this.rigidSprites[i].draw(draw2D, playerOffset);
         }
     }
 

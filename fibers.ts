@@ -34,7 +34,7 @@ var draw2D = Draw2D.create({
 
 var success = draw2D.configure({
     scaleMode: 'scale',
-    viewportRectangle: [0, 0, 320, 240]
+    viewportRectangle: [0, 0, 640, 480]
 });
 
 var bgColor = [0.0, 0.0, 0.0, 1.0];
@@ -82,7 +82,7 @@ var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [width/2, 25],
         //}
     //}
 //});
-var player:Player = new Player(playerRigidSprite, [width/2, 25]);
+var player:Player = new Player(playerRigidSprite, [width/2, 0]);
 
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
@@ -142,17 +142,17 @@ function update()
         {
             if (!tileset.ranLoadMap)
             {
-                console.log("Running laod map");
+                console.log("Running load map");
                 tileset.loadMap(physicsDevice, dynamicWorld);
             }
-            tileset.draw(draw2D);
+            tileset.draw(draw2D, player.getPosition());
         }
 
         // draw the player to the screen
         player.draw(draw2D);
 
         // draw platform
-        platform.draw(draw2D);
+        platform.draw(draw2D, player.getPosition());
 
         draw2D.end();
 
