@@ -1,3 +1,6 @@
+/// <reference path="jslib-modular/physics2d.d.ts" />
+/// <reference path="jslib-modular/tzdraw2d.d.ts" />
+
 /// <reference path="rigidSprite.ts"/>
 
 class Player {

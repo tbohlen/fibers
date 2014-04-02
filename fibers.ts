@@ -11,6 +11,7 @@
 /// <reference path="tileset.ts"/>
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="platform.ts"/>
+/// <reference path="interfaces.ts"/>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -44,21 +45,21 @@ var width:number = viewport[2]-viewport[0];
 // The Game Object contains all high-level objects that support the game inself.
 // Pretty much, put anything in here that you want to easily pass to a number of
 // other objects.
-// TODO: Make a template for this
 ///////////////////////////////////////////////////////////////////////////////
-var game:Object = {
+var game:GameObject = {
+    engine : TurbulenzEngine,
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
     viewport : [width, height],
     physicsDevice : physicsDevice,
-    dynamicWorld : dynamicWorld
+    physicsWorld : dynamicWorld
 };
 
 
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
+var tileset:Tileset = new Tileset("test.json", game);
 // next we build a player, including the rigid body, sprite, and managing object
 var playerParams:any = {
     x: 0,
@@ -151,7 +152,7 @@ function update()
             if (!tileset.ranLoadMap)
             {
                 console.log("Running load map");
-                tileset.loadMap(physicsDevice, dynamicWorld);
+                tileset.loadMap();
             }
             tileset.draw(draw2D, player.getPosition());
         }

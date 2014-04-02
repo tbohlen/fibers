@@ -2,6 +2,7 @@
 /// <reference path="jslib-modular/physics2d.d.ts" />
 
 /// <reference path="rigidSprite.ts"/>
+/// <reference path="interfaces.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 
@@ -41,19 +42,24 @@ class Tileset {
     ranLoadMap:boolean = false;
     layerNum:number = 3.0;
 
-    // store physics objects for easy access
-    physicsDevice:Physics2DDevice;
-    world:Physics2DWorld;
+    // XXX: Don't modify!!
+    game:GameObject;
 
-    // this will store every rigidsprite object in the layers.
+    // this will store every rigidSprite object in the layers.
     // Iterating over the list will allow for computing physics, displaying, etc.
     rigidSprites:RigidSprite[];
 
     mapLoadedCallback: (jsonData) => void;
 
-    constructor( mapFilename:string, graphicsDevice:any,
-                 engine:any)
+    /*
+     * Constructor: Tileset
+     * Takes the map filename in order to display the map to screen and the game
+     * object in order to get access to various game-critical objects and properties.
+     */
+    constructor( mapFilename:string, game:GameObject)
     {
+        this.game = game;
+
         this.mapLoadedCallback = (jsonData) => {
             if (jsonData)
             {
@@ -79,7 +85,7 @@ class Tileset {
                 // setup texture
                 var textureURL = BASE_MAP_URL + tileSet.image;
 
-                graphicsDevice.createTexture({
+                this.game.graphicsDevice.createTexture({
                     src: textureURL,
                     mipmaps: true,
                     onload: (texture) => {
@@ -92,7 +98,7 @@ class Tileset {
             }
         }
 
-        engine.request(BASE_MAP_URL + mapFilename,
+        this.game.engine.request(BASE_MAP_URL + mapFilename,
             this.mapLoadedCallback);
     }
 
@@ -116,7 +122,7 @@ class Tileset {
      * Each rigidSprite successfully built is then added to this.rigidSprites.
      * A number of checks are done to make sure that all the objects properties match our expectations.
      */
-    loadObjectLayer(layer:any, physicsDevice:Physics2DDevice, world:Physics2DWorld) {
+    loadObjectLayer(layer:any) {
         if (layer.objects)
         {
             var numObjects:number = layer.objects.length;
@@ -142,18 +148,18 @@ class Tileset {
                     // build the body
                     if (obj.properties.hasOwnProperty("rigidBody") && obj.properties.shape === "rectangle")
                     {
-                        var vertices:number[][] = physicsDevice.createRectangleVertices(obj.x, obj.y, obj.width, obj.height);
+                        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(obj.x, obj.y, obj.width, obj.height);
 
-                        var shape:Physics2DShape = physicsDevice.createPolygonShape({
+                        var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                             vertices: vertices
                         });
-                        var body:Physics2DRigidBody = physicsDevice.createRigidBody({
+                        var body:Physics2DRigidBody = this.game.physicsDevice.createRigidBody({
                             type: obj.properties.rigidBody,
                             shapes: [shape],
                             mass: (obj.properties.mass ? obj.properties.mass : 1)
                         });
                         // add the body to the world
-                        world.addRigidBody(body);
+                        this.game.physicsWorld.addRigidBody(body);
 
                         rigidSprite = new RigidSprite(sprite, [obj.x, obj.y], obj.gid, body);
                         console.log("Made physics obj!");
@@ -206,7 +212,7 @@ class Tileset {
         }
     }
 
-    loadMap( physicsDevice:Physics2DDevice, world:Physics2DWorld)
+    loadMap()
     {
         console.log("loading map...")
         this.ranLoadMap = true;
@@ -214,7 +220,7 @@ class Tileset {
         {
             if (layer.type === "objectgroup")
             {
-                this.loadObjectLayer(layer, physicsDevice, world);
+                this.loadObjectLayer(layer);
             }
             else if (layer.type === "tilelayer")
             {
@@ -231,6 +237,9 @@ class Tileset {
     draw(draw2D:Draw2D, playerOffset:number[])
     {
         var num:number = this.rigidSprites.length;
+        var mapOffset:number[] = [];
+        mapOffset[0] = (this.game.viewport[0]/2) - playerOffset[0];
+        mapOffset[0] = (this.game.viewport[1]/2) - playerOffset[0];
         for(var i:number = num-1; i >= 0; i--) {
             var rigidSprite:RigidSprite = this.rigidSprites[i];
             if (!rigidSprite.sprite.getTexture() && this.mapTexture)
