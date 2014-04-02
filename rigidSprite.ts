@@ -41,7 +41,7 @@ class RigidSprite {
         }
 
         this.sprite.x -= playerOffset[0];
-        this.sprite.y -= playerOffset[1];
+        this.sprite.y -= 0; //playerOffset[1];
 
         // and draw it to the screen
         draw2D.drawSprite(this.sprite);

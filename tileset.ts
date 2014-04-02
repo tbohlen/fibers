@@ -143,9 +143,14 @@ class Tileset {
                     if (obj.properties.hasOwnProperty("rigidBody") && obj.properties.shape === "rectangle")
                     {
                         var vertices:number[][] = physicsDevice.createRectangleVertices(obj.x, obj.y, obj.width, obj.height);
-
+                        var slipperyMaterial:Physics2DMaterial = physicsDevice.createMaterial({
+                            elasticity : 0,
+                            staticFriction : 0,
+                            dynamicFriction : 0
+                        });
                         var shape:Physics2DShape = physicsDevice.createPolygonShape({
-                            vertices: vertices
+                            vertices: vertices,
+                            material: slipperyMaterial
                         });
                         var body:Physics2DRigidBody = physicsDevice.createRigidBody({
                             type: obj.properties.rigidBody,
@@ -252,8 +257,8 @@ class Tileset {
         var tileSetCol:number = tileSetIndex % this.imageCols;
         var tileSetRow:number = Math.floor(tileSetIndex / this.imageCols);
         // We expect [437, 161] for tile [0,0]
-        var tileSetX:number = tileSetCol * (this.tileWidth + this.spacing) + this.margin;
-        var tileSetY:number = tileSetRow * (this.tileHeight + this.spacing) + this.margin;
+        var tileSetX:number = Math.round(tileSetCol * (this.tileWidth + this.spacing) + this.margin);
+        var tileSetY:number = Math.round(tileSetRow * (this.tileHeight + this.spacing) + this.margin);
 
         return [tileSetX, tileSetY, tileSetX+this.tileWidth, tileSetY+this.tileHeight];
     }
