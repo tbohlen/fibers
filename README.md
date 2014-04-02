@@ -1,11 +1,11 @@
 Prototype for the CMS.617 video game class.
 
-Install [Turbulenz 0.28.0](https://hub.turbulenz.com/#downloads)
+Install [Turbulenz 0.28.0](https://hub.turbulenz.com/#downloads).
 
 Go to where it was installed (`cd` in terminal).
 On Mac OS it is `~/Turbulenz/SDK/0.28.0` by default.
 
-Basically, [follow these directions to try things out](http://docs.turbulenz.com/installing.html#running-a-sample)
+Basically, [follow these directions to try things out](http://docs.turbulenz.com/installing.html#running-a-sample).
 
 ```
 cd ~/Turbulenz/SDK/0.28.0
@@ -58,9 +58,8 @@ To make new components, create a new .ts file, then refer to it in the file whic
 IGNORE THE JAVASCRIPT. I REPEAT, IGNORE THE JAVASCRIPT.
 WE ARE WRITING TYPESCRIPT!
 
-TypeScript files include dependencies like this:
-
-Add the following references to the TypeScript file. They should be specified after the global declarations, but before the TurbulenzEngine.onload function
+Add the following references to the TypeScript file.
+They should be specified after the global declarations, but before the TurbulenzEngine.onload function:
 
 ```
 /// <reference path="jslib-modular/turbulenz.d.ts" />
