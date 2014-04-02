@@ -57,6 +57,6 @@ class Player {
     // draws the player's sprite to the screen
     draw(draw2D:Draw2D)
     {
-        this.rigidSprite.draw(draw2D, this.getPosition());
+        this.rigidSprite.draw(draw2D, [0,0]);
     }
 }

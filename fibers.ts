@@ -53,13 +53,13 @@ var tileset:Tileset = new Tileset("test.json", graphicsDevice, TurbulenzEngine);
 var playerParams:any = {
     x: 0,
     y: 0,
-    width: 64,
-    height: 128,
-    color: [0.0, 1.0, 1.0, 1.0],
-    scale: [0.25, 0.25]
+    width: 21,
+    height: 21,
+    color: [0.0, 1.0, 1.0, 1.0]
 };
 var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-var playerVertices:number[][] = physicsDevice.createRectangleVertices(0, 0, 64, 128);
+var playerVertices:number[][] = physicsDevice.createRectangleVertices(0, 0, playerParams.width, playerParams.height);
+
 var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
     vertices: playerVertices
 });
@@ -68,7 +68,7 @@ var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
     shapes: [playerShape],
     mass: 10
 });
-var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [width/2, 25], 0, playerBody);
+var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, playerBody);
 // import an image to use as the player display and when loading is done set it as the player's texture
 //var layerTexture = graphicsDevice.createTexture({
     //src: "assets/player/playerProfile.png",
