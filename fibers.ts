@@ -4,7 +4,6 @@
 /// <reference path="jslib-modular/physics2d.d.ts" />
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/turbulenz.d.ts" />
-/// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/utilities.d.ts" />
 /// <reference path="jslib-modular/vmath.d.ts" />
 
@@ -60,7 +59,7 @@ var playerParams:any = {
     scale: [0.25, 0.25]
 };
 var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-var playerVertices:number[] = physicsDevice.createRectangleVertices(0, 0, 64, 128);
+var playerVertices:number[][] = physicsDevice.createRectangleVertices(0, 0, 64, 128);
 var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
     vertices: playerVertices
 });
@@ -69,7 +68,7 @@ var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
     shapes: [playerShape],
     mass: 10
 });
-var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, playerBody);
+var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [width/2, 25], 0, playerBody);
 // import an image to use as the player display and when loading is done set it as the player's texture
 //var layerTexture = graphicsDevice.createTexture({
     //src: "assets/player/playerProfile.png",
@@ -111,7 +110,6 @@ inputDevice.addEventListener("keyup", function(keycode){
     player.stopWalking();
 });
 
-
 // run the game
 function update()
 {
@@ -128,7 +126,12 @@ function update()
 
         if (tileset.isLoaded())
         {
-            tileset.drawLayers(draw2D, player.getPosition());
+            if (!tileset.ranLoadMap)
+            {
+                console.log("Running laod map");
+                tileset.loadMap(physicsDevice, dynamicWorld);
+            }
+            tileset.draw(draw2D);
         }
 
         // draw the player to the screen

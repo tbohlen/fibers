@@ -1,3 +1,8 @@
+/// <reference path="jslib-modular/tzdraw2d.d.ts" />
+/// <reference path="jslib-modular/physics2d.d.ts" />
+
+/// <reference path="rigidSprite.ts"/>
+
 var BASE_MAP_URL:string = "assets/maps/";
 
 // @TODO: Add support for multiple layers
@@ -33,12 +38,21 @@ class Tileset {
 
     tileSet:any;
 
-    sprites:Draw2DSprite[];
+    ranLoadMap:boolean = false;
+    layerNum:number = 3.0;
+
+    // store physics objects for easy access
+    physicsDevice:Physics2DDevice;
+    world:Physics2DWorld;
+
+    // this will store every rigidsprite object in the layers.
+    // Iterating over the list will allow for computing physics, displaying, etc.
+    rigidSprites:RigidSprite[];
 
     mapLoadedCallback: (jsonData) => void;
 
     constructor( mapFilename:string, graphicsDevice:any,
-                 engine:any )
+                 engine:any)
     {
         this.mapLoadedCallback = (jsonData) => {
             if (jsonData)
@@ -49,6 +63,7 @@ class Tileset {
                 this.tileWidth = mapData.tilewidth;
                 this.tileHeight = mapData.tileheight;
                 this.mapData = mapData;
+                this.rigidSprites = [];
 
                 // setup tiles
                 var tileSet = mapData.tilesets[0];
@@ -81,9 +96,201 @@ class Tileset {
             this.mapLoadedCallback);
     }
 
+    setTexture(rigidSprite:RigidSprite)
+    {
+        rigidSprite.sprite.setTexture(this.mapTexture);
+        var textureRectangle:number[] = this.getTileCoordinatesForIndex(rigidSprite.gid)
+        rigidSprite.sprite.setTextureRectangle(textureRectangle);
+        console.log("Rect is " + textureRectangle);
+    }
+
     isLoaded():boolean
     {
         return (this.mapData != null);
+    }
+
+
+    /*
+     * Method: loadObjectLayer
+     *
+     * Loads all of the objects in a given object layer, building rigidSprites for each element.
+     * Each rigidSprite successfully build is then added to this.rigidSprites.
+     * A number of checks are done to make sure that all the objects properties match our expectations.
+     */
+    loadObjectLayer(layer:any, physicsDevice:Physics2DDevice, world:Physics2DWorld) {
+        if (layer.objects)
+        {
+            var numObjects:number = layer.objects.length;
+            for (var i:number = 0; i < numObjects; i++) {
+                var obj:any = layer.objects[i];
+                // for each object, make a sprite if it is visible
+                if (obj.visible && obj.hasOwnProperty("height") && obj.hasOwnProperty("width")
+                    && obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties"))
+                {
+                    var rigidSprite:RigidSprite = null;
+                    // build the sprite
+                    var spriteParams:Draw2DSpriteParams = {
+                        height: obj.height,
+                        width: obj.width,
+                        x: obj.x,
+                        y: obj.y,
+                        color: [1.0, this.layerNum/5.0, 0.0, 1.0]
+                    };
+                    var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
+
+                    // build the body
+                    if (obj.properties.hasOwnProperty("rigidBody") && obj.properties.shape === "rectangle")
+                    {
+                        var vertices:number[][] = physicsDevice.createRectangleVertices(obj.x, obj.y, obj.width, obj.height);
+
+                        var shape:Physics2DShape = physicsDevice.createPolygonShape({
+                            vertices: vertices
+                        });
+                        var body:Physics2DRigidBody = physicsDevice.createRigidBody({
+                            type: obj.properties.rigidBody,
+                            shapes: [shape],
+                            mass: (obj.properties.mass ? obj.properties.mass : 1)
+                        });
+                        // add the body to the world
+                        world.addRigidBody(body);
+
+                        rigidSprite = new RigidSprite(sprite, [obj.x, obj.y], obj.gid, body);
+                        console.log("Made physics obj!");
+                    }
+                    else
+                    {
+                        console.log("Not making rigid body for object because properties are not valid");
+                        rigidSprite = new RigidSprite(sprite, [obj.x, obj.y], obj.gid);
+                    }
+
+                    // if the map is already loaded, set the texture
+                    if (this.isLoaded())
+                    {
+                        this.setTexture(rigidSprite);
+                    }
+                    // store this rigid sprite
+                    this.rigidSprites.push(rigidSprite);
+                }
+                else
+                {
+                    console.log("Not loading object from layer because keys/values are bad.");
+
+                };
+            }
+            this.layerNum++;
+        }
+    }
+
+    /*
+     * Method: loadTileLayer
+     *
+     * Makes the tile layer into sprites, referencing the tile index to figure out where it should go.
+     */
+    loadTileLayer(layer:any) {
+        if (layer.data)
+        {
+            var numObjects:number = layer.data.length;
+            for (var i:number = 0; i < numObjects; i++) {
+                // for each object, make a sprite if it is visible
+                var rigidSprite:RigidSprite = null;
+                // build the sprite
+                var screenCoords:number[] = this.getScreenCoordinatesForIndex(i);
+                var spriteParams:Draw2DSpriteParams = {
+                    x: screenCoords[0],
+                    y: screenCoords[1],
+                    width: screenCoords[2],
+                    height: screenCoords[3],
+                    color: [1.0, this.layerNum/5.0, 0.0, 1.0]
+                };
+                var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
+                rigidSprite = new RigidSprite(sprite, [screenCoords[0], screenCoords[1]], layer.data[i]);
+
+                // if the map is already loaded, set the texture
+                if (this.isLoaded())
+                {
+                    this.setTexture(rigidSprite);
+                }
+
+                // store this rigid sprite
+                this.rigidSprites.push(rigidSprite);
+            }
+            this.layerNum++;
+        }
+    }
+
+    loadMap( physicsDevice:Physics2DDevice, world:Physics2DWorld)
+    {
+        this.ranLoadMap = true;
+        this.mapData.layers.forEach((layer) =>
+        {
+            if (layer.type === "objectgroup")
+            {
+                this.loadObjectLayer(layer, physicsDevice, world);
+            }
+            else if (layer.type === "tilelayer")
+            {
+                this.loadTileLayer(layer);
+            }
+        });
+    }
+
+    /*
+     * Method: draw
+     *
+     * Draws all sprites in rigidSprites to the screen
+     */
+    draw(draw2D:Draw2D)
+    {
+        var num:number = this.rigidSprites.length;
+        for(var i:number = num-1; i >= 0; i--) {
+            this.rigidSprites[i].draw(draw2D);
+        }
+    }
+
+
+    /*
+     * Method: getTileCoordinatesForIndex
+     *
+     * Returns the coordinates in the map texture of the given tile ID (gid).
+     */
+    getTileCoordinatesForIndex( tileGID:number ):number[]
+    {
+        var tileSetIndex:number = tileGID - this.firstGID;
+        var tileSetCol:number = tileSetIndex % this.imageCols;
+        var tileSetRow:number = Math.floor(tileSetIndex / this.imageCols);
+        // We expect [437, 161] for tile [0,0]
+        var tileSetX:number = tileSetCol * (this.tileWidth + this.spacing) + this.margin;
+        var tileSetY:number = tileSetRow * (this.tileHeight + this.spacing) + this.margin;
+
+        return [tileSetX, tileSetY, tileSetX+this.tileWidth, tileSetY+this.tileHeight];
+    }
+
+    getScreenCoordinatesForIndex( tileIndex:number ):number[]
+    {
+        var tileMapCol:number = tileIndex % this.mapWidth;
+        var tileMapRow:number = Math.floor(tileIndex / this.mapWidth);
+        var tileMapX:number = tileMapCol*this.tileWidth;
+        var tileMapY:number = tileMapRow*this.tileHeight;
+
+        return [tileMapX, tileMapY, tileMapX+this.tileWidth, tileMapY + this.tileHeight];
+    }
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Everything below here is depricated, I believe.
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    drawLayers( draw2D:Draw2D, playerPosition:number[] )
+    {
+        this.mapData.layers.forEach((layer) =>
+        {
+            if (layer.type === "tilelayer")
+            {
+                this.drawTileLayer( draw2D, layer, playerPosition );
+            } else if (layer.type === "objectgroup")
+            {
+                this.drawObjectLayer( draw2D, layer, playerPosition );
+            }
+        });
     }
 
     // this must be called inside of draw2D.begin!
@@ -136,30 +343,6 @@ class Tileset {
         }
     }
 
-//    loadMap( draw2D:Draw2D )
-//    {
-//        this.mapData.layers.forEach((layer) =>
-//            if (layer.type === "objectgroup")
-//            {
-//
-//            }
-//        );
-//    }
-
-    drawLayers( draw2D:Draw2D, playerPosition:number[] )
-    {
-        this.mapData.layers.forEach((layer) =>
-        {
-            if (layer.type === "tilelayer")
-            {
-                this.drawTileLayer( draw2D, layer, playerPosition );
-            } else if (layer.type === "objectgroup")
-            {
-                this.drawObjectLayer( draw2D, layer, playerPosition );
-            }
-        });
-    }
-
     tileDrawObjectAtPos( x:number, y:number, tileGID:number, origin:number[]):any
     {
         var tileSetIndex:number = tileGID - this.firstGID;
@@ -204,3 +387,4 @@ class Tileset {
         return this.tileDrawObjectAtPos( x, y, tileGID, origin );
     }
 }
+
