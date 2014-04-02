@@ -98,10 +98,9 @@ class Tileset {
 
     setTexture(rigidSprite:RigidSprite)
     {
-        rigidSprite.sprite.setTexture(this.mapTexture);
-        var textureRectangle:number[] = this.getTileCoordinatesForIndex(rigidSprite.gid)
+        var textureRectangle:number[] = this.getTileCoordinatesForIndex(rigidSprite.gid);
         rigidSprite.sprite.setTextureRectangle(textureRectangle);
-        console.log("Rect is " + textureRectangle);
+        rigidSprite.sprite.setTexture(this.mapTexture);
     }
 
     isLoaded():boolean
@@ -137,6 +136,7 @@ class Tileset {
                         y: obj.y,
                         color: [1.0, this.layerNum/5.0, 0.0, 1.0]
                     };
+                    console.log(spriteParams);
                     var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
 
                     // build the body
@@ -163,13 +163,6 @@ class Tileset {
                         console.log("Not making rigid body for object because properties are not valid");
                         rigidSprite = new RigidSprite(sprite, [obj.x, obj.y], obj.gid);
                     }
-
-                    // if the map is already loaded, set the texture
-                    // what happens if the map is not loaded?
-//                    if (this.isLoaded())
-//                    {
-//                        this.setTexture(rigidSprite);
-//                    }
                     // store this rigid sprite
                     this.rigidSprites.push(rigidSprite);
                 }
@@ -200,18 +193,11 @@ class Tileset {
                 var spriteParams:Draw2DSpriteParams = {
                     x: screenCoords[0],
                     y: screenCoords[1],
-                    width: screenCoords[2],
-                    height: screenCoords[3],
-                    color: [1.0, this.layerNum/5.0, 0.0, 1.0]
+                    width: this.tileWidth,
+                    height: this.tileHeight
                 };
                 var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
                 rigidSprite = new RigidSprite(sprite, [screenCoords[0], screenCoords[1]], layer.data[i]);
-
-                // if the map is already loaded, set the texture
-//                if (this.isLoaded())
-//                {
-//                    this.setTexture(rigidSprite);
-//                }
 
                 // store this rigid sprite
                 this.rigidSprites.push(rigidSprite);
@@ -334,7 +320,7 @@ class Tileset {
     drawTileLayer( draw2D:Draw2D, layer, playerPosition:number[] )
     {
         var tileIndex:number = 0;
-        var tileCount:number =  this.mapWidth*this.mapHeight;
+        var tileCount:number = this.mapWidth*this.mapHeight;
 
         if (layer.data)
         {
