@@ -17,6 +17,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 // Create important objects and set up the game
 ////////////////////////////////////////////////////////////////////////////////
+
+var width:number = 640;
+var height:number = 480;
+
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
 // build the physics device to allow 2D constraint physics
@@ -32,7 +36,7 @@ var draw2D = Draw2D.create({
 });
 var success = draw2D.configure({
     scaleMode: 'scale',
-    viewportRectangle: [0, 0, 640, 480]
+    viewportRectangle: [0, 0, width, height]
 });
 
 var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
@@ -240,15 +244,15 @@ function update()
 
         player.update();
 
-        // find the offset of all things displayed to screen
-        // just keep the player centered
+        // find the offset of all things displayed to screen to keep the player center
+        // set this as the viewport
         var offset:number[] = [];
-
-        var currentViewport:number[] = [];
-        draw2D.getViewport(currentViewport);
         var playerPos:number[] = player.rigidSprite.body.getPosition();
-        offset[0] = playerPos[0] - ( (currentViewport[2] - currentViewport[0]) / 2);
-        offset[1] = playerPos[1] - ( (currentViewport[3] - currentViewport[1]) / 2);
+        offset[0] = playerPos[0] - (width / 2);
+        offset[1] = -playerPos[1] + (height / 2);
+        graphicsDevice.setViewport(-offset[0], -offset[1], width, height);
+        graphicsDevice.setScissor(-offset[0], -offset[1], width, height);
+
         graphicsDevice.clear( bgColor, 1.0 );
 
         draw2D.begin();
@@ -260,14 +264,14 @@ function update()
                 console.log("Running load map");
                 tileset.loadMap();
             }
-            tileset.draw(draw2D, offset);
+            tileset.draw(draw2D);
         }
 
         // draw the player to the screen
-        player.draw(draw2D, offset);
+        player.draw(draw2D);
 
         // draw platform
-        platform.draw(draw2D, offset);
+        platform.draw(draw2D);
 
         draw2D.end();
 
@@ -275,13 +279,8 @@ function update()
         {
             // physics2D debug drawing.
             var screenSpacePort:number[] = draw2D.getScreenSpaceViewport();
-            var physicsViewport:number[] = [];
-            physicsViewport[0] = screenSpacePort[0] - offset[0];
-            physicsViewport[1] = screenSpacePort[1] - offset[1];
-            physicsViewport[2] = screenSpacePort[2] - offset[0];
-            physicsViewport[3] = screenSpacePort[3] - offset[1];
+            physicsDebug.setScreenViewport(screenSpacePort);
 
-            physicsDebug.setScreenViewport(physicsViewport);
             physicsDebug.showRigidBodies = true;
             physicsDebug.showContacts = true;
             physicsDebug.begin();

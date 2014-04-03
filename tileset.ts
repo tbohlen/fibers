@@ -239,7 +239,7 @@ class Tileset {
      *
      * Draws all sprites in rigidSprites to the screen
      */
-    draw(draw2D:Draw2D, offset:number[])
+    draw(draw2D:Draw2D)
     {
         var num:number = this.rigidSprites.length;
         for(var i:number = num-1; i >= 0; i--) {
@@ -248,7 +248,7 @@ class Tileset {
             {
                 this.setTexture(rigidSprite);
             }
-            this.rigidSprites[i].draw(draw2D, offset);
+            this.rigidSprites[i].draw(draw2D);
         }
     }
 
