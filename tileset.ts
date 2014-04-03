@@ -22,12 +22,12 @@ var BASE_MAP_URL:string = "assets/maps/";
 // only represent physics objects as sprites...
 
 // TO MAKE PHYSICS OBJECTS IN TILED:
-// give the object a "rigidBody" property
-// and a "shape" propertry of "rectangle"
+// give the object property "rigidBody" = true
+// and property "shape" = "rectangle"
 // we will add more shapes and physics types soon.
 // i.e. polygon, dynamic/kinematic...
 // material...
-// "climbable"
+// "climbable" = true
 
 class Tileset {
 
