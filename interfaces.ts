@@ -10,4 +10,5 @@ interface GameObject {
     viewport : number[];
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
+    debugMode : boolean;
 }

@@ -40,7 +40,6 @@ draw2D.getViewport(viewport);
 var height:number = viewport[3]-viewport[1];
 var width:number = viewport[2]-viewport[0];
 
-
 ///////////////////////////////////////////////////////////////////////////////
 // The Game Object contains all high-level objects that support the game inself.
 // Pretty much, put anything in here that you want to easily pass to a number of
@@ -53,7 +52,8 @@ var game:GameObject = {
     draw2D : draw2D,
     viewport : [width, height],
     physicsDevice : physicsDevice,
-    physicsWorld : dynamicWorld
+    physicsWorld : dynamicWorld,
+    debugMode : false
 };
 
 
@@ -124,6 +124,10 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.D)
     {
         platform.rigidSprite.body.setVelocity([1, 0]);
+    } else if (keycode === inputDevice.keyCodes.M)
+    {
+        game.debugMode = !game.debugMode;
+        console.log ("Toggled debug to " + game.debugMode);
     } else
     {
         console.log(keycode);
@@ -135,6 +139,13 @@ inputDevice.addEventListener("keyup", function(keycode){
     platform.rigidSprite.body.setVelocity([0, 0]);
     console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
+
+// make the debug physics device
+var physicsDebug:Physics2DDebugDraw = Physics2DDebugDraw.create({
+    graphicsDevice: graphicsDevice
+});
+physicsDebug.setPhysics2DViewport(viewport);
+
 
 // run the game
 function update()
@@ -167,6 +178,18 @@ function update()
         platform.draw(draw2D, player.getPosition());
 
         draw2D.end();
+
+        if (game.debugMode)
+        {
+            // physics2D debug drawing.
+            physicsDebug.setScreenViewport(draw2D.getScreenSpaceViewport());
+            physicsDebug.showRigidBodies = true;
+            physicsDebug.showContacts = true;
+            physicsDebug.begin();
+            /*physicsDebug.drawRigidBody(player.rigidSprite.body);*/
+            physicsDebug.drawWorld(dynamicWorld);
+            physicsDebug.end();
+        }
 
         graphicsDevice.endFrame();
     }
