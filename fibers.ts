@@ -82,7 +82,7 @@ var viewport:number[] = [];
 draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("test.json", game);
+var tileset:Tileset = new Tileset("talltest.json", game);
 // next we build a player, including the rigid body, sprite, and managing object
 var playerParams:any = {
     x: 0,
@@ -249,9 +249,7 @@ function update()
         var offset:number[] = [];
         var playerPos:number[] = player.rigidSprite.body.getPosition();
         offset[0] = playerPos[0] - (width / 2);
-        offset[1] = -playerPos[1] + (height / 2);
-        graphicsDevice.setViewport(-offset[0], -offset[1], width, height);
-        graphicsDevice.setScissor(-offset[0], -offset[1], width, height);
+        offset[1] = playerPos[1] - (height / 2);
 
         graphicsDevice.clear( bgColor, 1.0 );
 
@@ -264,14 +262,14 @@ function update()
                 console.log("Running load map");
                 tileset.loadMap();
             }
-            tileset.draw(draw2D);
+            tileset.draw(draw2D, offset);
         }
 
         // draw the player to the screen
-        player.draw(draw2D);
+        player.draw(draw2D, offset);
 
         // draw platform
-        platform.draw(draw2D);
+        platform.draw(draw2D, offset);
 
         draw2D.end();
 
@@ -279,7 +277,12 @@ function update()
         {
             // physics2D debug drawing.
             var screenSpacePort:number[] = draw2D.getScreenSpaceViewport();
-            physicsDebug.setScreenViewport(screenSpacePort);
+            var physicsPort:number[] = [];
+            physicsPort[0] = screenSpacePort[0] - offset[0];
+            physicsPort[1] = screenSpacePort[1] - offset[1];
+            physicsPort[2] = screenSpacePort[2];
+            physicsPort[3] = screenSpacePort[3];
+            physicsDebug.setScreenViewport(physicsPort);
 
             physicsDebug.showRigidBodies = true;
             physicsDebug.showContacts = true;

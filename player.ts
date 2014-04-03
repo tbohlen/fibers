@@ -80,8 +80,8 @@ class Player {
     }
 
     // draws the player's sprite to the screen
-    draw(draw2D:Draw2D)
+    draw(draw2D:Draw2D, offset:number[])
     {
-        this.rigidSprite.draw(draw2D);
+        this.rigidSprite.draw(draw2D, offset);
     }
 }

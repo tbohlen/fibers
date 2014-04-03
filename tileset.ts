@@ -148,13 +148,13 @@ class Tileset {
                     // build the body
                     if (obj.properties.hasOwnProperty("rigidBody") && obj.properties.shape === "rectangle")
                     {
-                        var vertices:number[][] = physicsDevice.createRectangleVertices(obj.x, obj.y, obj.width, obj.height);
-                        var slipperyMaterial:Physics2DMaterial = physicsDevice.createMaterial({
+                        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(obj.x, obj.y, obj.x + obj.width, obj.y + obj.height);
+                        var slipperyMaterial:Physics2DMaterial = this.game.physicsDevice.createMaterial({
                             elasticity : 0,
                             staticFriction : 0,
                             dynamicFriction : 0
                         });
-                        var shape:Physics2DShape = physicsDevice.createPolygonShape({
+                        var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                             vertices: vertices,
                             material: slipperyMaterial
                         });
@@ -239,7 +239,7 @@ class Tileset {
      *
      * Draws all sprites in rigidSprites to the screen
      */
-    draw(draw2D:Draw2D)
+    draw(draw2D:Draw2D, offset:number[])
     {
         var num:number = this.rigidSprites.length;
         for(var i:number = num-1; i >= 0; i--) {
@@ -248,7 +248,7 @@ class Tileset {
             {
                 this.setTexture(rigidSprite);
             }
-            this.rigidSprites[i].draw(draw2D);
+            this.rigidSprites[i].draw(draw2D, offset);
         }
     }
 

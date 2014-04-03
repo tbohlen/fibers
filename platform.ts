@@ -39,8 +39,8 @@ class Platform {
         this.rigidSprite = new RigidSprite(sprite, [0,0], 0, this.body);
     }
 
-    draw(draw2D:Draw2D)
+    draw(draw2D:Draw2D, offset:number[])
     {
-        this.rigidSprite.draw(draw2D);
+        this.rigidSprite.draw(draw2D, offset);
     }
 }

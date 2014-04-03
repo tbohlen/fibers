@@ -26,7 +26,7 @@ class RigidSprite {
         }
     }
 
-    draw(draw2D:Draw2D) {
+    draw(draw2D:Draw2D, offset) {
         // update the sprite position if there is a rigid body. Otherwise, leave the sprite where it is
         if (this.body != null)
         {
@@ -39,6 +39,9 @@ class RigidSprite {
             this.sprite.x = this.initialPos[0];
             this.sprite.y = this.initialPos[1];
         }
+
+        this.sprite.x -= offset[0];
+        this.sprite.y -= offset[1];
 
         // and draw it to the screen
         draw2D.drawSprite(this.sprite);
