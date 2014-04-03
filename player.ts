@@ -33,7 +33,11 @@ class Player {
             mass: 10,
             linearDrag: 0.001
         });
-        var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, playerBody);
+        var playerRigidSprite:RigidSprite = new RigidSprite({
+            sprite:playerSprite,
+            initialPos:[0, 0],
+            body:playerBody
+        });
         // next we build a player, including the rigid body, sprite, and managing object
         // import an image to use as the player display and when loading is done set it as the player's texture
         //var layerTexture = graphicsDevice.createTexture({

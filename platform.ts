@@ -36,7 +36,11 @@ class Platform {
             color: [0.3, .3, 1.0, 1.0]
         });
         world.addRigidBody(this.body);
-        this.rigidSprite = new RigidSprite(sprite, [0,0], 0, this.body);
+        this.rigidSprite = new RigidSprite({
+            sprite:sprite,
+            initialPos:[0,0],
+            body:this.body
+        });
     }
 
     draw(draw2D:Draw2D, offset:number[])

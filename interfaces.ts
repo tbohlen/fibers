@@ -22,3 +22,10 @@ interface KeyObject {
     S ?: boolean;
     D ?: boolean;
 }
+
+interface RigidSpriteOptions {
+    sprite : Draw2DSprite;
+    initialPos : number[];
+    gid ?: number;
+    body ?: Physics2DRigidBody;
+}
