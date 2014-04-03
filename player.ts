@@ -5,7 +5,7 @@
 
 class Player {
     SPEED = 1.0;
-    JUMP_SPEED = 4.0;
+    JUMP_SPEED = 3.0;
 
     isJumping:boolean = false;
     rigidSprite:RigidSprite = null;

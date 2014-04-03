@@ -40,6 +40,9 @@ draw2D.getViewport(viewport);
 var height:number = viewport[3]-viewport[1];
 var width:number = viewport[2]-viewport[0];
 
+var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // The Game Object contains all high-level objects that support the game inself.
 // Pretty much, put anything in here that you want to easily pass to a number of
