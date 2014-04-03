@@ -41,7 +41,17 @@ var height:number = viewport[3]-viewport[1];
 var width:number = viewport[2]-viewport[0];
 
 var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
-
+var bgMusicSource:SoundSource = soundDevice.createSource({
+    looping: true
+});
+var bgMusic:Sound = soundDevice.createSound({
+    src: "assets/music/In_The_Dark_Flashes.mp3",
+    uncompress: false,
+    onload: function(soundData)
+    {
+        bgMusicSource.play(soundData);
+    }
+});
 
 ///////////////////////////////////////////////////////////////////////////////
 // The Game Object contains all high-level objects that support the game inself.
