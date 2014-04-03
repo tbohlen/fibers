@@ -1,6 +1,9 @@
 /**
  * Created by martelly on 4/1/2014.
  */
+
+/// <reference path="jslib-modular/physics2d.d.ts" />
+/// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="rigidSprite.ts"/>
 
 class Platform {
@@ -17,7 +20,7 @@ class Platform {
         });
         var shapes : Physics2DShape[] = [
             phys2D.createPolygonShape({
-                vertices : phys2D.createRectangleVertices(0, 0, shapeSize, shapeSize),
+                vertices : phys2D.createRectangleVertices(-shapeSize/2, -shapeSize/2, shapeSize/2, shapeSize/2),
                 material : platformMaterial
             })
         ];

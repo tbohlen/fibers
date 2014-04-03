@@ -22,9 +22,9 @@ var inputDevice = TurbulenzEngine.createInputDevice( {} );
 // build the physics device to allow 2D constraint physics
 var physicsDevice:Physics2DDevice = Physics2DDevice.create();
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld({
-    gravity: [0, 0.01],
-    velocityIterations: 8,
-    positionIterations: 8
+    gravity: [0, 0.001],
+    velocityIterations: 5,
+    positionIterations: 5
 });
 // this object draws everything to the screen
 var draw2D = Draw2D.create({
@@ -34,11 +34,6 @@ var success = draw2D.configure({
     scaleMode: 'scale',
     viewportRectangle: [0, 0, 640, 480]
 });
-// store information about the size of the screen
-var viewport:number[] = [];
-draw2D.getViewport(viewport);
-var height:number = viewport[3]-viewport[1];
-var width:number = viewport[2]-viewport[0];
 
 var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
 var bgMusicSource:SoundSource = soundDevice.createSource({
@@ -52,6 +47,16 @@ var bgMusic:Sound = soundDevice.createSound({
         bgMusicSource.play(soundData);
     }
 });
+// store states of buttons to keep track of when they are down or up
+var keys:KeyObject = {
+    LEFT : false,
+    RIGHT : false,
+    UP : false,
+    W : false,
+    A : false,
+    S : false,
+    D : false
+}
 
 ///////////////////////////////////////////////////////////////////////////////
 // The Game Object contains all high-level objects that support the game inself.
@@ -63,13 +68,14 @@ var game:GameObject = {
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
-    viewport : viewport,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
-    debugMode : false
+    debugMode : false,
+    keys : keys
 };
 
-
+var viewport:number[] = [];
+draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
 var tileset:Tileset = new Tileset("test.json", game);
@@ -90,7 +96,8 @@ var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
 var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
     type: 'dynamic',
     shapes: [playerShape],
-    mass: 10
+    mass: 10,
+    linearDrag: 0.001
 });
 var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, playerBody);
 // import an image to use as the player display and when loading is done set it as the player's texture
@@ -106,7 +113,7 @@ var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, pla
 //}
 //}
 //});
-var player:Player = new Player(playerRigidSprite, [width/2, 0]);
+var player:Player = new Player(playerRigidSprite, [(viewport[3] - viewport[1])/2, 0]);
 // add the player to the world
 dynamicWorld.addRigidBody(playerBody);
 // make platform, currently only used for testing
@@ -114,29 +121,31 @@ dynamicWorld.addRigidBody(playerBody);
 var platform = new Platform(physicsDevice, dynamicWorld);
 
 
+///////////////////////////////////////////////////////////////////////////////
 // add event listeners
+///////////////////////////////////////////////////////////////////////////////
 inputDevice.addEventListener("keydown", function(keycode){
     if (keycode === inputDevice.keyCodes.LEFT)
     {
-        player.walkLeft();
+        game.keys.LEFT = true;
     } else if (keycode === inputDevice.keyCodes.RIGHT)
     {
-        player.walkRight();
+        game.keys.RIGHT = true;
     } else if (keycode === inputDevice.keyCodes.UP)
     {
-        player.jump();
+        game.keys.UP = true;
     } else if (keycode === inputDevice.keyCodes.W)
     {
-        platform.rigidSprite.body.setVelocity([0, -1]);
+        game.keys.W = true;
     } else if (keycode === inputDevice.keyCodes.A)
     {
-        platform.rigidSprite.body.setVelocity([-1, 0]);
+        game.keys.A = true;
     } else if (keycode === inputDevice.keyCodes.S)
     {
-        platform.rigidSprite.body.setVelocity([0, 1]);
+        game.keys.S = true;
     } else if (keycode === inputDevice.keyCodes.D)
     {
-        platform.rigidSprite.body.setVelocity([1, 0]);
+        game.keys.D = true;
     } else if (keycode === inputDevice.keyCodes.M)
     {
         game.debugMode = !game.debugMode;
@@ -148,8 +157,34 @@ inputDevice.addEventListener("keydown", function(keycode){
 });
 
 inputDevice.addEventListener("keyup", function(keycode){
-    player.stopWalking();
-    platform.rigidSprite.body.setVelocity([0, 0]);
+    if (keycode === inputDevice.keyCodes.LEFT)
+    {
+        game.keys.LEFT = false;
+        player.stopWalking();
+    } else if (keycode === inputDevice.keyCodes.RIGHT)
+    {
+        game.keys.RIGHT = false;
+        player.stopWalking();
+    } else if (keycode === inputDevice.keyCodes.UP)
+    {
+        game.keys.UP = false;
+    } else if (keycode === inputDevice.keyCodes.W)
+    {
+        game.keys.W = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.A)
+    {
+        game.keys.A = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.S)
+    {
+        game.keys.S = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.D)
+    {
+        game.keys.D = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    }
     console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
 
@@ -159,17 +194,61 @@ var physicsDebug:Physics2DDebugDraw = Physics2DDebugDraw.create({
 });
 physicsDebug.setPhysics2DViewport(viewport);
 
-
 // run the game
 function update()
 {
     var i:number = 0;
     if (graphicsDevice.beginFrame())
     {
-        dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
+        // handle key presses
+        if (keys.LEFT)
+        {
+            player.walkLeft();
+        }
+
+        if (keys.RIGHT)
+        {
+            player.walkRight();
+        }
+        if (keys.UP)
+        {
+            player.jump();
+        }
+        if (keys.W)
+        {
+            platform.rigidSprite.body.setVelocity([0, -0.2]);
+        }
+        if (keys.A)
+        {
+            platform.rigidSprite.body.setVelocity([-0.2, 0]);
+        }
+        if (keys.S)
+        {
+            platform.rigidSprite.body.setVelocity([0, 0.2]);
+        }
+        if (keys.D)
+        {
+            platform.rigidSprite.body.setVelocity([0.2, 0]);
+        }
+
+        // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
+        var startTime:number = dynamicWorld.simulatedTime;
+        while( dynamicWorld.simulatedTime < startTime + 1/60 )
+        {
+            dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
+        }
 
         player.update();
 
+        // find the offset of all things displayed to screen
+        // just keep the player centered
+        var offset:number[] = [];
+
+        var currentViewport:number[] = [];
+        draw2D.getViewport(currentViewport);
+        var playerPos:number[] = player.rigidSprite.body.getPosition();
+        offset[0] = playerPos[0] - ( (currentViewport[2] - currentViewport[0]) / 2);
+        offset[1] = playerPos[1] - ( (currentViewport[3] - currentViewport[1]) / 2);
         graphicsDevice.clear( bgColor, 1.0 );
 
         draw2D.begin();
@@ -181,21 +260,28 @@ function update()
                 console.log("Running load map");
                 tileset.loadMap();
             }
-            tileset.draw(draw2D, player.getPosition());
+            tileset.draw(draw2D, offset);
         }
 
         // draw the player to the screen
-        player.draw(draw2D);
+        player.draw(draw2D, offset);
 
         // draw platform
-        platform.draw(draw2D, player.getPosition());
+        platform.draw(draw2D, offset);
 
         draw2D.end();
 
         if (game.debugMode)
         {
             // physics2D debug drawing.
-            physicsDebug.setScreenViewport(draw2D.getScreenSpaceViewport());
+            var screenSpacePort:number[] = draw2D.getScreenSpaceViewport();
+            var physicsViewport:number[] = [];
+            physicsViewport[0] = screenSpacePort[0] - offset[0];
+            physicsViewport[1] = screenSpacePort[1] - offset[1];
+            physicsViewport[2] = screenSpacePort[2] - offset[0];
+            physicsViewport[3] = screenSpacePort[3] - offset[1];
+
+            physicsDebug.setScreenViewport(physicsViewport);
             physicsDebug.showRigidBodies = true;
             physicsDebug.showContacts = true;
             physicsDebug.begin();

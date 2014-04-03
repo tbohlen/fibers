@@ -239,19 +239,16 @@ class Tileset {
      *
      * Draws all sprites in rigidSprites to the screen
      */
-    draw(draw2D:Draw2D, playerOffset:number[])
+    draw(draw2D:Draw2D, offset:number[])
     {
         var num:number = this.rigidSprites.length;
-        var mapOffset:number[] = [];
-        mapOffset[0] = (this.game.viewport[0]/2) - playerOffset[0];
-        mapOffset[0] = (this.game.viewport[1]/2) - playerOffset[0];
         for(var i:number = num-1; i >= 0; i--) {
             var rigidSprite:RigidSprite = this.rigidSprites[i];
             if (!rigidSprite.sprite.getTexture() && this.mapTexture)
             {
                 this.setTexture(rigidSprite);
             }
-            this.rigidSprites[i].draw(draw2D, playerOffset);
+            this.rigidSprites[i].draw(draw2D, offset);
         }
     }
 

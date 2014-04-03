@@ -7,8 +7,18 @@ interface GameObject {
     graphicsDevice : GraphicsDevice;
     inputDevice: InputDevice;
     draw2D : Draw2D;
-    viewport : number[];
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
     debugMode : boolean;
+    keys : KeyObject;
+}
+
+interface KeyObject {
+    LEFT ?: boolean;
+    RIGHT ?: boolean;
+    UP ?: boolean;
+    W ?: boolean;
+    A ?: boolean;
+    S ?: boolean;
+    D ?: boolean;
 }
