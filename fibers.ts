@@ -109,6 +109,9 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.RIGHT)
     {
         player.walkRight();
+    } else if (keycode === inputDevice.keyCodes.UP)
+    {
+        player.jump();
     } else if (keycode === inputDevice.keyCodes.W)
     {
         platform.rigidSprite.body.setVelocity([0, -1]);

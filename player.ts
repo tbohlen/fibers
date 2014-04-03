@@ -4,8 +4,10 @@
 /// <reference path="rigidSprite.ts"/>
 
 class Player {
-    SPEED = 0.1;
+    SPEED = 1.0;
+    JUMP_SPEED = 4.0;
 
+    isJumping:boolean = false;
     rigidSprite:RigidSprite = null;
 
     constructor (rigidSprite, position:number[])
@@ -53,8 +55,22 @@ class Player {
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
     }
 
+    jump()
+    {
+        if (!this.isJumping)
+        {
+            this.isJumping = true;
+            var vel:number[] = this.rigidSprite.body.getVelocity();
+            this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        }
+    }
+
     update()
     {
+        if (this.rigidSprite.body.getVelocity()[1] === 0)
+        {
+            this.isJumping = false;
+        }
     }
 
     // draws the player's sprite to the screen

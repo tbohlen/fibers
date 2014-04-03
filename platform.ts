@@ -12,8 +12,8 @@ class Platform {
         var shapeSize = 20;
         var platformMaterial:Physics2DMaterial = phys2D.createMaterial({
             elasticity : 0,
-            staticFriction : 10,
-            dynamicFriction : 8
+            staticFriction : 0,
+            dynamicFriction : 0
         });
         var shapes : Physics2DShape[] = [
             phys2D.createPolygonShape({
