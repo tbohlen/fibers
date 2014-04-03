@@ -3,23 +3,56 @@
  <tileset firstgid="1" name="spritesheet" tilewidth="21" tileheight="21" spacing="2">
   <image source="../tiles/spritesheet.png" trans="5881a5" width="1024" height="512"/>
  </tileset>
- <layer name="Tile Layer 1" width="50" height="50">
+ <layer name="tiles" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztyrkRwkAUBNGvjQVxCYieMIQOBLikwSGONnDlb1FtPGNqui0iWkmSJEmSJEmSJEmSpIzUOKD57Q49jhhwwhmXzNsb7njgiREvvPFBpIgCKeXdzvhKzLHAEiusUWGDLXYp73Yf/+EqadIXwmTS7w==
+   eJztz0kKwlAUBdEkSxH7bilZrctQYz91G/ZaAScRhPxgUKQGZxBSPP7N4ijKJEmSJEmSJEmSJNWikXz/DZ+QuuOnuOO3uKMeU8wwf34vsMQKa2ywxe6lzXeUbUPuVm0POOKEMy644oY7It4bI0mKbb6jbBtyt2rb5F8LbXTQRQ99DDDECOOk2KYBbcjdqu0k+g97SW89AN1Lzj4=
   </data>
  </layer>
  <objectgroup name="mushrooms" width="50" height="50">
-  <object name="a" gid="669" x="105" y="945" width="21" height="21"/>
-  <object name="a" gid="669" x="189" y="945" width="21" height="21"/>
-  <object name="a" gid="669" x="189" y="924" width="21" height="21"/>
-  <object name="a" gid="669" x="441" y="945" width="21" height="21"/>
-  <object name="a" gid="669" x="693" y="945" width="21" height="21"/>
-  <object name="a" gid="669" x="882" y="945" width="21" height="21"/>
+  <object name="a" gid="669" x="105" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="210" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="399" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="399" y="924" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="630" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="ground" width="50" height="50">
   <object name="ground" x="0" y="945" width="1050" height="105">
    <properties>
     <property name="rigidBody" value="static"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ladder" width="50" height="50">
+  <object name="ladder" x="294" y="735" width="21" height="210">
+   <properties>
+    <property name="climbable" value="true"/>
+    <property name="rigidBody" value="true"/>
     <property name="shape" value="rectangle"/>
    </properties>
   </object>

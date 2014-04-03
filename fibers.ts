@@ -254,7 +254,7 @@ function update()
 
         graphicsDevice.clear( bgColor, 1.0 );
 
-        draw2D.begin();
+        draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
 
         if (tileset.isLoaded())
         {

@@ -21,6 +21,14 @@ var BASE_MAP_URL:string = "assets/maps/";
 // So a 1-tile image will have width = 1, height = 1
 // only represent physics objects as sprites...
 
+// TO MAKE PHYSICS OBJECTS IN TILED:
+// give the object a "rigidBody" property
+// and a "shape" propertry of "rectangle"
+// we will add more shapes and physics types soon.
+// i.e. polygon, dynamic/kinematic...
+// material...
+// "climbable"
+
 class Tileset {
 
     mapTexture:any;
@@ -117,8 +125,10 @@ class Tileset {
      * Each rigidSprite successfully built is then added to this.rigidSprites.
      * A number of checks are done to make sure that all the objects properties match our expectations.
      */
-    loadObjectLayer(layer:any) {
-        if (layer.objects) {
+    loadObjectLayer(layer:any)
+    {
+        if (layer.objects)
+        {
             var numObjects:number = layer.objects.length;
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
@@ -172,7 +182,6 @@ class Tileset {
                     console.log("Not loading object from layer because keys/values are bad.");
 
                 }
-                ;
             }
             this.layerNum++;
         }
@@ -183,8 +192,10 @@ class Tileset {
      *
      * Makes the tile layer into sprites, referencing the tile index to figure out where it should go.
      */
-    loadTileLayer(layer:any) {
-        if (layer.data) {
+    loadTileLayer(layer:any)
+    {
+        if (layer.data)
+        {
             var numObjects:number = layer.data.length;
             for (var i:number = 0; i < numObjects; i++) {
                 // for each object, make a sprite if it is visible
@@ -208,16 +219,21 @@ class Tileset {
     }
 
     loadMap() {
-        console.log("loading map...")
+        console.log("loading map...");
         this.ranLoadMap = true;
-        this.mapData.layers.forEach((layer) => {
+        var layerCount = this.mapData.layers.length;
+        // want to draw the layers in backwards order so the bottom (last) layer is drawn first...
+        for (var i:number = 0; i < layerCount; i+=1) {
+            var layer = this.mapData.layers[i];
             if (layer.type === "objectgroup") {
                 this.loadObjectLayer(layer);
             }
             else if (layer.type === "tilelayer") {
                 this.loadTileLayer(layer);
+            } else {
+                console.log(layer.type);
             }
-        });
+        }
     }
 
     /*
@@ -225,9 +241,10 @@ class Tileset {
      *
      * Draws all sprites in rigidSprites to the screen
      */
-    draw(draw2D:Draw2D, offset:number[]) {
+    draw(draw2D:Draw2D, offset:number[])
+    {
         var num:number = this.rigidSprites.length;
-        for (var i:number = num - 1; i >= 0; i--) {
+        for (var i:number = 0; i < num; i+=1) {
             var rigidSprite:RigidSprite = this.rigidSprites[i];
             if (!rigidSprite.sprite.getTexture() && this.mapTexture) {
                 this.setTexture(rigidSprite);
