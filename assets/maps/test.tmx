@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="50" height="10" tilewidth="21" tileheight="21">
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="21" tileheight="21">
  <tileset firstgid="1" name="spritesheet" tilewidth="21" tileheight="21" spacing="2">
   <image source="../tiles/spritesheet.png" trans="5881a5" width="1024" height="512"/>
  </tileset>
- <layer name="Tile Layer 1" width="50" height="10">
+ <layer name="Tile Layer 1" width="50" height="50">
   <data encoding="base64" compression="zlib">
-   eJztyrcRgDAUBNEv1YJ31VMG3qW0gYcNSMk1jIIX3NzWSqS2jFGgRPXuBi069BgwYjK8XbBiw44DJy7cEC2ioLXZrcPnwoOPACEixEiQItNmt7n8w2xZ1qcHUB95lQ==
+   eJztyrkRwkAUBNGvjQVxCYieMIQOBLikwSGONnDlb1FtPGNqui0iWkmSJEmSJEmSJEmSpIzUOKD57Q49jhhwwhmXzNsb7njgiREvvPFBpIgCKeXdzvhKzLHAEiusUWGDLXYp73Yf/+EqadIXwmTS7w==
   </data>
  </layer>
- <objectgroup name="mushrooms" width="50" height="10">
-  <object name="a" gid="669" x="105" y="105" width="21" height="21"/>
-  <object name="a" gid="669" x="189" y="105" width="21" height="21"/>
-  <object name="a" gid="669" x="189" y="84" width="21" height="21"/>
-  <object name="a" gid="669" x="441" y="105" width="21" height="21"/>
-  <object name="a" gid="669" x="693" y="105" width="21" height="21"/>
-  <object name="a" gid="669" x="882" y="105" width="21" height="21"/>
+ <objectgroup name="mushrooms" width="50" height="50">
+  <object name="a" gid="669" x="105" y="945" width="21" height="21"/>
+  <object name="a" gid="669" x="189" y="945" width="21" height="21"/>
+  <object name="a" gid="669" x="189" y="924" width="21" height="21"/>
+  <object name="a" gid="669" x="441" y="945" width="21" height="21"/>
+  <object name="a" gid="669" x="693" y="945" width="21" height="21"/>
+  <object name="a" gid="669" x="882" y="945" width="21" height="21"/>
  </objectgroup>
- <objectgroup name="ground" width="50" height="10">
-  <object name="ground" x="0" y="105" width="1050" height="105">
+ <objectgroup name="ground" width="50" height="50">
+  <object name="ground" x="0" y="945" width="1050" height="105">
    <properties>
     <property name="rigidBody" value="static"/>
     <property name="shape" value="rectangle"/>
