@@ -12,6 +12,7 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="platform.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="mixins.ts"/>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -296,3 +297,5 @@ function update()
 }
 
 TurbulenzEngine.setInterval( update, 1000/60 );
+
+//Mixins.mixinExample();
