@@ -14,6 +14,9 @@ class Player {
     {
         this.rigidSprite = rigidSprite;
         this.rigidSprite.body.setPosition(position); // should be added to rigidSprite...
+
+        // set up jumping for the player
+        this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
     }
 
     // sets the texture used to display the character. If no texture is null, displays a white box
@@ -22,6 +25,12 @@ class Player {
         {
             this.rigidSprite.sprite.setTexture(texture);
         }
+    }
+
+    checkCollision = (arbiter, otherShape) =>
+    {
+        // whenever we hit another shape, set isJumping to false;
+        this.isJumping = false;
     }
 
     // just calls into sprite
@@ -67,10 +76,7 @@ class Player {
 
     update()
     {
-        if (this.rigidSprite.body.getVelocity()[1] === 0)
-        {
-            this.isJumping = false;
-        }
+
     }
 
     // draws the player's sprite to the screen
