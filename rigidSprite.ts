@@ -10,7 +10,7 @@ class RigidSprite {
 
     sprite:Draw2DSprite = null;
     body:Physics2DRigidBody = null;
-    gid:number = 0; // represents the tile on te large texture graphic to use to display this sprite
+    gid:number; // represents the tile on te large texture graphic to use to display this sprite
     initialPos:number[];
 
     constructor (options:RigidSpriteOptions) {

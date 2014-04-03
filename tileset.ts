@@ -204,6 +204,7 @@ class Tileset {
             }
             this.layerNum++;
         }
+        return [[],[]];
     }
 
     /*
@@ -239,24 +240,34 @@ class Tileset {
             }
             this.layerNum++;
         }
+        return [[],[]];
     }
 
     loadMap() {
         console.log("loading map...");
         this.ranLoadMap = true;
+        var allObjects:InteractablesObject = {
+            buildables: [],
+            climbables: []
+        };
         var layerCount = this.mapData.layers.length;
         // want to draw the layers in backwards order so the bottom (last) layer is drawn first...
         for (var i:number = 0; i < layerCount; i+=1) {
             var layer = this.mapData.layers[i];
+            // the first sub array is buildable objects. The second is climbable
+            var createdObjects:any[] = [];
             if (layer.type === "objectgroup") {
-                this.loadObjectLayer(layer);
+                createdObjects = this.loadObjectLayer(layer);
             }
             else if (layer.type === "tilelayer") {
-                this.loadTileLayer(layer);
+                createdObjects = this.loadTileLayer(layer);
             } else {
                 console.log(layer.type);
             }
+            allObjects.buildables = allObjects.buildables.concat(createdObjects[0]);
+            allObjects.climbables = allObjects.climbables.concat(createdObjects[1]);
         }
+        return allObjects;
     }
 
     /*

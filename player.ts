@@ -59,7 +59,7 @@ class Player {
         game.physicsWorld.addRigidBody(playerBody);
 
         // mark the shape as a player
-        this.rigidSprite.body.shapes[0].userData = {type: "player"};
+        this.rigidSprite.body.shapes[0].userData = {type: "player", playerObject:this};
 
         // set up jumping for the player
         this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
@@ -110,7 +110,7 @@ class Player {
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
     }
 
-    jump()
+    goUp()
     {
         if (!this.isJumping)
         {
