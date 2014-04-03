@@ -125,16 +125,25 @@ class Tileset {
      * Each rigidSprite successfully built is then added to this.rigidSprites.
      * A number of checks are done to make sure that all the objects properties match our expectations.
      */
+
+    isValidPhysicsObject(obj):boolean
+    {
+        return (obj.visible && obj.hasOwnProperty("height") && obj.hasOwnProperty("width") &&
+                obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties"));
+    }
+
     loadObjectLayer(layer:any)
     {
         if (layer.objects)
         {
             var numObjects:number = layer.objects.length;
+            var layerHeight:number = layer.height * this.tileHeight;
+            //var layerWidth:number = layer.width * this.tileWidth;
+
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
                 // for each object, make a sprite if it is visible
-                if (obj.visible && obj.hasOwnProperty("height") && obj.hasOwnProperty("width")
-                    && obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties")) {
+                if (this.isValidPhysicsObject(obj)) {
                     var rigidSprite:RigidSprite = null;
                     // build the sprite
                     // what is the interaction between defined color and texture?
@@ -142,8 +151,9 @@ class Tileset {
                         height: obj.height,
                         width: obj.width,
                         x: obj.x,
-                        y: obj.y,
-                        color: [1.0, this.layerNum / 5.0, 0.0, 1.0]
+                        y: obj.y + obj.height/2,
+                        color: [1.0, this.layerNum / 5.0, 0.0, 1.0],
+                        origin: [obj.width/2, obj.height/2]
                     };
                     console.log(spriteParams);
                     var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
@@ -170,7 +180,7 @@ class Tileset {
 
                         rigidSprite = new RigidSprite({
                             sprite:sprite,
-                            initialPos:[obj.x, obj.y],
+                            initialPos:[obj.x, obj.y+obj.height/2],
                             gid:obj.gid,
                             body:body
                         });
