@@ -84,43 +84,8 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
 var tileset:Tileset = new Tileset("talltest.json", game);
-// next we build a player, including the rigid body, sprite, and managing object
-var playerParams:any = {
-    x: 0,
-    y: 0,
-    width: 21,
-    height: 21,
-    color: [0.0, 1.0, 1.0, 1.0]
-};
-var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-var playerVertices:number[][] = physicsDevice.createRectangleVertices(-playerParams.width/2, -playerParams.height/2, playerParams.width/2, playerParams.height/2);
-
-var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
-    vertices: playerVertices
-});
-var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
-    type: 'dynamic',
-    shapes: [playerShape],
-    mass: 10,
-    linearDrag: 0.001
-});
-var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, playerBody);
-// import an image to use as the player display and when loading is done set it as the player's texture
-//var layerTexture = graphicsDevice.createTexture({
-//src: "assets/player/playerProfile.png",
-//mipmaps: true,
-//onload: function (texture)
-//{
-//if (texture != null)
-//{
-//player.setTexture(texture);
-//player.setTextureRectangle([0, 0, texture.width, texture.height])
-//}
-//}
-//});
-var player:Player = new Player(playerRigidSprite, [(viewport[3] - viewport[1])/2, 0]);
-// add the player to the world
-dynamicWorld.addRigidBody(playerBody);
+// build the player
+var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets/player/playerProfile.png");
 // make platform, currently only used for testing
 //TODO: remove this at some point and replace by generalized data structure
 var platform = new Platform(physicsDevice, dynamicWorld);
