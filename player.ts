@@ -4,8 +4,8 @@
 /// <reference path="rigidSprite.ts"/>
 
 class Player {
-    SPEED = 1.0;
-    JUMP_SPEED = 3.0;
+    SPEED = 0.1;
+    JUMP_SPEED = 0.4;
 
     isJumping:boolean = false;
     rigidSprite:RigidSprite = null;
@@ -80,8 +80,8 @@ class Player {
     }
 
     // draws the player's sprite to the screen
-    draw(draw2D:Draw2D)
+    draw(draw2D:Draw2D, offset:number[])
     {
-        this.rigidSprite.draw(draw2D, [0,0]);
+        this.rigidSprite.draw(draw2D, offset);
     }
 }

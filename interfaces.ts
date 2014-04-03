@@ -7,7 +7,6 @@ interface GameObject {
     graphicsDevice : GraphicsDevice;
     inputDevice: InputDevice;
     draw2D : Draw2D;
-    viewport : number[];
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
     debugMode : boolean;
