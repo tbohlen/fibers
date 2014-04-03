@@ -11,4 +11,15 @@ interface GameObject {
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
     debugMode : boolean;
+    keys : KeyObject;
+}
+
+interface KeyObject {
+    LEFT ?: boolean;
+    RIGHT ?: boolean;
+    UP ?: boolean;
+    W ?: boolean;
+    A ?: boolean;
+    S ?: boolean;
+    D ?: boolean;
 }

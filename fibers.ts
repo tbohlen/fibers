@@ -53,6 +53,17 @@ var bgMusic:Sound = soundDevice.createSound({
     }
 });
 
+// store states of buttons
+var keys:KeyObject = {
+    LEFT : false,
+    RIGHT : false,
+    UP : false,
+    W : false,
+    A : false,
+    S : false,
+    D : false
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 // The Game Object contains all high-level objects that support the game inself.
 // Pretty much, put anything in here that you want to easily pass to a number of
@@ -66,7 +77,8 @@ var game:GameObject = {
     viewport : viewport,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
-    debugMode : false
+    debugMode : false,
+    keys : keys
 };
 
 
@@ -113,30 +125,29 @@ dynamicWorld.addRigidBody(playerBody);
 //TODO: remove this at some point and replace by generalized data structure
 var platform = new Platform(physicsDevice, dynamicWorld);
 
-
 // add event listeners
 inputDevice.addEventListener("keydown", function(keycode){
     if (keycode === inputDevice.keyCodes.LEFT)
     {
-        player.walkLeft();
+        game.keys.LEFT = true;
     } else if (keycode === inputDevice.keyCodes.RIGHT)
     {
-        player.walkRight();
+        game.keys.RIGHT = true;
     } else if (keycode === inputDevice.keyCodes.UP)
     {
-        player.jump();
+        game.keys.UP = true;
     } else if (keycode === inputDevice.keyCodes.W)
     {
-        platform.rigidSprite.body.setVelocity([0, -1]);
+        game.keys.W = true;
     } else if (keycode === inputDevice.keyCodes.A)
     {
-        platform.rigidSprite.body.setVelocity([-1, 0]);
+        game.keys.A = true;
     } else if (keycode === inputDevice.keyCodes.S)
     {
-        platform.rigidSprite.body.setVelocity([0, 1]);
+        game.keys.S = true;
     } else if (keycode === inputDevice.keyCodes.D)
     {
-        platform.rigidSprite.body.setVelocity([1, 0]);
+        game.keys.D = true;
     } else if (keycode === inputDevice.keyCodes.M)
     {
         game.debugMode = !game.debugMode;
@@ -148,8 +159,34 @@ inputDevice.addEventListener("keydown", function(keycode){
 });
 
 inputDevice.addEventListener("keyup", function(keycode){
-    player.stopWalking();
-    platform.rigidSprite.body.setVelocity([0, 0]);
+    if (keycode === inputDevice.keyCodes.LEFT)
+    {
+        game.keys.LEFT = false;
+        player.stopWalking();
+    } else if (keycode === inputDevice.keyCodes.RIGHT)
+    {
+        game.keys.RIGHT = false;
+        player.stopWalking();
+    } else if (keycode === inputDevice.keyCodes.UP)
+    {
+        game.keys.UP = false;
+    } else if (keycode === inputDevice.keyCodes.W)
+    {
+        game.keys.W = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.A)
+    {
+        game.keys.A = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.S)
+    {
+        game.keys.S = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.D)
+    {
+        game.keys.D = false;
+        platform.rigidSprite.body.setVelocity([0, 0]);
+    }
     console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
 
@@ -166,6 +203,30 @@ function update()
     var i:number = 0;
     if (graphicsDevice.beginFrame())
     {
+        // handle key presses
+        if (keys.LEFT)
+        {
+            player.walkLeft();
+        } else if (keys.RIGHT)
+        {
+            player.walkRight();
+        } else if (keys.UP)
+        {
+            player.jump();
+        } else if (keys.W)
+        {
+            platform.rigidSprite.body.setVelocity([0, -1]);
+        } else if (keys.A)
+        {
+            platform.rigidSprite.body.setVelocity([-1, 0]);
+        } else if (keys.S)
+        {
+            platform.rigidSprite.body.setVelocity([0, 1]);
+        } else if (keys.D)
+        {
+            platform.rigidSprite.body.setVelocity([1, 0]);
+        }
+
         dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
 
         player.update();
