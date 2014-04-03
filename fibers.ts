@@ -50,7 +50,7 @@ var game:GameObject = {
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
-    viewport : [width, height],
+    viewport : viewport,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     debugMode : false
@@ -69,7 +69,7 @@ var playerParams:any = {
     color: [0.0, 1.0, 1.0, 1.0]
 };
 var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-var playerVertices:number[][] = physicsDevice.createRectangleVertices(0, 0, playerParams.width, playerParams.height);
+var playerVertices:number[][] = physicsDevice.createRectangleVertices(-playerParams.width/2, -playerParams.height/2, playerParams.width/2, playerParams.height/2);
 
 var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
     vertices: playerVertices
@@ -183,7 +183,6 @@ function update()
             physicsDebug.showRigidBodies = true;
             physicsDebug.showContacts = true;
             physicsDebug.begin();
-            /*physicsDebug.drawRigidBody(player.rigidSprite.body);*/
             physicsDebug.drawWorld(dynamicWorld);
             physicsDebug.end();
         }
