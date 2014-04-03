@@ -168,12 +168,21 @@ class Tileset {
                         // add the body to the world
                         this.game.physicsWorld.addRigidBody(body);
 
-                        rigidSprite = new RigidSprite(sprite, [obj.x, obj.y], obj.gid, body);
+                        rigidSprite = new RigidSprite({
+                            sprite:sprite,
+                            initialPos:[obj.x, obj.y],
+                            gid:obj.gid,
+                            body:body
+                        });
                         console.log("Made physics obj!");
                     }
                     else {
                         console.log("Not making rigid body for object because properties are not valid");
-                        rigidSprite = new RigidSprite(sprite, [obj.x, obj.y], obj.gid);
+                        rigidSprite = new RigidSprite({
+                            sprite:sprite,
+                            initialPos:[obj.x, obj.y],
+                            gid:obj.gid
+                        });
                     }
                     // store this rigid sprite
                     this.rigidSprites.push(rigidSprite);
@@ -209,7 +218,11 @@ class Tileset {
                     height: this.tileHeight
                 };
                 var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
-                rigidSprite = new RigidSprite(sprite, [screenCoords[0], screenCoords[1]], layer.data[i]);
+                rigidSprite = new RigidSprite({
+                    sprite:sprite,
+                    initialPos:[screenCoords[0], screenCoords[1]],
+                    gid: layer.data[i]
+                });
 
                 // store this rigid sprite
                 this.rigidSprites.push(rigidSprite);

@@ -13,16 +13,16 @@ class RigidSprite {
     gid:number = 0; // represents the tile on te large texture graphic to use to display this sprite
     initialPos:number[];
 
-    constructor (sprite:Draw2DSprite, initialPos:number[], gid:number, body?:Physics2DRigidBody) {
-        this.sprite = sprite;
-        this.initialPos = initialPos;
-        this.sprite.x = initialPos[0];
-        this.sprite.y = initialPos[1];
-        this.gid = (gid ? gid : 0);
+    constructor (options:RigidSpriteOptions) {
+        this.sprite = options.sprite;
+        this.initialPos = options.initialPos;
+        this.sprite.x = options.initialPos[0];
+        this.sprite.y = options.initialPos[1];
+        this.gid = (options.gid ? options.gid : 0);
 
-        if (body) {
-            this.body = body;
-            this.body.setPosition(initialPos);
+        if (options.body) {
+            this.body = options.body;
+            this.body.setPosition(options.initialPos);
         }
     }
 
