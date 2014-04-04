@@ -13,6 +13,11 @@ interface GameObject {
     keys : KeyObject;
 }
 
+interface InteractablesObject {
+    buildables : Buildable[];
+    climbables : any[];
+}
+
 interface KeyObject {
     LEFT ?: boolean;
     RIGHT ?: boolean;
@@ -21,4 +26,23 @@ interface KeyObject {
     A ?: boolean;
     S ?: boolean;
     D ?: boolean;
+}
+
+interface RigidSpriteOptions {
+    sprite : Draw2DSprite;
+    initialPos : number[];
+    gid ?: number;
+    body ?: Physics2DRigidBody;
+}
+
+interface ChainOptions extends RigidSpriteOptions {
+    maxHeight:number;
+    minHeight:number;
+    width:number;
+}
+
+interface Buildable {
+    buildUp():void;
+    buildDown():void;
+    getBuildableShape():Physics2DShape;
 }

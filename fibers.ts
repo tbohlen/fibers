@@ -12,6 +12,8 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="platform.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="mixins.ts"/>
+/// <reference path="chain.ts"/>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -67,67 +69,78 @@ var keys:KeyObject = {
 // Pretty much, put anything in here that you want to easily pass to a number of
 // other objects.
 ///////////////////////////////////////////////////////////////////////////////
+
 var game:GameObject = {
     engine : TurbulenzEngine,
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
+    draw2DSprite: Draw2DSprite,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     debugMode : false,
-    keys : keys
+    keys : keys,
+};
+
+var interactables:InteractablesObject = {
+    buildables: [],
+    climbables: []
 };
 
 var viewport:number[] = [];
 draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("talltest.json", game);
-// next we build a player, including the rigid body, sprite, and managing object
-var playerParams:any = {
-    x: 0,
-    y: 0,
-    width: 21,
-    height: 21,
-    color: [0.0, 1.0, 1.0, 1.0]
-};
-var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-var playerVertices:number[][] = physicsDevice.createRectangleVertices(-playerParams.width/2, -playerParams.height/2, playerParams.width/2, playerParams.height/2);
-
-var playerShape:Physics2DShape = physicsDevice.createPolygonShape({
-    vertices: playerVertices
-});
-var playerBody:Physics2DRigidBody = physicsDevice.createRigidBody({
-    type: 'dynamic',
-    shapes: [playerShape],
-    mass: 10,
-    linearDrag: 0.001
-});
-var playerRigidSprite:RigidSprite = new RigidSprite(playerSprite, [0, 0], 0, playerBody);
-// import an image to use as the player display and when loading is done set it as the player's texture
-//var layerTexture = graphicsDevice.createTexture({
-//src: "assets/player/playerProfile.png",
-//mipmaps: true,
-//onload: function (texture)
-//{
-//if (texture != null)
-//{
-//player.setTexture(texture);
-//player.setTextureRectangle([0, 0, texture.width, texture.height])
-//}
-//}
-//});
-var player:Player = new Player(playerRigidSprite, [(viewport[3] - viewport[1])/2, 0]);
-// add the player to the world
-dynamicWorld.addRigidBody(playerBody);
+var tileset:Tileset = new Tileset("test.json", game);
+// build the player
+var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets/player/playerProfile.png");
 // make platform, currently only used for testing
 //TODO: remove this at some point and replace by generalized data structure
-var platform = new Platform(physicsDevice, dynamicWorld);
+//var platform = new Platform(physicsDevice, dynamicWorld);
+
+
+var shapeSize = 2;
+var platformMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
+    elasticity : 0,
+    staticFriction : 0,
+    dynamicFriction : 0
+});
+var chainShape:Physics2DShape = physicsDevice.createPolygonShape({
+        vertices : game.physicsDevice.createRectangleVertices(-shapeSize/2, -shapeSize/2, shapeSize/2, shapeSize/2),
+        material : platformMaterial
+    });
+var chainBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
+    type : 'kinematic',
+    shapes : chainShape,
+    position : [0, 0]
+});
+var chainSprite:Draw2DSprite = Draw2DSprite.create({
+    width: shapeSize,
+    height: shapeSize,
+    origin : [shapeSize / 2, shapeSize / 2],
+    color: [1.0, 0.0, 0.0, 1.0]
+});
+game.physicsWorld.addRigidBody(chainBody);
+var chainRigidSprite = new RigidSprite({
+    sprite:chainSprite,
+    initialPos:[0,0],
+    body:chainBody
+});
+// make a buildable
+var chain:Chain = new Chain({
+    sprite : chainSprite,
+    initialPos : [0, 0],
+    body: chainBody,
+    maxHeight: 100,
+    minHeight: 0,
+    width: 50
+}, game);
 
 
 ///////////////////////////////////////////////////////////////////////////////
 // add event listeners
 ///////////////////////////////////////////////////////////////////////////////
+
 inputDevice.addEventListener("keydown", function(keycode){
     if (keycode === inputDevice.keyCodes.LEFT)
     {
@@ -154,6 +167,12 @@ inputDevice.addEventListener("keydown", function(keycode){
     {
         game.debugMode = !game.debugMode;
         console.log ("Toggled debug to " + game.debugMode);
+    } else if (keycode === inputDevice.keyCodes.I)
+    {
+        chain.buildUp();
+    } else if (keycode === inputDevice.keyCodes.K)
+    {
+        chain.buildDown();
     } else
     {
         console.log(keycode);
@@ -175,19 +194,19 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.W)
     {
         game.keys.W = false;
-        platform.rigidSprite.body.setVelocity([0, 0]);
+        chain.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.A)
     {
         game.keys.A = false;
-        platform.rigidSprite.body.setVelocity([0, 0]);
+        chain.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.S)
     {
         game.keys.S = false;
-        platform.rigidSprite.body.setVelocity([0, 0]);
+        chain.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.D)
     {
         game.keys.D = false;
-        platform.rigidSprite.body.setVelocity([0, 0]);
+        chain.body.setVelocity([0, 0]);
     }
     console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
@@ -216,23 +235,23 @@ function update()
         }
         if (keys.UP)
         {
-            player.jump();
+            player.goUp();
         }
         if (keys.W)
         {
-            platform.rigidSprite.body.setVelocity([0, -0.2]);
+            chain.body.setVelocity([0, -0.2]);
         }
         if (keys.A)
         {
-            platform.rigidSprite.body.setVelocity([-0.2, 0]);
+            chain.body.setVelocity([-0.2, 0]);
         }
         if (keys.S)
         {
-            platform.rigidSprite.body.setVelocity([0, 0.2]);
+            chain.body.setVelocity([0, 0.2]);
         }
         if (keys.D)
         {
-            platform.rigidSprite.body.setVelocity([0.2, 0]);
+            chain.body.setVelocity([0.2, 0]);
         }
 
         // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
@@ -253,14 +272,21 @@ function update()
 
         graphicsDevice.clear( bgColor, 1.0 );
 
-        draw2D.begin();
+        draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
 
         if (tileset.isLoaded())
         {
             if (!tileset.ranLoadMap)
             {
                 console.log("Running load map");
-                tileset.loadMap();
+                var newObjects:InteractablesObject = tileset.loadMap();
+
+                // combine the newly loaded objects with anything already existing
+                for (var key in newObjects) {
+                    if (newObjects.hasOwnProperty(key) && interactables.hasOwnProperty(key)) {
+                        interactables[key] = interactables[key].concat(newObjects[key]);
+                    }
+                }
             }
             tileset.draw(draw2D, offset);
         }
@@ -269,7 +295,8 @@ function update()
         player.draw(draw2D, offset);
 
         // draw platform
-        platform.draw(draw2D, offset);
+        //platform.draw(draw2D, offset);
+        chain.draw(draw2D, offset);
 
         draw2D.end();
 
@@ -296,3 +323,5 @@ function update()
 }
 
 TurbulenzEngine.setInterval( update, 1000/60 );
+
+//Mixins.mixinExample();

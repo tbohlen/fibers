@@ -30,7 +30,7 @@ Yay.
 
 [Here is a tutorial on tiled map editor](http://gamedevelopment.tutsplus.com/tutorials/introduction-to-tiled-map-editor-a-great-platform-agnostic-tool-for-making-level-maps--gamedev-2838).
 
-#BUILDING THE GAME
+# BUILDING THE GAME
 
 Make sure you have [Typescript installed](http://www.typescriptlang.org/#Download).
 
@@ -72,3 +72,10 @@ They should be specified after the global declarations, but before the Turbulenz
 ```
 
 And then in the html file we include the corresponding jslib-modular script files...
+
+#MAKING NEW MAPS
+
+To make a new map, use [Tiled map editor](http://www.mapeditor.org/) to construct it.
+Once you're satisfied, export the map as json: `File -> Export As...`.
+
+Place it in `assets/maps/YOUR_MAP_NAME.json`.
