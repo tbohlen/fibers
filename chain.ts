@@ -74,7 +74,7 @@ class Chain extends RigidSprite implements Buildable
             {
                 nextHeight = this.maxHeight;
             }
-            var shape:Physics2DShape = this.construct.body.shapes[0];
+            var shape:Physics2DPolygon = <Physics2DPolygon>this.construct.body.shapes[0];
             shape.scale(1, (this.currentHeight+this.GROW_SPEED) / this.currentHeight);
             this.currentHeight = nextHeight;
         }
@@ -90,7 +90,7 @@ class Chain extends RigidSprite implements Buildable
             {
                 nextHeight = this.minHeight;
             }
-            var shape:Physics2DShape = this.construct.body.shapes[0];
+            var shape:Physics2DPolygon = <Physics2DPolygon>this.construct.body.shapes[0];
             shape.scale(1, nextHeight / this.currentHeight);
             this.currentHeight = nextHeight;
         }
