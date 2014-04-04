@@ -6,7 +6,7 @@
 
 class Player {
     SPEED = 0.1;
-    JUMP_SPEED = 0.4;
+    JUMP_SPEED = 0.8;
 
     isJumping:boolean = false;
     rigidSprite:RigidSprite = null;
@@ -17,8 +17,8 @@ class Player {
         var playerParams:any = {
             x: position[0],
             y: position[1],
-            width: 21,
-            height: 21,
+            width: 32,
+            height: 64,
             color: [0.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
@@ -30,7 +30,7 @@ class Player {
         var playerBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: 'dynamic',
             shapes: [playerShape],
-            mass: 10,
+            mass: 4,
             linearDrag: 0.001
         });
         var playerRigidSprite:RigidSprite = new RigidSprite({

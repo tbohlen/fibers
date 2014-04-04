@@ -6,6 +6,7 @@
 /// <reference path="jslib-modular/turbulenz.d.ts" />
 /// <reference path="jslib-modular/utilities.d.ts" />
 /// <reference path="jslib-modular/vmath.d.ts" />
+/// <reference path="scripts/htmlcontrols.d.ts" />
 
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
@@ -63,6 +64,8 @@ var keys:KeyObject = {
     S : false,
     D : false
 }
+
+var htmlControls:HTMLControls = null;
 
 ///////////////////////////////////////////////////////////////////////////////
 // The Game Object contains all high-level objects that support the game inself.
@@ -321,6 +324,39 @@ function update()
         graphicsDevice.endFrame();
     }
 }
+
+function loadHtmlControls() {
+    htmlControls = HTMLControls.create();
+    htmlControls.addSliderControl({
+        id: "playerJumpSpeedSlider",
+        value: (player.JUMP_SPEED),
+        max: 4,
+        min: 0.1,
+        step: 0.1,
+        fn: function () {
+            console.log("CHANGED PLAYER VELOCITY");
+            player.JUMP_SPEED = this.value;
+            htmlControls.updateSlider("playerJumpSpeedSlider", player.JUMP_SPEED);
+        }
+    });
+//    htmlControls.addSliderControl({
+//        id: "dampingSlider",
+//        value: (damping),
+//        max: 2,
+//        min: 0,
+//        step: 0.25,
+//        fn: function () {
+//            damping = this.value;
+//            htmlControls.updateSlider("dampingSlider", damping);
+//            if (elasticConstraints) {
+//                invalidateConstraints();
+//            }
+//        }
+//    });
+    htmlControls.register();
+}
+
+loadHtmlControls();
 
 TurbulenzEngine.setInterval( update, 1000/60 );
 

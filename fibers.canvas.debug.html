@@ -4,17 +4,31 @@
 	<script src="jslib/debug.js"></script>
     <script src="jslib/webgl/turbulenzengine.js"></script>
 
-    <style type="text/css">
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/base_template.css">
+    <link rel="stylesheet" type="text/css" href="css/dynamicui.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.2.custom.css">
 </head>
 <body>
     <canvas id="canvas" width="640px" height="480px"></canvas>
+    <div id="dynamicui" class="dynamicui">
+        <div class="html-control control-output-pair">Player Jump Speed:
+            <input type="text" id="playerJumpSpeedSliderinput" size="2" value="0.1" class="control-textfield">
+        </div>
+        <div class="html-control control-slider">
+            <div id="playerJumpSpeedSlider" class="sliderinput"></div>
+        </div>
+    </div>
 
     <script>
         // there is probably a better way to do this
         var canvas = document.getElementById("canvas");
         window.TurbulenzEngine = window.WebGLTurbulenzEngine.create({canvas:canvas});
     </script>
+
+    <script src="scripts/jquery-1.7.1.js"></script>
+    <script src="scripts/jquery-ui-1.8.2.custom.min.js"></script>
+    <script src="scripts/duiserver.js"></script>
+    <script src="scripts/htmlcontrols.js"></script>
 
     <script src="jslib/vmath.js"></script>
     <script src="jslib/draw2d.js"></script>
@@ -26,6 +40,7 @@
     <script src="jslib/webgl/physicsdevice.js"></script>
     <script src="jslib/webgl/inputdevice.js"></script>
     <script src="jslib/webgl/sounddevice.js"></script>
+
     <script src="build/fibers.js"></script>
 </body>
 </html>
