@@ -185,7 +185,9 @@ class Tileset {
                         });
                         var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                             vertices: vertices,
-                            material: slipperyMaterial
+                            material: slipperyMaterial,
+                            group: 8,
+                            mask: 13
                         });
                         var body:Physics2DRigidBody = this.game.physicsDevice.createRigidBody({
                             type: obj.properties.rigidBody,

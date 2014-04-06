@@ -25,7 +25,9 @@ class Player {
         var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-playerParams.width/2, -playerParams.height/2, playerParams.width/2, playerParams.height/2);
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
-            vertices: playerVertices
+            vertices: playerVertices,
+            group: 1,
+            mask: 13
         });
         var playerBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: 'dynamic',

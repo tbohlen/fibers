@@ -21,8 +21,13 @@
 // player = 1
 // knitting needles & other things the player should not run into = 2
 // climbable things and other things the player can overlap but still interact with = 4
-// So the knitting needles should have a mask of 0 - they interact with nothin
-// 
+// things that collide normally = 8
+//
+// Masks
+// Knitting needles mask = 0 - they interact with nothing
+// Player mask = 13 - interacts with everything but needles
+// Climbable mask = 13
+// Other mask = 13
 
 ////////////////////////////////////////////////////////////////////////////////
 // Create important objects and set up the game
@@ -124,7 +129,9 @@ var platformMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
 });
 var chainShape:Physics2DShape = physicsDevice.createPolygonShape({
         vertices : game.physicsDevice.createRectangleVertices(-shapeSize/2, -shapeSize/2, shapeSize/2, shapeSize/2),
-        material : platformMaterial
+        material : platformMaterial,
+        group : 2,
+        mask : 0
     });
 var chainBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
     type : 'kinematic',

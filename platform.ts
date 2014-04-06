@@ -36,7 +36,9 @@ class Platform extends RigidSprite{
         var shapes : Physics2DShape[] = [
             phys2D.createPolygonShape({
                 vertices : phys2D.createBoxVertices(obj.width, obj.height),
-                material : platformMaterial
+                material : platformMaterial,
+                group: 8,
+                mask: 13
             })
         ];
         var body = phys2D.createRigidBody({

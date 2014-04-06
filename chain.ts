@@ -42,7 +42,9 @@ class Chain extends RigidSprite implements Buildable
         });
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
-            material: slipperyMaterial
+            material: slipperyMaterial,
+            group: 4,
+            mask: 13
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: "kinematic",
