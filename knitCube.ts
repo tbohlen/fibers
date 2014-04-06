@@ -9,11 +9,13 @@ class knitCube extends RigidSprite implements Buildable
 {
     maxDimension:number;
     minDimension:number;
+    currentHeight:number;
     constructor (options:knitCubeOptions, game:GameObject)
     {
         super(options);
         this.maxDimension = options.maxDimension;
         this.minDimension = options.minDimension;
+        this.currentHeight = 0;
     }
 
     public buildUp():void

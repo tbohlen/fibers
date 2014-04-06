@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="50" height="50" tilewidth="21" tileheight="21">
+ <tileset firstgid="1" name="spritesheet" tilewidth="21" tileheight="21" spacing="2">
+  <image source="../tiles/spritesheet.png" trans="5881a5" width="1024" height="512"/>
+  <terraintypes>
+   <terrain name="New Terrain" tile="-1"/>
+  </terraintypes>
+ </tileset>
+ <layer name="tiles" width="50" height="50">
+  <data encoding="base64" compression="zlib">
+   eJztz0kKwkAABdHYRxHn6Sie1rUncJ62XsNZKyiIgpAEg0Fq8Qihi6b/tBRFU0mSJEmSJEmSJEm5KIffv+Eb+u4oFHcUizvyMcIYk8f/DHMssMQKa2ze2nhH0jbNvVnbHfY44IgTzrjgioj3lhDCaxvvSNqmuTdrW+GsiiF5nW8DTbTQRgdd9MKzrYX7jqRtmnuztoPoP2wlfXQDl+rO1A==
+  </data>
+ </layer>
+ <objectgroup name="mushrooms" width="50" height="50">
+  <object name="a" gid="669" x="105" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="210" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="399" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="399" y="924" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+  <object name="a" gid="669" x="630" y="945" width="21" height="21">
+   <properties>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ground" width="50" height="50">
+  <object name="ground" x="0" y="945" width="1050" height="105">
+   <properties>
+    <property name="rigidBody" value="static"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="ladder" width="50" height="50">
+  <object name="ladder" x="294" y="735" width="21" height="210">
+   <properties>
+    <property name="climbable" value="true"/>
+    <property name="rigidBody" value="true"/>
+    <property name="shape" value="rectangle"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="CubeGrower" width="50" height="50">
+  <object name="cube" type="knitCube" x="42" y="925" width="20" height="20">
+   <properties>
+    <property name="type" value="knitCube"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
