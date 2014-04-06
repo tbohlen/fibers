@@ -96,8 +96,13 @@ class Chain extends RigidSprite implements Buildable
         }
     }
 
-    getBuildableShape()
+    /*
+     * Method: getBuildableShape
+     * Returns the shape that the player must be overlapping with in order to build this item. ie the knitting needles.
+     */
+    getBuildableShape = () =>
     {
+        console.log("Getting shape from " + this.body.shapes);
         return this.body.shapes[0];
     }
 

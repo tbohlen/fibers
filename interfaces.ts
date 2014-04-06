@@ -9,6 +9,7 @@ interface GameObject {
     draw2D : Draw2D;
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
+    collisionUtil: Physics2DCollisionUtils;
     debugMode : boolean;
     keys : KeyObject;
 }

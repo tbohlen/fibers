@@ -8,8 +8,8 @@
 
 class RigidSprite {
 
-    sprite:Draw2DSprite = null;
-    body:Physics2DRigidBody = null;
+    public sprite:Draw2DSprite = null;
+    public body:Physics2DRigidBody = null;
     gid:number; // represents the tile on te large texture graphic to use to display this sprite
     initialPos:number[];
 
