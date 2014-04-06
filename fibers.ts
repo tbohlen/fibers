@@ -28,11 +28,12 @@ var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
 // build the physics device to allow 2D constraint physics
 var physicsDevice:Physics2DDevice = Physics2DDevice.create();
-var dynamicWorld:Physics2DWorld = physicsDevice.createWorld({
+var physicsWorldParams:any = {
     gravity: [0, 0.001],
     velocityIterations: 5,
     positionIterations: 5
-});
+};
+var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
 // this object draws everything to the screen
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
@@ -93,10 +94,12 @@ var interactables:InteractablesObject = {
 var viewport:number[] = [];
 draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
+
 // the tileset device manages the tiled maps
 var tileset:Tileset = new Tileset("test.json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets/player/playerProfile.png");
+
 // make platform, currently only used for testing
 //TODO: remove this at some point and replace by generalized data structure
 //var platform = new Platform(physicsDevice, dynamicWorld);
@@ -337,6 +340,20 @@ function loadHtmlControls() {
             console.log("CHANGED PLAYER VELOCITY");
             player.JUMP_SPEED = this.value;
             htmlControls.updateSlider("playerJumpSpeedSlider", player.JUMP_SPEED);
+        }
+    });
+
+    $("#levelNameinput").keyup(function(e:KeyboardEvent){
+        // load level when player presses enter
+        // does not work yet...
+        if (e.keyCode === 13)
+        {
+            console.log("pressed enter...");
+            var mapName:string = $("#levelNameinput").val();
+            dynamicWorld.clear();
+            tileset = new Tileset(mapName+".json", game);
+            // need to actually place player in desired location for map
+            player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets/player/playerProfile.png");
         }
     });
 
