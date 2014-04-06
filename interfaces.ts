@@ -42,7 +42,21 @@ interface ChainOptions extends RigidSpriteOptions {
 }
 
 interface Buildable {
+    /*
+     * Method: buildUp
+     * This is called whenever the player is overlapping with this object and presses the build up button.
+     * The object implementing this interface needs to react accordingly.
+     */
     buildUp():void;
+    /*
+     * Method: buildDown
+     * This is called whenever the player is overlapping with this object and presses the build down button.
+     * The object implementing this interface needs to react accordingly.
+     */
     buildDown():void;
+    /*
+     * Method: getBuildableShape
+     * Returns the shape that the player must be overlapping with in order to build this item. ie the knitting needles.
+     */
     getBuildableShape():Physics2DShape;
 }
