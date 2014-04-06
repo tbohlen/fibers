@@ -101,7 +101,7 @@ class Tileset {
                     }
                 });
             }
-        }
+        };
 
         this.game.engine.request(BASE_MAP_URL + mapFilename,
             this.mapLoadedCallback);
@@ -126,7 +126,7 @@ class Tileset {
      * A number of checks are done to make sure that all the objects properties match our expectations.
      */
 
-    isValidPhysicsObject(obj):boolean
+    static isValidPhysicsObject(obj):boolean
     {
         return (obj.visible && obj.hasOwnProperty("height") && obj.hasOwnProperty("width") &&
                 obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties"));
@@ -137,13 +137,13 @@ class Tileset {
         if (layer.objects)
         {
             var numObjects:number = layer.objects.length;
-            var layerHeight:number = layer.height * this.tileHeight;
+            //var layerHeight:number = layer.height * this.tileHeight;
             //var layerWidth:number = layer.width * this.tileWidth;
 
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
                 // for each object, make a sprite if it is visible
-                if (this.isValidPhysicsObject(obj)) {
+                if (Tileset.isValidPhysicsObject(obj)) {
                     var rigidSprite:RigidSprite = null;
                     // build the sprite
                     // what is the interaction between defined color and texture?
