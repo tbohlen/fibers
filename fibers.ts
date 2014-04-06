@@ -17,6 +17,13 @@
 /// <reference path="chain.ts"/>
 
 
+// group bits
+// player = 1
+// knitting needles & other things the player should not run into = 2
+// climbable things and other things the player can overlap but still interact with = 4
+// So the knitting needles should have a mask of 0 - they interact with nothin
+// 
+
 ////////////////////////////////////////////////////////////////////////////////
 // Create important objects and set up the game
 ////////////////////////////////////////////////////////////////////////////////
@@ -33,7 +40,10 @@ var physicsWorldParams:any = {
     velocityIterations: 5,
     positionIterations: 5
 };
+
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
+var collisionUtil:Physics2DCollisionUtils = physicsDevice.createCollisionUtils();
+
 // this object draws everything to the screen
 var draw2D = Draw2D.create({
     graphicsDevice: graphicsDevice
@@ -82,6 +92,7 @@ var game:GameObject = {
     draw2DSprite: Draw2DSprite,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
+    collisionUtil : collisionUtil,
     debugMode : false,
     keys : keys
 };
@@ -117,7 +128,7 @@ var chainShape:Physics2DShape = physicsDevice.createPolygonShape({
     });
 var chainBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
     type : 'kinematic',
-    shapes : chainShape,
+    shapes : [chainShape],
     position : [0, 0]
 });
 var chainSprite:Draw2DSprite = Draw2DSprite.create({
@@ -141,6 +152,44 @@ var chain:Chain = new Chain({
     minHeight: 0,
     width: 50
 }, game);
+
+interactables.buildables.push(chain);
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Helper functions
+///////////////////////////////////////////////////////////////////////////////
+
+/*
+ * Method: finBuildable
+ * Searches through the registered buildables and returns the first one
+ * encountered that is overlapping with the player. This helps with
+ * build up and build down interactions.
+ */
+function findBuildable() : Buildable
+{
+    // checks all the buildables to figure out which is overlapping the player
+    // TODO: make this smarter so that when a player is overlapping two items it does something intelligent...
+    var bs:Buildable[] = interactables.buildables;
+    for (var i:number = 0; i < bs.length; i++) {
+        var test:Buildable = bs[i];
+        console.log("testing");
+        var shapeOne = player.rigidSprite.body.shapes[0];
+        console.log("Player: " + player.rigidSprite.body.shapes[0]);
+        console.log("Test: " + test.getBuildableShape());
+        var shapeTwo = test.getBuildableShape();
+        if (game.collisionUtil.intersects(shapeOne, shapeTwo))
+        {
+            console.log("success");
+            return test;
+        }
+        else
+        {
+            console.log("Failure");
+        }
+    }
+    return null;
+}
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -175,10 +224,28 @@ inputDevice.addEventListener("keydown", function(keycode){
         console.log ("Toggled debug to " + game.debugMode);
     } else if (keycode === inputDevice.keyCodes.I)
     {
-        chain.buildUp();
+        var buildable:Buildable = findBuildable();
+        if (buildable != null)
+        {
+            console.log("Found a buildable");
+            buildable.buildUp();
+        }
+        else
+        {
+            console.log("Did not find body");
+        }
     } else if (keycode === inputDevice.keyCodes.K)
     {
-        chain.buildDown();
+        var buildable:Buildable = findBuildable();
+        if (buildable != null)
+        {
+            console.log("Found a buildable");
+            buildable.buildDown();
+        }
+        else
+        {
+            console.log("Did not find bdoy");
+        }
     } else
     {
         console.log(keycode);

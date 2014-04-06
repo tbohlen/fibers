@@ -142,6 +142,23 @@ class Tileset {
 
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
+                if (obj.hasOwnProperty("properties") && obj.properties.hasOwnProperty("type"))
+                {
+                    var rigidSprite:RigidSprite = null;
+                    // use the class to try and make the object
+                    if (obj.properties.type == "platform")
+                    {
+                        rigidSprite = Platform.constructFromTiled(obj, this, game);
+                        console.log("made Platform");
+                        this.rigidSprites.push(rigidSprite);
+                        continue;
+                    }
+                    else if (obj.properties.type == "ground")
+                    {
+                        //rigidSprite = Platform.constructFromTiled(obj, this, game);
+                    }
+
+                }
                 // for each object, make a sprite if it is visible
                 if (Tileset.isValidPhysicsObject(obj)) {
                     var rigidSprite:RigidSprite = null;

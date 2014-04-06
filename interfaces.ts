@@ -9,6 +9,7 @@ interface GameObject {
     draw2D : Draw2D;
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
+    collisionUtil: Physics2DCollisionUtils;
     debugMode : boolean;
     keys : KeyObject;
 }
@@ -39,6 +40,11 @@ interface ChainOptions extends RigidSpriteOptions {
     maxHeight:number;
     minHeight:number;
     width:number;
+}
+
+interface knitCubeOptions extends RigidSpriteOptions {
+    maxDimension:number;
+    minDimension:number;
 }
 
 interface Buildable {
