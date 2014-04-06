@@ -10,9 +10,9 @@
 class Platform extends RigidSprite{
     game:GameObject = null;
 
-    constructor (sprite:Draw2DSprite, initialPos:number[], gid:number, body:Physics2DRigidBody, game:GameObject)
+    constructor (options:RigidSpriteOptions, game:GameObject)
     {
-        super(sprite, initialPos, gid, body);
+        super(options);
         this.game = game;
     }
 
@@ -52,6 +52,12 @@ class Platform extends RigidSprite{
         });
         world.addRigidBody(body);
 
-        return new Platform(sprite, [0,0], 0, body, game);
+        var rigidSpriteParams = {
+            sprite : sprite,
+            initialPos : [sprite.x, sprite.y],
+            body : body
+        }
+
+        return new Platform(rigidSpriteParams, game);
     }
 }
