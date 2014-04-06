@@ -63,7 +63,7 @@ var keys:KeyObject = {
     A : false,
     S : false,
     D : false
-}
+};
 
 var htmlControls:HTMLControls = null;
 
@@ -82,7 +82,7 @@ var game:GameObject = {
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     debugMode : false,
-    keys : keys,
+    keys : keys
 };
 
 var interactables:InteractablesObject = {
@@ -339,6 +339,7 @@ function loadHtmlControls() {
             htmlControls.updateSlider("playerJumpSpeedSlider", player.JUMP_SPEED);
         }
     });
+
 //    htmlControls.addSliderControl({
 //        id: "dampingSlider",
 //        value: (damping),
