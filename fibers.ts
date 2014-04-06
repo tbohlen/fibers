@@ -75,6 +75,7 @@ var keys:KeyObject = {
     LEFT : false,
     RIGHT : false,
     UP : false,
+    SPACE : false,
     W : false,
     A : false,
     S : false,
@@ -229,30 +230,12 @@ inputDevice.addEventListener("keydown", function(keycode){
     {
         game.debugMode = !game.debugMode;
         console.log ("Toggled debug to " + game.debugMode);
-    } else if (keycode === inputDevice.keyCodes.I)
+    } else if (keycode === inputDevice.keyCodes.DOWN)
     {
-        var buildable:Buildable = findBuildable();
-        if (buildable != null)
-        {
-            console.log("Found a buildable");
-            buildable.buildUp();
-        }
-        else
-        {
-            console.log("Did not find body");
-        }
-    } else if (keycode === inputDevice.keyCodes.K)
+        game.keys.DOWN = true;
+    } else if (keycode === inputDevice.keyCodes.SPACE)
     {
-        var buildable:Buildable = findBuildable();
-        if (buildable != null)
-        {
-            console.log("Found a buildable");
-            buildable.buildDown();
-        }
-        else
-        {
-            console.log("Did not find bdoy");
-        }
+        game.keys.SPACE = true;
     } else
     {
         console.log(keycode);
@@ -271,6 +254,9 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.UP)
     {
         game.keys.UP = false;
+    } else if (keycode === inputDevice.keyCodes.DOWN)
+    {
+        game.keys.DOWN = false;
     } else if (keycode === inputDevice.keyCodes.W)
     {
         game.keys.W = false;
@@ -287,6 +273,10 @@ inputDevice.addEventListener("keyup", function(keycode){
     {
         game.keys.D = false;
         chain.body.setVelocity([0, 0]);
+
+    } else if (keycode === inputDevice.keyCodes.SPACE)
+    {
+        game.keys.SPACE = false;
     }
     console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
@@ -313,9 +303,35 @@ function update()
         {
             player.walkRight();
         }
-        if (keys.UP)
+        if (keys.UP && !keys.SPACE)
         {
             player.goUp();
+        }
+        if (keys.UP && keys.SPACE)
+        {
+            var buildable:Buildable = findBuildable();
+            if (buildable != null)
+            {
+                console.log("Found a buildable");
+                buildable.buildUp();
+            }
+            else
+            {
+                console.log("Did not find body");
+            }
+        }
+        if (keys.DOWN && keys.SPACE)
+        {
+            var buildable:Buildable = findBuildable();
+            if (buildable != null)
+            {
+                console.log("Found a buildable");
+                buildable.buildDown();
+            }
+            else
+            {
+                console.log("Did not find bdoy");
+            }
         }
         if (keys.W)
         {

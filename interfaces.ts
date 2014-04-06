@@ -23,6 +23,8 @@ interface KeyObject {
     LEFT ?: boolean;
     RIGHT ?: boolean;
     UP ?: boolean;
+    DOWN ?: boolean;
+    SPACE ?: boolean;
     W ?: boolean;
     A ?: boolean;
     S ?: boolean;

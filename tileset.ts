@@ -3,6 +3,7 @@
 
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="platform.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 
@@ -148,7 +149,7 @@ class Tileset {
                     // use the class to try and make the object
                     if (obj.properties.type == "platform")
                     {
-                        rigidSprite = Platform.constructFromTiled(obj, this, game);
+                        rigidSprite = Platform.constructFromTiled(obj, this, this.game);
                         console.log("made Platform");
                         this.rigidSprites.push(rigidSprite);
                         continue;
