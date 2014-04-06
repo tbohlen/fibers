@@ -41,6 +41,11 @@ interface ChainOptions extends RigidSpriteOptions {
     width:number;
 }
 
+interface knitCubeOptions extends RigidSpriteOptions {
+    maxDimension:number;
+    minDimension:number;
+}
+
 interface Buildable {
     /*
      * Method: buildUp
