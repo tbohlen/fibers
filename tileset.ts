@@ -243,8 +243,16 @@ class Tileset {
         return [[],[]];
     }
 
+    clearMap()
+    {
+        console.log("clearing map...");
+        this.rigidSprites = [];
+        this.ranLoadMap = false;
+    }
+
     loadMap() {
         console.log("loading map...");
+        this.clearMap();
         this.ranLoadMap = true;
         var allObjects:InteractablesObject = {
             buildables: [],
