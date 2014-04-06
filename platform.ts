@@ -6,6 +6,7 @@
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="tileset.ts"/>
 
 class Platform extends RigidSprite{
     game:GameObject = null;
