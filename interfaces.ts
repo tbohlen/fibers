@@ -29,6 +29,10 @@ interface KeyObject {
     A ?: boolean;
     S ?: boolean;
     D ?: boolean;
+    T ?: boolean;
+    F ?: boolean;
+    G ?: boolean;
+    H ?: boolean;
 }
 
 interface RigidSpriteOptions {

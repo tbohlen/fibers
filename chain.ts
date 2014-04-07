@@ -110,7 +110,7 @@ class Chain extends RigidSprite implements Buildable
 
     draw(draw2D:Draw2D, offset:number[]) {
         var position:number[] = this.body.getPosition();
-            if (this.currentHeight > 0) {
+        if (this.currentHeight > 0) {
             console.log("Height set to " + this.currentHeight);
             this.construct.body.setPosition(position);
             this.construct.sprite.x = position[0] - offset[0];

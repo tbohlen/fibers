@@ -15,6 +15,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
+/// <reference path="knitCube.ts"/>
 
 
 // group bits
@@ -79,7 +80,11 @@ var keys:KeyObject = {
     W : false,
     A : false,
     S : false,
-    D : false
+    D : false,
+    T : false,
+    F : false,
+    G : false,
+    H : false
 };
 
 var htmlControls:HTMLControls = null;
@@ -122,7 +127,7 @@ var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets
 //var platform = new Platform(physicsDevice, dynamicWorld);
 
 
-var shapeSize = 2;
+var shapeSize = 10;
 var platformMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
     elasticity : 0,
     staticFriction : 0,
@@ -134,10 +139,21 @@ var chainShape:Physics2DShape = physicsDevice.createPolygonShape({
         group : 2,
         mask : 0
     });
+var knitCubeShape:Physics2DShape = physicsDevice.createPolygonShape({
+    vertices : game.physicsDevice.createRectangleVertices(-shapeSize/2, -shapeSize/2, shapeSize/2, shapeSize/2),
+    material : platformMaterial,
+    group : 2,
+    mask : 0
+});
 var chainBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
     type : 'kinematic',
     shapes : [chainShape],
     position : [0, 0]
+});
+var knitCubeBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
+    type : 'kinematic',
+    shapes : [knitCubeShape],
+    position : [10, 10]
 });
 var chainSprite:Draw2DSprite = Draw2DSprite.create({
     width: shapeSize,
@@ -145,11 +161,23 @@ var chainSprite:Draw2DSprite = Draw2DSprite.create({
     origin : [shapeSize / 2, shapeSize / 2],
     color: [1.0, 0.0, 0.0, 1.0]
 });
+var knitCubeSprite:Draw2DSprite = Draw2DSprite.create({
+    width: shapeSize,
+    height: shapeSize,
+    origin : [shapeSize/2, shapeSize/2],
+    color : [0.0, 1.0, 0.0, 1.0]
+});
 game.physicsWorld.addRigidBody(chainBody);
+game.physicsWorld.addRigidBody(knitCubeBody);
 var chainRigidSprite = new RigidSprite({
     sprite:chainSprite,
     initialPos:[0,0],
     body:chainBody
+});
+var knitCubeRigidSprite = new RigidSprite({
+    sprite : knitCubeSprite,
+    initialPos : [10, 10],
+    body: knitCubeBody
 });
 // make a buildable
 var chain:Chain = new Chain({
@@ -160,9 +188,16 @@ var chain:Chain = new Chain({
     minHeight: 0,
     width: 50
 }, game);
+var knitCube:KnitCube = new KnitCube({
+    sprite : knitCubeSprite,
+    initialPos : [10, 10],
+    body : knitCubeBody,
+    maxDimension : 20,
+    minDimension : 0,
+}, game);
 
 interactables.buildables.push(chain);
-
+interactables.buildables.push(knitCube);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
@@ -226,6 +261,18 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.D)
     {
         game.keys.D = true;
+    } else if (keycode === inputDevice.keyCodes.T)
+    {
+        game.keys.T = true;
+    } else if (keycode === inputDevice.keyCodes.F)
+    {
+        game.keys.F = true;
+    } else if (keycode === inputDevice.keyCodes.G)
+    {
+        game.keys.G = true;
+    } else if (keycode === inputDevice.keyCodes.H)
+    {
+        game.keys.H = true;
     } else if (keycode === inputDevice.keyCodes.M)
     {
         game.debugMode = !game.debugMode;
@@ -273,6 +320,23 @@ inputDevice.addEventListener("keyup", function(keycode){
     {
         game.keys.D = false;
         chain.body.setVelocity([0, 0]);
+
+    } else if (keycode === inputDevice.keyCodes.T)
+    {
+        game.keys.T = false;
+        knitCube.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.F)
+    {
+        game.keys.F = false;
+        knitCube.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.G)
+    {
+        game.keys.G = false;
+        knitCube.body.setVelocity([0, 0]);
+    } else if (keycode === inputDevice.keyCodes.H)
+    {
+        game.keys.H = false;
+        knitCube.body.setVelocity([0, 0]);
 
     } else if (keycode === inputDevice.keyCodes.SPACE)
     {
@@ -349,6 +413,22 @@ function update()
         {
             chain.body.setVelocity([0.2, 0]);
         }
+        if (keys.T)
+        {
+            knitCube.body.setVelocity([0, -0.2]);
+        }
+        if (keys.F)
+        {
+            knitCube.body.setVelocity([-0.2, 0]);
+        }
+        if (keys.G)
+        {
+            knitCube.body.setVelocity([0, 0.2]);
+        }
+        if (keys.H)
+        {
+            knitCube.body.setVelocity([0.2, 0]);
+        }
 
         // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
         var startTime:number = dynamicWorld.simulatedTime;
@@ -393,6 +473,7 @@ function update()
         // draw platform
         //platform.draw(draw2D, offset);
         chain.draw(draw2D, offset);
+        knitCube.draw(draw2D, offset);
 
         draw2D.end();
 
