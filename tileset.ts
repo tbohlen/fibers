@@ -245,6 +245,7 @@ class Tileset {
                 var spriteParams:Draw2DSpriteParams = {
                     x: screenCoords[0],
                     y: screenCoords[1],
+                    origin: [0,0],
                     width: this.tileWidth,
                     height: this.tileHeight
                 };
