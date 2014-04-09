@@ -2,6 +2,11 @@
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/turbulenz.d.ts" />
 
+interface InteractablesObject {
+    buildables : Buildable[];
+    climbables : any[];
+}
+
 interface GameObject {
     engine : TurbulenzEngine;
     graphicsDevice : GraphicsDevice;
@@ -12,11 +17,7 @@ interface GameObject {
     collisionUtil: Physics2DCollisionUtils;
     debugMode : boolean;
     keys : KeyObject;
-}
-
-interface InteractablesObject {
-    buildables : Buildable[];
-    climbables : any[];
+    interactables: InteractablesObject;
 }
 
 interface KeyObject {
@@ -43,9 +44,10 @@ interface RigidSpriteOptions {
 }
 
 interface ChainOptions extends RigidSpriteOptions {
-    maxHeight:number;
-    minHeight:number;
-    width:number;
+    initHeight ?: number;
+    maxHeight : number;
+    minHeight : number;
+    width : number;
 }
 
 interface knitCubeOptions extends RigidSpriteOptions {

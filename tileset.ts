@@ -4,6 +4,7 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
 /// <reference path="platform.ts"/>
+/// <reference path="chain.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 
@@ -154,11 +155,27 @@ class Tileset {
                         this.rigidSprites.push(rigidSprite);
                         continue;
                     }
+                    else if (obj.properties.type == "chain")
+                    {
+                        // test for the right properties
+                        if ( ! (obj.properites.hasOwnProperty("width")
+                                && obj.properties.hasOwnProperty("initHeight")
+                                && obj.properties.hasOwnProperty("maxHeight")
+                                && obj.properties.hasOwnProperty("minHeight")))
+                        {
+                            console.log("Chain object must have width, initHeight, maxHeight, and minHeight properties.");
+                        }
+                        else {
+                            rigidSprite = Chain.constructFromTiled(obj, this.game);
+                            console.log("Made chain");
+                            this.rigidSprites.push(rigidSprite);
+                            continue;
+                        }
+                    }
                     else if (obj.properties.type == "ground")
                     {
                         //rigidSprite = Platform.constructFromTiled(obj, this, game);
                     }
-
                 }
                 // for each object, make a sprite if it is visible
                 if (Tileset.isValidPhysicsObject(obj)) {

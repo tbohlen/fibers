@@ -67,6 +67,50 @@ class Chain extends RigidSprite implements Buildable
         });
     }
 
+    static constructFromTiled(obj:any, game:GameObject) {
+        var material:Physics2DMaterial = game.physicsDevice.createMaterial({
+            elasticity : 0,
+            staticFriction : 0,
+            dynamicFriction : 0
+        });
+        var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
+            vertices : game.physicsDevice.createBoxVertices(obj.width, obj.height),
+            material : material,
+            group : 2,
+            mask : 0
+        });
+        var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
+            type : 'kinematic',
+            shapes : [shape],
+            position : [obj.x - obj.width/2, obj.y - obj.height/2]
+        });
+        var sprite:Draw2DSprite = Draw2DSprite.create({
+            width: obj.width,
+            height: obj.height,
+            origin : [obj.x, obj.y],
+            color: [1.0, 0.0, 0.0, 1.0]
+        });
+        game.physicsWorld.addRigidBody(body);
+        var rigidSprite = new RigidSprite({
+            sprite:sprite,
+            initialPos:[sprite.x, sprite.y],
+            gid: obj.gid,
+            body:body
+        });
+        var options:ChainOptions = {
+            sprite : sprite,
+            initialPos : [sprite.x, sprite.y],
+            body : body,
+            maxHeight:obj.properties.maxheight,
+            initHeight:obj.properties.initHeight,
+            minHeight:obj.properties.minHeight,
+            width:obj.properties.width
+        };
+        var newChain:Chain = new Chain(options, game);
+        game.interactables.buildables.push(newChain);
+        return newChain;
+    }
+
     buildUp()
     {
         if(this.currentHeight < this.maxHeight) {

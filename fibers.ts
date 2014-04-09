@@ -95,6 +95,11 @@ var htmlControls:HTMLControls = null;
 // other objects.
 ///////////////////////////////////////////////////////////////////////////////
 
+var interactables:InteractablesObject = {
+    buildables: [],
+    climbables: []
+};
+
 var game:GameObject = {
     engine : TurbulenzEngine,
     graphicsDevice : graphicsDevice,
@@ -105,12 +110,8 @@ var game:GameObject = {
     physicsWorld : dynamicWorld,
     collisionUtil : collisionUtil,
     debugMode : false,
-    keys : keys
-};
-
-var interactables:InteractablesObject = {
-    buildables: [],
-    climbables: []
+    keys : keys,
+    interactables: interactables
 };
 
 var viewport:number[] = [];
@@ -196,8 +197,8 @@ var knitCube:KnitCube = new KnitCube({
     minDimension : 0,
 }, game);
 
-interactables.buildables.push(chain);
-interactables.buildables.push(knitCube);
+game.interactables.buildables.push(chain);
+game.interactables.buildables.push(knitCube);
 
 ///////////////////////////////////////////////////////////////////////////////
 // Helper functions
@@ -213,7 +214,7 @@ function findBuildable() : Buildable
 {
     // checks all the buildables to figure out which is overlapping the player
     // TODO: make this smarter so that when a player is overlapping two items it does something intelligent...
-    var bs:Buildable[] = interactables.buildables;
+    var bs:Buildable[] = game.interactables.buildables;
     for (var i:number = 0; i < bs.length; i++) {
         var test:Buildable = bs[i];
         console.log("testing");
@@ -459,8 +460,8 @@ function update()
 
                 // combine the newly loaded objects with anything already existing
                 for (var key in newObjects) {
-                    if (newObjects.hasOwnProperty(key) && interactables.hasOwnProperty(key)) {
-                        interactables[key] = interactables[key].concat(newObjects[key]);
+                    if (newObjects.hasOwnProperty(key) && game.interactables.hasOwnProperty(key)) {
+                        game.interactables[key] = game.interactables[key].concat(newObjects[key]);
                     }
                 }
             }
@@ -484,10 +485,9 @@ function update()
             var physicsPort:number[] = [];
             physicsPort[0] = screenSpacePort[0] - offset[0];
             physicsPort[1] = screenSpacePort[1] - offset[1];
-            physicsPort[2] = screenSpacePort[2];
-            physicsPort[3] = screenSpacePort[3];
+            physicsPort[2] = screenSpacePort[2] - offset[0];
+            physicsPort[3] = screenSpacePort[3] - offset[1];
             physicsDebug.setScreenViewport(physicsPort);
-
             physicsDebug.showRigidBodies = true;
             physicsDebug.showContacts = true;
             physicsDebug.begin();
