@@ -74,3 +74,25 @@ interface Buildable {
      */
     getBuildableShape():Physics2DShape;
 }
+
+
+interface Climbable {
+    isClimbable:boolean;
+    shape?: Physics2DShape;
+
+    /*
+     * Method: isClimbableAtPosition
+     * Returns whether a given position in object-space is climbable. This is an alternative
+     * to specifying a geometric shape if you have some cool parametric way of describing
+     * which regions are climbable (maybe overkill)
+     */
+    isClimbableAtObjectPosition(position: number[]):boolean;
+    // usually just do:
+    // Physics2DCollisionUtils.containsPoint(shape, position);
+
+    /*
+     * Method: getBuildableShape
+     * Returns the shape that the player must be overlapping with in order to climb.
+     */
+    getClimbableShape():Physics2DShape;
+}
