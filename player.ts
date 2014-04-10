@@ -13,13 +13,19 @@ class Player {
     isClimbing:boolean = false;
     rigidSprite:RigidSprite = null;
 
-    constructor (game:GameObject, position:number[], textureFile:string)
+    standTextureFile:string = "assets/player/stand.png";
+    walkTextureFile:string = "assets/player/walk.png";
+    jumpTextureFile:string = "assets/player/jump.png";
+    frameDimensions:number[] = [256, 256];
+    animationFrame:number = 0;
+
+    constructor (game:GameObject, position:number[])
     {
         // build the player sprite
         var playerParams:any = {
             x: position[0],
             y: position[1],
-            width: 32,
+            width: 64,
             height: 64,
             color: [0.0, 1.0, 1.0, 1.0]
         };
@@ -44,18 +50,18 @@ class Player {
         });
         // next we build a player, including the rigid body, sprite, and managing object
         // import an image to use as the player display and when loading is done set it as the player's texture
-        //var layerTexture = graphicsDevice.createTexture({
-        //src: "assets/player/playerProfile.png",
-        //mipmaps: true,
-        //onload: function (texture)
-        //{
-        //if (texture != null)
-        //{
-        //player.setTexture(texture);
-        //player.setTextureRectangle([0, 0, texture.width, texture.height])
-        //}
-        //}
-        //});
+        var layerTexture = graphicsDevice.createTexture({
+            src: this.standTextureFile,
+            mipmaps: true,
+            onload: (texture:Texture) =>
+            {
+                if (texture != null)
+                {
+                    this.setTexture(texture);
+                    this.setTextureRectangle([0, 0, this.frameDimensions[0], this.frameDimensions[1]])
+                }
+            }
+        });
 
         this.rigidSprite = playerRigidSprite;
         this.rigidSprite.body.setPosition(position); // should be added to rigidSprite...

@@ -121,7 +121,7 @@ var bgColor = [0.0, 0.0, 0.0, 1.0];
 // the tileset device manages the tiled maps
 var tileset:Tileset = new Tileset("test.json", game);
 // build the player
-var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets/player/playerProfile.png");
+var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
 
 // make platform, currently only used for testing
 //TODO: remove this at some point and replace by generalized data structure
@@ -550,7 +550,7 @@ function loadHtmlControls() {
             dynamicWorld.clear();
             tileset = new Tileset(mapName+".json", game);
             // need to actually place player in desired location for map
-            player = new Player(game, [(viewport[3] - viewport[1])/2, 0], "assets/player/playerProfile.png");
+            player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
         }
     });
 
