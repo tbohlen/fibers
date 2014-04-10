@@ -30,8 +30,7 @@ class KnitCube extends RigidSprite implements Buildable
         });
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
-            material: slipperyMaterial,
-            group: 4,
+            group: 2,
             mask: 13
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
@@ -53,6 +52,10 @@ class KnitCube extends RigidSprite implements Buildable
             initialPos:options.initialPos,
             body:body
         });
+    }
+
+    static constructFromTiled(obj:any, tileset:Tileset, game:GameObject):KnitCube {
+        return null;
     }
 
     public buildUp():void

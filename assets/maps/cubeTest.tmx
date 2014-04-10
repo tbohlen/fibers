@@ -50,6 +50,9 @@
     <property name="shape" value="rectangle"/>
    </properties>
   </object>
+  <object name="platform" type="platform" x="111" y="878" width="93" height="19"/>
+  <object name="platform" type="platform" x="219" y="908" width="93" height="19"/>
+  <object name="platform" type="platform" x="341" y="924" width="93" height="19"/>
  </objectgroup>
  <objectgroup name="ladder" width="50" height="50">
   <object name="ladder" x="294" y="735" width="21" height="210">

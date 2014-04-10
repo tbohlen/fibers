@@ -34,23 +34,28 @@ class Platform extends RigidSprite{
             staticFriction : .3,
             dynamicFriction : 0.2
         });
+
+        var vertices:number[][] = [[0,0], [obj.width,0], [obj.width, obj.height], [0, obj.height]];
+
         var shapes : Physics2DShape[] = [
             phys2D.createPolygonShape({
-                vertices : phys2D.createBoxVertices(obj.width, obj.height),
+                vertices : vertices,
                 material : platformMaterial,
                 group: 8,
                 mask: 13
             })
         ];
         var body = phys2D.createRigidBody({
-            type : 'kinematic',
+            type : 'static',
             shapes : shapes,
-            position : [obj.x-obj.width/2, obj.y-obj.y/2]
+            position : [obj.x, obj.y]
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
             height: obj.height,
-            position : [obj.x, obj.y],
+            x : obj.x,
+            y : obj.y,
+            origin : [0, 0],
             color: [0.3, .3, 1.0, 1.0]
         });
         world.addRigidBody(body);

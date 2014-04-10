@@ -154,38 +154,41 @@ class Tileset {
 
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
-                if (obj.hasOwnProperty("properties") && obj.properties.hasOwnProperty("type"))
+                var rigidSprite:RigidSprite = null;
+                // use the class to try and make the object
+                console.log(obj.type);
+                if (obj.type == "platform")
                 {
-                    var rigidSprite:RigidSprite = null;
-                    // use the class to try and make the object
-                    if (obj.properties.type == "platform")
+                    rigidSprite = Platform.constructFromTiled(obj, this, this.game);
+                    this.rigidSprites.push(rigidSprite);
+                    continue;
+                }
+                else if (obj.type == "knitCube")
+                {
+                    rigidSprite = Platform.constructFromTiled(obj, this, this.game);
+                    this.rigidSprites.push(rigidSprite);
+                    continue;
+                }
+                else if (obj.type == "chain")
+                {
+                    // test for the right properties
+                    if ( ! (obj.properites.hasOwnProperty("width")
+                            && obj.properties.hasOwnProperty("initHeight")
+                            && obj.properties.hasOwnProperty("maxHeight")
+                            && obj.properties.hasOwnProperty("minHeight")))
                     {
-                        rigidSprite = Platform.constructFromTiled(obj, this, this.game);
-                        console.log("made Platform");
+                        console.log("Chain object must have width, initHeight, maxHeight, and minHeight properties.");
+                    }
+                    else {
+                        rigidSprite = Chain.constructFromTiled(obj, this.game);
+                        console.log("Made chain");
                         this.rigidSprites.push(rigidSprite);
                         continue;
                     }
-                    else if (obj.properties.type == "chain")
-                    {
-                        // test for the right properties
-                        if ( ! (obj.properites.hasOwnProperty("width")
-                                && obj.properties.hasOwnProperty("initHeight")
-                                && obj.properties.hasOwnProperty("maxHeight")
-                                && obj.properties.hasOwnProperty("minHeight")))
-                        {
-                            console.log("Chain object must have width, initHeight, maxHeight, and minHeight properties.");
-                        }
-                        else {
-                            rigidSprite = Chain.constructFromTiled(obj, this.game);
-                            console.log("Made chain");
-                            this.rigidSprites.push(rigidSprite);
-                            continue;
-                        }
-                    }
-                    else if (obj.properties.type == "ground")
-                    {
-                        //rigidSprite = Platform.constructFromTiled(obj, this, game);
-                    }
+                }
+                else if (obj.type == "ground")
+                {
+                    //rigidSprite = Platform.constructFromTiled(obj, this, game);
                 }
                 // for each object, make a sprite if it is visible
                 if (Tileset.isValidPhysicsObject(obj)) {

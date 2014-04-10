@@ -11,7 +11,6 @@
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 /// <reference path="rigidSprite.ts"/>
-/// <reference path="platform.ts"/>
 /// <reference path="interfaces.ts"/>
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
@@ -119,13 +118,9 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("test.json", game);
+var tileset:Tileset = new Tileset("cubeTest.json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
-
-// make platform, currently only used for testing
-//TODO: remove this at some point and replace by generalized data structure
-//var platform = new Platform(physicsDevice, dynamicWorld);
 
 
 var shapeSize = 10;
@@ -497,8 +492,6 @@ function update()
         // draw the player to the screen
         player.draw(draw2D, offset);
 
-        // draw platform
-        //platform.draw(draw2D, offset);
         chain.draw(draw2D, offset);
         knitCube.draw(draw2D, offset);
 
