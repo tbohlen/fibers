@@ -4,6 +4,11 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
 
+enum Direction {
+    LEFT,
+    RIGHT
+}
+
 class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.8;
@@ -12,6 +17,8 @@ class Player {
     isJumping:boolean = false;
     isClimbing:boolean = false;
     rigidSprite:RigidSprite = null;
+
+    facing:Direction = Direction.RIGHT;
 
     standTextureFile:string = "assets/player/stand.png";
     walkTextureFile:string = "assets/player/walk.png";
@@ -112,12 +119,14 @@ class Player {
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
+        this.facing = Direction.LEFT;
     }
 
     walkRight()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
+        this.facing = Direction.RIGHT;
     }
 
     goUp()
@@ -150,6 +159,12 @@ class Player {
     // draws the player's sprite to the screen
     draw(draw2D:Draw2D, offset:number[])
     {
+        if (this.facing == Direction.LEFT) {
+            this.rigidSprite.sprite.setTextureRectangle([256, 0, 0, 256]);
+        } else {
+            this.rigidSprite.sprite.setTextureRectangle([0, 0, 256, 256]);
+        }
+
         this.rigidSprite.draw(draw2D, offset);
     }
 }
