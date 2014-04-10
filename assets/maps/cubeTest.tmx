@@ -44,7 +44,7 @@
   </object>
  </objectgroup>
  <objectgroup name="ground" width="50" height="50">
-  <object name="ground" x="0" y="945" width="1050" height="105">
+  <object name="ground" type="Platform" x="0" y="945" width="1050" height="105">
    <properties>
     <property name="rigidBody" value="static"/>
     <property name="shape" value="rectangle"/>

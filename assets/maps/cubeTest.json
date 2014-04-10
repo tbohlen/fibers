@@ -109,7 +109,7 @@
                      "rigidBody":"static",
                      "shape":"rectangle"
                     },
-                 "type":"",
+                 "type":"Platform",
                  "visible":true,
                  "width":1050,
                  "x":0,

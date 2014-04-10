@@ -118,7 +118,7 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("test1.json", game);
+var tileset:Tileset = new Tileset("cubeTest.json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
 

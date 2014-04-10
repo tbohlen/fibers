@@ -150,120 +150,16 @@ class Tileset {
             var numObjects:number = layer.objects.length;
             var climbables:Climbable[] = [];
             var buildables:Buildable[] = [];
-            //var layerHeight:number = layer.height * this.tileHeight;
-            //var layerWidth:number = layer.width * this.tileWidth;
 
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
-                var rigidSprite:RigidSprite = null;
-                // use the class to try and make the object
-                console.log(obj.type);
-                if (obj.type == "Platform")
+                if (!(obj.type in window))
                 {
-                    rigidSprite = Platform.constructFromTiled(obj, this, this.game);
-                    this.rigidSprites.push(rigidSprite);
+                    console.log("Could not create object of type: " + obj.type);
                     continue;
                 }
-                else if (obj.type == "KnitCube")
-                {
-                    var kc:KnitCube = KnitCube.constructFromTiled(obj, this, this.game);
-                    buildables.push(kc);
-                    this.rigidSprites.push(kc);
-                    continue;
-                }
-                else if (obj.type == "chain")
-                {
-                    // test for the right properties
-                    if ( ! (obj.properites.hasOwnProperty("width")
-                            && obj.properties.hasOwnProperty("initHeight")
-                            && obj.properties.hasOwnProperty("maxHeight")
-                            && obj.properties.hasOwnProperty("minHeight")
-                            && obj.properties.hasOwnProperty("rotation")))
-                    {
-                        console.log("Chain object must have width, initHeight, maxHeight, and minHeight properties.");
-                    }
-                    else {
-                        rigidSprite = Chain.constructFromTiled(obj, this.game);
-                        console.log("Made chain");
-                        this.rigidSprites.push(rigidSprite);
-                        continue;
-                    }
-                }
-                else if (obj.type == "ground")
-                {
-                    //rigidSprite = Platform.constructFromTiled(obj, this, game);
-                }
-                // for each object, make a sprite if it is visible
-                if (Tileset.isValidPhysicsObject(obj)) {
-                    var rigidSprite:RigidSprite = null;
-                    // build the sprite
-                    // what is the interaction between defined color and texture?
-                    var spriteParams:Draw2DSpriteParams = {
-                        height: obj.height,
-                        width: obj.width,
-                        x: obj.x,
-                        y: obj.y + obj.height/2,
-                        color: [1.0, this.layerNum / 5.0, 0.0, 1.0],
-                        origin: [obj.width/2, obj.height/2]
-                    };
-                    console.log(spriteParams);
-                    var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
-
-                    var vertices:number[][];
-                    if (obj.properties.shape === "rectangle")
-                    {
-                        vertices = this.game.physicsDevice.createRectangleVertices(obj.x, obj.y, obj.x + obj.width, obj.y + obj.height);
-                    }
-
-                    // build the body
-                    if (obj.properties.hasOwnProperty("rigidBody") && vertices) {
-
-                        var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
-                            vertices: vertices,
-                            material: this.slipperyMaterial,
-                            group: 8,
-                            mask: 13
-                        });
-                        var body:Physics2DRigidBody = this.game.physicsDevice.createRigidBody({
-                            type: obj.properties.rigidBody,
-                            shapes: [shape],
-                            mass: (obj.properties.mass ? obj.properties.mass : 1)
-                        });
-                        // add the body to the world
-                        this.game.physicsWorld.addRigidBody(body);
-
-                        rigidSprite = new RigidSprite({
-                            sprite:sprite,
-                            initialPos:[obj.x, obj.y+obj.height/2],
-                            gid:obj.gid,
-                            body:body
-                        });
-                        console.log("Made physics obj!");
-
-                        if (obj.properties.hasOwnProperty("climbable"))
-                        {
-                            // eventually implement climbable as a proper mixin...
-                            var ladder = new Ladder(rigidSprite);
-                            climbables.push(ladder);
-                            console.log("adding a ladder with a rigid body!");
-                        }
-
-                    }
-                    else {
-                        console.log("Not making rigid body for object because properties are not valid");
-                        rigidSprite = new RigidSprite({
-                            sprite:sprite,
-                            initialPos:[obj.x, obj.y],
-                            gid:obj.gid
-                        });
-                    }
-                    // store this rigid sprite
-                    this.rigidSprites.push(rigidSprite);
-                }
-                else {
-                    console.log("Not loading object from layer because keys/values are bad.");
-
-                }
+                var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
+                this.rigidSprites.push(rigidSprite);
             }
             this.layerNum++;
         }

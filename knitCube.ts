@@ -18,16 +18,8 @@ class KnitCube extends RigidSprite implements Buildable
         this.minDimension = options.minDimension;
         this.currentDimension = 0;
 
-        var vertices:number[][] = [[options.initialPos[0], options.initialPos[1]],
-            [options.initialPos[0] + this.maxDimension, options.initialPos[1]],
-            [options.initialPos[0] + this.maxDimension, options.initialPos[1] - this.maxDimension],
-            [options.initialPos[0], options.initialPos[1] - this.maxDimension]];
-
-        var slipperyMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
-            elasticity : 0,
-            staticFriction : 0,
-            dynamicFriction : 0
-        });
+        // for the cube that will be knitted
+        var vertices:number[][] = [[0,0], [10,0], [10, 10], [0, 10]];;
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
             group: 2,
@@ -44,8 +36,6 @@ class KnitCube extends RigidSprite implements Buildable
             origin : [this.maxDimension / 2, this.maxDimension / 2],
             color: [1.0, 1.0, 1.0, 1.0]
         });
-        // add the body to the world
-        game.physicsWorld.addRigidBody(body);
 
         this.construct = new RigidSprite({
             sprite:sprite,
@@ -92,7 +82,6 @@ class KnitCube extends RigidSprite implements Buildable
 
     public buildUp():void
     {
-        console.log("cubing up");
         if (this.currentDimension + this.GROW_SPEED < this.maxDimension) {
             this.currentDimension += this.GROW_SPEED;
             this.remakeConstruct();
@@ -101,7 +90,6 @@ class KnitCube extends RigidSprite implements Buildable
 
     public buildDown():void
     {
-        console.log("cubing down");
         if (this.currentDimension - this.GROW_SPEED > this.minDimension) {
             this.currentDimension -= this.GROW_SPEED;
             this.remakeConstruct();
@@ -110,10 +98,8 @@ class KnitCube extends RigidSprite implements Buildable
 
     private remakeConstruct():void
     {
-        var position:number[] = this.body.getPosition();
         if (this.currentDimension > 0)
         {
-            this.construct.body.setPosition(position);
             this.construct.sprite.setHeight(this.currentDimension);
             this.construct.sprite.setWidth(this.currentDimension);
         }
