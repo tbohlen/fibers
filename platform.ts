@@ -19,12 +19,11 @@ class Platform extends RigidSprite{
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject):Platform
     {
-        console.log('object coming');
-        console.log(obj);
         if (!(obj.visible && obj.hasOwnProperty("height") && obj.hasOwnProperty("width")
             && obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties")))
         {
             console.log("failed to make platform");
+            return;
         }
 
         var phys2D = game.physicsDevice;

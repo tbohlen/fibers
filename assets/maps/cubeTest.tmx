@@ -50,9 +50,9 @@
     <property name="shape" value="rectangle"/>
    </properties>
   </object>
-  <object name="platform" type="platform" x="111" y="878" width="93" height="19"/>
-  <object name="platform" type="platform" x="219" y="908" width="93" height="19"/>
-  <object name="platform" type="platform" x="341" y="924" width="93" height="19"/>
+  <object name="platform" type="Platform" x="101" y="781" width="93" height="19"/>
+  <object name="platform" type="Platform" x="221" y="862" width="93" height="19"/>
+  <object name="platform" type="Platform" x="398" y="918" width="93" height="19"/>
  </objectgroup>
  <objectgroup name="ladder" width="50" height="50">
   <object name="ladder" x="294" y="735" width="21" height="210">
@@ -64,9 +64,10 @@
   </object>
  </objectgroup>
  <objectgroup name="CubeGrower" width="50" height="50">
-  <object name="cube" type="knitCube" x="42" y="925" width="20" height="20">
+  <object name="cube" type="KnitCube" x="42" y="925" width="20" height="20">
    <properties>
-    <property name="type" value="knitCube"/>
+    <property name="maxDimension" value="30"/>
+    <property name="minDimension" value="1"/>
    </properties>
   </object>
  </objectgroup>

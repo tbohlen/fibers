@@ -55,11 +55,44 @@ class KnitCube extends RigidSprite implements Buildable
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject):KnitCube {
-        return null;
+        var vertices:number[][] = [[0,0], [obj.width,0], [obj.width, obj.height], [0, obj.height]];
+
+        var shapes : Physics2DShape[] = [
+            game.physicsDevice.createPolygonShape({
+                vertices : vertices,
+                group: 2,
+                mask: 13
+            })
+        ];
+        var body = game.physicsDevice.createRigidBody({
+            type : 'static',
+            shapes : shapes,
+            position : [obj.x, obj.y]
+        });
+        var sprite:Draw2DSprite = Draw2DSprite.create({
+            width: obj.width,
+            height: obj.height,
+            x : obj.x,
+            y : obj.y,
+            origin : [0, 0],
+            color: [.1, .5, .1, 1.0]
+        });
+
+        game.physicsWorld.addRigidBody(body);
+
+        var params:knitCubeOptions = {
+            sprite : sprite,
+            initialPos : [sprite.x, sprite.y],
+            body : body,
+            maxDimension : obj.properties.maxDimension,
+            minDimension : obj.properties.minDimension
+        };
+        return new KnitCube(params, game);
     }
 
     public buildUp():void
     {
+        console.log("cubing up");
         if (this.currentDimension + this.GROW_SPEED < this.maxDimension) {
             this.currentDimension += this.GROW_SPEED;
             this.remakeConstruct();
@@ -68,6 +101,7 @@ class KnitCube extends RigidSprite implements Buildable
 
     public buildDown():void
     {
+        console.log("cubing down");
         if (this.currentDimension - this.GROW_SPEED > this.minDimension) {
             this.currentDimension -= this.GROW_SPEED;
             this.remakeConstruct();

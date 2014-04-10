@@ -149,6 +149,7 @@ class Tileset {
         {
             var numObjects:number = layer.objects.length;
             var climbables:Climbable[] = [];
+            var buildables:Buildable[] = [];
             //var layerHeight:number = layer.height * this.tileHeight;
             //var layerWidth:number = layer.width * this.tileWidth;
 
@@ -157,16 +158,17 @@ class Tileset {
                 var rigidSprite:RigidSprite = null;
                 // use the class to try and make the object
                 console.log(obj.type);
-                if (obj.type == "platform")
+                if (obj.type == "Platform")
                 {
                     rigidSprite = Platform.constructFromTiled(obj, this, this.game);
                     this.rigidSprites.push(rigidSprite);
                     continue;
                 }
-                else if (obj.type == "knitCube")
+                else if (obj.type == "KnitCube")
                 {
-                    rigidSprite = Platform.constructFromTiled(obj, this, this.game);
-                    this.rigidSprites.push(rigidSprite);
+                    var kc:KnitCube = KnitCube.constructFromTiled(obj, this, this.game);
+                    buildables.push(kc);
+                    this.rigidSprites.push(kc);
                     continue;
                 }
                 else if (obj.type == "chain")
@@ -264,7 +266,7 @@ class Tileset {
             }
             this.layerNum++;
         }
-        return [[], climbables];
+        return [buildables, climbables];
     }
 
     /*

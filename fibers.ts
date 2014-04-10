@@ -210,6 +210,7 @@ function findBuildable() : Buildable
     // checks all the buildables to figure out which is overlapping the player
     // TODO: make this smarter so that when a player is overlapping two items it does something intelligent...
     var bs:Buildable[] = game.interactables.buildables;
+    console.log(game.interactables.buildables.length + "alkdsjfaopoqewruafdjasldkfjwpoaiuer");
     for (var i:number = 0; i < bs.length; i++) {
         var test:Buildable = bs[i];
         console.log("testing");

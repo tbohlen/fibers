@@ -122,11 +122,11 @@
                     {
 
                     },
-                 "type":"platform",
+                 "type":"Platform",
                  "visible":true,
                  "width":93,
-                 "x":111,
-                 "y":878
+                 "x":101,
+                 "y":781
                 }, 
                 {
                  "height":19,
@@ -135,11 +135,11 @@
                     {
 
                     },
-                 "type":"platform",
+                 "type":"Platform",
                  "visible":true,
                  "width":93,
-                 "x":219,
-                 "y":908
+                 "x":221,
+                 "y":862
                 }, 
                 {
                  "height":19,
@@ -148,11 +148,11 @@
                     {
 
                     },
-                 "type":"platform",
+                 "type":"Platform",
                  "visible":true,
                  "width":93,
-                 "x":341,
-                 "y":924
+                 "x":398,
+                 "y":918
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -196,9 +196,10 @@
                  "name":"cube",
                  "properties":
                     {
-                     "type":"knitCube"
+                     "maxDimension":"30",
+                     "minDimension":"1"
                     },
-                 "type":"knitCube",
+                 "type":"KnitCube",
                  "visible":true,
                  "width":20,
                  "x":42,
