@@ -48,6 +48,7 @@ interface ChainOptions extends RigidSpriteOptions {
     maxHeight : number;
     minHeight : number;
     width : number;
+    rotation: number;
 }
 
 interface knitCubeOptions extends RigidSpriteOptions {

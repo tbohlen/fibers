@@ -18,6 +18,7 @@ class Chain extends RigidSprite implements Buildable
     currentHeight:number;
     width:number;
     construct:RigidSprite;
+    rotation:number;
 
     constructor (options:ChainOptions, game:GameObject)
     {
@@ -65,6 +66,12 @@ class Chain extends RigidSprite implements Buildable
             initialPos:options.initialPos,
             body:body
         });
+
+        // set rotations
+        console.log("rotation is " + options.rotation);
+        this.body.setRotation(options.rotation);
+        this.construct.body.setRotation(options.rotation);
+        this.rotation = options.rotation;
     }
 
     static constructFromTiled(obj:any, game:GameObject) {
@@ -104,7 +111,8 @@ class Chain extends RigidSprite implements Buildable
             maxHeight:obj.properties.maxheight,
             initHeight:obj.properties.initHeight,
             minHeight:obj.properties.minHeight,
-            width:obj.properties.width
+            width:obj.properties.width,
+            rotation:obj.properties.rotation
         };
         var newChain:Chain = new Chain(options, game);
         game.interactables.buildables.push(newChain);
@@ -157,11 +165,12 @@ class Chain extends RigidSprite implements Buildable
         if (this.currentHeight > 0) {
             console.log("Height set to " + this.currentHeight);
             this.construct.body.setPosition(position);
+            this.construct.sprite.rotation = this.rotation;
             this.construct.sprite.x = position[0] - offset[0];
             this.construct.sprite.y = position[1] - offset[1] - this.currentHeight;
             this.construct.sprite.setHeight(this.currentHeight);
             this.construct.sprite.setWidth(this.width);
-            // and draw it to the screen
+            // / and draw it to the screen
             draw2D.drawSprite(this.construct.sprite);
         }
         super.draw(draw2D, offset);

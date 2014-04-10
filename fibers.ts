@@ -118,7 +118,7 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("cubeTest.json", game);
+var tileset:Tileset = new Tileset("test1.json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
 
@@ -182,7 +182,8 @@ var chain:Chain = new Chain({
     body: chainBody,
     maxHeight: 100,
     minHeight: 0,
-    width: 50
+    width: 50,
+    rotation:3*Math.PI/2
 }, game);
 var knitCube:KnitCube = new KnitCube({
     sprite : knitCubeSprite,
@@ -210,7 +211,7 @@ function findBuildable() : Buildable
     // checks all the buildables to figure out which is overlapping the player
     // TODO: make this smarter so that when a player is overlapping two items it does something intelligent...
     var bs:Buildable[] = game.interactables.buildables;
-    console.log(game.interactables.buildables.length + "alkdsjfaopoqewruafdjasldkfjwpoaiuer");
+    console.log("Length is " + bs.length);
     for (var i:number = 0; i < bs.length; i++) {
         var test:Buildable = bs[i];
         console.log("testing");
@@ -485,7 +486,8 @@ function update()
             if (!tileset.ranLoadMap)
             {
                 console.log("Running load map");
-                game.interactables = tileset.loadMap();
+                game.interactables.buildables = game.interactables.buildables.concat(tileset.loadMap().buildables);
+                game.interactables.climbables = game.interactables.climbables.concat(tileset.loadMap().climbables);
             }
             tileset.draw(draw2D, offset);
         }

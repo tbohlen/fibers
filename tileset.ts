@@ -177,7 +177,8 @@ class Tileset {
                     if ( ! (obj.properites.hasOwnProperty("width")
                             && obj.properties.hasOwnProperty("initHeight")
                             && obj.properties.hasOwnProperty("maxHeight")
-                            && obj.properties.hasOwnProperty("minHeight")))
+                            && obj.properties.hasOwnProperty("minHeight")
+                            && obj.properties.hasOwnProperty("rotation")))
                     {
                         console.log("Chain object must have width, initHeight, maxHeight, and minHeight properties.");
                     }

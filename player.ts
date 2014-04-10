@@ -127,6 +127,7 @@ class Player {
     {
         // whenever we hit another shape, set isJumping to false;
         this.isJumping = false;
+        console.log("collide");
     }
 
     // just calls into sprite
