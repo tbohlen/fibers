@@ -23,8 +23,53 @@ class Player {
     standTextureFile:string = "assets/player/stand.png";
     walkTextureFile:string = "assets/player/walk.png";
     jumpTextureFile:string = "assets/player/jump.png";
+
+    standTexture:Texture = null;
+    walkTexture:Texture = null;
+    jumpTexture:Texture = null;
+
     frameDimensions:number[] = [256, 256];
     animationFrame:number = 0;
+
+    loadTextures(graphicsDevice:GraphicsDevice)
+    {
+        // import an image to use as the player display and when loading is done set it as the player's texture
+        graphicsDevice.createTexture({
+            src: this.standTextureFile,
+            mipmaps: true,
+            onload: (texture:Texture) =>
+            {
+                if (texture != null)
+                {
+                    this.standTexture = texture;
+                    this.setTexture(texture);
+                    this.setTextureRectangle([0, 0, this.frameDimensions[0], this.frameDimensions[1]]);
+                }
+            }
+        });
+        graphicsDevice.createTexture({
+            src: this.walkTextureFile,
+            mipmaps: true,
+            onload: (texture:Texture) =>
+            {
+                if (texture != null)
+                {
+                    this.walkTexture = texture;
+                }
+            }
+        });
+        graphicsDevice.createTexture({
+            src: this.jumpTextureFile,
+            mipmaps: true,
+            onload: (texture:Texture) =>
+            {
+                if (texture != null)
+                {
+                    this.jumpTexture = texture;
+                }
+            }
+        });
+    }
 
     constructor (game:GameObject, position:number[])
     {
@@ -56,19 +101,7 @@ class Player {
             body:playerBody
         });
         // next we build a player, including the rigid body, sprite, and managing object
-        // import an image to use as the player display and when loading is done set it as the player's texture
-        var layerTexture = graphicsDevice.createTexture({
-            src: this.standTextureFile,
-            mipmaps: true,
-            onload: (texture:Texture) =>
-            {
-                if (texture != null)
-                {
-                    this.setTexture(texture);
-                    this.setTextureRectangle([0, 0, this.frameDimensions[0], this.frameDimensions[1]])
-                }
-            }
-        });
+        this.loadTextures(game.graphicsDevice);
 
         this.rigidSprite = playerRigidSprite;
         this.rigidSprite.body.setPosition(position); // should be added to rigidSprite...
