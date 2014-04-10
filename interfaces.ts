@@ -4,7 +4,7 @@
 
 interface InteractablesObject {
     buildables : Buildable[];
-    climbables : any[];
+    climbables : Climbable[];
 }
 
 interface GameObject {
@@ -78,7 +78,7 @@ interface Buildable {
 
 interface Climbable {
     isClimbable:boolean;
-    shape?: Physics2DShape;
+    shape?:Physics2DShape;
 
     /*
      * Method: isClimbableAtPosition
@@ -86,13 +86,29 @@ interface Climbable {
      * to specifying a geometric shape if you have some cool parametric way of describing
      * which regions are climbable (maybe overkill)
      */
-    isClimbableAtObjectPosition(position: number[]):boolean;
+    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean;
     // usually just do:
-    // Physics2DCollisionUtils.containsPoint(shape, position);
+    // collisionUtil.containsPoint(this.shape, position);
 
     /*
      * Method: getBuildableShape
      * Returns the shape that the player must be overlapping with in order to climb.
      */
     getClimbableShape():Physics2DShape;
+}
+
+class ClimbableDefault implements Climbable
+{
+    isClimbable:boolean = true;
+    shape:Physics2DShape;
+
+    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean
+    {
+        return collisionUtil.containsPoint(this.getClimbableShape(), position);
+    }
+
+    getClimbableShape():Physics2DShape
+    {
+        return this.shape;
+    }
 }

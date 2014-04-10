@@ -7,8 +7,10 @@
 class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.8;
+    CLIMB_SPEED = 4;
 
     isJumping:boolean = false;
+    isClimbing:boolean = false;
     rigidSprite:RigidSprite = null;
 
     constructor (game:GameObject, position:number[], textureFile:string)
@@ -122,9 +124,21 @@ class Player {
         }
     }
 
+    climbUp()
+    {
+        var pos:number[] = this.rigidSprite.body.getPosition();
+        console.log("climbing...");
+        this.rigidSprite.body.setPosition([pos[0], pos[1]-this.CLIMB_SPEED]);
+    }
+
     update()
     {
-
+        // force the player to not fall due to gravity if they are climbing
+        if (this.isClimbing)
+        {
+            var vel:number[] = this.rigidSprite.body.getVelocity();
+            this.rigidSprite.body.setVelocity([vel[0], 0]);
+        }
     }
 
     // draws the player's sprite to the screen

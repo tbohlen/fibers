@@ -62,7 +62,7 @@ module Mixins
 
     export function mixinExample()
     {
-        console.log("Running mixin example.")
+        console.log("Running mixin example.");
         applyMixins(SmartObject, [Disposable, Activatable]);
         var smartObj = new SmartObject();
         setTimeout(() => smartObj.interact(), 1000);

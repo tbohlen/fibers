@@ -26,6 +26,11 @@ class RigidSprite {
         }
     }
 
+    getShapes():Physics2DShape[]
+    {
+        return this.body.shapes;
+    }
+
     draw(draw2D:Draw2D, offset) {
         // update the sprite position if there is a rigid body. Otherwise, leave the sprite where it is
         if (this.body != null)

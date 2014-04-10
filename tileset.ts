@@ -5,6 +5,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="platform.ts"/>
 /// <reference path="chain.ts"/>
+/// <reference path="ladder.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 
@@ -59,6 +60,8 @@ class Tileset {
     // Iterating over the list will allow for computing physics, displaying, etc.
     rigidSprites:RigidSprite[];
 
+    slipperyMaterial:Physics2DMaterial;
+
     mapLoadedCallback:(jsonData) => void;
 
     /*
@@ -105,6 +108,12 @@ class Tileset {
             }
         };
 
+        this.slipperyMaterial = this.game.physicsDevice.createMaterial({
+            elasticity: 0,
+            staticFriction: 0,
+            dynamicFriction: 0
+        });
+
         this.game.engine.request(BASE_MAP_URL + mapFilename,
             this.mapLoadedCallback);
     }
@@ -139,6 +148,7 @@ class Tileset {
         if (layer.objects)
         {
             var numObjects:number = layer.objects.length;
+            var climbables:Climbable[] = [];
             //var layerHeight:number = layer.height * this.tileHeight;
             //var layerWidth:number = layer.width * this.tileWidth;
 
@@ -193,17 +203,18 @@ class Tileset {
                     console.log(spriteParams);
                     var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
 
+                    var vertices:number[][];
+                    if (obj.properties.shape === "rectangle")
+                    {
+                        vertices = this.game.physicsDevice.createRectangleVertices(obj.x, obj.y, obj.x + obj.width, obj.y + obj.height);
+                    }
+
                     // build the body
-                    if (obj.properties.hasOwnProperty("rigidBody") && obj.properties.shape === "rectangle") {
-                        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(obj.x, obj.y, obj.x + obj.width, obj.y + obj.height);
-                        var slipperyMaterial:Physics2DMaterial = this.game.physicsDevice.createMaterial({
-                            elasticity: 0,
-                            staticFriction: 0,
-                            dynamicFriction: 0
-                        });
+                    if (obj.properties.hasOwnProperty("rigidBody") && vertices) {
+
                         var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                             vertices: vertices,
-                            material: slipperyMaterial,
+                            material: this.slipperyMaterial,
                             group: 8,
                             mask: 13
                         });
@@ -222,6 +233,15 @@ class Tileset {
                             body:body
                         });
                         console.log("Made physics obj!");
+
+                        if (obj.properties.hasOwnProperty("climbable"))
+                        {
+                            // eventually implement climbable as a proper mixin...
+                            var ladder = new Ladder(rigidSprite);
+                            climbables.push(ladder);
+                            console.log("adding a ladder with a rigid body!");
+                        }
+
                     }
                     else {
                         console.log("Not making rigid body for object because properties are not valid");
@@ -241,7 +261,7 @@ class Tileset {
             }
             this.layerNum++;
         }
-        return [[],[]];
+        return [[], climbables];
     }
 
     /*
@@ -281,7 +301,7 @@ class Tileset {
         return [[],[]];
     }
 
-    loadMap() {
+    loadMap(): InteractablesObject {
         console.log("loading map!");
         this.ranLoadMap = true;
         var allObjects:InteractablesObject = {

@@ -194,7 +194,7 @@ var knitCube:KnitCube = new KnitCube({
     initialPos : [10, 10],
     body : knitCubeBody,
     maxDimension : 20,
-    minDimension : 0,
+    minDimension : 0
 }, game);
 
 game.interactables.buildables.push(chain);
@@ -230,6 +230,28 @@ function findBuildable() : Buildable
         else
         {
             console.log("Failure");
+        }
+    }
+    return null;
+}
+
+function findClimbable(): Climbable
+{
+    var climbables:Climbable[] = game.interactables.climbables;
+
+    for (var i:number = 0; i < climbables.length; i++)
+    {
+        var test:Climbable = climbables[i];
+        var shapeOne = player.rigidSprite.body.shapes[0];
+        var shapeTwo = test.getClimbableShape();
+        if (game.collisionUtil.intersects(shapeOne, shapeTwo))
+        {
+            console.log("colliding with climbable!");
+            return test;
+        } else {
+            console.log("did not collide: ");
+            console.log(shapeOne.body.getPosition());
+            console.log(shapeTwo.body.getPosition());
         }
     }
     return null;
@@ -370,7 +392,18 @@ function update()
         }
         if (keys.UP && !keys.SPACE)
         {
-            player.goUp();
+            var climbable:Climbable = findClimbable();
+            // just for testing
+            if (climbable != null)
+            {
+                player.isClimbing = true;
+                player.climbUp();
+            } else
+            {
+                console.log("could not find climbable...");
+                player.isClimbing = false;
+                player.goUp();
+            }
         }
         if (keys.UP && keys.SPACE)
         {
@@ -456,14 +489,7 @@ function update()
             if (!tileset.ranLoadMap)
             {
                 console.log("Running load map");
-                var newObjects:InteractablesObject = tileset.loadMap();
-
-                // combine the newly loaded objects with anything already existing
-                for (var key in newObjects) {
-                    if (newObjects.hasOwnProperty(key) && game.interactables.hasOwnProperty(key)) {
-                        game.interactables[key] = game.interactables[key].concat(newObjects[key]);
-                    }
-                }
+                game.interactables = tileset.loadMap();
             }
             tileset.draw(draw2D, offset);
         }
