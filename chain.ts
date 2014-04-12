@@ -19,11 +19,14 @@ class Chain extends RigidSprite implements Buildable
     width:number;
     construct:RigidSprite;
     rotation:number;
+    game:GameObject;
+    material:Physics2DMaterial;
 
     constructor (options:ChainOptions, game:GameObject)
     {
 
         super(options);
+        this.game = game;
         this.maxHeight = options.maxHeight;
         this.minHeight = options.minHeight;
         this.width = options.width;
@@ -32,20 +35,17 @@ class Chain extends RigidSprite implements Buildable
         // the rigidSprite displayed is the knitting needles
         // in addition to the knitting needles, we need the thing you are climbing
         // this is constructed as another rigidSprite with a fixed width
-        var vertices:number[][] = [[options.initialPos[0], options.initialPos[1]],
-                                   [options.initialPos[0] + this.width, options.initialPos[1]],
-                                   [options.initialPos[0] + this.width, options.initialPos[1] - this.currentHeight],
-                                   [options.initialPos[0], options.initialPos[1] - this.currentHeight]];
-        var slipperyMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
+        this.material = game.physicsDevice.createMaterial({
             elasticity : 0,
             staticFriction : 0,
             dynamicFriction : 0
         });
+        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
-            material: slipperyMaterial,
+            material: this.material,
             group: 4,
-            mask: 13
+            mask: 0
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: "kinematic",
@@ -128,9 +128,16 @@ class Chain extends RigidSprite implements Buildable
             {
                 nextHeight = this.maxHeight;
             }
-            var shape:Physics2DPolygon = <Physics2DPolygon>this.construct.body.shapes[0];
-            shape.scale(1, (this.currentHeight+this.GROW_SPEED) / this.currentHeight);
             this.currentHeight = nextHeight;
+            var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
+            var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
+                vertices: vertices,
+                material: this.material,
+                group: 4,
+                mask: 0
+            });
+            this.construct.body.removeShape(this.construct.body.shapes[0]);
+            this.construct.body.addShape(shape);
         }
 
     }
@@ -144,9 +151,16 @@ class Chain extends RigidSprite implements Buildable
             {
                 nextHeight = this.minHeight;
             }
-            var shape:Physics2DPolygon = <Physics2DPolygon>this.construct.body.shapes[0];
-            shape.scale(1, nextHeight / this.currentHeight);
             this.currentHeight = nextHeight;
+            var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
+            var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
+                vertices: vertices,
+                material: this.material,
+                group: 4,
+                mask: 0
+            });
+            this.construct.body.removeShape(this.construct.body.shapes[0]);
+            this.construct.body.addShape(shape);
         }
     }
 
