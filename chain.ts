@@ -115,7 +115,7 @@ class Chain extends RigidSprite implements Buildable
             rotation:obj.properties.rotation
         };
         var newChain:Chain = new Chain(options, game);
-        game.interactables.buildables.push(newChain);
+        game.collisionHelp.pushInteractable(newChain);
         return newChain;
     }
 
@@ -165,13 +165,17 @@ class Chain extends RigidSprite implements Buildable
     }
 
     /*
-     * Method: getBuildableShape
+     * Method: getShape
      * Returns the shape that the player must be overlapping with in order to build this item. ie the knitting needles.
      */
-    getBuildableShape = () =>
+    getShape():Physics2DShape
     {
-        console.log("Getting shape from " + this.body.shapes);
         return this.body.shapes[0];
+    }
+
+    playerCollideCallback():void
+    {
+        console.log("chain intersecting with player");
     }
 
     draw(draw2D:Draw2D, offset:number[]) {

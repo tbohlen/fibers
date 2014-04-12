@@ -6,6 +6,7 @@
 
 class KnitCube extends RigidSprite implements Buildable
 {
+
     GROW_SPEED = 2;
     maxDimension:number;
     minDimension:number;
@@ -70,6 +71,7 @@ class KnitCube extends RigidSprite implements Buildable
 
         game.physicsWorld.addRigidBody(body);
 
+
         var params:knitCubeOptions = {
             sprite : sprite,
             initialPos : [sprite.x, sprite.y],
@@ -77,7 +79,9 @@ class KnitCube extends RigidSprite implements Buildable
             maxDimension : obj.properties.maxDimension,
             minDimension : obj.properties.minDimension
         };
-        return new KnitCube(params, game);
+        var kc:KnitCube = new KnitCube(params, game);
+        game.collisionHelp.pushInteractable(kc);
+        return kc;
     }
 
     public buildUp():void
@@ -105,8 +109,11 @@ class KnitCube extends RigidSprite implements Buildable
         }
     }
 
-    public getBuildableShape():Physics2DShape
-    {
+    playerCollideCallback():void {
+        console.log("knit cube intersecting with player");
+    }
+
+    getShape():Physics2DShape {
         return this.body.shapes[0];
     }
 

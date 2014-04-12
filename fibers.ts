@@ -12,9 +12,9 @@
 /// <reference path="tileset.ts"/>
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="CollisionHelper.ts"/>
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
-/// <reference path="knitCube.ts"/>
 
 
 // group bits
@@ -47,7 +47,7 @@ var physicsWorldParams:any = {
 };
 
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
-var collisionUtil:Physics2DCollisionUtils = physicsDevice.createCollisionUtils();
+var collisionHelp:CollisionHelper = new CollisionHelper(physicsDevice);
 
 // this object draws everything to the screen
 var draw2D = Draw2D.create({
@@ -104,13 +104,11 @@ var game:GameObject = {
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
-    draw2DSprite: Draw2DSprite,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
-    collisionUtil : collisionUtil,
+    collisionHelp : collisionHelp,
     debugMode : false,
-    keys : keys,
-    interactables: interactables
+    keys : keys
 };
 
 var viewport:number[] = [];
@@ -121,7 +119,7 @@ var bgColor = [0.0, 0.0, 0.0, 1.0];
 var tileset:Tileset = new Tileset("cubeTest.json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
-
+game.collisionHelp.setPlayer(player);
 
 var shapeSize = 10;
 var platformMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
@@ -135,21 +133,10 @@ var chainShape:Physics2DShape = physicsDevice.createPolygonShape({
         group : 2,
         mask : 0
     });
-var knitCubeShape:Physics2DShape = physicsDevice.createPolygonShape({
-    vertices : game.physicsDevice.createRectangleVertices(-shapeSize/2, -shapeSize/2, shapeSize/2, shapeSize/2),
-    material : platformMaterial,
-    group : 2,
-    mask : 0
-});
 var chainBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
     type : 'kinematic',
     shapes : [chainShape],
     position : [0, 0]
-});
-var knitCubeBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
-    type : 'kinematic',
-    shapes : [knitCubeShape],
-    position : [10, 10]
 });
 var chainSprite:Draw2DSprite = Draw2DSprite.create({
     width: shapeSize,
@@ -157,23 +144,11 @@ var chainSprite:Draw2DSprite = Draw2DSprite.create({
     origin : [shapeSize / 2, shapeSize / 2],
     color: [1.0, 0.0, 0.0, 1.0]
 });
-var knitCubeSprite:Draw2DSprite = Draw2DSprite.create({
-    width: shapeSize,
-    height: shapeSize,
-    origin : [shapeSize/2, shapeSize/2],
-    color : [0.0, 1.0, 0.0, 1.0]
-});
 game.physicsWorld.addRigidBody(chainBody);
-game.physicsWorld.addRigidBody(knitCubeBody);
 var chainRigidSprite = new RigidSprite({
     sprite:chainSprite,
     initialPos:[0,0],
     body:chainBody
-});
-var knitCubeRigidSprite = new RigidSprite({
-    sprite : knitCubeSprite,
-    initialPos : [10, 10],
-    body: knitCubeBody
 });
 // make a buildable
 var chain:Chain = new Chain({
@@ -185,75 +160,8 @@ var chain:Chain = new Chain({
     width: 50,
     rotation:3*Math.PI/2
 }, game);
-var knitCube:KnitCube = new KnitCube({
-    sprite : knitCubeSprite,
-    initialPos : [10, 10],
-    body : knitCubeBody,
-    maxDimension : 20,
-    minDimension : 0
-}, game);
 
-game.interactables.buildables.push(chain);
-game.interactables.buildables.push(knitCube);
-
-///////////////////////////////////////////////////////////////////////////////
-// Helper functions
-///////////////////////////////////////////////////////////////////////////////
-
-/*
- * Method: finBuildable
- * Searches through the registered buildables and returns the first one
- * encountered that is overlapping with the player. This helps with
- * build up and build down interactions.
- */
-function findBuildable() : Buildable
-{
-    // checks all the buildables to figure out which is overlapping the player
-    // TODO: make this smarter so that when a player is overlapping two items it does something intelligent...
-    var bs:Buildable[] = game.interactables.buildables;
-    console.log("Length is " + bs.length);
-    for (var i:number = 0; i < bs.length; i++) {
-        var test:Buildable = bs[i];
-        console.log("testing");
-        var shapeOne = player.rigidSprite.body.shapes[0];
-        console.log("Player: " + player.rigidSprite.body.shapes[0]);
-        console.log("Test: " + test.getBuildableShape());
-        var shapeTwo = test.getBuildableShape();
-        if (game.collisionUtil.intersects(shapeOne, shapeTwo))
-        {
-            console.log("success");
-            return test;
-        }
-        else
-        {
-            console.log("Failure");
-        }
-    }
-    return null;
-}
-
-function findClimbable(): Climbable
-{
-    var climbables:Climbable[] = game.interactables.climbables;
-
-    for (var i:number = 0; i < climbables.length; i++)
-    {
-        var test:Climbable = climbables[i];
-        var shapeOne = player.rigidSprite.body.shapes[0];
-        var shapeTwo = test.getClimbableShape();
-        if (game.collisionUtil.intersects(shapeOne, shapeTwo))
-        {
-            console.log("colliding with climbable!");
-            return test;
-        } else {
-            console.log("did not collide: ");
-            console.log(shapeOne.body.getPosition());
-            console.log(shapeTwo.body.getPosition());
-        }
-    }
-    return null;
-}
-
+game.collisionHelp.pushInteractable(chain);
 
 ///////////////////////////////////////////////////////////////////////////////
 // add event listeners
@@ -344,19 +252,15 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.T)
     {
         game.keys.T = false;
-        knitCube.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.F)
     {
         game.keys.F = false;
-        knitCube.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = false;
-        knitCube.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.H)
     {
         game.keys.H = false;
-        knitCube.body.setVelocity([0, 0]);
 
     } else if (keycode === inputDevice.keyCodes.SPACE)
     {
@@ -382,51 +286,13 @@ function update()
         {
             player.walkLeft();
         }
-
         if (keys.RIGHT)
         {
             player.walkRight();
         }
-        if (keys.UP && !keys.SPACE)
+        if (keys.UP)
         {
-            var climbable:Climbable = findClimbable();
-            // just for testing
-            if (climbable != null)
-            {
-                player.isClimbing = true;
-                player.climbUp();
-            } else
-            {
-                console.log("could not find climbable...");
-                player.isClimbing = false;
-                player.goUp();
-            }
-        }
-        if (keys.UP && keys.SPACE)
-        {
-            var buildable:Buildable = findBuildable();
-            if (buildable != null)
-            {
-                console.log("Found a buildable");
-                buildable.buildUp();
-            }
-            else
-            {
-                console.log("Did not find body");
-            }
-        }
-        if (keys.DOWN && keys.SPACE)
-        {
-            var buildable:Buildable = findBuildable();
-            if (buildable != null)
-            {
-                console.log("Found a buildable");
-                buildable.buildDown();
-            }
-            else
-            {
-                console.log("Did not find bdoy");
-            }
+            player.goUp();
         }
         if (keys.W)
         {
@@ -444,22 +310,6 @@ function update()
         {
             chain.body.setVelocity([0.2, 0]);
         }
-        if (keys.T)
-        {
-            knitCube.body.setVelocity([0, -0.2]);
-        }
-        if (keys.F)
-        {
-            knitCube.body.setVelocity([-0.2, 0]);
-        }
-        if (keys.G)
-        {
-            knitCube.body.setVelocity([0, 0.2]);
-        }
-        if (keys.H)
-        {
-            knitCube.body.setVelocity([0.2, 0]);
-        }
 
         // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
         var startTime:number = dynamicWorld.simulatedTime;
@@ -469,6 +319,7 @@ function update()
         }
 
         player.update();
+        game.collisionHelp.checkCollision();
 
         // find the offset of all things displayed to screen to keep the player center
         // set this as the viewport
@@ -486,8 +337,7 @@ function update()
             if (!tileset.ranLoadMap)
             {
                 console.log("Running load map");
-                game.interactables.buildables = game.interactables.buildables.concat(tileset.loadMap().buildables);
-                game.interactables.climbables = game.interactables.climbables.concat(tileset.loadMap().climbables);
+                tileset.loadMap();
             }
             tileset.draw(draw2D, offset);
         }
@@ -496,7 +346,6 @@ function update()
         player.draw(draw2D, offset);
 
         chain.draw(draw2D, offset);
-        knitCube.draw(draw2D, offset);
 
         draw2D.end();
 

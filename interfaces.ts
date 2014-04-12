@@ -14,10 +14,9 @@ interface GameObject {
     draw2D : Draw2D;
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
-    collisionUtil: Physics2DCollisionUtils;
+    collisionHelp: CollisionHelper;
     debugMode : boolean;
     keys : KeyObject;
-    interactables: InteractablesObject;
 }
 
 interface KeyObject {
@@ -56,7 +55,12 @@ interface knitCubeOptions extends RigidSpriteOptions {
     minDimension:number;
 }
 
-interface Buildable {
+interface Interactable {
+    playerCollideCallback():void;
+    getShape():Physics2DShape;
+}
+
+interface Buildable extends Interactable{
     /*
      * Method: buildUp
      * This is called whenever the player is overlapping with this object and presses the build up button.
@@ -69,11 +73,6 @@ interface Buildable {
      * The object implementing this interface needs to react accordingly.
      */
     buildDown():void;
-    /*
-     * Method: getBuildableShape
-     * Returns the shape that the player must be overlapping with in order to build this item. ie the knitting needles.
-     */
-    getBuildableShape():Physics2DShape;
 }
 
 
@@ -88,14 +87,6 @@ interface Climbable {
      * which regions are climbable (maybe overkill)
      */
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean;
-    // usually just do:
-    // collisionUtil.containsPoint(this.shape, position);
-
-    /*
-     * Method: getBuildableShape
-     * Returns the shape that the player must be overlapping with in order to climb.
-     */
-    getClimbableShape():Physics2DShape;
 }
 
 class ClimbableDefault implements Climbable

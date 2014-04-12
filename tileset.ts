@@ -4,6 +4,7 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
 /// <reference path="platform.ts"/>
+/// <reference path="knitCube.ts"/>
 /// <reference path="chain.ts"/>
 /// <reference path="ladder.ts"/>
 
@@ -143,13 +144,11 @@ class Tileset {
                 obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties"));
     }
 
-    loadObjectLayer(layer:any)
+    loadObjectLayer(layer:any):void
     {
         if (layer.objects)
         {
             var numObjects:number = layer.objects.length;
-            var climbables:Climbable[] = [];
-            var buildables:Buildable[] = [];
 
             for (var i:number = 0; i < numObjects; i++) {
                 var obj:any = layer.objects[i];
@@ -163,7 +162,7 @@ class Tileset {
             }
             this.layerNum++;
         }
-        return [buildables, climbables];
+        return;
     }
 
     /*
@@ -215,12 +214,12 @@ class Tileset {
         for (var i:number = 0; i < layerCount; i+=1) {
             var layer = this.mapData.layers[i];
             // the first sub array is buildable objects. The second is climbable
-            var createdObjects:any[] = [];
+            var createdObjects:any[] = [[],[]];
             if (layer.type === "objectgroup") {
-                createdObjects = this.loadObjectLayer(layer);
+                this.loadObjectLayer(layer);
             }
             else if (layer.type === "tilelayer") {
-                createdObjects = this.loadTileLayer(layer);
+                this.loadTileLayer(layer);
             } else {
                 console.log(layer.type);
             }
