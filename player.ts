@@ -187,6 +187,7 @@ class Player {
         if (this.canClimb) {
             console.log("starting climb");
             this.isClimbing = true;
+            this.isJumping = false;
             this.climb();
         }
     }
@@ -194,6 +195,7 @@ class Player {
     jumpUp()
     {
         this.isJumping = true;
+        this.isClimbing = false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
         this.currentTexture = this.jumpTexture;
@@ -251,6 +253,7 @@ class Player {
         // jumping always works
         if (this.keys.SPACE && !this.isJumping) {
             this.rigidSprite.body.setAsDynamic();
+            console.log("Jump");
             this.jumpUp();
         }
         // if we didn't jump and instead are climbing, move around
