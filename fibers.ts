@@ -116,52 +116,10 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("cubeTest.json", game);
+var tileset:Tileset = new Tileset("chainTest.json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
 game.collisionHelp.setPlayer(player);
-
-var shapeSize = 10;
-var platformMaterial:Physics2DMaterial = game.physicsDevice.createMaterial({
-    elasticity : 0,
-    staticFriction : 0,
-    dynamicFriction : 0
-});
-var chainShape:Physics2DShape = physicsDevice.createPolygonShape({
-        vertices : game.physicsDevice.createRectangleVertices(-shapeSize/2, -shapeSize/2, shapeSize/2, shapeSize/2),
-        material : platformMaterial,
-        group : 2,
-        mask : 0
-    });
-var chainBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
-    type : 'kinematic',
-    shapes : [chainShape],
-    position : [0, 0]
-});
-var chainSprite:Draw2DSprite = Draw2DSprite.create({
-    width: shapeSize,
-    height: shapeSize,
-    origin : [shapeSize / 2, shapeSize / 2],
-    color: [1.0, 0.0, 0.0, 1.0]
-});
-game.physicsWorld.addRigidBody(chainBody);
-var chainRigidSprite = new RigidSprite({
-    sprite:chainSprite,
-    initialPos:[0,0],
-    body:chainBody
-});
-// make a buildable
-var chain:Chain = new Chain({
-    sprite : chainSprite,
-    initialPos : [0, 0],
-    body: chainBody,
-    maxHeight: 100,
-    minHeight: 0,
-    width: 50,
-    rotation:3*Math.PI/2
-}, game);
-
-game.collisionHelp.pushInteractable(chain);
 
 ///////////////////////////////////////////////////////////////////////////////
 // add event listeners
@@ -235,19 +193,15 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.W)
     {
         game.keys.W = false;
-        chain.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.A)
     {
         game.keys.A = false;
-        chain.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.S)
     {
         game.keys.S = false;
-        chain.body.setVelocity([0, 0]);
     } else if (keycode === inputDevice.keyCodes.D)
     {
         game.keys.D = false;
-        chain.body.setVelocity([0, 0]);
 
     } else if (keycode === inputDevice.keyCodes.T)
     {
@@ -261,7 +215,6 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.H)
     {
         game.keys.H = false;
-
     } else if (keycode === inputDevice.keyCodes.SPACE)
     {
         game.keys.SPACE = false;
@@ -293,22 +246,6 @@ function update()
         if (keys.UP)
         {
             player.goUp();
-        }
-        if (keys.W)
-        {
-            chain.body.setVelocity([0, -0.2]);
-        }
-        if (keys.A)
-        {
-            chain.body.setVelocity([-0.2, 0]);
-        }
-        if (keys.S)
-        {
-            chain.body.setVelocity([0, 0.2]);
-        }
-        if (keys.D)
-        {
-            chain.body.setVelocity([0.2, 0]);
         }
 
         // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
@@ -344,8 +281,6 @@ function update()
 
         // draw the player to the screen
         player.draw(draw2D, offset);
-
-        chain.draw(draw2D, offset);
 
         draw2D.end();
 

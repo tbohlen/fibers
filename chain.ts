@@ -4,6 +4,7 @@
 /// <reverence path="player.ts"/>
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="tileset.ts"/>
 
 /*
  * Class: Chain
@@ -24,13 +25,12 @@ class Chain extends RigidSprite implements Buildable
 
     constructor (options:ChainOptions, game:GameObject)
     {
-
         super(options);
         this.game = game;
         this.maxHeight = options.maxHeight;
         this.minHeight = options.minHeight;
         this.width = options.width;
-        this.currentHeight = 0;
+        this.currentHeight = options.initHeight;
 
         // the rigidSprite displayed is the knitting needles
         // in addition to the knitting needles, we need the thing you are climbing
@@ -54,8 +54,8 @@ class Chain extends RigidSprite implements Buildable
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: this.width,
-            height: 1,
-            origin : [this.width / 2, this.currentHeight / 2],
+            height: (options.initHeight ? options.initHeight : 1), // XXX: hack to make sure we don't get errors from 0 width objects
+            origin : [this.width/2, 0],
             color: [1.0, 1.0, 1.0, 1.0]
         });
         // add the body to the world
@@ -68,13 +68,12 @@ class Chain extends RigidSprite implements Buildable
         });
 
         // set rotations
-        console.log("rotation is " + options.rotation);
-        this.body.setRotation(options.rotation);
+        this.body.setPosition(options.initialPos);
         this.construct.body.setRotation(options.rotation);
         this.rotation = options.rotation;
     }
 
-    static constructFromTiled(obj:any, game:GameObject) {
+    static constructFromTiled(obj:any, tileset:Tileset, game:GameObject) {
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
             staticFriction : 0,
@@ -89,12 +88,11 @@ class Chain extends RigidSprite implements Buildable
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type : 'kinematic',
             shapes : [shape],
-            position : [obj.x - obj.width/2, obj.y - obj.height/2]
+            position : [obj.x + obj.width/2, obj.y + obj.height/2]
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
             height: obj.height,
-            origin : [obj.x, obj.y],
             color: [1.0, 0.0, 0.0, 1.0]
         });
         game.physicsWorld.addRigidBody(body);
@@ -106,11 +104,11 @@ class Chain extends RigidSprite implements Buildable
         });
         var options:ChainOptions = {
             sprite : sprite,
-            initialPos : [sprite.x, sprite.y],
+            initialPos : [obj.x + obj.width/2, obj.y + obj.height/2],
             body : body,
-            maxHeight:obj.properties.maxheight,
-            initHeight:obj.properties.initHeight,
-            minHeight:obj.properties.minHeight,
+            maxHeight:parseInt(obj.properties.maxHeight),
+            initHeight:parseInt(obj.properties.initHeight),
+            minHeight:parseInt(obj.properties.minHeight),
             width:obj.properties.width,
             rotation:obj.properties.rotation
         };
@@ -122,7 +120,6 @@ class Chain extends RigidSprite implements Buildable
     buildUp()
     {
         if(this.currentHeight < this.maxHeight) {
-            console.log("Building up");
             var nextHeight = this.currentHeight + this.GROW_SPEED;
             if (nextHeight > this.maxHeight)
             {
@@ -145,7 +142,6 @@ class Chain extends RigidSprite implements Buildable
     buildDown()
     {
         if(this.currentHeight > this.minHeight) {
-            console.log("Building down");
             var nextHeight = this.currentHeight - this.GROW_SPEED;
             if (nextHeight < this.minHeight)
             {
@@ -179,9 +175,9 @@ class Chain extends RigidSprite implements Buildable
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
+        super.draw(draw2D, offset);
         var position:number[] = this.body.getPosition();
         if (this.currentHeight > 0) {
-            console.log("Height set to " + this.currentHeight);
             this.construct.sprite.setHeight(this.currentHeight);
             this.construct.sprite.setWidth(this.width);
 
@@ -192,6 +188,5 @@ class Chain extends RigidSprite implements Buildable
             // / and draw it to the screen
             draw2D.drawSprite(this.construct.sprite);
         }
-        super.draw(draw2D, offset);
     }
 }
