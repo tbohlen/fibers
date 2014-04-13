@@ -10,6 +10,7 @@ interface InteractablesObject {
 
 interface GameObject {
     engine : TurbulenzEngine;
+    //mathDevice : MathDevice;
     graphicsDevice : GraphicsDevice;
     inputDevice: InputDevice;
     draw2D : Draw2D;

@@ -35,7 +35,6 @@
 
 var width:number = 640;
 var height:number = 480;
-
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
 // build the physics device to allow 2D constraint physics
@@ -45,6 +44,9 @@ var physicsWorldParams:any = {
     velocityIterations: 5,
     positionIterations: 5
 };
+
+// TODO: Figure out why this function doesn't work!!!
+//var mathDevice = TurbulenzEngine.createMathDevice({});
 
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
 var collisionUtil:Physics2DCollisionUtils = physicsDevice.createCollisionUtils();
@@ -97,6 +99,7 @@ var htmlControls:HTMLControls = null;
 
 var game:GameObject = {
     engine : TurbulenzEngine,
+    //mathDevice : mathDevice,
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,

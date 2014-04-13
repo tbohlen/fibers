@@ -1,5 +1,6 @@
 /// <reference path="jslib-modular/physics2d.d.ts" />
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
+/// <reference path="jslib-modular/tzdraw2d.d.ts" />
 
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
@@ -12,8 +13,8 @@ enum Direction {
 class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.8;
-    CLIMB_SPEED = 4;
-    THRESHOLD_STANDING_SPEEN = 0.01;
+    CLIMB_SPEED = 2;
+    THRESHOLD_STANDING_SPEED = 0.001;
 
     isJumping:boolean = true; // starts as true so that you can't jump before ever hitting the ground
     canClimb:boolean = false;
@@ -35,8 +36,11 @@ class Player {
     frameDimensions:number[] = [256, 256];
     animationFrame:number = 0;
 
+    lastClimbPosition:number[] = [0, 0];
+
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
+    //mathDevice:MathDevice;
 
     loadTextures(graphicsDevice:GraphicsDevice)
     {
@@ -82,6 +86,7 @@ class Player {
     {
         this.keys = game.keys;
         this.collisionUtil = game.collisionUtil;
+        //this.mathDevice = game.mathDevice;
         // build the player sprite
         var playerParams:any = {
             x: position[0],
@@ -91,7 +96,8 @@ class Player {
             color: [0.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-playerParams.width/2, -playerParams.height/2, playerParams.width/2, playerParams.height/2);
+        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-playerParams.width/4, -playerParams.height/2,
+                                                                                   playerParams.width/4, playerParams.height/2);
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: playerVertices,
@@ -138,8 +144,7 @@ class Player {
     {
         // whenever we hit another shape, set isJumping to false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        var magnitude = Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
-        if (magnitude < this.THRESHOLD_STANDING_SPEEN) {
+        if (vel[1] < this.THRESHOLD_STANDING_SPEED) {
             this.isJumping = false;
         }
     }
@@ -177,42 +182,6 @@ class Player {
         this.rigidSprite.body.setVelocity([0, vel[1]]);
     }
 
-    goRight()
-    {
-        if (this.isClimbing) {
-            this.climbRight();
-        }
-        else {
-            this.walkRight();
-        }
-    }
-
-    goLeft()
-    {
-        if (this.isClimbing) {
-            this.climbLeft();
-        }
-        else {
-            this.walkLeft();
-        }
-    }
-
-    climbLeft()
-    {
-        var pos:number[] = this.rigidSprite.body.getPosition();
-        console.log("climbing left");
-        // XXX: this is dangerous teleportation! Could break physics engine
-        this.rigidSprite.body.setPosition([pos[0] - this.CLIMB_SPEED, pos[1]]);
-    }
-
-    climbRight()
-    {
-        var pos:number[] = this.rigidSprite.body.getPosition();
-        console.log("climbing right");
-        // XXX: this is dangerous teleportation! Could break physics engine
-        this.rigidSprite.body.setPosition([pos[0] + this.CLIMB_SPEED, pos[1]]);
-    }
-
     walkLeft()
     {
         console.log("walking left");
@@ -231,10 +200,11 @@ class Player {
 
     goUp()
     {
-        if (this.canClimb)
-        {
-            // if the player can climb and they press up, move them up and set isClimbing
-            this.climbUp();
+        // if we can climb then start climbing. Otherwise, jump
+        if (this.canClimb) {
+            console.log("starting climb");
+            this.isClimbing = true;
+            this.climb();
         }
         else if (!this.isJumping)
         {
@@ -249,13 +219,46 @@ class Player {
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
     }
 
-    climbUp()
+    climb()
     {
-        this.isClimbing = true;
-        var pos:number[] = this.rigidSprite.body.getPosition();
-        console.log("climbing up");
-        // XXX: this is dangerous teleportation! Could break physics engine
-        this.rigidSprite.body.setPosition([pos[0], pos[1]-this.CLIMB_SPEED]);
+        // make the player kinematic so they can't fall
+        //this.rigidSprite.body.setAsKinematic();
+        // calculate the movement direction
+        var dir:number[] = [0, 0];
+        if (this.keys.LEFT)
+        {
+            dir[0] -= 1;
+        }
+        if (this.keys.RIGHT)
+        {
+            dir[0] += 1;
+        }
+        if (this.keys.UP && !(this.keys.SPACE && this.canBuild))
+        {
+            dir[1] -= 1;
+        }
+        if (this.keys.DOWN && !(this.keys.SPACE && this.canBuild))
+        {
+            dir[1] += 1;
+        }
+
+        //var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
+        //var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
+
+        var vectorLength:number = Math.sqrt(dir[0] * dir[0] + dir[1] * dir[1]);
+        console.log("trying to climb");
+        if (vectorLength > 0) {
+            var normalizedDir:number[] = [dir[0] / vectorLength, dir[1] / vectorLength];
+            var pos:number[] = this.rigidSprite.body.getPosition();
+            console.log("climbing: " + normalizedDir);
+            // XXX: this is dangerous teleportation! Could break physics engine
+            this.rigidSprite.body.setPosition([pos[0] + (normalizedDir[0] * this.CLIMB_SPEED),
+                pos[1] + (normalizedDir[1] * this.CLIMB_SPEED)]);
+            this.lastClimbPosition = this.getPosition();
+        }
+        else {
+            this.rigidSprite.body.setPosition(this.lastClimbPosition);
+        }
     }
 
     update()
@@ -263,19 +266,28 @@ class Player {
 
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
-        // handle key presses
-        if (this.keys.LEFT)
-        {
-            this.goLeft();
+
+        // if climbing work in climbing mode
+        if (this.isClimbing) {
+            this.climb();
         }
-        if (this.keys.RIGHT)
-        {
-            this.goRight();
+        else {
+            this.rigidSprite.body.setAsDynamic();
+            // handle key presses
+            if (this.keys.LEFT)
+            {
+                this.walkLeft();
+            }
+            if (this.keys.RIGHT)
+            {
+                this.walkRight();
+            }
+            if (this.keys.UP && !(this.keys.SPACE && this.canBuild))
+            {
+                this.goUp();
+            }
         }
-        if (this.keys.UP && !(this.keys.SPACE && this.canBuild))
-        {
-            this.goUp();
-        }
+
 
         // force the player to not fall due to gravity if they are climbing
         if (this.isClimbing)
