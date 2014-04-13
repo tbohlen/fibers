@@ -2,6 +2,7 @@
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/turbulenz.d.ts" />
 /// <reference path="CollisionHelper.ts"/>
+/// <reference path="player.ts"/>
 
 interface InteractablesObject {
     buildables : Buildable[];
@@ -59,7 +60,7 @@ interface knitCubeOptions extends RigidSpriteOptions {
 }
 
 interface Interactable {
-    playerCollideCallback():void;
+    playerCollideCallback(player:Player):void;
     /*
      * Method: getShapes
      * Returns a list of all the shapes that should be considered when finding intersections with this interactable.
@@ -82,6 +83,8 @@ interface Buildable extends Interactable{
      * The object implementing this interface needs to react accordingly.
      */
     buildDown():void;
+
+    getBuildableShape():Physics2DShape;
 }
 
 

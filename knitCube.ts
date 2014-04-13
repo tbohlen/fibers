@@ -4,6 +4,7 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
 /// <reference path="tileset.ts"/>
+/// <reference path="player.ts"/>
 
 class KnitCube extends RigidSprite implements Buildable
 {
@@ -102,6 +103,11 @@ class KnitCube extends RigidSprite implements Buildable
         }
     }
 
+    getBuildableShape():Physics2DShape
+    {
+        return this.body.shapes[0];
+    }
+
     private remakeConstruct():void
     {
         if (this.currentDimension > 0)
@@ -111,7 +117,7 @@ class KnitCube extends RigidSprite implements Buildable
         }
     }
 
-    playerCollideCallback():void {
+    playerCollideCallback(player:Player):void {
         console.log("knit cube intersecting with player");
     }
 

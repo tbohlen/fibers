@@ -119,6 +119,11 @@ class Chain extends RigidSprite implements Buildable, Climbable
         return newChain;
     }
 
+    getBuildableShape()
+    {
+        return this.body.shapes[0];
+    }
+
     /*
      * Method: buildUp
      * Extends the chain upward if it can be extended any more. This is called from the key handlers.
@@ -197,14 +202,17 @@ class Chain extends RigidSprite implements Buildable, Climbable
         return [this.body.shapes[0], this.construct.body.shapes[0]];
     }
 
-    playerCollideCallback():void
+    playerCollideCallback(player:Player):void
     {
-        // handle key presses
-        if (this.game.keys.SPACE && this.game.keys.UP) {
-            this.buildUp();
-        }
-        else if (this.game.keys.SPACE && this.game.keys.DOWN) {
-            this.buildDown();
+        // check to see if the player is overlapping the right object
+        if (this.game.collisionUtil.containsPoint(this.getBuildableShape(), player.getPosition())) {
+            // handle key presses
+            if (this.game.keys.SPACE && this.game.keys.UP) {
+                this.buildUp();
+            }
+            else if (this.game.keys.SPACE && this.game.keys.DOWN) {
+                this.buildDown();
+            }
         }
     }
 

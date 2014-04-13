@@ -46,7 +46,7 @@ class CollisionHelper
                 var otherShape:Physics2DShape = otherShapes[j];
                 if (this.collisionUtils.intersects(playerShape, otherShape))
                 {
-                    current.playerCollideCallback();
+                    current.playerCollideCallback(this.player);
                     this.player.collisionCallback(current);
                     break;
                 }
