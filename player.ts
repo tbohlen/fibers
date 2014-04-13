@@ -13,9 +13,13 @@ class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.8;
     CLIMB_SPEED = 4;
+    THRESHOLD_STANDING_SPEEN = 0.01;
 
-    isJumping:boolean = false;
+    isJumping:boolean = true; // starts as true so that you can't jump before ever hitting the ground
+    canClimb:boolean = false;
     isClimbing:boolean = false;
+    climbableObject:Climbable = null;
+    canBuild:boolean = false;
     rigidSprite:RigidSprite = null;
 
     facing:Direction = Direction.RIGHT;
@@ -32,6 +36,7 @@ class Player {
     animationFrame:number = 0;
 
     keys:any;
+    collisionUtil:Physics2DCollisionUtils;
 
     loadTextures(graphicsDevice:GraphicsDevice)
     {
@@ -76,6 +81,7 @@ class Player {
     constructor (game:GameObject, position:number[])
     {
         this.keys = game.keys;
+        this.collisionUtil = game.collisionUtil;
         // build the player sprite
         var playerParams:any = {
             x: position[0],
@@ -126,15 +132,30 @@ class Player {
         }
     }
 
+    // checks all collisions
+    // TODO: combine this and the next function in some nice way
     checkCollision = (arbiter, otherShape) =>
     {
         // whenever we hit another shape, set isJumping to false;
-        this.isJumping = false;
+        var vel:number[] = this.rigidSprite.body.getVelocity();
+        var magnitude = Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1]);
+        if (magnitude < this.THRESHOLD_STANDING_SPEEN) {
+            this.isJumping = false;
+        }
     }
 
+    // only checks collisions with interactables
     collisionCallback(otherObject):void
     {
-        //console.log("player intersecting with something");
+        // check for climbable and if climbable, set canClimb and save the object
+        if (otherObject.hasOwnProperty("isClimbable") && otherObject.isClimbable) {
+            this.climbableObject = <Climbable>otherObject;
+            this.canClimb = this.climbableObject.isClimbableAtObjectPosition(this.collisionUtil, this.getPosition());
+        }
+        // check for buildable and set canBuild
+        if (otherObject.hasOwnProperty("isBuildable") && otherObject.isBuildable) {
+            this.canBuild = true;
+        }
     }
 
     // just calls into sprite
@@ -156,8 +177,45 @@ class Player {
         this.rigidSprite.body.setVelocity([0, vel[1]]);
     }
 
+    goRight()
+    {
+        if (this.isClimbing) {
+            this.climbRight();
+        }
+        else {
+            this.walkRight();
+        }
+    }
+
+    goLeft()
+    {
+        if (this.isClimbing) {
+            this.climbLeft();
+        }
+        else {
+            this.walkLeft();
+        }
+    }
+
+    climbLeft()
+    {
+        var pos:number[] = this.rigidSprite.body.getPosition();
+        console.log("climbing left");
+        // XXX: this is dangerous teleportation! Could break physics engine
+        this.rigidSprite.body.setPosition([pos[0] - this.CLIMB_SPEED, pos[1]]);
+    }
+
+    climbRight()
+    {
+        var pos:number[] = this.rigidSprite.body.getPosition();
+        console.log("climbing right");
+        // XXX: this is dangerous teleportation! Could break physics engine
+        this.rigidSprite.body.setPosition([pos[0] + this.CLIMB_SPEED, pos[1]]);
+    }
+
     walkLeft()
     {
+        console.log("walking left");
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
         this.facing = Direction.LEFT;
@@ -165,6 +223,7 @@ class Player {
 
     walkRight()
     {
+        console.log("walking right");
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
@@ -172,33 +231,48 @@ class Player {
 
     goUp()
     {
-        if (!this.isJumping)
+        if (this.canClimb)
         {
-            this.isJumping = true;
-            var vel:number[] = this.rigidSprite.body.getVelocity();
-            this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+            // if the player can climb and they press up, move them up and set isClimbing
+            this.climbUp();
         }
+        else if (!this.isJumping)
+        {
+            this.jumpUp();
+        }
+    }
+
+    jumpUp()
+    {
+        this.isJumping = true;
+        var vel:number[] = this.rigidSprite.body.getVelocity();
+        this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
     }
 
     climbUp()
     {
+        this.isClimbing = true;
         var pos:number[] = this.rigidSprite.body.getPosition();
-        console.log("climbing...");
+        console.log("climbing up");
+        // XXX: this is dangerous teleportation! Could break physics engine
         this.rigidSprite.body.setPosition([pos[0], pos[1]-this.CLIMB_SPEED]);
     }
 
     update()
     {
+
+        // reset rotation just in case
+        this.rigidSprite.body.setRotation(0);
         // handle key presses
         if (this.keys.LEFT)
         {
-            this.walkLeft();
+            this.goLeft();
         }
         if (this.keys.RIGHT)
         {
-            this.walkRight();
+            this.goRight();
         }
-        if (this.keys.UP && !this.keys.SPACE)
+        if (this.keys.UP && !(this.keys.SPACE && this.canBuild))
         {
             this.goUp();
         }
@@ -209,6 +283,14 @@ class Player {
             var vel:number[] = this.rigidSprite.body.getVelocity();
             this.rigidSprite.body.setVelocity([vel[0], 0]);
         }
+
+        // at the end of every update, erase climbing information.
+        // If the player continues to intersect the object, then we'll detect that again before the next update
+        if (!this.canClimb) {
+            this.isClimbing = false;
+        }
+        this.canClimb = false;
+        this.canBuild = false;
     }
 
     // draws the player's sprite to the screen

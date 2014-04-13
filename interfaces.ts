@@ -15,6 +15,7 @@ interface GameObject {
     draw2D : Draw2D;
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
+    collisionUtil : Physics2DCollisionUtils;
     collisionHelp: CollisionHelper;
     debugMode : boolean;
     keys : KeyObject;
@@ -58,10 +59,16 @@ interface knitCubeOptions extends RigidSpriteOptions {
 
 interface Interactable {
     playerCollideCallback():void;
-    getShape():Physics2DShape;
+    /*
+     * Method: getShapes
+     * Returns a list of all the shapes that should be considered when finding intersections with this interactable.
+     * This should include all shapes that can be interacted with in any way (buildable, climbable, etc.)
+     */
+    getShapes():Physics2DShape[];
 }
 
 interface Buildable extends Interactable{
+    isBuildable:boolean;
     /*
      * Method: buildUp
      * This is called whenever the player is overlapping with this object and presses the build up button.

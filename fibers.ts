@@ -47,6 +47,7 @@ var physicsWorldParams:any = {
 };
 
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
+var collisionUtil:Physics2DCollisionUtils = physicsDevice.createCollisionUtils();
 var collisionHelp:CollisionHelper = new CollisionHelper(physicsDevice);
 
 // this object draws everything to the screen
@@ -94,11 +95,6 @@ var htmlControls:HTMLControls = null;
 // other objects.
 ///////////////////////////////////////////////////////////////////////////////
 
-var interactables:InteractablesObject = {
-    buildables: [],
-    climbables: []
-};
-
 var game:GameObject = {
     engine : TurbulenzEngine,
     graphicsDevice : graphicsDevice,
@@ -107,6 +103,7 @@ var game:GameObject = {
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     collisionHelp : collisionHelp,
+    collisionUtil : collisionUtil,
     debugMode : false,
     keys : keys
 };

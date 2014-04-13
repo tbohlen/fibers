@@ -3,6 +3,7 @@
 
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="tileset.ts"/>
 
 class KnitCube extends RigidSprite implements Buildable
 {
@@ -12,6 +13,7 @@ class KnitCube extends RigidSprite implements Buildable
     minDimension:number;
     currentDimension:number;
     construct:RigidSprite;
+    isBuildable:boolean = true;
     constructor (options:knitCubeOptions, game:GameObject)
     {
         super(options);
@@ -113,8 +115,8 @@ class KnitCube extends RigidSprite implements Buildable
         console.log("knit cube intersecting with player");
     }
 
-    getShape():Physics2DShape {
-        return this.body.shapes[0];
+    getShapes():Physics2DShape[] {
+        return [this.body.shapes[0]];
     }
 
     draw(draw2D:Draw2D, offset:number[]) {

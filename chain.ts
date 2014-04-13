@@ -11,7 +11,7 @@
  * The chain class implements a column of knitted material that can be knit up or down.
  */
 
-class Chain extends RigidSprite implements Buildable
+class Chain extends RigidSprite implements Buildable, Climbable
 {
     GROW_SPEED = 2;
     maxHeight:number;
@@ -22,6 +22,8 @@ class Chain extends RigidSprite implements Buildable
     rotation:number;
     game:GameObject;
     material:Physics2DMaterial;
+    isBuildable:boolean = true;
+    isClimbable:boolean = true;
 
     constructor (options:ChainOptions, game:GameObject)
     {
@@ -176,13 +178,23 @@ class Chain extends RigidSprite implements Buildable
         }
     }
 
+    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean
+    {
+        return collisionUtil.containsPoint(this.getClimbableShape(), position);
+    }
+
+    getClimbableShape():Physics2DShape
+    {
+        return this.construct.body.shapes[0];
+    }
+
     /*
      * Method: getShape
      * Returns the shape that the player must be overlapping with in order to build this item. ie the knitting needles.
      */
-    getShape():Physics2DShape
+    getShapes():Physics2DShape[]
     {
-        return this.body.shapes[0];
+        return [this.body.shapes[0], this.construct.body.shapes[0]];
     }
 
     playerCollideCallback():void

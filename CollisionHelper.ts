@@ -41,11 +41,15 @@ class CollisionHelper
         {
             var current:Interactable = this.interactables[i];
             var playerShape:Physics2DShape = this.player.rigidSprite.body.shapes[0];
-            var otherShape:Physics2DShape = current.getShape();
-            if (this.collisionUtils.intersects(playerShape, otherShape))
-            {
-                current.playerCollideCallback();
-                this.player.collisionCallback(current);
+            var otherShapes:Physics2DShape[] = current.getShapes();
+            for(var j:number = 0; j < otherShapes.length; j++) {
+                var otherShape:Physics2DShape = otherShapes[j];
+                if (this.collisionUtils.intersects(playerShape, otherShape))
+                {
+                    current.playerCollideCallback();
+                    this.player.collisionCallback(current);
+                    break;
+                }
             }
         }
     }
