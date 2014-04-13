@@ -65,14 +65,16 @@ var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
 var bgMusicSource:SoundSource = soundDevice.createSource({
     looping: true
 });
-var bgMusic:Sound = soundDevice.createSound({
-    src: "assets/music/In_The_Dark_Flashes.mp3",
-    uncompress: false,
-    onload: function(soundData)
-    {
-        bgMusicSource.play(soundData);
-    }
-});
+if (false) {
+    var bgMusic:Sound = soundDevice.createSound({
+        src: "assets/music/In_The_Dark_Flashes.mp3",
+        uncompress: false,
+        onload: function (soundData) {
+            bgMusicSource.play(soundData);
+        }
+    });
+}
+
 // store states of buttons to keep track of when they are down or up
 var keys:KeyObject = {
     LEFT : false,
@@ -117,7 +119,9 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var tileset:Tileset = new Tileset("chainTest.json", game);
+var defaultTileSet:string = "chainTest";
+$("#levelNameinput").val(defaultTileSet);
+var tileset:Tileset = new Tileset(defaultTileSet+".json", game);
 // build the player
 var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
 game.collisionHelp.setPlayer(player);
