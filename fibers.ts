@@ -79,6 +79,7 @@ var keys:KeyObject = {
     RIGHT : false,
     UP : false,
     SPACE : false,
+    E:false,
     W : false,
     A : false,
     S : false,
@@ -135,6 +136,9 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.UP)
     {
         game.keys.UP = true;
+    } else if (keycode === inputDevice.keyCodes.E)
+    {
+        game.keys.E = true;
     } else if (keycode === inputDevice.keyCodes.W)
     {
         game.keys.W = true;
@@ -190,6 +194,9 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.DOWN)
     {
         game.keys.DOWN = false;
+    } else if (keycode === inputDevice.keyCodes.E)
+    {
+        game.keys.E = false;
     } else if (keycode === inputDevice.keyCodes.W)
     {
         game.keys.W = false;

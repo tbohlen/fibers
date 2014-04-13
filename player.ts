@@ -200,15 +200,11 @@ class Player {
 
     goUp()
     {
-        // if we can climb then start climbing. Otherwise, jump
+        // if we can climb then start climbing. Otherwise, do nothing
         if (this.canClimb) {
             console.log("starting climb");
             this.isClimbing = true;
             this.climb();
-        }
-        else if (!this.isJumping)
-        {
-            this.jumpUp();
         }
     }
 
@@ -233,11 +229,11 @@ class Player {
         {
             dir[0] += 1;
         }
-        if (this.keys.UP && !(this.keys.SPACE && this.canBuild))
+        if (this.keys.UP && !(this.keys.E && this.canBuild))
         {
             dir[1] -= 1;
         }
-        if (this.keys.DOWN && !(this.keys.SPACE && this.canBuild))
+        if (this.keys.DOWN && !(this.keys.E && this.canBuild))
         {
             dir[1] += 1;
         }
@@ -267,11 +263,19 @@ class Player {
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
 
-        // if climbing work in climbing mode
-        if (this.isClimbing) {
+        // jumping always works
+        if (this.keys.SPACE && !this.isJumping) {
+            this.rigidSprite.body.setAsDynamic();
+            this.jumpUp();
+        }
+        // if we didn't jump and instead are climbing, move around
+        else if (this.isClimbing) {
             this.climb();
         }
-        else {
+
+        // if we are not climbing (but we can be jumping) then move
+        if (!this.isClimbing)
+        {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
             if (this.keys.LEFT)
@@ -282,12 +286,11 @@ class Player {
             {
                 this.walkRight();
             }
-            if (this.keys.UP && !(this.keys.SPACE && this.canBuild))
+            if (this.keys.UP && !(this.keys.E && this.canBuild))
             {
                 this.goUp();
             }
         }
-
 
         // force the player to not fall due to gravity if they are climbing
         if (this.isClimbing)

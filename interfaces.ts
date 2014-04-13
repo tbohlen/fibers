@@ -29,6 +29,7 @@ interface KeyObject {
     UP ?: boolean;
     DOWN ?: boolean;
     SPACE ?: boolean;
+    E ?: boolean;
     W ?: boolean;
     A ?: boolean;
     S ?: boolean;
