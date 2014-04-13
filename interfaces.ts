@@ -1,6 +1,7 @@
 /// <reference path="jslib-modular/physics2d.d.ts" />
 /// <reference path="jslib-modular/tzdraw2d.d.ts" />
 /// <reference path="jslib-modular/turbulenz.d.ts" />
+/// <reference path="CollisionHelper.ts"/>
 
 interface InteractablesObject {
     buildables : Buildable[];

@@ -157,13 +157,11 @@ class Tileset {
                     console.log("Could not create object of type: " + obj.type);
                     continue;
                 }
-                console.log("Build object: " + obj.type);
                 var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
                 this.rigidSprites.push(rigidSprite);
             }
             this.layerNum++;
         }
-        return;
     }
 
     /*

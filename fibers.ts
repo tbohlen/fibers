@@ -243,7 +243,7 @@ function update()
         {
             player.walkRight();
         }
-        if (keys.UP)
+        if (keys.UP && !keys.SPACE)
         {
             player.goUp();
         }

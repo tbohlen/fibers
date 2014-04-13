@@ -117,15 +117,23 @@ class Chain extends RigidSprite implements Buildable
         return newChain;
     }
 
+    /*
+     * Method: buildUp
+     * Extends the chain upward if it can be extended any more. This is called from the key handlers.
+     */
     buildUp()
     {
+        // first check that we are below our maximum size
         if(this.currentHeight < this.maxHeight) {
+            // if so, find the next height that we should grow to, limiting by the maximum height
             var nextHeight = this.currentHeight + this.GROW_SPEED;
             if (nextHeight > this.maxHeight)
             {
                 nextHeight = this.maxHeight;
             }
             this.currentHeight = nextHeight;
+
+            // build a new shape that is the correct size and replace the old shape with this new one
             var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
             var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                 vertices: vertices,
@@ -139,15 +147,23 @@ class Chain extends RigidSprite implements Buildable
 
     }
 
+    /*
+     * Method: buildDown
+     * Shrinks the chain if it can be shrunk any more. This is called from the key handlers.
+     */
     buildDown()
     {
+        // first check that we are above our minimum size
         if(this.currentHeight > this.minHeight) {
+            // if so, find the next height that we should shrink to, limiting by the minimum height
             var nextHeight = this.currentHeight - this.GROW_SPEED;
             if (nextHeight < this.minHeight)
             {
                 nextHeight = this.minHeight;
             }
             this.currentHeight = nextHeight;
+
+            // build a new shape that is the correct size and replace the old shape with this new one
             var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
             var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                 vertices: vertices,
@@ -171,7 +187,13 @@ class Chain extends RigidSprite implements Buildable
 
     playerCollideCallback():void
     {
-        console.log("chain intersecting with player");
+        // handle key presses
+        if (this.game.keys.SPACE && this.game.keys.UP) {
+            this.buildUp();
+        }
+        else if (this.game.keys.SPACE && this.game.keys.DOWN) {
+            this.buildDown();
+        }
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
