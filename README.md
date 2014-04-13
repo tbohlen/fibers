@@ -79,3 +79,18 @@ To make a new map, use [Tiled map editor](http://www.mapeditor.org/) to construc
 Once you're satisfied, export the map as json: `File -> Export As...`.
 
 Place it in `assets/maps/YOUR_MAP_NAME.json`.
+
+###MAKING RIGID BODIES IN MAPS
+
+There are two main types of rigid bodies at the moment.
+
+Platforms must have "Platform" as their type and the following Name:Value pairs in the object properties:
+* rigidBody:static
+* shape:rectangle
+
+Chains (or buildable rectangles) must have "Chain" as their type and the following Name:Value pairs in the object properties:
+* initHeight:<<integer in pixels>>
+* maxHeight:<<integer in pixels>>
+* minHeight:<<integer in pixels>>
+* rotation:<<number in radians>>
+* width:<<integer in pixels>>
