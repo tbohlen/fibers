@@ -234,20 +234,6 @@ function update()
     var i:number = 0;
     if (graphicsDevice.beginFrame())
     {
-        // handle key presses
-        if (keys.LEFT)
-        {
-            player.walkLeft();
-        }
-        if (keys.RIGHT)
-        {
-            player.walkRight();
-        }
-        if (keys.UP && !keys.SPACE)
-        {
-            player.goUp();
-        }
-
         // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
         var startTime:number = dynamicWorld.simulatedTime;
         while( dynamicWorld.simulatedTime < startTime + 1/60 )

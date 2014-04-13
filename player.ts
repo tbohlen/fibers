@@ -31,6 +31,8 @@ class Player {
     frameDimensions:number[] = [256, 256];
     animationFrame:number = 0;
 
+    keys:any;
+
     loadTextures(graphicsDevice:GraphicsDevice)
     {
         // import an image to use as the player display and when loading is done set it as the player's texture
@@ -73,6 +75,7 @@ class Player {
 
     constructor (game:GameObject, position:number[])
     {
+        this.keys = game.keys;
         // build the player sprite
         var playerParams:any = {
             x: position[0],
@@ -131,7 +134,7 @@ class Player {
 
     collisionCallback(otherObject):void
     {
-        console.log("player intersecting with something");
+        //console.log("player intersecting with something");
     }
 
     // just calls into sprite
@@ -186,6 +189,20 @@ class Player {
 
     update()
     {
+        // handle key presses
+        if (this.keys.LEFT)
+        {
+            this.walkLeft();
+        }
+        if (this.keys.RIGHT)
+        {
+            this.walkRight();
+        }
+        if (this.keys.UP && !this.keys.SPACE)
+        {
+            this.goUp();
+        }
+
         // force the player to not fall due to gravity if they are climbing
         if (this.isClimbing)
         {
