@@ -4,11 +4,11 @@
 
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="animatedTexture.ts"/>
 
-enum Direction {
-    LEFT,
-    RIGHT
-}
+// a player's sprite is an instance of an animated sprite, which has a
+// direction (facing), possibly multiple animated sprite sheets,
+// and each sheet has a corresponding cycle time.
 
 class Player {
     SPEED = 0.1;
@@ -25,16 +25,14 @@ class Player {
 
     facing:Direction = Direction.RIGHT;
 
-    standTextureFile:string = "assets/player/stand.png";
-    walkTextureFile:string = "assets/player/walk.png";
-    jumpTextureFile:string = "assets/player/jump.png";
-
-    standTexture:Texture = null;
-    walkTexture:Texture = null;
-    jumpTexture:Texture = null;
+    standTexture:AnimatedTexture = new AnimatedTexture("assets/player/stand.png", [256, 256], 3, true);
+    walkTexture:AnimatedTexture = new AnimatedTexture("assets/player/walk.png", [256, 256], 8, true);
+    jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 7, false);
+    currentTexture:AnimatedTexture = null;
 
     frameDimensions:number[] = [256, 256];
-    animationFrame:number = 0;
+    animationFrameDurationMS:number = 100;
+    animationTimeout:number = null;
 
     lastClimbPosition:number[] = [0, 0];
 
@@ -45,41 +43,10 @@ class Player {
     loadTextures(graphicsDevice:GraphicsDevice)
     {
         // import an image to use as the player display and when loading is done set it as the player's texture
-        graphicsDevice.createTexture({
-            src: this.standTextureFile,
-            mipmaps: true,
-            onload: (texture:Texture) =>
-            {
-                if (texture != null)
-                {
-                    this.standTexture = texture;
-                    this.setTexture(texture);
-                    this.setTextureRectangle([0, 0, this.frameDimensions[0], this.frameDimensions[1]]);
-                }
-            }
-        });
-        graphicsDevice.createTexture({
-            src: this.walkTextureFile,
-            mipmaps: true,
-            onload: (texture:Texture) =>
-            {
-                if (texture != null)
-                {
-                    this.walkTexture = texture;
-                }
-            }
-        });
-        graphicsDevice.createTexture({
-            src: this.jumpTextureFile,
-            mipmaps: true,
-            onload: (texture:Texture) =>
-            {
-                if (texture != null)
-                {
-                    this.jumpTexture = texture;
-                }
-            }
-        });
+        this.standTexture.loadTexture(graphicsDevice);
+        this.walkTexture.loadTexture(graphicsDevice);
+        this.jumpTexture.loadTexture(graphicsDevice);
+        this.currentTexture = this.standTexture;
     }
 
     constructor (game:GameObject, position:number[])
@@ -117,6 +84,13 @@ class Player {
         });
         // next we build a player, including the rigid body, sprite, and managing object
         this.loadTextures(game.graphicsDevice);
+        this.animationTimeout = window.setInterval(
+            ()=> {
+                if (this.currentTexture)
+                {
+                    this.currentTexture.updateCurrentFrame();
+                }
+            }, this.animationFrameDurationMS);
 
         this.rigidSprite = playerRigidSprite;
         this.rigidSprite.body.setPosition(position); // should be added to rigidSprite...
@@ -136,6 +110,13 @@ class Player {
         {
             this.rigidSprite.sprite.setTexture(texture);
         }
+    }
+
+    getTextureFrameCount():number {
+        if (this.rigidSprite.sprite != null && this.rigidSprite.sprite.getTexture() != null) {
+            return Math.floor(this.rigidSprite.sprite.getTexture().width / this.frameDimensions[0]);
+        }
+        return 1;
     }
 
     // checks all collisions
@@ -188,6 +169,7 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
         this.facing = Direction.LEFT;
+        this.currentTexture = this.walkTexture;
     }
 
     walkRight()
@@ -196,6 +178,7 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
+        this.currentTexture = this.walkTexture;
     }
 
     goUp()
@@ -213,6 +196,7 @@ class Player {
         this.isJumping = true;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        this.currentTexture = this.jumpTexture;
     }
 
     climb()
@@ -259,6 +243,7 @@ class Player {
 
     update()
     {
+        var oldTexture:AnimatedTexture = this.currentTexture;
 
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
@@ -292,6 +277,12 @@ class Player {
             }
         }
 
+        if (this.isJumping) {
+            this.currentTexture = this.jumpTexture;
+        } else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < 0.01) {
+            this.currentTexture = this.standTexture;
+        }
+
         // force the player to not fall due to gravity if they are climbing
         if (this.isClimbing)
         {
@@ -306,17 +297,21 @@ class Player {
         }
         this.canClimb = false;
         this.canBuild = false;
+
+        if (oldTexture != this.currentTexture)
+        {
+            this.currentTexture.resetLoop();
+        }
+
+        if (this.currentTexture.texture) {
+            this.setTexture(this.currentTexture.texture);
+            this.setTextureRectangle(this.currentTexture.currentFrameRectangle(this.facing));
+        }
     }
 
     // draws the player's sprite to the screen
     draw(draw2D:Draw2D, offset:number[])
     {
-        if (this.facing == Direction.LEFT) {
-            this.rigidSprite.sprite.setTextureRectangle([256, 0, 0, 256]);
-        } else {
-            this.rigidSprite.sprite.setTextureRectangle([0, 0, 256, 256]);
-        }
-
         this.rigidSprite.draw(draw2D, offset);
     }
 }
