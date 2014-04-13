@@ -165,7 +165,6 @@ class Player {
 
     walkLeft()
     {
-        console.log("walking left");
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
         this.facing = Direction.LEFT;
@@ -174,7 +173,6 @@ class Player {
 
     walkRight()
     {
-        console.log("walking right");
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
@@ -185,7 +183,6 @@ class Player {
     {
         // if we can climb then start climbing. Otherwise, do nothing
         if (this.canClimb) {
-            console.log("starting climb");
             this.isClimbing = true;
             this.isJumping = false;
             this.climb();
@@ -228,11 +225,9 @@ class Player {
         //var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
 
         var vectorLength:number = Math.sqrt(dir[0] * dir[0] + dir[1] * dir[1]);
-        console.log("trying to climb");
         if (vectorLength > 0) {
             var normalizedDir:number[] = [dir[0] / vectorLength, dir[1] / vectorLength];
             var pos:number[] = this.rigidSprite.body.getPosition();
-            console.log("climbing: " + normalizedDir);
             // XXX: this is dangerous teleportation! Could break physics engine
             this.rigidSprite.body.setPosition([pos[0] + (normalizedDir[0] * this.CLIMB_SPEED),
                 pos[1] + (normalizedDir[1] * this.CLIMB_SPEED)]);
@@ -253,7 +248,6 @@ class Player {
         // jumping always works
         if (this.keys.SPACE && !this.isJumping) {
             this.rigidSprite.body.setAsDynamic();
-            console.log("Jump");
             this.jumpUp();
         }
         // if we didn't jump and instead are climbing, move around
