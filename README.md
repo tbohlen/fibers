@@ -94,3 +94,6 @@ Chains (or buildable rectangles) must have "Chain" as their type and the followi
 * minHeight:<<integer in pixels>>
 * rotation:<<number in radians>>
 * width:<<integer in pixels>>
+
+Checkpoints must have "Checkpoint" as their type and the following Name:Value pairs in the object properties:
+* checkpointName:<<some identifying string>>
