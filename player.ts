@@ -41,6 +41,7 @@ class Player {
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
     mathDevice:MathDevice;
+    game:GameObject;
 
     loadTextures(graphicsDevice:GraphicsDevice)
     {
@@ -53,6 +54,7 @@ class Player {
 
     constructor (game:GameObject, position:number[])
     {
+        this.game = game;
         this.keys = game.keys;
         this.collisionUtil = game.collisionUtil;
         this.mathDevice = game.mathDevice;
@@ -250,6 +252,16 @@ class Player {
 
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
+
+        // reset back to last checkpoint when R is pressed
+        if (this.keys.R)
+        {
+            console.log("pressing R");
+            var resetPosition:number[] = game.checkpointManager.resetPosition();
+            if (resetPosition != null) {
+                this.rigidSprite.body.setPosition(resetPosition);
+            }
+        }
 
         // jumping always works
         if (this.keys.SPACE && !this.isJumping) {

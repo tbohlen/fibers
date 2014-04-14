@@ -109,6 +109,7 @@ var game:GameObject = {
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     collisionHelp : collisionHelp,
+    checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     debugMode : false,
     keys : keys
@@ -119,8 +120,7 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var defaultTileSet:string = "chainTest";
-
+var defaultTileSet:string = "tutorial";
 $("#levelNameinput").val(defaultTileSet);
 var tileset:Tileset = new Tileset(defaultTileSet+".json", game);
 // build the player
@@ -165,9 +165,10 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = true;
-    } else if (keycode === inputDevice.keyCodes.H)
-    {
+    } else if (keycode === inputDevice.keyCodes.H) {
         game.keys.H = true;
+    } else if (keycode === inputDevice.keyCodes.R) {
+        game.keys.R = true;
     } else if (keycode === inputDevice.keyCodes.M)
     {
         game.debugMode = !game.debugMode;
@@ -224,9 +225,10 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = false;
-    } else if (keycode === inputDevice.keyCodes.H)
-    {
+    } else if (keycode === inputDevice.keyCodes.H) {
         game.keys.H = false;
+    } else if (keycode === inputDevice.keyCodes.R) {
+        game.keys.R = false;
     } else if (keycode === inputDevice.keyCodes.SPACE)
     {
         game.keys.SPACE = false;
