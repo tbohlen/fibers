@@ -3,6 +3,7 @@
 /// <reference path="jslib-modular/turbulenz.d.ts" />
 /// <reference path="CollisionHelper.ts"/>
 /// <reference path="player.ts"/>
+/// <reference path="checkpoint.ts"/>
 
 interface InteractablesObject {
     buildables : Buildable[];
@@ -119,7 +120,7 @@ interface Climbable {
      * to specifying a geometric shape if you have some cool parametric way of describing
      * which regions are climbable (maybe overkill)
      */
-    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean;
+    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, otherShape: Physics2DShape):boolean;
 }
 
 class ClimbableDefault implements Climbable
@@ -127,9 +128,9 @@ class ClimbableDefault implements Climbable
     isClimbable:boolean = true;
     shape:Physics2DShape;
 
-    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean
+    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, otherShape: Physics2DShape):boolean
     {
-        return collisionUtil.containsPoint(this.getClimbableShape(), position);
+        return collisionUtil.intersects(this.getClimbableShape(), otherShape);
     }
 
     getClimbableShape():Physics2DShape

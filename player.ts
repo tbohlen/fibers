@@ -144,7 +144,7 @@ class Player {
         // check for climbable and if climbable, set canClimb and save the object
         if (otherObject.hasOwnProperty("isClimbable") && otherObject.isClimbable) {
             this.climbableObject = <Climbable>otherObject;
-            this.canClimb = this.climbableObject.isClimbableAtObjectPosition(this.collisionUtil, this.getPosition());
+            this.canClimb = this.climbableObject.isClimbableAtObjectPosition(this.collisionUtil, this.rigidSprite.body.shapes[0]);
         }
         // check for buildable and set canBuild
         if (otherObject.hasOwnProperty("isBuildable") && otherObject.isBuildable) {
@@ -256,7 +256,7 @@ class Player {
         if (this.keys.R)
         {
             console.log("pressing R");
-            var resetPosition:number[] = game.checkpointManager.resetPosition();
+            var resetPosition:number[] = this.game.checkpointManager.resetPosition();
             if (resetPosition != null) {
                 this.rigidSprite.body.setPosition(resetPosition);
             }

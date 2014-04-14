@@ -187,9 +187,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // does nothing
     }
 
-    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, position: any[]):boolean
+    isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape:Physics2DShape):boolean
     {
-        return collisionUtil.containsPoint(this.getClimbableShape(), position);
+        return collisionUtil.intersects(this.getClimbableShape(), shape);
     }
 
     getClimbableShape():Physics2DShape

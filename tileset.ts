@@ -8,7 +8,6 @@
 /// <reference path="chain.ts"/>
 /// <reference path="tool.ts"/>
 /// <reference path="rectangle.ts"/>
-/// <reference path="ladder.ts"/>
 /// <reference path="checkpoint.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
