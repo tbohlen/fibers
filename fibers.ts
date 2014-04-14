@@ -16,6 +16,7 @@
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
 /// <reference path="PlayState.ts"/>
+/// <reference path="MenuState.ts"/>
 /// <reference path="KeyboardInput.ts"/>
 
 
@@ -77,25 +78,6 @@ if (false) {
     });
 }
 
-// store states of buttons to keep track of when they are down or up
-var keys:KeyObject = {
-    LEFT : false,
-    RIGHT : false,
-    UP : false,
-    SPACE : false,
-    E:false,
-    W : false,
-    A : false,
-    S : false,
-    D : false,
-    T : false,
-    F : false,
-    G : false,
-    H : false
-};
-
-var experimentKeys = new KeyboardInput(inputDevice);
-
 var htmlControls:HTMLControls = null;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -119,12 +101,16 @@ var game:GameObject = {
     debugMode : false
 };
 
-var currentState:TurbGameState = new PlayState(game);
+var currentState:TurbGameState = new MenuState(game);
 
 // run the game
 function update()
 {
-    currentState.update();
+    var nextState = currentState.update();
+    if (!(nextState == null))
+    {
+        currentState = nextState;
+    }
 }
 
 function loadHtmlControls() {

@@ -6,7 +6,8 @@
 /// <reference path="checkpoint.ts"/>
 
 interface TurbGameState {
-    update():void;
+    update():TurbGameState;
+    // update method should return null if the state should not change.
 }
 
 interface InteractablesObject {
@@ -26,24 +27,6 @@ interface GameObject {
     collisionHelp: CollisionHelper;
     checkpointManager : CheckpointManager;
     debugMode : boolean;
-}
-
-interface KeyObject {
-    LEFT ?: boolean;
-    RIGHT ?: boolean;
-    UP ?: boolean;
-    DOWN ?: boolean;
-    SPACE ?: boolean;
-    E ?: boolean;
-    W ?: boolean;
-    A ?: boolean;
-    S ?: boolean;
-    D ?: boolean;
-    T ?: boolean;
-    F ?: boolean;
-    G ?: boolean;
-    H ?: boolean;
-    R ?: boolean;
 }
 
 interface RigidSpriteOptions

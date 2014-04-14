@@ -4,5 +4,8 @@
 
 class Button
 {
-    constructor()
+    constructor(position:number[], color:number[])
+    {
+
+    }
 }

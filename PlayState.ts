@@ -29,14 +29,19 @@ class PlayState implements TurbGameState
         this.physicsDebug.setPhysics2DViewport(viewport);
     }
 
-    update():void
+    update():TurbGameState
     {
+        var nextState:TurbGameState = null;
         var i:number = 0;
         if (this.game.graphicsDevice.beginFrame())
         {
             // check for debug mode change
             if (this.game.keyboard.keyPressed("M")) {
                 this.game.debugMode = !this.game.debugMode;
+            }
+            if (this.game.keyboard.keyPressed("P"))
+            {
+                nextState = new MenuState(this.game, this);
             }
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;
@@ -94,5 +99,6 @@ class PlayState implements TurbGameState
 
             this.game.graphicsDevice.endFrame();
         }
+        return nextState;
     }
 }
