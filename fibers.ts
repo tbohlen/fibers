@@ -119,7 +119,8 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
-var defaultTileSet:string = "cubeTest";
+var defaultTileSet:string = "chainTest";
+
 $("#levelNameinput").val(defaultTileSet);
 var tileset:Tileset = new Tileset(defaultTileSet+".json", game);
 // build the player

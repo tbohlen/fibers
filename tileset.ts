@@ -53,7 +53,6 @@ class Tileset {
     tileSet:any;
 
     ranLoadMap:boolean = false;
-    layerNum:number = 3.0;
 
     // XXX: Don't modify!!
     game:GameObject;
@@ -164,7 +163,6 @@ class Tileset {
                     this.rigidSprites.push(rigidSprite);
                 }
             }
-            this.layerNum++;
         }
     }
 
@@ -180,40 +178,35 @@ class Tileset {
             var numObjects:number = layer.data.length;
             for (var i:number = 0; i < numObjects; i++) {
                 // for each object, make a sprite if it is visible
-                var rigidSprite:RigidSprite = null;
+                var tileGID:number = layer.data[i];
                 // build the sprite
-                var screenCoords:number[] = this.getScreenCoordinatesForIndex(i);
-                var spriteParams:Draw2DSpriteParams = {
-                    x: screenCoords[0],
-                    y: screenCoords[1],
-                    origin: [0,0],
-                    width: this.tileWidth,
-                    height: this.tileHeight
-                };
-                var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
-                rigidSprite = new RigidSprite({
-                    sprite:sprite,
-                    initialPos:[screenCoords[0], screenCoords[1]],
-                    gid: layer.data[i]
-                });
+                if (tileGID != 0) {
+                    var screenCoords:number[] = this.getScreenCoordinatesForIndex(i);
+                    var spriteParams:Draw2DSpriteParams = {
+                        x: screenCoords[0],
+                        y: screenCoords[1],
+                        origin: [0, 0],
+                        width: this.tileWidth,
+                        height: this.tileHeight
+                    };
+                    var sprite:Draw2DSprite = Draw2DSprite.create(spriteParams);
+                    var rigidSprite:RigidSprite = new RigidSprite({
+                        sprite: sprite,
+                        initialPos: [screenCoords[0], screenCoords[1]],
+                        gid: tileGID
+                    });
 
-                // store this rigid sprite
-                this.rigidSprites.push(rigidSprite);
+                    // store this rigid sprite
+                    this.rigidSprites.push(rigidSprite);
+                }
             }
-            this.layerNum++;
         }
-        return [[],[]];
     }
 
-    loadMap(): InteractablesObject {
+    loadMap() {
         console.log("loading map!");
         this.ranLoadMap = true;
-        var allObjects:InteractablesObject = {
-            buildables: [],
-            climbables: []
-        };
         var layerCount = this.mapData.layers.length;
-        // want to draw the layers in backwards order so the bottom (last) layer is drawn first...
         for (var i:number = 0; i < layerCount; i+=1) {
             var layer = this.mapData.layers[i];
             // the first sub array is buildable objects. The second is climbable
@@ -226,10 +219,7 @@ class Tileset {
             } else {
                 console.log(layer.type);
             }
-            allObjects.buildables = allObjects.buildables.concat(createdObjects[0]);
-            allObjects.climbables = allObjects.climbables.concat(createdObjects[1]);
         }
-        return allObjects;
     }
 
     /*
