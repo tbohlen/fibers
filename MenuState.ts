@@ -16,7 +16,7 @@ class MenuState implements TurbGameState
         if (this.game.graphicsDevice.beginFrame())
         {
             var bgColor = [0.2, 0.2, 0.0, 1.0];
-            if (this.game.keys.S)
+            if (this.game.keyboard.keyPressed("S"))
             {
                 bgColor = [0.7, 0.2, 0.0, 1.0];
             }

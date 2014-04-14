@@ -19,14 +19,13 @@ interface GameObject {
     mathDevice : MathDevice;
     graphicsDevice : GraphicsDevice;
     inputDevice: InputDevice;
+    keyboard : KeyboardInput;
     draw2D : Draw2D;
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
-    collisionUtil : Physics2DCollisionUtils;
     collisionHelp: CollisionHelper;
     checkpointManager : CheckpointManager;
     debugMode : boolean;
-    keys : KeyObject;
 }
 
 interface KeyObject {

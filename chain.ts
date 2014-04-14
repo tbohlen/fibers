@@ -218,12 +218,12 @@ class Chain extends RigidSprite implements Buildable, Climbable
     playerCollideCallback(player:Player):void
     {
         // check to see if the player is overlapping the right object
-        if (this.game.collisionUtil.containsPoint(this.getBuildableShape(), player.getPosition())) {
+        if (this.game.collisionHelp.collisionUtils.containsPoint(this.getBuildableShape(), player.getPosition())) {
             // handle key presses
-            if (this.game.keys.E && this.game.keys.UP) {
+            if (this.game.keyboard.keyPressed("E") && this.game.keyboard.keyPressed("UP")) {
                 this.buildUp();
             }
-            else if (this.game.keys.E && this.game.keys.DOWN) {
+            else if (this.game.keyboard.keyPressed("E") && this.game.keyboard.keyPressed("DOWN")) {
                 this.buildDown();
             }
         }

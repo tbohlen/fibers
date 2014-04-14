@@ -55,8 +55,7 @@ class Player {
     constructor (game:GameObject, position:number[])
     {
         this.game = game;
-        this.keys = game.keys;
-        this.collisionUtil = game.collisionUtil;
+        this.collisionUtil = game.collisionHelp.collisionUtils;
         this.mathDevice = game.mathDevice;
         // build the player sprite
         var playerParams:any = {
@@ -211,19 +210,19 @@ class Player {
         //this.rigidSprite.body.setAsKinematic();
         // calculate the movement direction
         var dir:number[] = [0, 0];
-        if (this.keys.LEFT)
+        if (this.game.keyboard.keyPressed("LEFT"))
         {
             dir[0] -= 1;
         }
-        if (this.keys.RIGHT)
+        if (this.game.keyboard.keyPressed("RIGHT"))
         {
             dir[0] += 1;
         }
-        if (this.keys.UP && !(this.keys.E && this.canBuild))
+        if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
         {
             dir[1] -= 1;
         }
-        if (this.keys.DOWN && !(this.keys.E && this.canBuild))
+        if (this.game.keyboard.keyPressed("DOWN") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
         {
             dir[1] += 1;
         }
@@ -253,7 +252,7 @@ class Player {
         this.rigidSprite.body.setRotation(0);
 
         // reset back to last checkpoint when R is pressed
-        if (this.keys.R)
+        if (this.game.keyboard.keyPressed("R"))
         {
             console.log("pressing R");
             var resetPosition:number[] = this.game.checkpointManager.resetPosition();
@@ -263,7 +262,7 @@ class Player {
         }
 
         // jumping always works
-        if (this.keys.SPACE && !this.isJumping) {
+        if (this.game.keyboard.keyPressed("SPACE") && !this.isJumping) {
             this.rigidSprite.body.setAsDynamic();
             this.jumpUp();
         }
@@ -277,15 +276,15 @@ class Player {
         {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
-            if (this.keys.LEFT)
+            if (this.game.keyboard.keyPressed("LEFT"))
             {
                 this.walkLeft();
             }
-            if (this.keys.RIGHT)
+            if (this.game.keyboard.keyPressed("RIGHT"))
             {
                 this.walkRight();
             }
-            if (this.keys.UP && !(this.keys.E && this.canBuild))
+            if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
             {
                 this.goUp();
             }

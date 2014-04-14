@@ -16,6 +16,7 @@
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
 /// <reference path="PlayState.ts"/>
+/// <reference path="KeyboardInput.ts"/>
 
 
 // group bits
@@ -93,6 +94,8 @@ var keys:KeyObject = {
     H : false
 };
 
+var experimentKeys = new KeyboardInput(inputDevice);
+
 var htmlControls:HTMLControls = null;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -109,123 +112,14 @@ var game:GameObject = {
     draw2D : draw2D,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
+    keyboard : new KeyboardInput(inputDevice),
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
-    debugMode : false,
-    keys : keys
+    debugMode : false
 };
 
-///////////////////////////////////////////////////////////////////////////////
-// add event listeners
-///////////////////////////////////////////////////////////////////////////////
-
-inputDevice.addEventListener("keydown", function(keycode){
-    if (keycode === inputDevice.keyCodes.LEFT)
-    {
-        game.keys.LEFT = true;
-    } else if (keycode === inputDevice.keyCodes.RIGHT)
-    {
-        game.keys.RIGHT = true;
-    } else if (keycode === inputDevice.keyCodes.UP)
-    {
-        game.keys.UP = true;
-    } else if (keycode === inputDevice.keyCodes.E)
-    {
-        game.keys.E = true;
-    } else if (keycode === inputDevice.keyCodes.W)
-    {
-        game.keys.W = true;
-    } else if (keycode === inputDevice.keyCodes.A)
-    {
-        game.keys.A = true;
-    } else if (keycode === inputDevice.keyCodes.S)
-    {
-        game.keys.S = true;
-    } else if (keycode === inputDevice.keyCodes.D)
-    {
-        game.keys.D = true;
-    } else if (keycode === inputDevice.keyCodes.T)
-    {
-        game.keys.T = true;
-    } else if (keycode === inputDevice.keyCodes.F)
-    {
-        game.keys.F = true;
-    } else if (keycode === inputDevice.keyCodes.G)
-    {
-        game.keys.G = true;
-    } else if (keycode === inputDevice.keyCodes.H) {
-        game.keys.H = true;
-    } else if (keycode === inputDevice.keyCodes.R) {
-        game.keys.R = true;
-    } else if (keycode === inputDevice.keyCodes.M)
-    {
-        game.debugMode = !game.debugMode;
-        console.log ("Toggled debug to " + game.debugMode);
-    } else if (keycode === inputDevice.keyCodes.DOWN)
-    {
-        game.keys.DOWN = true;
-    } else if (keycode === inputDevice.keyCodes.SPACE)
-    {
-        game.keys.SPACE = true;
-    } else
-    {
-        console.log(keycode);
-    }
-});
-
-inputDevice.addEventListener("keyup", function(keycode){
-    if (keycode === inputDevice.keyCodes.LEFT)
-    {
-        game.keys.LEFT = false;
-//        player.stopWalking();
-    } else if (keycode === inputDevice.keyCodes.RIGHT)
-    {
-        game.keys.RIGHT = false;
-//        player.stopWalking();
-    } else if (keycode === inputDevice.keyCodes.UP)
-    {
-        game.keys.UP = false;
-    } else if (keycode === inputDevice.keyCodes.DOWN)
-    {
-        game.keys.DOWN = false;
-    } else if (keycode === inputDevice.keyCodes.E)
-    {
-        game.keys.E = false;
-    } else if (keycode === inputDevice.keyCodes.W)
-    {
-        game.keys.W = false;
-    } else if (keycode === inputDevice.keyCodes.A)
-    {
-        game.keys.A = false;
-    } else if (keycode === inputDevice.keyCodes.S)
-    {
-        game.keys.S = false;
-    } else if (keycode === inputDevice.keyCodes.D)
-    {
-        game.keys.D = false;
-
-    } else if (keycode === inputDevice.keyCodes.T)
-    {
-        game.keys.T = false;
-    } else if (keycode === inputDevice.keyCodes.F)
-    {
-        game.keys.F = false;
-    } else if (keycode === inputDevice.keyCodes.G)
-    {
-        game.keys.G = false;
-    } else if (keycode === inputDevice.keyCodes.H) {
-        game.keys.H = false;
-    } else if (keycode === inputDevice.keyCodes.R) {
-        game.keys.R = false;
-    } else if (keycode === inputDevice.keyCodes.SPACE)
-    {
-        game.keys.SPACE = false;
-    }
-    console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
-});
-
-var currentState = new PlayState(game);
+var currentState:TurbGameState = new PlayState(game);
 
 // run the game
 function update()

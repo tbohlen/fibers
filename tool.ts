@@ -154,15 +154,15 @@ class Tool extends RigidSprite implements Interactable
     playerCollideCallback(player:Player):void
     {
         // check to see if the player is overlapping the right object
-        if (this.game.collisionUtil.containsPoint(this.body.shapes[0], player.getPosition())
+        if (this.game.collisionHelp.collisionUtils.containsPoint(this.body.shapes[0], player.getPosition())
                                                   && this.buildable != null && this.buildable.isBuildable)
         {
             // handle key presses
-            if (this.game.keys.E && this.game.keys.UP)
+            if (this.game.keyboard.keyPressed("E") && this.game.keyboard.keyPressed("UP"))
             {
                 this.buildable.buildUp();
             }
-            else if (this.game.keys.E && this.game.keys.DOWN)
+            else if (this.game.keyboard.keyPressed("E") && this.game.keyboard.keyPressed("DOWN"))
             {
                 this.buildable.buildDown();
             }
