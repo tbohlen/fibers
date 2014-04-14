@@ -7,6 +7,7 @@
 /// <reference path="knitCube.ts"/>
 /// <reference path="chain.ts"/>
 /// <reference path="ladder.ts"/>
+/// <reference path="checkpoint.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 
@@ -158,7 +159,10 @@ class Tileset {
                     continue;
                 }
                 var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
-                this.rigidSprites.push(rigidSprite);
+                if (rigidSprite != null)
+                {
+                    this.rigidSprites.push(rigidSprite);
+                }
             }
             this.layerNum++;
         }

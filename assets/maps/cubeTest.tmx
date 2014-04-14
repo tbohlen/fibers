@@ -53,6 +53,11 @@
   <object name="platform" type="Platform" x="101" y="781" width="93" height="19"/>
   <object name="platform" type="Platform" x="221" y="862" width="93" height="19"/>
   <object name="platform" type="Platform" x="398" y="918" width="93" height="19"/>
+  <object name="checkpointTest" type="Checkpoint" x="391" y="607" width="294" height="308">
+   <properties>
+    <property name="checkpointName" value="&quot;test1&quot;"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="ladder" width="50" height="50">
   <object name="ladder" x="294" y="735" width="21" height="210">

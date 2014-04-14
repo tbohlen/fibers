@@ -118,3 +118,10 @@ class ClimbableDefault implements Climbable
         return this.shape;
     }
 }
+
+interface CheckpointOptions
+{
+    body : Physics2DRigidBody;
+    name : String;
+    completed ?: boolean;
+}
