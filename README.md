@@ -91,7 +91,7 @@ Platforms must have "Platform" as their type and the following Name:Value pairs 
 Tools must have "Tool" as their type. Each tool can be associated with one other
 object in the scene. When intersecting with the tool, the player can build the
 other object up and down. For now, instead of making the other object yourself,
-you simply have to tell the Tool how to make it.
+you simply have to tell the Tool how to make it. You must include the following:
 * initHeight:<<integer in pixels>>
 * maxHeight:<<integer in pixels>>
 * minHeight:<<integer in pixels>>
@@ -104,3 +104,14 @@ you simply have to tell the Tool how to make it.
 Checkpoints must have "Checkpoint" as their type and the following Name:Value pairs in the object properties:
 * checkpointName:<<some identifying string>>
 * press R to go to the last checkpoint that you passed 
+
+Rectangles must have "Rectangle" as their type. Rectangles can be climbable or
+not, and buildable or not. Additional options will be added soon. The following
+properties must be included:
+* maxHeight:<<integer in pixels>>
+* minHeight:<<integer in pixels>>
+* rotation:<<number in radians>>
+* isBuildable:<<true or false>>
+* isClimbable:<<true or false>>
+* (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
+

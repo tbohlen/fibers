@@ -163,6 +163,8 @@ class Tileset {
                 {
                     this.rigidSprites.push(rigidSprite);
                 }
+
+                // testing so that we can map up rectangles and tiles
             }
         }
     }

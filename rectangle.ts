@@ -54,6 +54,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
+        var initHeight:number = (obj.properties.initHeight ? parseInt(obj.properties.initHeight) : obj.height);
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
             staticFriction : 0,
@@ -73,7 +74,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
-            height: (obj.properties.initHeight ? parseInt(obj.properties.initHeight) : 1), // XXX: hack to make sure we don't get errors from 0 width objects
+            height: initHeight, // XXX: hack to make sure we don't get errors from 0 width objects
             origin : [obj.width/2, 0],
             color: [1.0, 1.0, 1.0, 1.0]
         });
@@ -87,18 +88,14 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             initialPos : initialPos,
             gid : parseInt(obj.gid),
             body : body,
+            initHeight: initHeight,
             maxHeight : parseInt(obj.properties.maxHeight),
             minHeight : parseInt(obj.properties.minHeight),
-            width : parseInt(obj.properties.width),
-            rotation: parseFloat(obj.propeties.rotation),
+            width : obj.width,
+            rotation: parseFloat(obj.properties.rotation),
             isBuildable : (obj.properties.isBuildable == "true"),
             isClimbable : (obj.properties.isClimbable == "true")
         };
-
-        if (obj.properties.initHeight)
-        {
-            rectOptions.initHeight = parseInt(obj.properties.initHeight);
-        }
 
         if (obj.properties.bodyType)
         {

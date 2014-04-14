@@ -53,7 +53,7 @@ interface RigidSpriteOptions
 
 interface RectangleOptions extends RigidSpriteOptions
 {
-    initHeight ?: number;
+    initHeight : number;
     maxHeight : number;
     minHeight : number;
     width : number;
