@@ -3,6 +3,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="tileset.ts"/>
 /// <reference path="rectangle.ts"/>
+/// <reference path="KeyboardInput.ts"/>
 
 /*
  * Class: Tool
@@ -17,6 +18,8 @@
 
 class Tool extends RigidSprite implements Interactable
 {
+    public static debugColorTool:number[] = [1.0, 0.0, 0.0, 1.0];
+    public static debugColorBuildable:number[] = [1.0, 1.0, 1.0, 1.0];
 
     game:GameObject;
     buildable:Buildable;
@@ -58,7 +61,7 @@ class Tool extends RigidSprite implements Interactable
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
             height: obj.height,
-            color: [1.0, 0.0, 0.0, 1.0]
+            color: Tool.debugColorTool
         });
         game.physicsWorld.addRigidBody(body);
         var options:ToolOptions = {
@@ -95,7 +98,7 @@ class Tool extends RigidSprite implements Interactable
                 width: parseInt(obj.properties.width),
                 height: (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : 1), // XXX: hack to make sure we don't get errors from 0 width objects
                 origin : [rectWidth/2, 0],
-                color: [1.0, 0.0, 0.0, 1.0]
+                color: Tool.debugColorBuildable
             });
             // add the body to the world
             game.physicsWorld.addRigidBody(body);
@@ -168,4 +171,15 @@ class Tool extends RigidSprite implements Interactable
             }
         }
     }
+
+    draw(draw2D:Draw2D, offset:number[]) {
+        if (this.game.debugMode){
+            this.sprite.setColor(Chain.debugColorChain);
+        } else {
+            this.sprite.setColor([0,0,0,0]);
+        }
+
+        super.draw(draw2D, offset);
+    }
+
 }

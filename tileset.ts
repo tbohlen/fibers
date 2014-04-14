@@ -162,6 +162,7 @@ class Tileset {
                     continue;
                 }
                 var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
+                console.log("Created opject of type: " + obj.type);
                 if (rigidSprite != null)
                 {
                     this.rigidSprites.push(rigidSprite);
@@ -241,7 +242,7 @@ class Tileset {
             }
         }
 
-        console.log("mapping tools 3");
+        console.log("mapping tools");
         for (var key in this.tools)
         {
             console.log("found key: " + key);
