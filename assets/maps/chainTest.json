@@ -82,7 +82,7 @@
                  "type":"Tool",
                  "visible":true,
                  "width":64,
-                 "x":320,
+                 "x":192,
                  "y":448
                 }],
          "opacity":1,
@@ -103,15 +103,15 @@
                     {
                      "isBuildable":"true",
                      "isClimbable":"true",
-                     "maxHeight":"100",
+                     "maxHeight":"300",
                      "minHeight":"10",
-                     "rotation":"0",
+                     "rotation":"3.1415",
                      "toolKey":"numberOne"
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":128,
-                 "x":512,
+                 "width":32,
+                 "x":320,
                  "y":320
                 }],
          "opacity":1,

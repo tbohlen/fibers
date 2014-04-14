@@ -100,6 +100,7 @@ it you must include the following:
 * width:<<integer in pixels>>
 * isBuildable:<<true or false>>
 * isClimbable:<<true or false>>
+* isSolid:<<true or false>>
 * prebuilt:false
 
 To build the other object yourself, build a rectangle somewhere in the scene and
@@ -120,6 +121,7 @@ properties must be included:
 * rotation:<<number in radians>>
 * isBuildable:<<true or false>>
 * isClimbable:<<true or false>>
+* isSolid:<<true or false>>
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
 * (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool>>
 

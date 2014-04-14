@@ -37,6 +37,9 @@ class Tool extends RigidSprite implements Interactable
             this.buildable = null;
         }
 
+        // make sure the mask is set so that this does not interact with anything
+        this.body.shapes[0].setMask(0);
+
         this.body.setPosition(options.initialPos);
     }
 
@@ -79,8 +82,8 @@ class Tool extends RigidSprite implements Interactable
             // build the rectangle here if not prebuilt
             var material:Physics2DMaterial = game.physicsDevice.createMaterial({
                 elasticity : 0,
-                staticFriction : 0,
-                dynamicFriction : 0
+                staticFriction : 0.3,
+                dynamicFriction : 0.2
             });
             var vertices:number[][] = game.physicsDevice.createRectangleVertices(-rectWidth/2, 0, rectWidth/2, parseInt(obj.properties.initHeight));
             var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
@@ -117,7 +120,8 @@ class Tool extends RigidSprite implements Interactable
                 width : parseInt(obj.properties.width),
                 rotation: parseFloat(obj.properties.rotation),
                 isBuildable : (obj.properties.isBuildable == "true"),
-                isClimbable : (obj.properties.isClimbable == "true")
+                isClimbable : (obj.properties.isClimbable == "true"),
+                isSolid : (obj.properties.isSolid == "true")
             };
 
             if (obj.properties.initHeight)
@@ -157,7 +161,7 @@ class Tool extends RigidSprite implements Interactable
     playerCollideCallback(player:Player):void
     {
         // check to see if the player is overlapping the right object
-        if (this.game.collisionHelp.collisionUtils.containsPoint(this.body.shapes[0], player.getPosition())
+        if (this.game.collisionHelp.collisionUtils.intersects(this.body.shapes[0], player.rigidSprite.body.shapes[0])
                                                   && this.buildable != null && this.buildable.isBuildable)
         {
             // handle key presses
