@@ -36,9 +36,12 @@ class Player {
 
     lastClimbPosition:number[] = [0, 0];
 
+    playerDimensions:number[] = [128, 128];
+
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
-    //mathDevice:MathDevice;
+    mathDevice:MathDevice;
+    game:GameObject;
 
     loadTextures(graphicsDevice:GraphicsDevice)
     {
@@ -51,15 +54,16 @@ class Player {
 
     constructor (game:GameObject, position:number[])
     {
+        this.game = game;
         this.keys = game.keys;
         this.collisionUtil = game.collisionUtil;
-        //this.mathDevice = game.mathDevice;
+        this.mathDevice = game.mathDevice;
         // build the player sprite
         var playerParams:any = {
             x: position[0],
             y: position[1],
-            width: 64,
-            height: 64,
+            width: this.playerDimensions[0],
+            height: this.playerDimensions[1],
             color: [0.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
@@ -124,8 +128,12 @@ class Player {
     checkCollision = (arbiter, otherShape) =>
     {
         // whenever we hit another shape, set isJumping to false;
-        var vel:number[] = this.rigidSprite.body.getVelocity();
-        if (vel[1] < this.THRESHOLD_STANDING_SPEED) {
+//        var vel:number[] = this.rigidSprite.body.getVelocity();
+//        if (Math.abs(vel[1]) < this.THRESHOLD_STANDING_SPEED) {
+//            this.isJumping = false;
+//        }
+        var normal:number[] = arbiter.getNormal();
+        if (normal[1] > 0){
             this.isJumping = false;
         }
     }
@@ -221,8 +229,8 @@ class Player {
             dir[1] += 1;
         }
 
-        //var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
-        //var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
+//        var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
+//        var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
 
         var vectorLength:number = Math.sqrt(dir[0] * dir[0] + dir[1] * dir[1]);
         if (vectorLength > 0) {
@@ -244,6 +252,16 @@ class Player {
 
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
+
+        // reset back to last checkpoint when R is pressed
+        if (this.keys.R)
+        {
+            console.log("pressing R");
+            var resetPosition:number[] = game.checkpointManager.resetPosition();
+            if (resetPosition != null) {
+                this.rigidSprite.body.setPosition(resetPosition);
+            }
+        }
 
         // jumping always works
         if (this.keys.SPACE && !this.isJumping) {
@@ -276,7 +294,7 @@ class Player {
 
         if (this.isJumping) {
             this.currentTexture = this.jumpTexture;
-        } else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < 0.01) {
+        } else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED) {
             this.currentTexture = this.standTexture;
         }
 

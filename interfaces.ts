@@ -11,7 +11,7 @@ interface InteractablesObject {
 
 interface GameObject {
     engine : TurbulenzEngine;
-    //mathDevice : MathDevice;
+    mathDevice : MathDevice;
     graphicsDevice : GraphicsDevice;
     inputDevice: InputDevice;
     draw2D : Draw2D;
@@ -19,6 +19,7 @@ interface GameObject {
     physicsWorld : Physics2DWorld;
     collisionUtil : Physics2DCollisionUtils;
     collisionHelp: CollisionHelper;
+    checkpointManager : CheckpointManager;
     debugMode : boolean;
     keys : KeyObject;
 }
@@ -38,6 +39,7 @@ interface KeyObject {
     F ?: boolean;
     G ?: boolean;
     H ?: boolean;
+    R ?: boolean;
 }
 
 interface RigidSpriteOptions {
@@ -117,4 +119,12 @@ class ClimbableDefault implements Climbable
     {
         return this.shape;
     }
+}
+
+interface CheckpointOptions
+{
+    body : Physics2DRigidBody;
+    name : String;
+    checkpointManager : CheckpointManager;
+    completed ?: boolean;
 }

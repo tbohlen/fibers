@@ -153,6 +153,19 @@
                  "width":93,
                  "x":398,
                  "y":918
+                }, 
+                {
+                 "height":308,
+                 "name":"checkpointTest",
+                 "properties":
+                    {
+                     "checkpointName":"\"test1\""
+                    },
+                 "type":"Checkpoint",
+                 "visible":true,
+                 "width":294,
+                 "x":391,
+                 "y":607
                 }],
          "opacity":1,
          "type":"objectgroup",

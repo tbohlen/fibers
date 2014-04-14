@@ -46,7 +46,7 @@ var physicsWorldParams:any = {
 };
 
 // TODO: Figure out why this function doesn't work!!!
-//var mathDevice = TurbulenzEngine.createMathDevice({});
+var mathDevice:MathDevice = TurbulenzEngine.createMathDevice({});
 
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
 var collisionUtil:Physics2DCollisionUtils = physicsDevice.createCollisionUtils();
@@ -102,13 +102,14 @@ var htmlControls:HTMLControls = null;
 
 var game:GameObject = {
     engine : TurbulenzEngine,
-    //mathDevice : mathDevice,
+    mathDevice : mathDevice,
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     collisionHelp : collisionHelp,
+    checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     debugMode : false,
     keys : keys
@@ -119,6 +120,7 @@ draw2D.getViewport(viewport);
 var bgColor = [0.0, 0.0, 0.0, 1.0];
 
 // the tileset device manages the tiled maps
+
 var defaultTileSet:string = "tutorial";
 $("#levelNameinput").val(defaultTileSet);
 var tileset:Tileset = new Tileset(defaultTileSet+".json", game);
@@ -164,9 +166,10 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = true;
-    } else if (keycode === inputDevice.keyCodes.H)
-    {
+    } else if (keycode === inputDevice.keyCodes.H) {
         game.keys.H = true;
+    } else if (keycode === inputDevice.keyCodes.R) {
+        game.keys.R = true;
     } else if (keycode === inputDevice.keyCodes.M)
     {
         game.debugMode = !game.debugMode;
@@ -223,9 +226,10 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = false;
-    } else if (keycode === inputDevice.keyCodes.H)
-    {
+    } else if (keycode === inputDevice.keyCodes.H) {
         game.keys.H = false;
+    } else if (keycode === inputDevice.keyCodes.R) {
+        game.keys.R = false;
     } else if (keycode === inputDevice.keyCodes.SPACE)
     {
         game.keys.SPACE = false;
