@@ -203,7 +203,6 @@ class Player {
         this.isClimbing = false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
-        this.currentTexture = this.jumpTexture;
     }
 
     climb()
@@ -317,7 +316,6 @@ class Player {
         {
             this.currentTexture.resetLoop();
         }
-
         if (this.currentTexture.texture) {
             this.setTexture(this.currentTexture.texture);
             this.setTextureRectangle(this.currentTexture.currentFrameRectangle(this.facing));
