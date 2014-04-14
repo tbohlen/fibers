@@ -8,7 +8,8 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="tileset.ts"/>
 
-class Platform extends RigidSprite{
+class Platform extends RigidSprite {
+    public static debugColor:number[] = [0.3, .3, 1.0, 1.0];
     game:GameObject = null;
 
     constructor (options:RigidSpriteOptions, game:GameObject)
@@ -49,15 +50,16 @@ class Platform extends RigidSprite{
             shapes : shapes,
             position : [obj.x, obj.y]
         });
-        var sprite:Draw2DSprite = Draw2DSprite.create({
-            width: obj.width,
-            height: obj.height,
-            x : obj.x,
-            y : obj.y,
-            origin : [0, 0],
-            color: [0.3, .3, 1.0, 1.0]
-        });
         world.addRigidBody(body);
+
+        var sprite:Draw2DSprite = Draw2DSprite.create({
+                width: obj.width,
+                height: obj.height,
+                x : obj.x,
+                y : obj.y,
+                origin : [0, 0],
+                color: Platform.debugColor
+        });
 
         var rigidSpriteParams = {
             sprite : sprite,
@@ -66,5 +68,15 @@ class Platform extends RigidSprite{
         };
 
         return new Platform(rigidSpriteParams, game);
+    }
+
+    draw(draw2D:Draw2D, offset:number[])
+    {
+        if (this.game.debugMode){
+            this.sprite.setColor(Platform.debugColor);
+        } else {
+            this.sprite.setColor([0,0,0,0]);
+        }
+        super.draw(draw2D, offset);
     }
 }

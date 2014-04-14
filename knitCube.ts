@@ -8,22 +8,28 @@
 
 class KnitCube extends RigidSprite implements Buildable
 {
+    public static debugColorConstruct:number[] = [.1, .5, .1, 1.0];
+    public static debugColorCube:number[] = [1.0, 1.0, 1.0, 1.0];
 
+    game:GameObject = null;
     GROW_SPEED = 2;
     maxDimension:number;
     minDimension:number;
     currentDimension:number;
     construct:RigidSprite;
     isBuildable:boolean = true;
+
     constructor (options:knitCubeOptions, game:GameObject)
     {
         super(options);
+        this.game = game;
+
         this.maxDimension = options.maxDimension;
         this.minDimension = options.minDimension;
         this.currentDimension = 0;
 
         // for the cube that will be knitted
-        var vertices:number[][] = [[0,0], [10,0], [10, 10], [0, 10]];;
+        var vertices:number[][] = [[0,0], [10,0], [10, 10], [0, 10]];
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
             group: 2,
@@ -38,7 +44,7 @@ class KnitCube extends RigidSprite implements Buildable
             width: this.maxDimension,
             height: 1,
             origin : [this.maxDimension / 2, this.maxDimension / 2],
-            color: [1.0, 1.0, 1.0, 1.0]
+            color: KnitCube.debugColorConstruct
         });
 
         this.construct = new RigidSprite({
@@ -69,7 +75,7 @@ class KnitCube extends RigidSprite implements Buildable
             x : obj.x,
             y : obj.y,
             origin : [0, 0],
-            color: [.1, .5, .1, 1.0]
+            color: KnitCube.debugColorCube
         });
 
         game.physicsWorld.addRigidBody(body);
@@ -126,6 +132,15 @@ class KnitCube extends RigidSprite implements Buildable
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
+        // should only do this once when toggling. Not on every draw :(
+        if (this.game.debugMode){
+            this.sprite.setColor(KnitCube.debugColorCube);
+            this.construct.sprite.setColor(KnitCube.debugColorConstruct);
+        } else {
+            this.sprite.setColor([0,0,0,0]);
+            this.construct.sprite.setColor([0,0,0,0]);
+        }
+
         this.construct.draw(draw2D, offset);
         super.draw(draw2D, offset);
     }

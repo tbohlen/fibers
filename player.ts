@@ -36,6 +36,8 @@ class Player {
 
     lastClimbPosition:number[] = [0, 0];
 
+    playerDimensions:number[] = [128, 128];
+
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
     //mathDevice:MathDevice;
@@ -58,8 +60,8 @@ class Player {
         var playerParams:any = {
             x: position[0],
             y: position[1],
-            width: 64,
-            height: 64,
+            width: this.playerDimensions[0],
+            height: this.playerDimensions[1],
             color: [0.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);

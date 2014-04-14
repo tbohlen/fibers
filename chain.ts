@@ -13,6 +13,9 @@
 
 class Chain extends RigidSprite implements Buildable, Climbable
 {
+    public static debugColorChain:number[] = [1.0, 0.0, 0.0, 1.0];
+    public static debugColorConstruct:number[] = [1.0, 1.0, 1.0, 1.0];
+
     GROW_SPEED = 2;
     maxHeight:number;
     minHeight:number;
@@ -63,7 +66,7 @@ class Chain extends RigidSprite implements Buildable, Climbable
             width: this.width,
             height: (options.initHeight ? options.initHeight : 1), // XXX: hack to make sure we don't get errors from 0 width objects
             origin : [this.width/2, 0],
-            color: [1.0, 1.0, 1.0, 1.0]
+            color: Chain.debugColorConstruct
         });
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
@@ -100,7 +103,7 @@ class Chain extends RigidSprite implements Buildable, Climbable
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
             height: obj.height,
-            color: [1.0, 0.0, 0.0, 1.0]
+            color: Chain.debugColorChain
         });
         game.physicsWorld.addRigidBody(body);
         var rigidSprite = new RigidSprite({
@@ -223,6 +226,14 @@ class Chain extends RigidSprite implements Buildable, Climbable
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
+        if (this.game.debugMode){
+            this.sprite.setColor(Chain.debugColorChain);
+            this.construct.sprite.setColor(Chain.debugColorConstruct);
+        } else {
+            this.sprite.setColor([0,0,0,0]);
+            this.construct.sprite.setColor([0,0,0,0]);
+        }
+
         super.draw(draw2D, offset);
         var position:number[] = this.body.getPosition();
         // offset the position y so that it starts at the bottom of the knitting needles, not the middle
