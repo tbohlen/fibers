@@ -53,6 +53,7 @@ interface ChainOptions extends RigidSpriteOptions {
     minHeight : number;
     width : number;
     rotation: number;
+    needleHeight: number; // the height of the graphic showing the knitting needles
 }
 
 interface knitCubeOptions extends RigidSpriteOptions {

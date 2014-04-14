@@ -63,7 +63,7 @@ class Platform extends RigidSprite{
             sprite : sprite,
             initialPos : [sprite.x, sprite.y],
             body : body
-        }
+        };
 
         return new Platform(rigidSpriteParams, game);
     }

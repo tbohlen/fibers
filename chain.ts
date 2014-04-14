@@ -24,6 +24,7 @@ class Chain extends RigidSprite implements Buildable, Climbable
     material:Physics2DMaterial;
     isBuildable:boolean = true;
     isClimbable:boolean = true;
+    needleHeight:number;
 
     constructor (options:ChainOptions, game:GameObject)
     {
@@ -33,6 +34,10 @@ class Chain extends RigidSprite implements Buildable, Climbable
         this.minHeight = options.minHeight;
         this.width = options.width;
         this.currentHeight = options.initHeight;
+        this.needleHeight = options.needleHeight;
+
+        // correct the initial position of the chain to match the bottom of the needles instead of the middle
+        var chainPos:number[] = [options.initialPos[0], options.initialPos[1] + this.needleHeight/2];
 
         // the rigidSprite displayed is the knitting needles
         // in addition to the knitting needles, we need the thing you are climbing
@@ -65,7 +70,7 @@ class Chain extends RigidSprite implements Buildable, Climbable
 
         this.construct = new RigidSprite({
             sprite:sprite,
-            initialPos:options.initialPos,
+            initialPos:chainPos,
             body:body
         });
 
@@ -112,7 +117,8 @@ class Chain extends RigidSprite implements Buildable, Climbable
             initHeight:parseInt(obj.properties.initHeight),
             minHeight:parseInt(obj.properties.minHeight),
             width:obj.properties.width,
-            rotation:obj.properties.rotation
+            rotation:obj.properties.rotation,
+            needleHeight:obj.height
         };
         var newChain:Chain = new Chain(options, game);
         game.collisionHelp.pushInteractable(newChain);
@@ -219,6 +225,8 @@ class Chain extends RigidSprite implements Buildable, Climbable
     draw(draw2D:Draw2D, offset:number[]) {
         super.draw(draw2D, offset);
         var position:number[] = this.body.getPosition();
+        // offset the position y so that it starts at the bottom of the knitting needles, not the middle
+        position[1] += this.needleHeight/2;
         if (this.currentHeight > 0) {
             this.construct.sprite.setHeight(this.currentHeight);
             this.construct.sprite.setWidth(this.width);
