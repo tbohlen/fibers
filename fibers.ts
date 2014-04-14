@@ -33,8 +33,8 @@
 // Create important objects and set up the game
 ////////////////////////////////////////////////////////////////////////////////
 
-var width:number = 640;
-var height:number = 480;
+var width:number = 1280;
+var height:number = 720;
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
 // build the physics device to allow 2D constraint physics
