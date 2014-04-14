@@ -109,6 +109,7 @@ var game:GameObject = {
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
     collisionHelp : collisionHelp,
+    checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     debugMode : false,
     keys : keys
@@ -164,9 +165,10 @@ inputDevice.addEventListener("keydown", function(keycode){
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = true;
-    } else if (keycode === inputDevice.keyCodes.H)
-    {
+    } else if (keycode === inputDevice.keyCodes.H) {
         game.keys.H = true;
+    } else if (keycode === inputDevice.keyCodes.R) {
+        game.keys.R = true;
     } else if (keycode === inputDevice.keyCodes.M)
     {
         game.debugMode = !game.debugMode;
@@ -223,9 +225,10 @@ inputDevice.addEventListener("keyup", function(keycode){
     } else if (keycode === inputDevice.keyCodes.G)
     {
         game.keys.G = false;
-    } else if (keycode === inputDevice.keyCodes.H)
-    {
+    } else if (keycode === inputDevice.keyCodes.H) {
         game.keys.H = false;
+    } else if (keycode === inputDevice.keyCodes.R) {
+        game.keys.R = false;
     } else if (keycode === inputDevice.keyCodes.SPACE)
     {
         game.keys.SPACE = false;

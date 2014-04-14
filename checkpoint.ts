@@ -6,16 +6,56 @@
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
 
+class CheckpointManager
+{
+    allCheckpoints:Checkpoint[];
+    completedCheckpoints:Checkpoint[]; // arranged in chronological order
+
+    constructor ()
+    {
+        this.allCheckpoints = [];
+        this.completedCheckpoints = [];
+    }
+
+    public pushCheckpoint(check:Checkpoint)
+    {
+        this.allCheckpoints.push(check);
+        if (check.completed)
+        {
+            this.completedCheckpoints.push(check);
+        }
+    }
+
+    public completeCheckpoint(check:Checkpoint):void
+    {
+        check.completed = true;
+        this.completedCheckpoints.push(check);
+    }
+
+    public resetPosition():number[]
+    {
+        if (this.completedCheckpoints.length == 0)
+        {
+            return null;
+        }
+        var lastCheck:Checkpoint = this.completedCheckpoints[this.completedCheckpoints.length-1];
+        console.log(lastCheck);
+        return lastCheck.body.getPosition();
+    }
+}
+
 class Checkpoint implements Interactable
 {
     body:Physics2DRigidBody;
     completed:boolean;
     name:String;
+    checkpointManager:CheckpointManager;
     constructor (options:CheckpointOptions)
     {
         this.body = options.body;
         this.name = options.name;
         this.completed = options.completed == true; // need check since it could be null
+        this.checkpointManager = options.checkpointManager;
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject):Checkpoint
@@ -42,9 +82,11 @@ class Checkpoint implements Interactable
 
         var cp:Checkpoint = new Checkpoint({
             body : body,
-            name : name
+            name : name,
+            checkpointManager : game.checkpointManager
         });
         game.collisionHelp.pushInteractable(cp);
+        game.checkpointManager.pushCheckpoint(cp);
         return null; // return null since this is not a rigid sprite
     }
 
@@ -53,6 +95,7 @@ class Checkpoint implements Interactable
         if (!this.completed)
         {
             this.completed = true;
+            this.checkpointManager.completeCheckpoint(this);
             console.log("yeah! You completed a checkpoint");
         }
     }

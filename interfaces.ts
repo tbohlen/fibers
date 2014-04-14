@@ -19,6 +19,7 @@ interface GameObject {
     physicsWorld : Physics2DWorld;
     collisionUtil : Physics2DCollisionUtils;
     collisionHelp: CollisionHelper;
+    checkpointManager : CheckpointManager;
     debugMode : boolean;
     keys : KeyObject;
 }
@@ -38,6 +39,7 @@ interface KeyObject {
     F ?: boolean;
     G ?: boolean;
     H ?: boolean;
+    R ?: boolean;
 }
 
 interface RigidSpriteOptions {
@@ -123,5 +125,6 @@ interface CheckpointOptions
 {
     body : Physics2DRigidBody;
     name : String;
+    checkpointManager : CheckpointManager;
     completed ?: boolean;
 }
