@@ -40,7 +40,7 @@ class Player {
 
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
-    //mathDevice:MathDevice;
+    mathDevice:MathDevice;
 
     loadTextures(graphicsDevice:GraphicsDevice)
     {
@@ -55,7 +55,7 @@ class Player {
     {
         this.keys = game.keys;
         this.collisionUtil = game.collisionUtil;
-        //this.mathDevice = game.mathDevice;
+        this.mathDevice = game.mathDevice;
         // build the player sprite
         var playerParams:any = {
             x: position[0],
@@ -223,8 +223,8 @@ class Player {
             dir[1] += 1;
         }
 
-        //var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
-        //var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
+//        var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
+//        var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
 
         var vectorLength:number = Math.sqrt(dir[0] * dir[0] + dir[1] * dir[1]);
         if (vectorLength > 0) {

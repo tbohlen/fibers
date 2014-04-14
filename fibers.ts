@@ -46,7 +46,7 @@ var physicsWorldParams:any = {
 };
 
 // TODO: Figure out why this function doesn't work!!!
-//var mathDevice = TurbulenzEngine.createMathDevice({});
+var mathDevice:MathDevice = TurbulenzEngine.createMathDevice({});
 
 var dynamicWorld:Physics2DWorld = physicsDevice.createWorld(physicsWorldParams);
 var collisionUtil:Physics2DCollisionUtils = physicsDevice.createCollisionUtils();
@@ -102,7 +102,7 @@ var htmlControls:HTMLControls = null;
 
 var game:GameObject = {
     engine : TurbulenzEngine,
-    //mathDevice : mathDevice,
+    mathDevice : mathDevice,
     graphicsDevice : graphicsDevice,
     inputDevice: inputDevice,
     draw2D : draw2D,
