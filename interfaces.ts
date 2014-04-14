@@ -5,6 +5,10 @@
 /// <reference path="player.ts"/>
 /// <reference path="checkpoint.ts"/>
 
+interface TurbGameState {
+    update():void;
+}
+
 interface InteractablesObject {
     buildables : Buildable[];
     climbables : Climbable[];

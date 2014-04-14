@@ -15,6 +15,7 @@
 /// <reference path="CollisionHelper.ts"/>
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
+/// <reference path="PlayState.ts"/>
 
 
 // group bits
@@ -115,18 +116,6 @@ var game:GameObject = {
     keys : keys
 };
 
-var viewport:number[] = [];
-draw2D.getViewport(viewport);
-var bgColor = [0.0, 0.0, 0.0, 1.0];
-
-// the tileset device manages the tiled maps
-var defaultTileSet:string = "chainTest";
-$("#levelNameinput").val(defaultTileSet);
-var tileset:Tileset = new Tileset(defaultTileSet+".json", game);
-// build the player
-var player:Player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
-game.collisionHelp.setPlayer(player);
-
 ///////////////////////////////////////////////////////////////////////////////
 // add event listeners
 ///////////////////////////////////////////////////////////////////////////////
@@ -189,11 +178,11 @@ inputDevice.addEventListener("keyup", function(keycode){
     if (keycode === inputDevice.keyCodes.LEFT)
     {
         game.keys.LEFT = false;
-        player.stopWalking();
+//        player.stopWalking();
     } else if (keycode === inputDevice.keyCodes.RIGHT)
     {
         game.keys.RIGHT = false;
-        player.stopWalking();
+//        player.stopWalking();
     } else if (keycode === inputDevice.keyCodes.UP)
     {
         game.keys.UP = false;
@@ -236,87 +225,26 @@ inputDevice.addEventListener("keyup", function(keycode){
     console.log("number of rigid bodies: " + dynamicWorld.rigidBodies.length);
 });
 
-// make the debug physics device
-var physicsDebug:Physics2DDebugDraw = Physics2DDebugDraw.create({
-    graphicsDevice: graphicsDevice
-});
-physicsDebug.setPhysics2DViewport(viewport);
+var currentState = new PlayState(game);
 
 // run the game
 function update()
 {
-    var i:number = 0;
-    if (graphicsDevice.beginFrame())
-    {
-        // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
-        var startTime:number = dynamicWorld.simulatedTime;
-        while( dynamicWorld.simulatedTime < startTime + 1/60 )
-        {
-            dynamicWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
-        }
-
-        player.update();
-        game.collisionHelp.checkCollision();
-
-        // find the offset of all things displayed to screen to keep the player center
-        // set this as the viewport
-        var offset:number[] = [];
-        var playerPos:number[] = player.rigidSprite.body.getPosition();
-        offset[0] = playerPos[0] - (width / 2);
-        offset[1] = playerPos[1] - (height / 2);
-
-        graphicsDevice.clear( bgColor, 1.0 );
-
-        draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
-
-        if (tileset.isLoaded())
-        {
-            if (!tileset.ranLoadMap)
-            {
-                console.log("Running load map");
-                tileset.loadMap();
-            }
-            tileset.draw(draw2D, offset);
-        }
-
-        // draw the player to the screen
-        player.draw(draw2D, offset);
-
-        draw2D.end();
-
-        if (game.debugMode)
-        {
-            // physics2D debug drawing.
-            var screenSpacePort:number[] = draw2D.getScreenSpaceViewport();
-            var physicsPort:number[] = [];
-            physicsPort[0] = screenSpacePort[0] - offset[0];
-            physicsPort[1] = screenSpacePort[1] - offset[1];
-            physicsPort[2] = screenSpacePort[2] - offset[0];
-            physicsPort[3] = screenSpacePort[3] - offset[1];
-            physicsDebug.setScreenViewport(physicsPort);
-            physicsDebug.showRigidBodies = true;
-            physicsDebug.showContacts = true;
-            physicsDebug.begin();
-            physicsDebug.drawWorld(dynamicWorld);
-            physicsDebug.end();
-        }
-
-        graphicsDevice.endFrame();
-    }
+    currentState.update();
 }
 
 function loadHtmlControls() {
     htmlControls = HTMLControls.create();
     htmlControls.addSliderControl({
         id: "playerJumpSpeedSlider",
-        value: (player.JUMP_SPEED),
+//        value: (player.JUMP_SPEED),
         max: 4,
         min: 0.1,
         step: 0.1,
         fn: function () {
             console.log("CHANGED PLAYER VELOCITY");
-            player.JUMP_SPEED = this.value;
-            htmlControls.updateSlider("playerJumpSpeedSlider", player.JUMP_SPEED);
+//            player.JUMP_SPEED = this.value;
+//            htmlControls.updateSlider("playerJumpSpeedSlider", player.JUMP_SPEED);
         }
     });
 
@@ -328,9 +256,9 @@ function loadHtmlControls() {
             console.log("pressed enter...");
             var mapName:string = $("#levelNameinput").val();
             dynamicWorld.clear();
-            tileset = new Tileset(mapName+".json", game);
+//            tileset = new Tileset(mapName+".json", game);
             // need to actually place player in desired location for map
-            player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
+//            player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
         }
     });
 

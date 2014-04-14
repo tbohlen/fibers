@@ -242,7 +242,7 @@ class Tileset {
         }
 
         console.log("mapping tools 3");
-        for (var key:any in this.tools)
+        for (var key in this.tools)
         {
             console.log("found key: " + key);
             if (this.buildables.hasOwnProperty(key))
