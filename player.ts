@@ -64,7 +64,7 @@ class Player {
             y: position[1],
             width: this.playerDimensions[0],
             height: this.playerDimensions[1],
-            color: [0.0, 1.0, 1.0, 1.0]
+            color: [1.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
         var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-playerParams.width/4, -playerParams.height/2,
