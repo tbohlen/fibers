@@ -50,9 +50,6 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="test" width="100" height="100" visible="0">
-  <object name="test platform" type="Platform" x="54" y="76" width="180" height="75"/>
- </objectgroup>
  <objectgroup name="knitting needle" width="100" height="100">
   <object type="Chain" x="195" y="195" width="57" height="57">
    <properties>
@@ -61,6 +58,18 @@
     <property name="minHeight" value="0"/>
     <property name="rotation" value="4.712388"/>
     <property name="width" value="20"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="checkpoints" width="100" height="100">
+  <object name="start" type="Checkpoint" x="100" y="176" width="63" height="79">
+   <properties>
+    <property name="checkpointName" value="start"/>
+   </properties>
+  </object>
+  <object name="ground " type="Checkpoint" x="280" y="455" width="48" height="54">
+   <properties>
+    <property name="checkpointName" value="ground"/>
    </properties>
   </object>
  </objectgroup>

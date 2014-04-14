@@ -124,30 +124,6 @@
         }, 
         {
          "height":100,
-         "name":"test",
-         "objects":[
-                {
-                 "height":75,
-                 "name":"test platform",
-                 "properties":
-                    {
-
-                    },
-                 "type":"Platform",
-                 "visible":true,
-                 "width":180,
-                 "x":54,
-                 "y":76
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":false,
-         "width":100,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "height":100,
          "name":"knitting needle",
          "objects":[
                 {
@@ -166,6 +142,43 @@
                  "width":57,
                  "x":195,
                  "y":195
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":100,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "height":100,
+         "name":"checkpoints",
+         "objects":[
+                {
+                 "height":79,
+                 "name":"start",
+                 "properties":
+                    {
+                     "checkpointName":"start"
+                    },
+                 "type":"Checkpoint",
+                 "visible":true,
+                 "width":63,
+                 "x":100,
+                 "y":176
+                }, 
+                {
+                 "height":54,
+                 "name":"ground ",
+                 "properties":
+                    {
+                     "checkpointName":"ground"
+                    },
+                 "type":"Checkpoint",
+                 "visible":true,
+                 "width":48,
+                 "x":280,
+                 "y":455
                 }],
          "opacity":1,
          "type":"objectgroup",
