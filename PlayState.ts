@@ -34,6 +34,10 @@ class PlayState implements TurbGameState
         var i:number = 0;
         if (this.game.graphicsDevice.beginFrame())
         {
+            // check for debug mode change
+            if (this.game.keyboard.keyPressed("M")) {
+                this.game.debugMode = !this.game.debugMode;
+            }
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;
             while( this.game.physicsWorld.simulatedTime < startTime + 1/60 )
