@@ -121,4 +121,5 @@ properties must be included:
 * isBuildable:<<true or false>>
 * isClimbable:<<true or false>>
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
+* toolKey:<<the same value you gave the tool>>
 
