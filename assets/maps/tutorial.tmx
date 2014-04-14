@@ -51,11 +51,14 @@
   </object>
  </objectgroup>
  <objectgroup name="knitting needle" width="100" height="100">
-  <object type="Chain" x="195" y="195" width="57" height="57">
+  <object name="tool" type="Tool" x="195" y="195" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="true"/>
     <property name="maxHeight" value="520"/>
     <property name="minHeight" value="0"/>
+    <property name="prebuilt" value="false"/>
     <property name="rotation" value="4.712388"/>
     <property name="width" value="20"/>
    </properties>

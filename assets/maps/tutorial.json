@@ -128,16 +128,19 @@
          "objects":[
                 {
                  "height":57,
-                 "name":"",
+                 "name":"tool",
                  "properties":
                     {
                      "initHeight":"0",
+                     "isBuildable":"true",
+                     "isClimbable":"true",
                      "maxHeight":"520",
                      "minHeight":"0",
+                     "prebuilt":"false",
                      "rotation":"4.712388",
                      "width":"20"
                     },
-                 "type":"Chain",
+                 "type":"Tool",
                  "visible":true,
                  "width":57,
                  "x":195,
