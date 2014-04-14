@@ -126,8 +126,12 @@ class Player {
     checkCollision = (arbiter, otherShape) =>
     {
         // whenever we hit another shape, set isJumping to false;
-        var vel:number[] = this.rigidSprite.body.getVelocity();
-        if (vel[1] < this.THRESHOLD_STANDING_SPEED) {
+//        var vel:number[] = this.rigidSprite.body.getVelocity();
+//        if (Math.abs(vel[1]) < this.THRESHOLD_STANDING_SPEED) {
+//            this.isJumping = false;
+//        }
+        var normal:number[] = arbiter.getNormal();
+        if (normal[1] > 0){
             this.isJumping = false;
         }
     }
@@ -278,7 +282,7 @@ class Player {
 
         if (this.isJumping) {
             this.currentTexture = this.jumpTexture;
-        } else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < 0.01) {
+        } else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED) {
             this.currentTexture = this.standTexture;
         }
 
