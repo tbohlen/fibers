@@ -44,7 +44,7 @@ class Chain extends RigidSprite implements Buildable, Climbable
 
         // the rigidSprite displayed is the knitting needles
         // in addition to the knitting needles, we need the thing you are climbing
-        // this is constructed as another rigidSprite with a fixed width
+
         this.material = game.physicsDevice.createMaterial({
             elasticity : 0,
             staticFriction : 0,
@@ -128,6 +128,10 @@ class Chain extends RigidSprite implements Buildable, Climbable
         return newChain;
     }
 
+    /*
+     * Method: getBuildableShape
+     * Returns the shape that the player must be intersecting with in order for them to use its build functionality.
+     */
     getBuildableShape()
     {
         return this.body.shapes[0];

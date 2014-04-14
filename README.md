@@ -82,18 +82,24 @@ Place it in `assets/maps/YOUR_MAP_NAME.json`.
 
 ###MAKING RIGID BODIES IN MAPS
 
-There are two main types of rigid bodies at the moment.
+There are a number of special objects that you can create from tiled. Here's a rough outline of how to make them.
 
 Platforms must have "Platform" as their type and the following Name:Value pairs in the object properties:
 * rigidBody:static
 * shape:rectangle
 
-Chains (or buildable rectangles) must have "Chain" as their type and the following Name:Value pairs in the object properties:
+Tools must have "Tool" as their type. Each tool can be associated with one other
+object in the scene. When intersecting with the tool, the player can build the
+other object up and down. For now, instead of making the other object yourself,
+you simply have to tell the Tool how to make it.
 * initHeight:<<integer in pixels>>
 * maxHeight:<<integer in pixels>>
 * minHeight:<<integer in pixels>>
 * rotation:<<number in radians>>
 * width:<<integer in pixels>>
+* isBuildable:<<true or false>>
+* isClimbable:<<true or false>>
+* prebuilt:false
 
 Checkpoints must have "Checkpoint" as their type and the following Name:Value pairs in the object properties:
 * checkpointName:<<some identifying string>>

@@ -42,14 +42,33 @@ interface KeyObject {
     R ?: boolean;
 }
 
-interface RigidSpriteOptions {
+interface RigidSpriteOptions
+{
     sprite : Draw2DSprite;
     initialPos : number[];
     gid ?: number;
     body ?: Physics2DRigidBody;
 }
 
-interface ChainOptions extends RigidSpriteOptions {
+interface RectangleOptions extends RigidSpriteOptions
+{
+    initHeight ?: number;
+    maxHeight : number;
+    minHeight : number;
+    width : number;
+    rotation: number;
+    isBuildable : boolean;
+    isClimbable : boolean;
+    bodyType ?: string; // specifies static, kinematic or dynamic
+}
+
+interface ToolOptions extends RigidSpriteOptions
+{
+    buildable ?: Buildable;
+}
+
+interface ChainOptions extends RigidSpriteOptions
+{
     initHeight ?: number;
     maxHeight : number;
     minHeight : number;
@@ -73,7 +92,7 @@ interface Interactable {
     getShapes():Physics2DShape[];
 }
 
-interface Buildable extends Interactable{
+interface Buildable {
     isBuildable:boolean;
     /*
      * Method: buildUp
@@ -87,8 +106,6 @@ interface Buildable extends Interactable{
      * The object implementing this interface needs to react accordingly.
      */
     buildDown():void;
-
-    getBuildableShape():Physics2DShape;
 }
 
 

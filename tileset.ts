@@ -6,6 +6,8 @@
 /// <reference path="platform.ts"/>
 /// <reference path="knitCube.ts"/>
 /// <reference path="chain.ts"/>
+/// <reference path="tool.ts"/>
+/// <reference path="rectangle.ts"/>
 /// <reference path="ladder.ts"/>
 /// <reference path="checkpoint.ts"/>
 
