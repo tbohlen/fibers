@@ -55,6 +55,9 @@ class Tileset {
 
     ranLoadMap:boolean = false;
 
+    buildables:any = {};
+    tools:any = {};
+
     // XXX: Don't modify!!
     game:GameObject;
 
@@ -165,6 +168,15 @@ class Tileset {
                 }
 
                 // testing so that we can map up rectangles and tiles
+                if (obj.type == "Tool" && obj.properties.hasOwnProperty("toolKey"))
+                {
+                    console.log("Adding tool");
+                    this.tools[obj.properties.toolKey] = rigidSprite;
+                }
+                else if (obj.properties.hasOwnProperty("toolKey"))
+                {
+                    this.buildables[obj.properties.toolKey] = rigidSprite;
+                }
             }
         }
     }
@@ -210,17 +222,33 @@ class Tileset {
         console.log("loading map!");
         this.ranLoadMap = true;
         var layerCount = this.mapData.layers.length;
-        for (var i:number = 0; i < layerCount; i+=1) {
+        for (var i:number = 0; i < layerCount; i+=1)
+        {
             var layer = this.mapData.layers[i];
             // the first sub array is buildable objects. The second is climbable
             var createdObjects:any[] = [[],[]];
-            if (layer.type === "objectgroup") {
+            if (layer.type === "objectgroup")
+            {
                 this.loadObjectLayer(layer);
             }
-            else if (layer.type === "tilelayer") {
+            else if (layer.type === "tilelayer")
+            {
                 this.loadTileLayer(layer);
-            } else {
+            }
+            else
+            {
                 console.log(layer.type);
+            }
+        }
+
+        console.log("mapping tools 3");
+        for (var key:any in this.tools)
+        {
+            console.log("found key: " + key);
+            if (this.buildables.hasOwnProperty(key))
+            {
+                console.log("Found match for key: " + key);
+                (<Tool>this.tools[key]).buildable = this.buildables[key];
             }
         }
     }

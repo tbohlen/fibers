@@ -66,16 +66,13 @@ class Tool extends RigidSprite implements Interactable
             initialPos : [obj.x + obj.width/2, obj.y + obj.height/2],
             gid: obj.gid,
             body : body,
-            maxHeight:parseInt(obj.properties.maxHeight),
-            initHeight:parseInt(obj.properties.initHeight),
-            minHeight:parseInt(obj.properties.minHeight),
-            width:parseInt(obj.properties.width),
-            rotation:parseFloat(obj.properties.rotation)
+            buildable : null
         };
 
-        if (!obj.prebuilt)
+        if (!(obj.properties.prebuilt == "true"))
         {
             var rectWidth = parseInt(obj.properties.width);
+            var initHeight:number = (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : 0);
             // build the rectangle here if not prebuilt
             var material:Physics2DMaterial = game.physicsDevice.createMaterial({
                 elasticity : 0,
@@ -111,6 +108,7 @@ class Tool extends RigidSprite implements Interactable
                 sprite : sprite,
                 initialPos : initialPos,
                 body : body,
+                initHeight : initHeight,
                 maxHeight : parseInt(obj.properties.maxHeight),
                 minHeight : parseInt(obj.properties.minHeight),
                 width : parseInt(obj.properties.width),

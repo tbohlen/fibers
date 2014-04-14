@@ -75,8 +75,8 @@
                      "isClimbable":"true",
                      "maxHeight":"400",
                      "minHeight":"0",
-                     "prebuilt":"false",
-                     "rotation":"4",
+                     "prebuilt":"true",
+                     "toolKey":"numberOne",
                      "width":"20"
                     },
                  "type":"Tool",
@@ -105,7 +105,8 @@
                      "isClimbable":"true",
                      "maxHeight":"100",
                      "minHeight":"10",
-                     "rotation":"0"
+                     "rotation":"0",
+                     "toolKey":"numberOne"
                     },
                  "type":"Rectangle",
                  "visible":true,

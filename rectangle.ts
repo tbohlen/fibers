@@ -54,7 +54,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
-        var initHeight:number = (obj.properties.initHeight ? parseInt(obj.properties.initHeight) : obj.height);
+        var initHeight:number = (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : obj.height);
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
             staticFriction : 0,
@@ -81,7 +81,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
 
-        var initialPos:number[] = [obj.x, obj.y];
+        var initialPos:number[] = [obj.x, obj.y+obj.height];
 
         var rectOptions:RectangleOptions = {
             sprite : sprite,

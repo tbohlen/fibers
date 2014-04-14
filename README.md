@@ -90,8 +90,9 @@ Platforms must have "Platform" as their type and the following Name:Value pairs 
 
 Tools must have "Tool" as their type. Each tool can be associated with one other
 object in the scene. When intersecting with the tool, the player can build the
-other object up and down. For now, instead of making the other object yourself,
-you simply have to tell the Tool how to make it. You must include the following:
+other object up and down. You can either tell the tool how to make the other
+object, or make the other object yourself in tiled. To tell the program to make
+it you must include the following:
 * initHeight:<<integer in pixels>>
 * maxHeight:<<integer in pixels>>
 * minHeight:<<integer in pixels>>
@@ -100,6 +101,12 @@ you simply have to tell the Tool how to make it. You must include the following:
 * isBuildable:<<true or false>>
 * isClimbable:<<true or false>>
 * prebuilt:false
+
+To build the other object yourself, build a rectangle somewhere in the scene and
+give it a the property "toolKey" with a value of your choosing. Now give your
+tool the following:
+* prebuilt:true
+* toolKey:<<the same value you gave the rectangle>>
 
 Checkpoints must have "Checkpoint" as their type and the following Name:Value pairs in the object properties:
 * checkpointName:<<some identifying string>>
