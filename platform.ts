@@ -31,7 +31,7 @@ class Platform extends RigidSprite {
         var world = game.physicsWorld;
         var platformMaterial:Physics2DMaterial = phys2D.createMaterial({
             elasticity : 0,
-            staticFriction : .3,
+            staticFriction : 0.05,
             dynamicFriction : 0.2
         });
 

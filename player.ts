@@ -210,13 +210,21 @@ class Player {
         var witA:number[] = [];
         var witB:number[] = [];
         var axis:number[] = [];
-        var distance:number =
-            this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0],
-                                                                  this.jumpShape,
-                                                                  witA,
-                                                                  witB,
-                                                                  axis);
-        if(this.jumpShape != null && Math.abs(distance) < this.JUMP_DIST)
+
+        // to be allowed to jump you either have to be climbing or have to still be touching
+        // the last horizontal surface you touched
+        var legal:boolean = this.isClimbing;
+        if (this.jumpShape != null) {
+            var distance:number =
+                this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0],
+                    this.jumpShape,
+                    witA,
+                    witB,
+                    axis);
+             legal = legal || Math.abs(distance) < this.JUMP_DIST;
+        }
+
+        if(legal)
         {
             this.jumpShape = null;
             this.isJumping = true;
