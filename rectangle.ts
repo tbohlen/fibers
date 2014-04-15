@@ -108,7 +108,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
 
-        var initialPos:number[] = [obj.x, obj.y+obj.height];
+        var initialPos:number[] = [obj.x + obj.width/2, obj.y+obj.height];
 
         var rectOptions:RectangleOptions = {
             sprite : sprite,
