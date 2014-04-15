@@ -80,15 +80,19 @@ class Tool extends RigidSprite implements Interactable
 
         if (!(obj.properties.prebuilt == "true"))
         {
-            var rectWidth = parseInt(obj.properties.width);
-            var initHeight:number = (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : 0);
+            var rectWidth = parseFloat(obj.properties.width) * 64;
+            var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * 64 : 0);
+            var initialPos:number[] = [obj.x + obj.width/2, obj.y + obj.height];
+            var maxHeight:number = parseFloat(obj.properties.maxHeight) * 64;
+            var minHeight:number = parseFloat(obj.properties.minHeight) * 64;
+
             // build the rectangle here if not prebuilt
             var material:Physics2DMaterial = game.physicsDevice.createMaterial({
                 elasticity : 0,
                 staticFriction : 0.3,
                 dynamicFriction : 0.2
             });
-            var vertices:number[][] = game.physicsDevice.createRectangleVertices(-rectWidth/2, 0, rectWidth/2, parseInt(obj.properties.initHeight));
+            var vertices:number[][] = game.physicsDevice.createRectangleVertices(-rectWidth/2, 0, rectWidth/2, initHeight);
             var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
                 vertices: vertices,
                 material: material,
@@ -101,36 +105,32 @@ class Tool extends RigidSprite implements Interactable
                 mass: 10
             });
             var sprite:Draw2DSprite = Draw2DSprite.create({
-                width: parseInt(obj.properties.width),
-                height: (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : 1), // XXX: hack to make sure we don't get errors from 0 width objects
+                width: rectWidth,
+                height: (initHeight ? initHeight : 1), // XXX: hack to make sure we don't get errors from 0 width objects
                 origin : [rectWidth/2, 0],
                 color: Tool.debugColorBuildable
             });
             // add the body to the world
             game.physicsWorld.addRigidBody(body);
 
-            var initialPos:number[] = [obj.x + obj.width/2, obj.y + obj.height];
             body.setPosition(initialPos);
             body.setRotation(rotation);
+
+            // 64s are to scale from tile size to pixels
 
             var rectOptions:RectangleOptions = {
                 sprite : sprite,
                 initialPos : initialPos,
                 body : body,
                 initHeight : initHeight,
-                maxHeight : parseInt(obj.properties.maxHeight),
-                minHeight : parseInt(obj.properties.minHeight),
-                width : parseInt(obj.properties.width),
+                maxHeight : maxHeight,
+                minHeight : minHeight,
+                width : rectWidth,
                 rotation: rotation,
                 isBuildable : (obj.properties.isBuildable == "true"),
                 isClimbable : (obj.properties.isClimbable == "true"),
                 isSolid : (obj.properties.isSolid == "true")
             };
-
-            if (obj.properties.initHeight)
-            {
-                rectOptions.initHeight = parseInt(obj.properties.initHeight);
-            }
 
             if (obj.gid)
             {

@@ -93,11 +93,11 @@ object in the scene. When intersecting with the tool, the player can build the
 other object up and down. You can either tell the tool how to make the other
 object, or make the other object yourself in tiled. To tell the program to make
 it you must include the following:
-* initHeight:<<integer in pixels>>
-* maxHeight:<<integer in pixels>>
-* minHeight:<<integer in pixels>>
+* initHeight:<<integer in tiles>>
+* maxHeight:<<integer in tiles>>
+* minHeight:<<integer in tiles>>
 * rotation:<<number in radians>>
-* width:<<integer in pixels>>
+* width:<<integer in tiles>>
 * isBuildable:<<true or false>>
 * isClimbable:<<true or false>>
 * isSolid:<<true or false>>
@@ -116,8 +116,8 @@ Checkpoints must have "Checkpoint" as their type and the following Name:Value pa
 Rectangles must have "Rectangle" as their type. Rectangles can be climbable or
 not, and buildable or not. Additional options will be added soon. The following
 properties must be included:
-* maxHeight:<<integer in pixels>>
-* minHeight:<<integer in pixels>>
+* maxHeight:<<integer in tiles>>
+* minHeight:<<integer in tiles>>
 * rotation:<<number in radians>>
 * isBuildable:<<true or false>>
 * isClimbable:<<true or false>>

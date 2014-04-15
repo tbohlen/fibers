@@ -81,7 +81,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
         var rotation:number = (parseFloat(obj.properties.rotation) * (3.141592 / 180)) + 3.141592;
-        var initHeight:number = (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : obj.height);
+        var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * 64 : obj.height);
+        var initialPos:number[] = [obj.x + obj.width/2, obj.y+initHeight];
+        var maxHeight:number = parseFloat(obj.properties.maxHeight) * 64;
+        var minHeight:number = parseFloat(obj.properties.minHeight) * 64;
+
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
             staticFriction : 0.3,
@@ -108,16 +112,14 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
 
-        var initialPos:number[] = [obj.x + obj.width/2, obj.y+obj.height];
-
         var rectOptions:RectangleOptions = {
             sprite : sprite,
             initialPos : initialPos,
             gid : parseInt(obj.gid),
             body : body,
             initHeight: initHeight,
-            maxHeight : parseInt(obj.properties.maxHeight),
-            minHeight : parseInt(obj.properties.minHeight),
+            maxHeight : maxHeight,
+            minHeight : minHeight,
             width : obj.width,
             rotation: rotation,
             isBuildable : (obj.properties.isBuildable == "true"),
