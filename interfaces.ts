@@ -4,6 +4,7 @@
 /// <reference path="CollisionHelper.ts"/>
 /// <reference path="player.ts"/>
 /// <reference path="checkpoint.ts"/>
+/// <reference path="spawn.ts"/>
 
 interface TurbGameState {
     update():TurbGameState;
@@ -27,6 +28,7 @@ interface GameObject {
     collisionHelp: CollisionHelper;
     checkpointManager : CheckpointManager;
     debugMode : boolean;
+    spawn ?: Spawn;
 }
 
 interface RigidSpriteOptions

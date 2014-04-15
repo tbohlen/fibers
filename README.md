@@ -125,3 +125,6 @@ properties must be included:
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
 * (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool>>
 
+Spawn points can be added very simply. Just place a 1 tile x 1 tile (not strictly necessary,
+but makes it easier to visualize where the player is going to appear) object in the location
+you would like the player to spawn and set its type to "Spawn". That's it!

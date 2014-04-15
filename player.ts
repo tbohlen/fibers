@@ -164,6 +164,10 @@ class Player {
         return this.rigidSprite.body.getPosition();
     }
 
+    setPosition(pos:number[]) {
+        this.rigidSprite.body.setPosition(pos);
+    }
+
     stopWalking()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
