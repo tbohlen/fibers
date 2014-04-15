@@ -122,11 +122,11 @@
                      "isBuildable":"true",
                      "isClimable":"false",
                      "isSolid":"true",
-                     "maxHeight":"8.2",
+                     "maxHeight":"8",
                      "minHeight":"0",
                      "prebuilt":"false",
                      "rotation":"90",
-                     "width":"0.3"
+                     "width":"0.5"
                     },
                  "type":"Tool",
                  "visible":true,
@@ -216,7 +216,7 @@
                      "isBuildable":"true",
                      "isClimable":"false",
                      "isSolid":"true",
-                     "maxHeight":"8",
+                     "maxHeight":"3",
                      "minHeight":"0",
                      "rotation":"0",
                      "toolKey":"0"
@@ -251,7 +251,7 @@
          "objects":[
                 {
                  "height":245,
-                 "name":"",
+                 "name":"climable",
                  "properties":
                     {
                      "initHeight":"4",

@@ -55,11 +55,11 @@
     <property name="isBuildable" value="true"/>
     <property name="isClimable" value="false"/>
     <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="8.2"/>
+    <property name="maxHeight" value="8"/>
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="90"/>
-    <property name="width" value="0.3"/>
+    <property name="width" value="0.5"/>
    </properties>
   </object>
   <object name="door crochet" type="Tool" x="771" y="195" width="60" height="57">
@@ -93,7 +93,7 @@
     <property name="isBuildable" value="true"/>
     <property name="isClimable" value="false"/>
     <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="8"/>
+    <property name="maxHeight" value="3"/>
     <property name="minHeight" value="0"/>
     <property name="rotation" value="0"/>
     <property name="toolKey" value="0"/>
@@ -106,7 +106,7 @@
   </data>
  </layer>
  <objectgroup name="climable" width="100" height="100">
-  <object type="Rectangle" x="1156" y="262" width="118" height="245">
+  <object name="climable" type="Rectangle" x="1156" y="262" width="118" height="245">
    <properties>
     <property name="initHeight" value="4"/>
     <property name="isBuildable" value="false"/>
