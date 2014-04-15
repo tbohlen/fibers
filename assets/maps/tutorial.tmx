@@ -3,6 +3,9 @@
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="256" height="1024"/>
  </tileset>
+ <tileset firstgid="65" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="256" height="1024"/>
+ </tileset>
  <layer name="background" width="100" height="100">
   <data encoding="base64" compression="zlib">
    eJztx8cJQzEABUG18p1zzrn/qvwq0M0CwwzsYbtSSi/10yB1P37qhmmUxmnS4Kmbplmap0WDp26ZVmmdNg2eum3apX06NHjqjumUzunS4Km7plu6p0eDp+6ZXumdPg0eAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD4f18qlSpx
@@ -10,12 +13,12 @@
  </layer>
  <layer name="ground" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1E0KgCAQBlAv0X/3P2fTokUtMkKp6D34FoODiDKmBNTUPH0AdrxHOetdtpEu0t/o3+rc+tX9/26IjJEpMl/sp54780E95uNdcv996Zpzx/moXQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfMUCQngIjw==
+   eJzt1E0KgCAQBlAv0X/3P2fTokUtMqLQ6D34FoMioo4pAW9qSm+AHffxnPUs20gX6W/M3+rc+NX1/26IjJEpMhfeC95vbfRHXXL//dM154798XYNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAVC5FBCEg=
   </data>
  </layer>
  <layer name="knitting" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztzgENAAAIA6AXsX9NY3w6SEACcM+0AwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC8tcczAB4=
+   eJztziERAAAIADGKQP+YVMAg4Db94iMA7slBU+sXAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHzUhYEAPA==
   </data>
  </layer>
  <objectgroup name="ground" width="100" height="100">
@@ -34,11 +37,6 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="770" y="259" width="60" height="251">
-   <properties>
-    <property name="rigidBody" value="static"/>
-   </properties>
-  </object>
   <object type="Platform" x="834" y="261" width="315" height="56">
    <properties>
     <property name="rigidBody" value="static"/>
@@ -51,16 +49,22 @@
   </object>
  </objectgroup>
  <objectgroup name="knitting needle" width="100" height="100">
-  <object name="tool" type="Tool" x="195" y="195" width="57" height="57">
+  <object name="start knit" type="Tool" x="195" y="195" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
-    <property name="isBuildable" value="true"/>
-    <property name="isClimbable" value="true"/>
+    <property name="isClimable" value="false"/>
+    <property name="isSolid" value="true"/>
     <property name="maxHeight" value="520"/>
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
-    <property name="rotation" value="4.712388"/>
+    <property name="rotation" value="270"/>
     <property name="width" value="20"/>
+   </properties>
+  </object>
+  <object name="door crochet" type="Tool" x="771" y="195" width="60" height="57">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
  </objectgroup>
@@ -70,9 +74,28 @@
     <property name="checkpointName" value="start"/>
    </properties>
   </object>
-  <object name="ground " type="Checkpoint" x="280" y="455" width="48" height="54">
+  <object name="other side" type="Checkpoint" x="777" y="197" width="48" height="54">
    <properties>
     <property name="checkpointName" value="ground"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="door" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T+1lC6AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAbnEAAAQ==
+  </data>
+ </layer>
+ <objectgroup name="door" width="100" height="100">
+  <object name="door" type="Rectangle" x="768" y="318" width="62" height="193">
+   <properties>
+    <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="512"/>
+    <property name="minHeight" value="0"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
  </objectgroup>
