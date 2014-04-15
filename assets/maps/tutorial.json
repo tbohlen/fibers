@@ -119,12 +119,13 @@
                  "properties":
                     {
                      "initHeight":"0",
+                     "isBuildable":"true",
                      "isClimable":"false",
                      "isSolid":"true",
                      "maxHeight":"520",
                      "minHeight":"0",
                      "prebuilt":"false",
-                     "rotation":"270",
+                     "rotation":"90",
                      "width":"20"
                     },
                  "type":"Tool",

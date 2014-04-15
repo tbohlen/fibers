@@ -80,6 +80,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
+        var rotation:number = (parseFloat(obj.properties.rotation) * (3.141592 / 180)) + 3.141592;
         var initHeight:number = (parseInt(obj.properties.initHeight) ? parseInt(obj.properties.initHeight) : obj.height);
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
@@ -118,7 +119,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             maxHeight : parseInt(obj.properties.maxHeight),
             minHeight : parseInt(obj.properties.minHeight),
             width : obj.width,
-            rotation: parseFloat(obj.properties.rotation),
+            rotation: rotation,
             isBuildable : (obj.properties.isBuildable == "true"),
             isClimbable : (obj.properties.isClimbable == "true"),
             isSolid : (obj.properties.isSolid == "true")

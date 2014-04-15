@@ -44,6 +44,9 @@ class Tool extends RigidSprite implements Interactable
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject) {
+        // fix the rotation so that 0 is up and we're using degrees
+        var rotation:number = (parseFloat(obj.properties.rotation) * (3.141592 / 180)) + 3.141592;
+
         console.log("Building tool from tiled");
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
@@ -108,7 +111,7 @@ class Tool extends RigidSprite implements Interactable
 
             var initialPos:number[] = [obj.x + obj.width/2, obj.y + obj.height];
             body.setPosition(initialPos);
-            body.setRotation(parseFloat(obj.properties.rotation));
+            body.setRotation(rotation);
 
             var rectOptions:RectangleOptions = {
                 sprite : sprite,
@@ -118,7 +121,7 @@ class Tool extends RigidSprite implements Interactable
                 maxHeight : parseInt(obj.properties.maxHeight),
                 minHeight : parseInt(obj.properties.minHeight),
                 width : parseInt(obj.properties.width),
-                rotation: parseFloat(obj.properties.rotation),
+                rotation: rotation,
                 isBuildable : (obj.properties.isBuildable == "true"),
                 isClimbable : (obj.properties.isClimbable == "true"),
                 isSolid : (obj.properties.isSolid == "true")
