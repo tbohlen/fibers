@@ -20,7 +20,7 @@ class PlayState implements TurbGameState
         var viewport:number[] = [];
         this.game.draw2D.getViewport(viewport);
         // build the player
-        this.player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
+        this.player = new Player(game, [70, 0]);
         game.collisionHelp.setPlayer(this.player);
         // make the debug physics device
         this.physicsDebug = Physics2DDebugDraw.create({

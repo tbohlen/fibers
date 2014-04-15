@@ -12,7 +12,7 @@
 
 class Player {
     SPEED = 0.1;
-    JUMP_SPEED = 0.8;
+    JUMP_SPEED = 0.5;
     CLIMB_SPEED = 2;
     THRESHOLD_STANDING_SPEED = 0.001;
 
