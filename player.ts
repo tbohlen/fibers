@@ -13,10 +13,12 @@
 class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.5;
+    JUMP_DIST = 0.01;
     CLIMB_SPEED = 2;
     THRESHOLD_STANDING_SPEED = 0.001;
 
     isJumping:boolean = true; // starts as true so that you can't jump before ever hitting the ground
+    jumpShape:Physics2DShape = null; // last surface we were touching
     canClimb:boolean = false;
     isClimbing:boolean = false;
     climbableObject:Climbable = null;
@@ -132,8 +134,11 @@ class Player {
 //            this.isJumping = false;
 //        }
         var normal:number[] = arbiter.getNormal();
-        if (normal[1] > 0){
+        console.log("Normal: " + normal[0] + ", " + normal[1]);
+        if (normal[1] > normal[0] && normal[1] > 0)
+        {
             this.isJumping = false;
+            this.jumpShape = otherShape;
         }
     }
 
@@ -202,10 +207,24 @@ class Player {
 
     jumpUp()
     {
-        this.isJumping = true;
-        this.isClimbing = false;
-        var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        var witA:number[] = [];
+        var witB:number[] = [];
+        var axis:number[] = [];
+        var distance:number =
+            this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0],
+                                                                  this.jumpShape,
+                                                                  witA,
+                                                                  witB,
+                                                                  axis);
+        if(this.jumpShape != null && Math.abs(distance) < this.JUMP_DIST)
+        {
+            this.jumpShape = null;
+            this.isJumping = true;
+            this.isClimbing = false;
+            var vel:number[] = this.rigidSprite.body.getVelocity();
+            this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        }
+
     }
 
     climb()
