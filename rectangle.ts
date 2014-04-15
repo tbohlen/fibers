@@ -66,6 +66,10 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             this.game.physicsWorld.removeRigidBody(this.body);
         }
+        else
+        {
+            this.buildShape(this.currentHeight);
+        }
 
         this.shape = this.body.shapes[0];
         this.material = this.shape.getMaterial();
@@ -154,20 +158,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                 this.game.physicsWorld.addRigidBody(this.body);
             }
 
-            this.currentHeight = nextHeight;
-
-            // build a new shape that is the correct size and replace the old shape with this new one
-            var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
-            var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
-                vertices: vertices,
-                material: this.material,
-                group: 4,
-                mask: this.isSolid ? 13 : 0
-            });
-
-            this.body.removeShape(this.body.shapes[0]);
-            this.body.addShape(shape);
-            this.shape = shape;
+            this.buildShape(nextHeight);
         }
     }
 
@@ -194,20 +185,29 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                 this.game.physicsWorld.removeRigidBody(this.body);
             }
 
-            this.currentHeight = nextHeight;
-
-            // build a new shape that is the correct size and replace the old shape with this new one
-            var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, this.currentHeight);
-            var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
-                vertices: vertices,
-                material: this.material,
-                group: 4,
-                mask: this.isSolid ? 13 : 0
-            });
-            this.body.removeShape(this.body.shapes[0]);
-            this.body.addShape(shape);
-            this.shape = shape;
+            this.buildShape(nextHeight);
         }
+    }
+
+    /*
+     * Method: buildShape
+     * Builds a new shape that is the size specified and replaces the old body shape with the new one.
+     */
+    buildShape(height:number)
+    {
+
+        this.currentHeight = height;
+        // build a new shape that is the correct size and replace the old shape with this new one
+        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, height);
+        var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
+            vertices: vertices,
+            material: this.material,
+            group: 4,
+            mask: this.isSolid ? 13 : 0
+        });
+        this.body.removeShape(this.body.shapes[0]);
+        this.body.addShape(shape);
+        this.shape = shape;
     }
 
     /*
