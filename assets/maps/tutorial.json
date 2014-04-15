@@ -122,7 +122,7 @@
                      "isBuildable":"true",
                      "isClimable":"false",
                      "isSolid":"true",
-                     "maxHeight":"8.1",
+                     "maxHeight":"8.2",
                      "minHeight":"0",
                      "prebuilt":"false",
                      "rotation":"90",
@@ -254,15 +254,14 @@
                  "name":"",
                  "properties":
                     {
-                     "initHeight":"256",
+                     "initHeight":"4",
                      "isBuildable":"false",
-                     "isClimable":"true",
+                     "isClimbable":"true",
                      "isSolid":"false",
-                     "maxHeight":"256",
-                     "minHeight":"256",
+                     "maxHeight":"4",
+                     "minHeight":"4",
                      "prebuilt":"false",
-                     "rotation":"0",
-                     "width":"128"
+                     "rotation":"0"
                     },
                  "type":"Rectangle",
                  "visible":true,
