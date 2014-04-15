@@ -13,7 +13,7 @@
  </layer>
  <layer name="ground" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1E0KgCAQBlAv0X/3P2fTokUtMqLQ6D34FoMioo4pAW9qSm+AHffxnPUs20gX6W/M3+rc+NX1/26IjJEpMhfeC95vbfRHXXL//dM154798XYNAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAVC5FBCEg=
+   eJzt1TsOgCAMAFAu4d/7n1McHHAQBxXF95IODYQ0pIUQqM1cugASfekCSDSlC6jIepdtjC6c6/P9/i3PrZ89/++GGGOMKdz/D/hn8p7sX/ORZz7eJffeX51zbD8fd+cAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAF+xAAe0CLc=
   </data>
  </layer>
  <layer name="knitting" width="100" height="100">
@@ -42,7 +42,12 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1090" y="132" width="60" height="126">
+  <object type="Platform" x="1089" y="65" width="60" height="188">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="1730" y="322" width="58" height="189">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
