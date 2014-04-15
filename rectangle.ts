@@ -14,7 +14,7 @@
 
 class Rectangle extends RigidSprite implements Buildable, Climbable, Interactable
 {
-    public static debugColorBuildable:number[] = [1.0, 1.0, 1.0, 1.0];
+    public static debugColorBuildable:number[] = [0.0, 1.0, 0.0, 1.0];
     GROW_SPEED:number = 2;
 
     maxHeight:number;
@@ -49,7 +49,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
         this.isBuildable = options.isBuildable;
         this.isClimbable = options.isClimbable;
-        this.isSolid = options.isSolid
+        this.isSolid = options.isSolid;
 
         if (this.isSolid)
         {

@@ -19,7 +19,7 @@
 class Tool extends RigidSprite implements Interactable
 {
     public static debugColorTool:number[] = [1.0, 0.0, 0.0, 1.0];
-    public static debugColorBuildable:number[] = [1.0, 1.0, 1.0, 1.0];
+    public static debugColorBuildable:number[] = [0.0, 1.0, 0.0, 1.0];
 
     game:GameObject;
     buildable:Buildable;
