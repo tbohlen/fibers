@@ -132,7 +132,8 @@ class Player {
 //            this.isJumping = false;
 //        }
         var normal:number[] = arbiter.getNormal();
-        if (normal[1] > 0){
+        var velo:number[] = this.rigidSprite.body.getVelocity();
+        if (normal[1] > 0 && Math.abs(velo[1]) <= this.THRESHOLD_STANDING_SPEED){
             this.isJumping = false;
         }
     }
