@@ -84,11 +84,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
 
-        var rotation:number = (parseFloat(obj.properties.rotation)) ? ((parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI) : 0;
-        var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * tileset.tileHeight : obj.height);
+        var rotation:number = parseFloat(obj.properties.rotation) ? ((parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI) : 0;
+        var initHeight:number = parseFloat(obj.properties.initHeight) ? (parseFloat(obj.properties.initHeight) * tileset.tileHeight): obj.height;
         var initialPos:number[] = [obj.x + obj.width/2, obj.y+initHeight];
-        var maxHeight:number = (parseFloat(obj.properties.maxHeight)) ? parseFloat(obj.properties.maxHeight) * tileset.tileHeight : obj.height;
-        var minHeight:number = (parseFloat(obj.properties.minHeight)) ? parseFloat(obj.properties.minHeight) * tileset.tileHeight : obj.width;
+        var maxHeight:number = parseFloat(obj.properties.maxHeight) ? (parseFloat(obj.properties.maxHeight) * tileset.tileHeight) : obj.height;
+        var minHeight:number = parseFloat(obj.properties.minHeight) ? (parseFloat(obj.properties.minHeight) * tileset.tileHeight) : obj.width;
         var isSolid:boolean = (obj.properties.isSolid == "true");
 
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
