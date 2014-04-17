@@ -104,11 +104,8 @@ var currentState:TurbGameState = new MenuState(game);
 // run the game
 function update()
 {
-    var nextState = currentState.update();
-    if (!(nextState == null))
-    {
-        currentState = nextState;
-    }
+    // update to the next state (can just pass in the same state)
+    currentState = currentState.update();
 }
 
 function loadHtmlControls() {

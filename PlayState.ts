@@ -51,7 +51,7 @@ class PlayState implements TurbGameState
 
     update():TurbGameState
     {
-        var nextState:TurbGameState = null;
+        var nextState:TurbGameState = this;
         var i:number = 0;
         if (this.game.graphicsDevice.beginFrame())
         {
