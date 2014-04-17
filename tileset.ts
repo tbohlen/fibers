@@ -29,7 +29,7 @@ var BASE_MAP_URL:string = "assets/maps/";
 // only represent physics objects as sprites...
 
 // TO MAKE PHYSICS OBJECTS IN TILED:
-// give the object property "rigidBody" = true
+// give the object property "rigidBody" = "kinematic"/"dynamic"
 // and property "shape" = "rectangle"
 // we will add more shapes and physics types soon.
 // i.e. polygon, dynamic/kinematic...
@@ -164,8 +164,17 @@ class Tileset {
                 }
                 var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
                 console.log("Created opject of type: " + obj.type);
+
                 if (rigidSprite != null)
                 {
+                    var rigidBodyType:string = obj.properties["rigidBody"];
+                    if (rigidBodyType == "dynamic")
+                    {
+                        rigidSprite.body.setAsDynamic();
+                    } else if (rigidBodyType == "kinematic")
+                    {
+                        rigidSprite.body.setAsKinematic();
+                    }
                     this.rigidSprites.push(rigidSprite);
                 }
 
