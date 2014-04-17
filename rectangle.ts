@@ -106,7 +106,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: (obj.properties.bodyType ? obj.properties.bodyType: "kinematic"),
             shapes: [shape],
-            mass: mass
+            mass: mass,
             linearDrag: 0
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({

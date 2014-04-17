@@ -102,9 +102,9 @@ class PlayState implements TurbGameState
                     }
                     // TODO: move this out of the update loop if we can
 
-                } else {
-                    this.tileset.draw(draw2D, offset);
                 }
+
+                this.tileset.draw(draw2D, offset);
             }
 
             // draw the player to the screen

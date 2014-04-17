@@ -210,6 +210,19 @@
                  "width":64,
                  "x":96,
                  "y":192
+                }, 
+                {
+                 "height":64,
+                 "name":"finish",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Goal",
+                 "visible":true,
+                 "width":64,
+                 "x":1664,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -283,7 +296,7 @@
                      "initHeight":"4",
                      "isBuildable":"false",
                      "isClimbable":"true",
-                     "isSolid":"true",
+                     "isSolid":"false",
                      "maxHeight":"4",
                      "minHeight":"4",
                      "prebuilt":"false",
