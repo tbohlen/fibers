@@ -79,20 +79,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         console.log("Setting here");
         this.body.setPosition(options.initialPos);
         this.body.setRotation(options.rotation);
-
-        if (options.bodyType != null)
-        {
-            if (options.bodyType == "dynamic")
-            {
-                this.body.setAsDynamic();
-            } else if (options.bodyType == "kinematic")
-            {
-                this.body.setAsKinematic();
-            } else if (options.bodyType == "static")
-            {
-                this.body.setAsStatic();
-            }
-        }
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
@@ -116,9 +102,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             mask: 0
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
-            type: "kinematic",
+            type: (obj.properties.bodyType ? obj.properties.bodyType: "kinematic"),
             shapes: [shape],
-            mass: 10
+            mass: (obj.properties.mass ? parseFloat(obj.properties.mass) : 10)
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
