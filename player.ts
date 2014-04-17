@@ -5,6 +5,7 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
 /// <reference path="animatedTexture.ts"/>
+/// <reference path="masks.ts"/>
 
 // a player's sprite is an instance of an animated sprite, which has a
 // direction (facing), possibly multiple animated sprite sheets,
@@ -73,8 +74,8 @@ class Player {
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: playerVertices,
-            group: 1,
-            mask: 13
+            group: ShapeGroups.PLAYER,
+            mask: ObjectMasks.SOLID
         });
         var playerBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: 'dynamic',

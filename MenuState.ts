@@ -15,7 +15,7 @@ class MenuState implements TurbGameState
 
     update():TurbGameState
     {
-        var nextState:TurbGameState = null;
+        var nextState:TurbGameState = this;
         if (this.game.graphicsDevice.beginFrame())
         {
             var bgColor = [0.2, 0.2, 0.0, 1.0];
@@ -23,7 +23,7 @@ class MenuState implements TurbGameState
             {
                 bgColor = [0.7, 0.2, 0.0, 1.0];
             }
-            if (this.game.keyboard.keyPressed("P"))
+            if (this.game.keyboard.justPressed("P"))
             {
                 if (this.returnState == null)
                 {
@@ -37,7 +37,6 @@ class MenuState implements TurbGameState
             this.game.graphicsDevice.clear(bgColor, 1.0);
             this.game.graphicsDevice.endFrame();
         }
-
         return nextState;
     }
 }

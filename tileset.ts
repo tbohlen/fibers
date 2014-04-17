@@ -131,7 +131,7 @@ class Tileset {
     }
 
     isLoaded():boolean {
-        return (this.mapData != null);
+        return (this.mapData != null) && this.ranLoadMap;
     }
 
 
@@ -223,7 +223,6 @@ class Tileset {
 
     loadMap() {
         console.log("loading map!");
-        this.ranLoadMap = true;
         var layerCount = this.mapData.layers.length;
         for (var i:number = 0; i < layerCount; i+=1)
         {
@@ -254,6 +253,8 @@ class Tileset {
                 (<Tool>this.tools[key]).buildable = this.buildables[key];
             }
         }
+
+        this.ranLoadMap = true;
     }
 
     /*

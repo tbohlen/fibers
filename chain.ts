@@ -54,8 +54,8 @@ class Chain extends RigidSprite implements Buildable, Climbable
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
             material: this.material,
-            group: 4,
-            mask: 0
+            group: ShapeGroups.OVERLAPPABLES,
+            mask: ObjectMasks.EMPTY
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: "kinematic",
@@ -158,8 +158,8 @@ class Chain extends RigidSprite implements Buildable, Climbable
             var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                 vertices: vertices,
                 material: this.material,
-                group: 4,
-                mask: 0
+                group: ShapeGroups.OVERLAPPABLES,
+                mask: ObjectMasks.EMPTY
             });
             this.construct.body.removeShape(this.construct.body.shapes[0]);
             this.construct.body.addShape(shape);
@@ -188,8 +188,8 @@ class Chain extends RigidSprite implements Buildable, Climbable
             var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
                 vertices: vertices,
                 material: this.material,
-                group: 4,
-                mask: 0
+                group: ShapeGroups.OVERLAPPABLES,
+                mask: ObjectMasks.EMPTY
             });
             this.construct.body.removeShape(this.construct.body.shapes[0]);
             this.construct.body.addShape(shape);

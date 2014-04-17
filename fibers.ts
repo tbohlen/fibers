@@ -18,23 +18,17 @@
 /// <reference path="PlayState.ts"/>
 /// <reference path="MenuState.ts"/>
 /// <reference path="KeyboardInput.ts"/>
+/// <reference path="masks.ts"/>
 
-
-// group bits
-// player = 1
-// knitting needles & other things the player should not run into = 2
-// climbable things and other things the player can overlap but still interact with = 4
-// things that collide normally = 8
-//
-// Masks
-// Knitting needles mask = 0 - they interact with nothing
-// Player mask = 13 - interacts with everything but needles
-// Climbable mask = 13
-// Other mask = 13
 
 ////////////////////////////////////////////////////////////////////////////////
 // Create important objects and set up the game
 ////////////////////////////////////////////////////////////////////////////////
+
+function objectMask(isSolid:boolean):number
+{
+    return isSolid ? ObjectMasks.SOLID : ObjectMasks.EMPTY;
+}
 
 var width:number = 1280;
 var height:number = 720;
@@ -106,6 +100,7 @@ function update()
 {
     // update to the next state (can just pass in the same state)
     currentState = currentState.update();
+    game.keyboard.update();
 }
 
 function loadHtmlControls() {

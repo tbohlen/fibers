@@ -207,9 +207,22 @@
                     },
                  "type":"Spawn",
                  "visible":true,
-                 "width":30,
-                 "x":71,
-                 "y":66
+                 "width":64,
+                 "x":96,
+                 "y":192
+                }, 
+                {
+                 "height":64,
+                 "name":"finish",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Goal",
+                 "visible":true,
+                 "width":64,
+                 "x":1664,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",
