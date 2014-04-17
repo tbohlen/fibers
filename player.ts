@@ -191,7 +191,8 @@ class Player {
     walkRight()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
+        this.rigidSprite.body.setVelocity([this.SPEED, v
+        el[1]]);
         this.facing = Direction.RIGHT;
         this.currentTexture = this.walkTexture;
     }

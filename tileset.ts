@@ -163,7 +163,7 @@ class Tileset {
                     continue;
                 }
                 var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
-                console.log("Created opject of type: " + obj.type);
+                console.log("Created object of type: " + obj.type);
 
                 if (rigidSprite != null)
                 {

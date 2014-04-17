@@ -27,6 +27,26 @@ class PlayState implements TurbGameState
             graphicsDevice: this.game.graphicsDevice
         });
         this.physicsDebug.setPhysics2DViewport(viewport);
+
+        $("#levelNameinput").keyup((e:KeyboardEvent)=>
+        {
+            // load level when player presses enter
+            if (e.keyCode === 13)
+            {
+                console.log("loading new level...");
+                this.switchLevel();
+            }
+        });
+    }
+
+    switchLevel()
+    {
+        var levelName:string = $("#levelNameinput").val();
+        this.tileset = new Tileset(levelName+".json", game);
+        this.game.physicsWorld.clear();
+        // build the player
+        this.player = new Player(game, [70, 0]);
+        game.collisionHelp.setPlayer(this.player);
     }
 
     update():TurbGameState
@@ -104,7 +124,7 @@ class PlayState implements TurbGameState
                 this.physicsDebug.showRigidBodies = true;
                 this.physicsDebug.showContacts = true;
                 this.physicsDebug.begin();
-                this.physicsDebug.drawWorld(dynamicWorld);
+                this.physicsDebug.drawWorld(this.game.physicsWorld);
                 this.physicsDebug.end();
             }
 

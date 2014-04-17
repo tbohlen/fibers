@@ -68,13 +68,13 @@ var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
 var bgMusicSource:SoundSource = soundDevice.createSource({
     looping: true
 });
-var bgMusic:Sound = soundDevice.createSound({
-    src: "assets/music/byathread.mp3",
-    uncompress: false,
-    onload: function (soundData) {
-        bgMusicSource.play(soundData);
-    }
-});
+    var bgMusic:Sound = soundDevice.createSound({
+        src: "assets/music/byathread.mp3",
+        uncompress: false,
+        onload: function (soundData) {
+            bgMusicSource.play(soundData);
+        }
+    });
 
 var htmlControls:HTMLControls = null;
 
@@ -123,20 +123,6 @@ function loadHtmlControls() {
             console.log("CHANGED PLAYER VELOCITY");
 //            player.JUMP_SPEED = this.value;
 //            htmlControls.updateSlider("playerJumpSpeedSlider", player.JUMP_SPEED);
-        }
-    });
-
-    $("#levelNameinput").keyup(function(e:KeyboardEvent){
-        // load level when player presses enter
-        // does not work yet...
-        if (e.keyCode === 13)
-        {
-            console.log("pressed enter...");
-            var mapName:string = $("#levelNameinput").val();
-            dynamicWorld.clear();
-//            tileset = new Tileset(mapName+".json", game);
-            // need to actually place player in desired location for map
-//            player = new Player(game, [(viewport[3] - viewport[1])/2, 0]);
         }
     });
 
