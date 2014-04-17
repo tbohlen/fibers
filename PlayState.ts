@@ -52,14 +52,14 @@ class PlayState implements TurbGameState
     update():TurbGameState
     {
         var nextState:TurbGameState = this;
-        var i:number = 0;
+
         if (this.game.graphicsDevice.beginFrame())
         {
             // check for debug mode change
             if (this.game.keyboard.keyPressed("M")) {
                 this.game.debugMode = !this.game.debugMode;
             }
-            if (this.game.keyboard.keyPressed("P"))
+            if (this.game.keyboard.justPressed("P"))
             {
                 nextState = new MenuState(this.game, this);
             }
