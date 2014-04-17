@@ -83,11 +83,13 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
-        var rotation:number = (parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI;
+
+        var rotation:number = (parseFloat(obj.properties.rotation)) ? ((parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI) : 0;
         var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * tileset.tileHeight : obj.height);
         var initialPos:number[] = [obj.x + obj.width/2, obj.y+initHeight];
-        var maxHeight:number = parseFloat(obj.properties.maxHeight) * tileset.tileHeight;
-        var minHeight:number = parseFloat(obj.properties.minHeight) * tileset.tileHeight;
+        var maxHeight:number = (parseFloat(obj.properties.maxHeight)) ? parseFloat(obj.properties.maxHeight) * tileset.tileHeight : obj.height;
+        var minHeight:number = (parseFloat(obj.properties.minHeight)) ? parseFloat(obj.properties.minHeight) * tileset.tileHeight : obj.width;
+        var isSolid:boolean = (obj.properties.isSolid == "true");
 
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
@@ -95,8 +97,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             dynamicFriction : 0.2
         });
         var vertices:number[][] = game.physicsDevice.createRectangleVertices(-obj.width/2, 0, obj.width/2, 1);
-        var isSolid:boolean = (obj.properties.isSolid == "true");
-        console.log("Is solid? " + isSolid);
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
             material: material,
@@ -114,8 +114,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             origin : [obj.width/2, 0],
             color: Rectangle.debugColorClimbable
         });
-
-        console.log("Is body dynamic? : " + body.isDynamic());
 
         // add the body to the world
         game.physicsWorld.addRigidBody(body);

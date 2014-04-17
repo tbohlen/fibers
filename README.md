@@ -116,12 +116,12 @@ Checkpoints must have "Checkpoint" as their type and the following Name:Value pa
 Rectangles must have "Rectangle" as their type. Rectangles can be climbable or
 not, and buildable or not. Additional options will be added soon. The following
 properties must be included:
-* maxHeight:<<integer in tiles>>
-* minHeight:<<integer in tiles>>
-* rotation:<<number in radians>>
-* isBuildable:<<true or false>>
-* isClimbable:<<true or false>>
 * isSolid:<<true or false>>
+* (optional) maxHeight:<<integer in tiles>> (defaults to the object's height)
+* (optional) minHeight:<<integer in tiles>> (defaults to the object's height)
+* (optional) rotation:<<number in radians>> (defaults to 0)
+* (optional) isBuildable:<<true or false>> (defaults to false)
+* (optional) isClimbable:<<true or false>> (defaults to false)
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
 * (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool>>
 
