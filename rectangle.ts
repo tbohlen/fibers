@@ -83,11 +83,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
     {
-        var rotation:number = (parseFloat(obj.properties.rotation) * (3.141592 / 180)) + 3.141592;
-        var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * 64 : obj.height);
+        var rotation:number = (parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI;
+        var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * tileset.tileHeight : obj.height);
         var initialPos:number[] = [obj.x + obj.width/2, obj.y+initHeight];
-        var maxHeight:number = parseFloat(obj.properties.maxHeight) * 64;
-        var minHeight:number = parseFloat(obj.properties.minHeight) * 64;
+        var maxHeight:number = parseFloat(obj.properties.maxHeight) * tileset.tileHeight;
+        var minHeight:number = parseFloat(obj.properties.minHeight) * tileset.tileHeight;
 
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
@@ -95,11 +95,13 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             dynamicFriction : 0.2
         });
         var vertices:number[][] = game.physicsDevice.createRectangleVertices(-obj.width/2, 0, obj.width/2, 1);
+        var isSolid:boolean = (obj.properties.isSolid == "true");
+        console.log("Is solid? " + isSolid);
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
             material: material,
-            group: 4,
-            mask: 0
+            group: ShapeGroups.OVERLAPPABLES,
+            mask: objectMask(isSolid)
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: (obj.properties.bodyType ? obj.properties.bodyType: "kinematic"),
@@ -112,6 +114,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             origin : [obj.width/2, 0],
             color: Rectangle.debugColorClimbable
         });
+
+        console.log("Is body dynamic? : " + body.isDynamic());
 
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
@@ -128,7 +132,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             rotation: rotation,
             isBuildable : (obj.properties.isBuildable == "true"),
             isClimbable : (obj.properties.isClimbable == "true"),
-            isSolid : (obj.properties.isSolid == "true"),
+            isSolid : isSolid,
             bodyType: obj.properties.bodyType
         };
 
@@ -198,15 +202,15 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
      */
     buildShape(height:number)
     {
-
+        console.log("building shape...");
         this.currentHeight = height;
         // build a new shape that is the correct size and replace the old shape with this new one
         var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, height);
         var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
             vertices: vertices,
             material: this.material,
-            group: 4,
-            mask: this.isSolid ? 13 : 0
+            group: ShapeGroups.OVERLAPPABLES,
+            mask: objectMask(this.isSolid)
         });
         this.body.removeShape(this.body.shapes[0]);
         this.body.addShape(shape);

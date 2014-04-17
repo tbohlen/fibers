@@ -96,8 +96,8 @@ class Tool extends RigidSprite implements Interactable
             var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
                 vertices: vertices,
                 material: material,
-                group: 4,
-                mask: 0
+                group: ShapeGroups.OVERLAPPABLES,
+                mask: ObjectMasks.SOLID
             });
             var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
                 type: "kinematic",

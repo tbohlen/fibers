@@ -36,6 +36,25 @@
 // Create important objects and set up the game
 ////////////////////////////////////////////////////////////////////////////////
 
+enum ShapeGroups
+{
+    PLAYER = 1,
+    TOOLS = 2,
+    OVERLAPPABLES = 4,
+    COLLIDABLES = 8
+};
+
+enum ObjectMasks
+{
+    SOLID = 13,
+    EMPTY = 0
+}
+
+function objectMask(isSolid:boolean):number
+{
+    return isSolid ? ObjectMasks.SOLID : ObjectMasks.EMPTY;
+}
+
 var width:number = 1280;
 var height:number = 720;
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );

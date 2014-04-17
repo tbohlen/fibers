@@ -32,8 +32,8 @@ class KnitCube extends RigidSprite implements Buildable
         var vertices:number[][] = [[0,0], [10,0], [10, 10], [0, 10]];
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
-            group: 2,
-            mask: 13
+            group: ShapeGroups.TOOLS,
+            mask: ObjectMasks.SOLID
         });
         var body:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: "kinematic",
@@ -60,8 +60,8 @@ class KnitCube extends RigidSprite implements Buildable
         var shapes : Physics2DShape[] = [
             game.physicsDevice.createPolygonShape({
                 vertices : vertices,
-                group: 2,
-                mask: 13
+                group: ShapeGroups.TOOLS,
+                mask: ObjectMasks.SOLID
             })
         ];
         var body = game.physicsDevice.createRigidBody({

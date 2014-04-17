@@ -73,8 +73,8 @@ class Player {
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: playerVertices,
-            group: 1,
-            mask: 13
+            group: ShapeGroups.PLAYER,
+            mask: ObjectMasks.SOLID
         });
         var playerBody:Physics2DRigidBody = game.physicsDevice.createRigidBody({
             type: 'dynamic',
