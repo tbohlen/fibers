@@ -283,7 +283,7 @@
                      "initHeight":"4",
                      "isBuildable":"false",
                      "isClimbable":"true",
-                     "isSolid":"false",
+                     "isSolid":"true",
                      "maxHeight":"4",
                      "minHeight":"4",
                      "prebuilt":"false",
