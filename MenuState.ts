@@ -15,7 +15,7 @@ class MenuState implements TurbGameState
 
     update():TurbGameState
     {
-        var nextState:TurbGameState = null;
+        var nextState:TurbGameState = this;
         if (this.game.graphicsDevice.beginFrame())
         {
             var bgColor = [0.2, 0.2, 0.0, 1.0];
