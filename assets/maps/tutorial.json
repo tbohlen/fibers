@@ -197,6 +197,19 @@
                  "width":48,
                  "x":777,
                  "y":197
+                }, 
+                {
+                 "height":64,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Spawn",
+                 "visible":true,
+                 "width":64,
+                 "x":96,
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",

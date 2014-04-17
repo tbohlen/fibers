@@ -15,6 +15,8 @@
 class Rectangle extends RigidSprite implements Buildable, Climbable, Interactable
 {
     public static debugColorBuildable:number[] = [1.0, 1.0, 1.0, 1.0];
+    public static debugColorClimbable:number[] = [0.0, 1.0, 0.0, 1.0];
+    public static debugColorSolid:number[] = [1.0, 0.0, 0.0, 1.0];
     GROW_SPEED:number = 2;
 
     maxHeight:number;
@@ -107,7 +109,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             width: obj.width,
             height: initHeight, // XXX: hack to make sure we don't get errors from 0 width objects
             origin : [obj.width/2, 0],
-            color: Rectangle.debugColorBuildable
+            color: Rectangle.debugColorClimbable
         });
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
@@ -248,6 +250,15 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.sprite.setColor([0,0,0,0]);
         }
         */
+
+        if (this.isClimbable)
+        {
+            this.sprite.setColor(Rectangle.debugColorClimbable);
+        }
+        else
+        {
+            this.sprite.setColor(Rectangle.debugColorSolid);
+        }
 
 
         if (this.currentHeight > 0) {
