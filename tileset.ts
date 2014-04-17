@@ -167,17 +167,6 @@ class Tileset {
 
                 if (rigidSprite != null)
                 {
-                    var rigidBodyType:string = obj.properties["rigidBody"];
-                    if (rigidBodyType == "dynamic")
-                    {
-                        rigidSprite.body.setAsDynamic();
-                    } else if (rigidBodyType == "kinematic")
-                    {
-                        rigidSprite.body.setAsKinematic();
-                    } else if (rigidBodyType == "static")
-                    {
-                        rigidSprite.body.setAsStatic();
-                    }
                     this.rigidSprites.push(rigidSprite);
                 }
 
@@ -280,7 +269,7 @@ class Tileset {
             if (!rigidSprite.sprite.getTexture() && this.mapTexture) {
                 this.setTexture(rigidSprite);
             }
-            this.rigidSprites[i].draw(draw2D, offset);
+            rigidSprite.draw(draw2D, offset);
         }
     }
 

@@ -104,18 +104,19 @@
          "objects":[
                 {
                  "gid":31,
-                 "height":0,
+                 "height":64,
                  "name":"Rectangle",
                  "properties":
                     {
-                     "mass":"10",
-                     "rigidBody":"dynamic"
+                     "bodyType":"dynamic",
+                     "isSolid":"true",
+                     "mass":"10"
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":0,
+                 "width":64,
                  "x":128,
-                 "y":448
+                 "y":192
                 }],
          "opacity":1,
          "type":"objectgroup",

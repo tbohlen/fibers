@@ -135,7 +135,6 @@ class Player {
 //        }
         var normal:number[] = arbiter.getNormal();
         var velo:number[] = this.rigidSprite.body.getVelocity();
-
         if (normal[1] > 0 && Math.abs(velo[1]) <= this.THRESHOLD_STANDING_SPEED)
         {
             this.isJumping = false;
@@ -191,8 +190,7 @@ class Player {
     walkRight()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([this.SPEED, v
-        el[1]]);
+        this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
         this.currentTexture = this.walkTexture;
     }

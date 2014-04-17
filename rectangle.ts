@@ -111,8 +111,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             origin : [obj.width/2, 0],
             color: Rectangle.debugColorClimbable
         });
+
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
+
+        var bodyType:string = obj.properties.bodyType;
 
         var rectOptions:RectangleOptions = {
             sprite : sprite,
@@ -126,15 +129,26 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             rotation: rotation,
             isBuildable : (obj.properties.isBuildable == "true"),
             isClimbable : (obj.properties.isClimbable == "true"),
-            isSolid : (obj.properties.isSolid == "true")
+            isSolid : (obj.properties.isSolid == "true"),
+            bodyType: bodyType
         };
 
-        if (obj.properties.bodyType)
+        var newRectangle:Rectangle = new Rectangle(rectOptions, game);
+
+        if (bodyType != null)
         {
-            rectOptions.bodyType = obj.properties.bodyType;
+            if (bodyType == "dynamic")
+            {
+                newRectangle.body.setAsDynamic();
+            } else if (bodyType == "kinematic")
+            {
+                newRectangle.body.setAsKinematic();
+            } else if (bodyType == "static")
+            {
+                newRectangle.body.setAsStatic();
+            }
         }
 
-        var newRectangle:Rectangle = new Rectangle(rectOptions, game);
         game.collisionHelp.pushInteractable(newRectangle);
 
         return newRectangle;
@@ -259,7 +273,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             this.sprite.setColor(Rectangle.debugColorSolid);
         }
-
 
         if (this.currentHeight > 0) {
             this.sprite.setHeight(this.currentHeight);

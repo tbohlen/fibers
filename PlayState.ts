@@ -14,7 +14,7 @@ class PlayState implements TurbGameState
     {
         this.game = game;
         // the tileset device manages the tiled maps
-        this.defaultTileSet = "tutorial";
+        this.defaultTileSet = "kinematicTest";
         $("#levelNameinput").val(this.defaultTileSet);
         this.tileset = new Tileset(this.defaultTileSet+".json", game);
         var viewport:number[] = [];
@@ -42,11 +42,11 @@ class PlayState implements TurbGameState
     switchLevel()
     {
         var levelName:string = $("#levelNameinput").val();
-        this.tileset = new Tileset(levelName+".json", game);
+        this.tileset = new Tileset(levelName+".json", this.game);
         this.game.physicsWorld.clear();
         // build the player
-        this.player = new Player(game, [70, 0]);
-        game.collisionHelp.setPlayer(this.player);
+        this.player = new Player(this.game, [70, 0]);
+        this.game.collisionHelp.setPlayer(this.player);
     }
 
     update():TurbGameState

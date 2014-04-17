@@ -42,10 +42,11 @@
   </object>
  </objectgroup>
  <objectgroup name="rectangle" width="100" height="100">
-  <object name="Rectangle" type="Rectangle" gid="31" x="128" y="448" width="64" height="64">
+  <object name="Rectangle" type="Rectangle" gid="31" x="128" y="192" width="64" height="64">
    <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isSolid" value="true"/>
     <property name="mass" value="10"/>
-    <property name="rigidBody" value="dynamic"/>
    </properties>
   </object>
  </objectgroup>
