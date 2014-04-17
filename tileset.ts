@@ -131,7 +131,7 @@ class Tileset {
     }
 
     isLoaded():boolean {
-        return (this.mapData != null) && this.ranLoadMap;
+        return (this.mapData != null);
     }
 
 
