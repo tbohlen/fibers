@@ -66,6 +66,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // if the height is greater than 0 it should
         if (this.currentHeight == 0)
         {
+            console.log("removing rectangle because currentHeight = 0");
             this.game.physicsWorld.removeRigidBody(this.body);
         }
         else
@@ -78,6 +79,20 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         console.log("Setting here");
         this.body.setPosition(options.initialPos);
         this.body.setRotation(options.rotation);
+
+        if (options.bodyType != null)
+        {
+            if (options.bodyType == "dynamic")
+            {
+                this.body.setAsDynamic();
+            } else if (options.bodyType == "kinematic")
+            {
+                this.body.setAsKinematic();
+            } else if (options.bodyType == "static")
+            {
+                this.body.setAsStatic();
+            }
+        }
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
@@ -115,8 +130,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // add the body to the world
         game.physicsWorld.addRigidBody(body);
 
-        var bodyType:string = obj.properties.bodyType;
-
         var rectOptions:RectangleOptions = {
             sprite : sprite,
             initialPos : initialPos,
@@ -130,25 +143,10 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             isBuildable : (obj.properties.isBuildable == "true"),
             isClimbable : (obj.properties.isClimbable == "true"),
             isSolid : (obj.properties.isSolid == "true"),
-            bodyType: bodyType
+            bodyType: obj.properties.bodyType
         };
 
         var newRectangle:Rectangle = new Rectangle(rectOptions, game);
-
-        if (bodyType != null)
-        {
-            if (bodyType == "dynamic")
-            {
-                newRectangle.body.setAsDynamic();
-            } else if (bodyType == "kinematic")
-            {
-                newRectangle.body.setAsKinematic();
-            } else if (bodyType == "static")
-            {
-                newRectangle.body.setAsStatic();
-            }
-        }
-
         game.collisionHelp.pushInteractable(newRectangle);
 
         return newRectangle;

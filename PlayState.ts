@@ -14,7 +14,7 @@ class PlayState implements TurbGameState
     {
         this.game = game;
         // the tileset device manages the tiled maps
-        this.defaultTileSet = "kinematicTest";
+        this.defaultTileSet = "dynamicTest";
         $("#levelNameinput").val(this.defaultTileSet);
         this.tileset = new Tileset(this.defaultTileSet+".json", game);
         var viewport:number[] = [];

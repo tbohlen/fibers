@@ -109,6 +109,7 @@
                  "properties":
                     {
                      "bodyType":"dynamic",
+                     "initHeight":"1",
                      "isSolid":"true",
                      "mass":"10"
                     },
