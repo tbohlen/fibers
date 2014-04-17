@@ -106,6 +106,7 @@ function update()
 {
     // update to the next state (can just pass in the same state)
     currentState = currentState.update();
+    game.keyboard.update();
 }
 
 function loadHtmlControls() {
