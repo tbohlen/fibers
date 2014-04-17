@@ -68,15 +68,13 @@ var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
 var bgMusicSource:SoundSource = soundDevice.createSource({
     looping: true
 });
-if (false) {
-    var bgMusic:Sound = soundDevice.createSound({
-        src: "assets/music/In_The_Dark_Flashes.mp3",
-        uncompress: false,
-        onload: function (soundData) {
-            bgMusicSource.play(soundData);
-        }
-    });
-}
+var bgMusic:Sound = soundDevice.createSound({
+    src: "assets/music/byathread.mp3",
+    uncompress: false,
+    onload: function (soundData) {
+        bgMusicSource.play(soundData);
+    }
+});
 
 var htmlControls:HTMLControls = null;
 
