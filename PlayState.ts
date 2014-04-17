@@ -2,6 +2,7 @@
  * Created by martelly on 4/13/2014.
  */
 /// <reference path="interfaces.ts"/>
+/// <reference path="MenuState.ts"/>
 
 class PlayState implements TurbGameState
 {

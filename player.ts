@@ -14,7 +14,7 @@
 class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.5;
-    JUMP_DIST = 0.01;
+    DIST_EPSILON = 0.01;
     CLIMB_SPEED = 2;
     THRESHOLD_STANDING_SPEED = 0.001;
 
@@ -37,7 +37,7 @@ class Player {
     animationFrameDurationMS:number = 100;
     animationTimeout:number = null;
 
-    lastClimbPosition:number[] = [0, 0];
+    lastClimbPosition:number[] = null;
 
     playerDimensions:number[] = [128, 128];
 
@@ -196,6 +196,17 @@ class Player {
         this.currentTexture = this.walkTexture;
     }
 
+    goDown()
+    {
+        // if we can climb then start climbing. Otherwise, do nothing
+        if (this.canClimb)
+        {
+            this.isClimbing = true;
+            this.isJumping = false;
+            this.climb();
+        }
+    }
+
     goUp()
     {
         // if we can climb then start climbing. Otherwise, do nothing
@@ -222,7 +233,7 @@ class Player {
                     witA,
                     witB,
                     axis);
-             legal = legal || Math.abs(distance) < this.JUMP_DIST;
+             legal = legal || Math.abs(distance) < this.DIST_EPSILON;
         }
 
         if(legal)
@@ -266,14 +277,35 @@ class Player {
         if (vectorLength > 0) {
             var normalizedDir:number[] = [dir[0] / vectorLength, dir[1] / vectorLength];
             var pos:number[] = this.rigidSprite.body.getPosition();
+            var nextPos:number[] = [pos[0] + (normalizedDir[0] * this.CLIMB_SPEED), pos[1] + (normalizedDir[1] * this.CLIMB_SPEED)];
+
             // XXX: this is dangerous teleportation! Could break physics engine
-            this.rigidSprite.body.setPosition([pos[0] + (normalizedDir[0] * this.CLIMB_SPEED),
-                pos[1] + (normalizedDir[1] * this.CLIMB_SPEED)]);
-            this.lastClimbPosition = this.getPosition();
+            this.rigidSprite.body.setPosition(nextPos);
+
+            // if the player is going to move beyond the top of the climbable, stop them
+            // don't know a better way to do this than to just move the object
+            var witA:number[] = [];
+            var witB:number[] = [];
+            var axis:number[] = [];
+            var dist = this.collisionUtil.signedDistance(this.climbableObject.getClimbableShape(), this.rigidSprite.body.shapes[0], witA, witB, axis);
+            if (!this.climbableObject.isClimbableAtObjectPosition(this.collisionUtil, this.rigidSprite.body.shapes[0])
+                && axis[1] < 0 && axis[0] * dist < this.DIST_EPSILON)
+            {
+                this.rigidSprite.body.setPosition(pos);
+            }
         }
-        else {
-            this.rigidSprite.body.setPosition(this.lastClimbPosition);
+
+        // prevent drift
+        var currentPos:number[] = this.rigidSprite.body.getPosition();
+        if (this.lastClimbPosition != null)
+        {
+            currentPos[0] = (dir[0] == 0) ? this.lastClimbPosition[0] : currentPos[0];
+            currentPos[1] = (dir[1] == 0) ? this.lastClimbPosition[1] : currentPos[1];
+            this.rigidSprite.body.setPosition(currentPos);
         }
+
+        // save current pos
+        this.lastClimbPosition = currentPos;
     }
 
     update()
@@ -319,6 +351,10 @@ class Player {
             if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
             {
                 this.goUp();
+            }
+            if (this.game.keyboard.keyPressed("DOWN") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
+            {
+                this.goDown();
             }
         }
 
