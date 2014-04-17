@@ -117,7 +117,7 @@
     <property name="initHeight" value="4"/>
     <property name="isBuildable" value="false"/>
     <property name="isClimbable" value="true"/>
-    <property name="isSolid" value="false"/>
+    <property name="isSolid" value="true"/>
     <property name="maxHeight" value="4"/>
     <property name="minHeight" value="4"/>
     <property name="prebuilt" value="false"/>
