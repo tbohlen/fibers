@@ -109,7 +109,6 @@
                  "properties":
                     {
                      "bodyType":"dynamic",
-                     "initHeight":"1",
                      "isSolid":"true",
                      "mass":"10"
                     },
@@ -118,6 +117,28 @@
                  "width":64,
                  "x":128,
                  "y":192
+                }, 
+                {
+                 "height":58,
+                 "name":"dynamic cube",
+                 "properties":
+                    {
+                     "bodyType":"dynamic",
+                     "initHeight":"1",
+                     "isBuildable":"true",
+                     "isClimbable":"false",
+                     "isSolid":"true",
+                     "maxHeight":"1",
+                     "minHeight":"1",
+                     "rigidBody":"dynamic",
+                     "rotation":"0",
+                     "width":"1"
+                    },
+                 "type":"Rectangle",
+                 "visible":true,
+                 "width":68,
+                 "x":391,
+                 "y":388
                 }],
          "opacity":1,
          "type":"objectgroup",

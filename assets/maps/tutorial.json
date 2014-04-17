@@ -199,17 +199,17 @@
                  "y":197
                 }, 
                 {
-                 "height":64,
-                 "name":"Spawn",
+                 "height":26,
+                 "name":"spawn",
                  "properties":
                     {
 
                     },
                  "type":"Spawn",
                  "visible":true,
-                 "width":64,
-                 "x":96,
-                 "y":192
+                 "width":30,
+                 "x":71,
+                 "y":66
                 }],
          "opacity":1,
          "type":"objectgroup",

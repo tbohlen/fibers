@@ -85,7 +85,7 @@
     <property name="checkpointName" value="ground"/>
    </properties>
   </object>
-  <object name="Spawn" type="Spawn" x="96" y="192" width="64" height="64"/>
+  <object name="spawn" type="Spawn" x="71" y="66" width="30" height="26"/>
  </objectgroup>
  <layer name="door" width="100" height="100">
   <data encoding="base64" compression="zlib">
