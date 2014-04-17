@@ -174,6 +174,9 @@ class Tileset {
                     } else if (rigidBodyType == "kinematic")
                     {
                         rigidSprite.body.setAsKinematic();
+                    } else if (rigidBodyType == "static")
+                    {
+                        rigidSprite.body.setAsStatic();
                     }
                     this.rigidSprites.push(rigidSprite);
                 }
