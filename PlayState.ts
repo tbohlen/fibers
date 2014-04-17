@@ -2,6 +2,7 @@
  * Created by martelly on 4/13/2014.
  */
 /// <reference path="interfaces.ts"/>
+/// <reference path="MenuState.ts"/>
 
 class PlayState implements TurbGameState
 {
@@ -49,6 +50,24 @@ class PlayState implements TurbGameState
         this.game.collisionHelp.setPlayer(this.player);
     }
 
+    loadMapIfNecessary()
+    {
+        if (!this.tileset.ranLoadMap)
+        {
+            console.log("Running load map");
+            this.tileset.loadMap();
+            // look for a spawn point and move the player if you found one
+            if (this.game.hasOwnProperty("spawn") && this.game.spawn != null) {
+                console.log("Setting spawn");
+                // need to correct for different origins
+                // TODO: sort out all the damn origins!
+                var loc:number[] = this.game.spawn.getLocation();
+                loc[0]+=32;
+                this.player.setPosition(loc);
+            }
+        }
+    }
+
     update():TurbGameState
     {
         var nextState:TurbGameState = this;
@@ -87,23 +106,7 @@ class PlayState implements TurbGameState
 
             if (this.tileset.isLoaded())
             {
-                if (!this.tileset.ranLoadMap)
-                {
-                    console.log("Running load map");
-                    this.tileset.loadMap();
-                    // look for a spawn point and move the player if you found one
-                    if (this.game.hasOwnProperty("spawn") && this.game.spawn != null) {
-                        console.log("Setting spawn");
-                        // need to correct for different origins
-                        // TODO: sort out all the damn origins!
-                        var loc:number[] = this.game.spawn.getLocation();
-                        loc[0]+=32;
-                        this.player.setPosition(loc);
-                    }
-                    // TODO: move this out of the update loop if we can
-
-                }
-
+                this.loadMapIfNecessary();
                 this.tileset.draw(draw2D, offset);
             }
 

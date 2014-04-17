@@ -42,7 +42,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     constructor(options:RectangleOptions, game:GameObject)
     {
         super(options);
-        console.log("Building rectangle");
 
         this.game = game;
         this.maxHeight = options.maxHeight;
@@ -61,7 +60,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // if the height is greater than 0 it should
         if (this.currentHeight == 0)
         {
-            console.log("removing rectangle because currentHeight = 0");
             this.game.physicsWorld.removeRigidBody(this.body);
         }
         else
@@ -71,7 +69,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
         this.shape = this.body.shapes[0];
         this.material = this.shape.getMaterial();
-        console.log("Setting here");
         this.body.setPosition(options.initialPos);
         this.body.setRotation(options.rotation);
     }
@@ -80,11 +77,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // In turbulenz, rotation of 0 = down. We want 0 to be up, so we add PI!
         var gid:number = parseInt(obj.gid);
-        var rotation:number = parseFloat(obj.properties.rotation) ? ((parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI) : Math.PI;
-        var initHeight:number = parseFloat(obj.properties.initHeight) ? (parseFloat(obj.properties.initHeight) * tileset.tileHeight): obj.height;
+        var rotation:number = obj.properties.hasOwnProperty("rotation") ? ((parseFloat(obj.properties.rotation) * (Math.PI / 180)) + Math.PI) : Math.PI;
+        var initHeight:number = obj.properties.hasOwnProperty("initHeight") ? (parseFloat(obj.properties.initHeight) * tileset.tileHeight): obj.height;
         var initialPos:number[] = [obj.x + obj.width/2, obj.y+initHeight];
-        var maxHeight:number = parseFloat(obj.properties.maxHeight) ? (parseFloat(obj.properties.maxHeight) * tileset.tileHeight) : obj.height;
-        var minHeight:number = parseFloat(obj.properties.minHeight) ? (parseFloat(obj.properties.minHeight) * tileset.tileHeight) : obj.width;
+        var maxHeight:number = obj.properties.hasOwnProperty("maxHeight") ? (parseFloat(obj.properties.maxHeight) * tileset.tileHeight) : obj.height;
+        var minHeight:number = obj.properties.hasOwnProperty("minHeight") ? (parseFloat(obj.properties.minHeight) * tileset.tileHeight) : obj.width;
         var mass:number = (obj.properties.mass ? parseFloat(obj.properties.mass) : 10);
         var isSolid:boolean = (obj.properties.isSolid == "true");
         var isBuildable:boolean = (obj.properties.isBuildable == "true");
@@ -201,7 +198,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
      */
     buildShape(height:number)
     {
-        console.log("building shape...");
         this.currentHeight = height;
         // build a new shape that is the correct size and replace the old shape with this new one
         var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, height);

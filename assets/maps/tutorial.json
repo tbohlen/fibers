@@ -251,7 +251,7 @@
                  "name":"door",
                  "properties":
                     {
-                     "initHeight":"0",
+                     "initHeight":"3",
                      "isBuildable":"true",
                      "isClimable":"false",
                      "isSolid":"true",

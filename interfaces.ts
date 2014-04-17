@@ -110,6 +110,8 @@ interface Climbable {
      * which regions are climbable (maybe overkill)
      */
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, otherShape: Physics2DShape):boolean;
+
+    getClimbableShape():Physics2DShape;
 }
 
 class ClimbableDefault implements Climbable
