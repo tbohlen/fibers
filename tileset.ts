@@ -10,6 +10,7 @@
 /// <reference path="rectangle.ts"/>
 /// <reference path="checkpoint.ts"/>
 /// <reference path="spawn.ts"/>
+/// <reference path="uiClasses.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 

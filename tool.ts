@@ -3,7 +3,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="tileset.ts"/>
 /// <reference path="rectangle.ts"/>
-/// <reference path="KeyboardInput.ts"/>
+/// <reference path="InpDevWrapper.ts"/>
 
 /*
  * Class: Tool

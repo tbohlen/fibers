@@ -2,7 +2,7 @@
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
 /// <reference path="tileset.ts"/>
-/// <reference path="KeyboardInput.ts"/>
+/// <reference path="InpDevWrapper.ts"/>
 
 /*
  * Class: Goal

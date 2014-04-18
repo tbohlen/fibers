@@ -17,7 +17,7 @@
 /// <reference path="chain.ts"/>
 /// <reference path="PlayState.ts"/>
 /// <reference path="MenuState.ts"/>
-/// <reference path="KeyboardInput.ts"/>
+/// <reference path="InpDevWrapper.ts"/>
 /// <reference path="masks.ts"/>
 
 
@@ -86,7 +86,7 @@ var game:GameObject = {
     draw2D : draw2D,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
-    keyboard : new KeyboardInput(inputDevice),
+    keyboard : new InpDevWrapper(inputDevice),
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
