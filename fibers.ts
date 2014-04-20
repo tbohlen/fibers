@@ -86,14 +86,14 @@ var game:GameObject = {
     draw2D : draw2D,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
-    keyboard : new InpDevWrapper(inputDevice),
+    keyboard : new InpDevWrapper(inputDevice, physicsDevice, collisionHelp),
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     debugMode : false
 };
 
-var currentState:TurbGameState = new MenuState(game);
+var currentState:TurbGameState = new MenuState(game, "mainMenu");
 
 // run the game
 function update()

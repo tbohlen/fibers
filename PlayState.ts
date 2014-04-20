@@ -12,11 +12,11 @@ class PlayState implements TurbGameState
     player:Player;
     physicsDebug:Physics2DDebugDraw;
     mapSize:number[] = [Infinity, Infinity];
-    constructor(game:GameObject)
+    constructor(game:GameObject, jsonMap:string = "tutorial")
     {
         this.game = game;
         // the tileset device manages the tiled maps
-        this.defaultTileSet = "dynamicTest";
+        this.defaultTileSet = jsonMap;
         $("#levelNameinput").val(this.defaultTileSet);
         this.tileset = new Tileset(this.defaultTileSet+".json", game);
         var viewport:number[] = [];
@@ -104,7 +104,7 @@ class PlayState implements TurbGameState
             }
             if (this.game.keyboard.justPressed("P"))
             {
-                nextState = new MenuState(this.game, this);
+                nextState = new MenuState(this.game, "mainMenu", this);
             }
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;

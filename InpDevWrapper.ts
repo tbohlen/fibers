@@ -6,12 +6,28 @@ class InpDevWrapper
     inputDev:InputDevice;
     keys:any;
     mouse:any;
+    private mouseBody:Physics2DRigidBody;
 
     private reverseMapping:any;
     private recentlyPressed:any;
     private recentlyReleased:any;
-    constructor(inputDevice:InputDevice)
+    private mouseDownListeners:any[];
+    private mouseUpListeners:any[];
+    constructor(inputDevice:InputDevice, physicsDevice:Physics2DDevice, collisionHelp:CollisionHelper)
     {
+        var shapes : Physics2DShape[] = [
+            physicsDevice.createPolygonShape({
+                vertices : [[0,0]] // TODO: Should this actually be more than a single point?
+            })
+        ];
+        this.mouseBody = physicsDevice.createRigidBody({
+            shapes : shapes,
+            type : 'kinematic'
+        });
+
+        this.mouseDownListeners = [];
+        this.mouseUpListeners = [];
+
         this.inputDev = inputDevice;
         this.reverseMapping = {};
         this.recentlyPressed = {};
@@ -47,6 +63,17 @@ class InpDevWrapper
                 that.mouse.pressed = true;
                 that.mouse.recentlyPressed = true;
                 that.mouse.recentlyReleased = false;
+                // call all mousedown listeners
+                for (var i:number = 0; i < that.mouseDownListeners.length; i++)
+                {
+                    var o = that.mouseDownListeners[i];
+                    var otherShape = o.shapeFunc();
+                    var mouseShape = that.mouseShape();
+                    if (collisionHelp.collisionUtils.intersects(mouseShape, otherShape))
+                    {
+                        o.callback();
+                    }
+                }
             }
         });
 
@@ -57,6 +84,18 @@ class InpDevWrapper
                 that.mouse.pressed = false;
                 that.mouse.recentlyPressed = false;
                 that.mouse.recentlyReleased = true;
+
+                // call all mouseup listeners
+                for (var i:number = 0; i < that.mouseUpListeners.length; i++)
+                {
+                    var o = that.mouseUpListeners[i];
+                    var otherShape = o.shapeFunc();
+                    var mouseShape = that.mouseShape();
+                    if (collisionHelp.collisionUtils.intersects(mouseShape, otherShape))
+                    {
+                        o.callback();
+                    }
+                }
             }
         });
 
@@ -64,6 +103,28 @@ class InpDevWrapper
             that.mouse.x = x;
             that.mouse.y = y;
         });
+    }
+
+    addEventListener(eventType:String, shapeFunc:Function, callbackFunc:Function):void
+    {
+        if (eventType == "mousedown")
+        {
+            this.mouseDownListeners.push({
+                shapeFunc : shapeFunc,
+                callback : callbackFunc
+            });
+        }
+        else if (eventType == "mouseup")
+        {
+            this.mouseUpListeners.push({
+                shapeFunc : shapeFunc,
+                callback : callbackFunc
+            });
+        }
+        else
+        {
+            console.log("event type: " + eventType + " not supported by InpDevWrapper.");
+        }
     }
 
     keyPressed(key:string):boolean
@@ -119,6 +180,12 @@ class InpDevWrapper
     mouseJustReleased():boolean
     {
         return this.mouse.justReleased;
+    }
+
+    mouseShape():Physics2DShape
+    {
+        this.mouseBody.setPosition([this.mouse.x, this.mouse.y]);
+        return this.mouseBody.shapes[0];
     }
 
     update():void
