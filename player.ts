@@ -135,8 +135,7 @@ class Player {
 //            this.isJumping = false;
 //        }
         var normal:number[] = arbiter.getNormal();
-        var velo:number[] = this.rigidSprite.body.getVelocity();
-        if (normal[1] > 0 && Math.abs(velo[1]) <= this.THRESHOLD_STANDING_SPEED)
+        if (normal[1] > 0 && normal[1] > normal[0])
         {
             this.isJumping = false;
             this.jumpShape = otherShape;
@@ -318,7 +317,6 @@ class Player {
         // reset back to last checkpoint when R is pressed
         if (this.game.keyboard.keyPressed("R"))
         {
-            console.log("pressing R");
             var resetPosition:number[] = this.game.checkpointManager.resetPosition();
             if (resetPosition != null) {
                 this.rigidSprite.body.setPosition(resetPosition);
