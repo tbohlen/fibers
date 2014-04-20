@@ -256,6 +256,9 @@ class Tileset {
         }
 
         this.ranLoadMap = true;
+
+        // return the size of the map
+        return [this.mapWidth * this.tileWidth, this.mapHeight * this.tileHeight];
     }
 
     /*

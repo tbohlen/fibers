@@ -11,6 +11,7 @@ class PlayState implements TurbGameState
     tileset:Tileset;
     player:Player;
     physicsDebug:Physics2DDebugDraw;
+    mapSize:number[] = [Infinity, Infinity];
     constructor(game:GameObject)
     {
         this.game = game;
@@ -55,7 +56,7 @@ class PlayState implements TurbGameState
         if (!this.tileset.ranLoadMap)
         {
             console.log("Running load map");
-            this.tileset.loadMap();
+            this.mapSize = this.tileset.loadMap();
             // look for a spawn point and move the player if you found one
             if (this.game.hasOwnProperty("spawn") && this.game.spawn != null) {
                 console.log("Setting spawn");
@@ -66,6 +67,29 @@ class PlayState implements TurbGameState
                 this.player.setPosition(loc);
             }
         }
+    }
+
+    checkOffset(offset):number[]
+    {
+
+        if (offset[0] < 0)
+        {
+            offset[0] = 0
+        }
+        else if (offset[0] > this.mapSize[0] - width)
+        {
+            offset[0] = this.mapSize[0] - width;
+        }
+
+        if (offset[1] < 0)
+        {
+            offset[1] = 0;
+        }
+        else if (offset[1] > this.mapSize[1] - height)
+        {
+            offset[1] = this.mapSize[1] - height;
+        }
+        return offset;
     }
 
     update():TurbGameState
@@ -98,6 +122,7 @@ class PlayState implements TurbGameState
             var playerPos:number[] = this.player.rigidSprite.body.getPosition();
             offset[0] = playerPos[0] - (width / 2);
             offset[1] = playerPos[1] - (height / 2);
+            offset = this.checkOffset(offset);
 
             var bgColor = [0.0, 0.0, 0.0, 1.0];
             this.game.graphicsDevice.clear( bgColor, 1.0 );
