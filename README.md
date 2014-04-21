@@ -128,3 +128,11 @@ properties must be included:
 Spawn points can be added very simply. Just place a 1 tile x 1 tile (not strictly necessary,
 but makes it easier to visualize where the player is going to appear) object in the location
 you would like the player to spawn and set its type to "Spawn". That's it!
+
+
+# Making Menu UI
+---Button---
+1. Make rectangle object
+2. "Type" should be button
+3. Under properties, make sure you assign "nextState" to a type of state: either "MenuState" or "PlayState"
+4. Optionally (highly suggested) you can assign "stateArgs" and put the name of the next Tiled map to load i.e. "mainMenu"
