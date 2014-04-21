@@ -14,17 +14,21 @@
 class Player {
     SPEED = 0.1;
     JUMP_SPEED = 0.5;
-    DIST_EPSILON = 0.01;
+    DIST_EPSILON = 0.05;
     CLIMB_SPEED = 2;
     THRESHOLD_STANDING_SPEED = 0.001;
 
-    isJumping:boolean = true; // starts as true so that you can't jump before ever hitting the ground
-    jumpShape:Physics2DShape = null; // last surface we were touching
     canClimb:boolean = false;
     isClimbing:boolean = false;
     climbableObject:Climbable = null;
     canBuild:boolean = false;
     rigidSprite:RigidSprite = null;
+
+    leftBlockingShape:Physics2DShape = null;
+    rightBlockingShape:Physics2DShape = null;
+
+    onGround:boolean = false; // true if the player is standing on the ground, or was last time we checked
+    groundShape: Physics2DShape = null; // the last surface the player was standing on
 
     facing:Direction = Direction.RIGHT;
 
@@ -129,17 +133,24 @@ class Player {
     // TODO: combine this and the next function in some nice way
     checkCollision = (arbiter, otherShape) =>
     {
-        // whenever we hit another shape, set isJumping to false;
-//        var vel:number[] = this.rigidSprite.body.getVelocity();
-//        if (Math.abs(vel[1]) < this.THRESHOLD_STANDING_SPEED) {
-//            this.isJumping = false;
-//        }
+        // whenever we hit another shape, check to see if it counts as ground
+        // TODO: Wrap this normal test into the stillOnGround function
         var normal:number[] = arbiter.getNormal();
-        var velo:number[] = this.rigidSprite.body.getVelocity();
-        if (normal[1] > 0 && Math.abs(velo[1]) <= this.THRESHOLD_STANDING_SPEED)
+        if (normal[1] > 0 && normal[1] > normal[0])
         {
-            this.isJumping = false;
-            this.jumpShape = otherShape;
+            this.onGround = true;
+            console.log("Setting onGround to true");
+            this.groundShape = otherShape;
+        }
+
+        // also need to check if this stopped us from moving left or right in the air
+        if (!this.onGround && !this.isClimbing && normal[0] > 0)
+        {
+            this.rightBlockingShape = otherShape;
+        }
+        else if (!this.onGround && !this.isClimbing && normal[0] > 0)
+        {
+            this.leftBlockingShape = otherShape;
         }
     }
 
@@ -182,9 +193,11 @@ class Player {
 
     walkLeft()
     {
+        // we should only be allowed to walk if we are on the ground.
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
         this.facing = Direction.LEFT;
+        console.log("Walk");
         this.currentTexture = this.walkTexture;
     }
 
@@ -193,6 +206,7 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
+        console.log("Walk");
         this.currentTexture = this.walkTexture;
     }
 
@@ -202,7 +216,6 @@ class Player {
         if (this.canClimb)
         {
             this.isClimbing = true;
-            this.isJumping = false;
             this.climb();
         }
     }
@@ -212,39 +225,51 @@ class Player {
         // if we can climb then start climbing. Otherwise, do nothing
         if (this.canClimb) {
             this.isClimbing = true;
-            this.isJumping = false;
             this.climb();
         }
     }
 
     jumpUp()
     {
+        this.groundShape = null;
+        this.onGround = false;
+        this.isClimbing = false;
+        var vel:number[] = this.rigidSprite.body.getVelocity();
+        this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+    }
+
+    stillOnGround():boolean
+    {
+        // the player can leave the ground without us noticing in the collision detection,
+        // so we need to be able to double check that they are still on the ground.
+        // That happens here
         var witA:number[] = [];
         var witB:number[] = [];
         var axis:number[] = [];
-
-        // to be allowed to jump you either have to be climbing or have to still be touching
-        // the last horizontal surface you touched
-        var legal:boolean = this.isClimbing;
-        if (this.jumpShape != null) {
-            var distance:number =
-                this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0],
-                    this.jumpShape,
-                    witA,
-                    witB,
-                    axis);
-             legal = legal || Math.abs(distance) < this.DIST_EPSILON;
+        if (this.groundShape != null && this.onGround) {
+            return this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.groundShape);
         }
+        return false;
+    }
 
-        if(legal)
-        {
-            this.jumpShape = null;
-            this.isJumping = true;
-            this.isClimbing = false;
-            var vel:number[] = this.rigidSprite.body.getVelocity();
-            this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+    canMoveLeft():boolean
+    {
+        // one can move left if they are on the ground or if they are in the air and not blocked from moving
+        var canMove:boolean = this.onGround || (this.leftBlockingShape == null);
+        if (this.leftBlockingShape != null) {
+            canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
         }
+        return canMove;
+    }
 
+    canMoveRight():boolean
+    {
+        // one can move left if they are on the ground or if they are in the air and not blocked from moving
+        var canMove:boolean = this.onGround || (this.rightBlockingShape == null);
+        if (this.rightBlockingShape != null) {
+            canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+        }
+        return canMove;
     }
 
     climb()
@@ -315,18 +340,24 @@ class Player {
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
 
+        // double check that we are on the ground
+        var newOnGround:boolean = this.stillOnGround();
+        if (newOnGround != this.onGround) {
+            console.log("Switching onGround to " + newOnGround);
+        }
+        this.onGround = newOnGround;
+
         // reset back to last checkpoint when R is pressed
         if (this.game.keyboard.keyPressed("R"))
         {
-            console.log("pressing R");
             var resetPosition:number[] = this.game.checkpointManager.resetPosition();
             if (resetPosition != null) {
                 this.rigidSprite.body.setPosition(resetPosition);
             }
         }
 
-        // jumping always works
-        if (this.game.keyboard.keyPressed("SPACE") && !this.isJumping) {
+        // to be allowed to jump you either have to be climbing or have to be on the ground
+        if (this.game.keyboard.keyPressed("SPACE") && (this.isClimbing || this.stillOnGround())) {
             this.rigidSprite.body.setAsDynamic();
             this.jumpUp();
         }
@@ -340,11 +371,11 @@ class Player {
         {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
-            if (this.game.keyboard.keyPressed("LEFT"))
+            if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft())
             {
                 this.walkLeft();
             }
-            if (this.game.keyboard.keyPressed("RIGHT"))
+            if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight())
             {
                 this.walkRight();
             }
@@ -358,9 +389,12 @@ class Player {
             }
         }
 
-        if (this.isJumping) {
+        if (!this.onGround)
+        {
             this.currentTexture = this.jumpTexture;
-        } else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED) {
+        }
+        else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED)
+        {
             this.currentTexture = this.standTexture;
         }
 

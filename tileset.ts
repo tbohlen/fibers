@@ -10,6 +10,7 @@
 /// <reference path="rectangle.ts"/>
 /// <reference path="checkpoint.ts"/>
 /// <reference path="spawn.ts"/>
+/// <reference path="uiClasses.ts"/>
 
 var BASE_MAP_URL:string = "assets/maps/";
 
@@ -255,6 +256,9 @@ class Tileset {
         }
 
         this.ranLoadMap = true;
+
+        // return the size of the map
+        return [this.mapWidth * this.tileWidth, this.mapHeight * this.tileHeight];
     }
 
     /*

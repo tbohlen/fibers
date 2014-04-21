@@ -23,7 +23,7 @@ class Platform extends RigidSprite {
         if (!(obj.visible && obj.hasOwnProperty("height") && obj.hasOwnProperty("width")
             && obj.hasOwnProperty("x") && obj.hasOwnProperty("y") && obj.hasOwnProperty("properties")))
         {
-            console.log("failed to make platform");
+            console.log("failed to make platform due to missing propertie/s");
             return;
         }
 

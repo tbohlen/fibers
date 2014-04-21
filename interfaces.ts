@@ -7,8 +7,7 @@
 /// <reference path="spawn.ts"/>
 
 interface TurbGameState {
-    update():TurbGameState;
-    // update method should return null if the state should not change.
+    update();
 }
 
 interface InteractablesObject {
@@ -21,13 +20,14 @@ interface GameObject {
     mathDevice : MathDevice;
     graphicsDevice : GraphicsDevice;
     inputDevice: InputDevice;
-    keyboard : KeyboardInput;
+    keyboard : InpDevWrapper;
     draw2D : Draw2D;
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
     collisionHelp: CollisionHelper;
     checkpointManager : CheckpointManager;
     debugMode : boolean;
+    nextState : TurbGameState;
     spawn ?: Spawn;
 }
 

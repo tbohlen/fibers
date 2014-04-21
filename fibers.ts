@@ -17,7 +17,7 @@
 /// <reference path="chain.ts"/>
 /// <reference path="PlayState.ts"/>
 /// <reference path="MenuState.ts"/>
-/// <reference path="KeyboardInput.ts"/>
+/// <reference path="InpDevWrapper.ts"/>
 /// <reference path="masks.ts"/>
 
 
@@ -86,21 +86,27 @@ var game:GameObject = {
     draw2D : draw2D,
     physicsDevice : physicsDevice,
     physicsWorld : dynamicWorld,
-    keyboard : new KeyboardInput(inputDevice),
+    keyboard : new InpDevWrapper(inputDevice, physicsDevice, collisionHelp),
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
-    debugMode : false
+    debugMode : false,
+    nextState : null
 };
 
-var currentState:TurbGameState = new MenuState(game);
+var currentState:TurbGameState = new MenuState(game, "mainMenu");
 
 // run the game
 function update()
 {
     // update to the next state (can just pass in the same state)
-    currentState = currentState.update();
+    currentState.update();
     game.keyboard.update();
+    if (game.nextState != null)
+    {
+        currentState = game.nextState;
+        game.nextState = null;
+    }
 }
 
 function loadHtmlControls() {
