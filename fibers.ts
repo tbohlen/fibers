@@ -90,7 +90,8 @@ var game:GameObject = {
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
-    debugMode : false
+    debugMode : false,
+    nextState : null
 };
 
 var currentState:TurbGameState = new MenuState(game, "mainMenu");
@@ -99,8 +100,13 @@ var currentState:TurbGameState = new MenuState(game, "mainMenu");
 function update()
 {
     // update to the next state (can just pass in the same state)
-    currentState = currentState.update();
+    currentState.update();
     game.keyboard.update();
+    if (game.nextState != null)
+    {
+        currentState = game.nextState;
+        game.nextState = null;
+    }
 }
 
 function loadHtmlControls() {

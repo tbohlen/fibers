@@ -14,6 +14,7 @@ class PlayState implements TurbGameState
     mapSize:number[] = [Infinity, Infinity];
     constructor(game:GameObject, jsonMap:string = "tutorial")
     {
+        console.log("passed map is " + jsonMap);
         this.game = game;
         // the tileset device manages the tiled maps
         this.defaultTileSet = jsonMap;
@@ -92,9 +93,8 @@ class PlayState implements TurbGameState
         return offset;
     }
 
-    update():TurbGameState
+    update()
     {
-        var nextState:TurbGameState = this;
 
         if (this.game.graphicsDevice.beginFrame())
         {
@@ -104,7 +104,7 @@ class PlayState implements TurbGameState
             }
             if (this.game.keyboard.justPressed("P"))
             {
-                nextState = new MenuState(this.game, "mainMenu", this);
+                this.game.nextState = new MenuState(this.game, "mainMenu", this);
             }
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;
@@ -159,6 +159,5 @@ class PlayState implements TurbGameState
 
             this.game.graphicsDevice.endFrame();
         }
-        return nextState;
     }
 }

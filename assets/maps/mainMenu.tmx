@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
-  <image source="../tiles/tiles.png" trans="adb2b9" width="256" height="1024"/>
+  <image source="../tiles/tiles.png" trans="adb2b9" width="512" height="1024"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="12">
   <data encoding="base64" compression="zlib">
-   eJzjZGBg4AJibiDmAWJOCvm8QMwHxPxALEAF80b5o/zBxEdP35TyBYFYCIiFgViEDD4A8Y4KuQ==
+   eJwTZGBgEAJiYSAWAWJBCvmSQCwFxNJALEMF80b5o/zBxEdP35TyFYFYCYiVgViFDD4Aei8TGQ==
   </data>
  </layer>
  <objectgroup name="buttons" width="20" height="12">
-  <object name="button1" type="Button" x="452" y="103" width="352" height="133"/>
+  <object name="button1" type="Button" x="452" y="103" width="352" height="133">
+   <properties>
+    <property name="nextState" value="PlayState"/>
+    <property name="stateArgs" value="tutorial"/>
+   </properties>
+  </object>
   <object name="button2" type="Button" x="470" y="342" width="342" height="142"/>
   <object name="button3" type="Button" x="479" y="564" width="327" height="152"/>
  </objectgroup>

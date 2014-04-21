@@ -17,9 +17,8 @@ class MenuState implements TurbGameState
         this.game.draw2D.getViewport(viewport);
     }
 
-    update():TurbGameState
+    update()
     {
-        var nextState:TurbGameState = this;
         if (this.game.graphicsDevice.beginFrame())
         {
             this.game.graphicsDevice.clear(bgColor, 1.0);
@@ -31,7 +30,7 @@ class MenuState implements TurbGameState
             }
             if (this.game.keyboard.justPressed("P"))
             {
-                nextState = this.returnState == null ? new PlayState(this.game) : this.returnState;
+                this.game.nextState = this.returnState == null ? new PlayState(this.game) : this.returnState;
             }
             if (this.tileset.isLoaded())
             {
@@ -46,6 +45,5 @@ class MenuState implements TurbGameState
 
             this.game.graphicsDevice.endFrame();
         }
-        return nextState;
     }
 }

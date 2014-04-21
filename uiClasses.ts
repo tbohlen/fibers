@@ -57,7 +57,18 @@ class Button extends RigidSprite
         var callback = but.clicked;
         if (obj.properties.hasOwnProperty("nextState") && obj.properties.nextState in window )
         {
-
+            var newState;
+            if (obj.properties.hasOwnProperty("stateArgs"))
+            {
+                newState = new window[obj.properties.nextState](game, obj.properties.stateArgs)
+            }else
+            {
+                newState = new window[obj.properties.nextState](game);
+            }
+            callback = function()
+            {
+                game.nextState = newState;
+            }
         }
         // add event listener
         game.keyboard.addEventListener("mouseup",
