@@ -62,10 +62,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             this.game.physicsWorld.removeRigidBody(this.body);
         }
-        else
-        {
-            this.buildShape(this.currentHeight);
-        }
+
+        this.buildShape(this.currentHeight);
 
         this.shape = this.body.shapes[0];
         this.material = this.shape.getMaterial();
@@ -108,7 +106,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
-            height: initHeight, // XXX: hack to make sure we don't get errors from 0 width objects
+            height: initHeight == 0 ? initHeight + 1 : initHeight, // XXX: hack to make sure we don't get errors from 0 width objects
             origin : [obj.width/2, 0],
             color: Rectangle.debugColorClimbable
         });
@@ -200,6 +198,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         this.currentHeight = height;
         // build a new shape that is the correct size and replace the old shape with this new one
+        if (height == 0) { height++;} // XXX: hack to make sure we don't get errors from 0 width rectangles
         var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, height);
         var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
             vertices: vertices,
@@ -207,7 +206,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             group: ShapeGroups.OVERLAPPABLES,
             mask: this.mask
         });
-        this.body.removeShape(this.body.shapes[0]);
+        if (this.body.shapes[0]) {
+            this.body.removeShape(this.body.shapes[0]);
+        }
         this.body.addShape(shape);
         this.shape = shape;
     }
