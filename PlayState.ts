@@ -106,6 +106,10 @@ class PlayState implements TurbGameState
             {
                 this.game.nextState = new MenuState(this.game, "mainMenu", this);
             }
+            if (this.game.keyboard.justPressed("H"))
+            {
+                this.game.nextState = new PlayState(this.game, this.defaultTileSet)
+            }
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;
             while( this.game.physicsWorld.simulatedTime < startTime + 1/60 )
