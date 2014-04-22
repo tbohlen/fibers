@@ -197,7 +197,6 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
         this.facing = Direction.LEFT;
-        console.log("Walk");
         this.currentTexture = this.walkTexture;
     }
 
@@ -206,7 +205,6 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
-        console.log("Walk");
         this.currentTexture = this.walkTexture;
     }
 
@@ -256,7 +254,7 @@ class Player {
     {
         // one can move left if they are on the ground or if they are in the air and not blocked from moving
         var canMove:boolean = this.onGround || (this.leftBlockingShape == null);
-        if (this.leftBlockingShape != null) {
+        if (this.leftBlockingShape && this.leftBlockingShape.body) {
             canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
         }
         return canMove;
@@ -266,7 +264,7 @@ class Player {
     {
         // one can move left if they are on the ground or if they are in the air and not blocked from moving
         var canMove:boolean = this.onGround || (this.rightBlockingShape == null);
-        if (this.rightBlockingShape != null) {
+        if (this.rightBlockingShape && this.rightBlockingShape.body) {
             canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
         }
         return canMove;
