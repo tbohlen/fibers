@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="24" height="14" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="background" width="24" height="14">
+  <data encoding="base64" compression="zlib">
+   eJzt0iUCgEAABdG92gIFKUhBClKQghTk8Mwh9icIL0wfa4zx4COAddwhIsRIBJ0iQ45C0CUq1GgE3aJDj0HQIybMWAS9YsOOQ9AnLtx4BO369///b/3/AsiQd4k=
+  </data>
+ </layer>
+ <layer name="ground" width="24" height="14">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIKBAZpArAXE2kCsQwO+IRAbAbExEJvQgA8ANu0IuQ==
+  </data>
+ </layer>
+ <layer name="needles" width="24" height="14">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjAL8gBeLGB8WMX4sYgJUdstgAgA9gAA7
+  </data>
+ </layer>
+ <objectgroup name="rectangles" width="24" height="14">
+  <object name="Up" type="Rectangle" x="128" y="512" width="64" height="64">
+   <properties>
+    <property name="growSurface" value="top"/>
+    <property name="initHeight" value="1"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="4"/>
+    <property name="minHeight" value="0"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object name="Up" type="Rectangle" x="448" y="512" width="64" height="64">
+   <properties>
+    <property name="growSurface" value="right"/>
+    <property name="initHeight" value="1"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="4"/>
+    <property name="minHeight" value="0"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="Up" type="Rectangle" x="768" y="512" width="64" height="64">
+   <properties>
+    <property name="growSurface" value="bottom"/>
+    <property name="initHeight" value="1"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="4"/>
+    <property name="minHeight" value="0"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="2"/>
+   </properties>
+  </object>
+  <object name="Up" type="Rectangle" x="1088" y="512" width="64" height="64">
+   <properties>
+    <property name="growSurface" value="left"/>
+    <property name="initHeight" value="1"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="4"/>
+    <property name="minHeight" value="0"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Ground" width="24" height="14">
+  <object name="Ground" type="Platform" x="0" y="768" width="1536" height="128">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Needles" width="24" height="14">
+  <object name="Up" type="Tool" x="128" y="704" width="64" height="64">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object name="Right" type="Tool" x="448" y="704" width="64" height="64">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="Down" type="Tool" x="768" y="704" width="64" height="64">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="2"/>
+   </properties>
+  </object>
+  <object name="Left" type="Tool" x="1088" y="704" width="64" height="64">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="3"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

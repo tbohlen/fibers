@@ -50,6 +50,7 @@ interface RectangleOptions extends RigidSpriteOptions
     isClimbable : boolean;
     isSolid : boolean; // if true indicates that this object should intersect with others.
     bodyType ?: string; // specifies static, kinematic or dynamic
+    growSurface ?: string; // specified which side of the object should grow
 }
 
 interface ToolOptions extends RigidSpriteOptions
