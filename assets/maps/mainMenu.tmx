@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
- <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
-  <image source="../tiles/tiles.png" trans="adb2b9" width="512" height="1024"/>
+ <tileset firstgid="1" name="menuScreenPow2" tilewidth="64" tileheight="64">
+  <image source="../menuScreenPow2.png" trans="adb2b9" width="1024" height="1024"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="12">
   <data encoding="base64" compression="zlib">
-   eJwTZGBgEAJiYSAWAWJBCvmSQCwFxNJALEMF80b5o/zBxEdP35TyFYFYCYiVgViFDD4Aei8TGQ==
+   eJydzLczH3Acx+HfXRjCRKJmInomPZj0NmkRTHqb9DbpbYpeJl3wR3pGnHPf8757ls997hWJvN7TJ3y0l39fiCL6zf0rMcQG9uKI5xvfSSCRJJJJIZUfgb000vlJBplkkU0OueTxK7CXTwGFFFFMCaX8poxyKgJ7lVRRTQ211FFPA4000RzYa6GVNtrp4A+d/KWLbnoCe7300c8AgwwxzAijjDEe2JtgkimmmWGWOeZZYJGlwN4yK6yyxjobbLLFNjvsBvb+scc+BxxyxDEnnHLGeWDvgkuuuOaGW+645z8PPL7TewbFj0Nv
   </data>
  </layer>
  <objectgroup name="buttons" width="20" height="12">
-  <object name="button1" type="Button" x="452" y="103" width="352" height="133">
+  <object name="playButton" type="Button" x="720" y="539" width="156" height="52">
    <properties>
     <property name="nextState" value="PlayState"/>
     <property name="stateArgs" value="tutorial"/>
    </properties>
   </object>
-  <object name="button2" type="Button" x="470" y="342" width="342" height="142"/>
-  <object name="button3" type="Button" x="479" y="564" width="327" height="152"/>
+  <object name="instrucButton" type="Button" x="722" y="607" width="153" height="42"/>
+  <object name="creditsButton" type="Button" x="723" y="661" width="151" height="36"/>
  </objectgroup>
 </map>
