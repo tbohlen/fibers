@@ -49,6 +49,12 @@ class Player {
     lastClimbPosition:number[] = null;
 
     playerDimensions:number[] = [128, 128];
+    playerHitBox:number[][] = [
+        [-20, -52],
+        [20, -52],
+        [20, 64],
+        [-20, 64]
+    ];
 
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
@@ -79,11 +85,11 @@ class Player {
             color: [1.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-playerParams.width/4, -playerParams.height/2,
-                                                                                   playerParams.width/4, playerParams.height/2);
+//        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-this.playerHitBox[0]/2, -this.playerHitBox[1]/2,
+//                this.playerHitBox[0]/2, this.playerHitBox[1]/2);
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
-            vertices: playerVertices,
+            vertices: this.playerHitBox,
             group: ShapeGroups.PLAYER,
             mask: ObjectMasks.SOLID
         });
