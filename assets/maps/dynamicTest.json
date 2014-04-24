@@ -125,6 +125,30 @@
          "width":100,
          "x":0,
          "y":0
+        }, 
+        {
+         "height":100,
+         "name":"spawn",
+         "objects":[
+                {
+                 "height":64,
+                 "name":"Spawn",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Spawn",
+                 "visible":true,
+                 "width":64,
+                 "x":64,
+                 "y":384
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":100,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":
