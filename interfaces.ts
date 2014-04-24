@@ -6,8 +6,22 @@
 /// <reference path="checkpoint.ts"/>
 /// <reference path="spawn.ts"/>
 
-interface TurbGameState {
-    update();
+class TurbGameState {
+
+    game:GameObject;
+    constructor(game:GameObject)
+    {
+        this.game = game;
+    }
+
+    update():void{
+        return;
+    }
+
+    clearWorld()
+    {
+        this.game.physicsWorld.clear();
+    }
 }
 
 interface InteractablesObject {

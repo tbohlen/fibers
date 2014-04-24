@@ -4,7 +4,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="MenuState.ts"/>
 
-class PlayState implements TurbGameState
+class PlayState extends TurbGameState
 {
     game:GameObject;
     defaultTileSet:string;
@@ -14,6 +14,8 @@ class PlayState implements TurbGameState
     mapSize:number[] = [Infinity, Infinity];
     constructor(game:GameObject, jsonMap:string = "dynamicTest")
     {
+        super(game);
+        super.clearWorld();
         console.log("passed map is " + jsonMap);
         this.game = game;
         // the tileset device manages the tiled maps
