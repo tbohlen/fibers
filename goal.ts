@@ -29,7 +29,6 @@ class Goal extends RigidSprite implements Interactable
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject) {
         // fix the rotation so that 0 is up and we're using degrees
-
         console.log("Building goal from tiled");
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
             elasticity : 0,
