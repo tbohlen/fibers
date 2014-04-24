@@ -131,6 +131,8 @@ Spawn points can be added very simply. Just place a 1 tile x 1 tile (not strictl
 but makes it easier to visualize where the player is going to appear) object in the location
 you would like the player to spawn and set its type to "Spawn". That's it!
 
+ToolYarnBall should have "ToolYarnBall" as their type
+* toolKey:number which corresponds to which tool it should map to
 
 # Making Menu UI
 ---Button---

@@ -261,7 +261,6 @@ class Tileset {
             }
             if (this.toolYarnBalls.hasOwnProperty(key))
             {
-                console.log("found match for key");
                 (<Tool>this.tools[key]).setToolYarnBall(this.toolYarnBalls[key]);
             }
 

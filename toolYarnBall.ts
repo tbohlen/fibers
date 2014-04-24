@@ -43,7 +43,10 @@ class ToolYarnBall extends RigidSprite
 
     setBuildable(buildable:Buildable)
     {
-        console.log("setting buildable" + buildable);
+        if (buildable == null)
+        {
+            console.log("Just set buildable for ToolYarnBall to null");
+        }
         this.buildable = buildable;
     }
 
