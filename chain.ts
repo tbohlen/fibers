@@ -211,6 +211,11 @@ class Chain extends RigidSprite implements Buildable, Climbable
         return this.construct.body.shapes[0];
     }
 
+    getTopPosition():number
+    {
+        return this.body.getPosition()[1] - this.sprite.getHeight();
+    }
+
     /*
      * Method: getShape
      * Returns the shape that the player must be overlapping with in order to build this item. ie the knitting needles.

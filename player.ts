@@ -330,9 +330,21 @@ class Player {
         }
     }
 
+    flipFacing()
+    {
+        this.facing = (this.facing == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+    }
+
     climb()
     {
-        this.currentTexture = this.climbTexture;
+        // when player y center ( = their y position) exceeds the top of the climbable object (y position - height),
+        // use stand texture instead...
+        var showClimbAnimation:boolean = this.rigidSprite.body.getPosition()[1] > this.climbableObject.getTopPosition();
+        if (showClimbAnimation) {
+            this.currentTexture = this.climbTexture;
+        } else {
+            this.currentTexture = this.standTexture;
+        }
         // make the player kinematic so they can't fall
         //this.rigidSprite.body.setAsKinematic();
         // calculate the movement direction
@@ -340,10 +352,12 @@ class Player {
         if (this.game.keyboard.keyPressed("LEFT"))
         {
             dir[0] -= 1;
+            this.facing = Direction.LEFT;
         }
         if (this.game.keyboard.keyPressed("RIGHT"))
         {
             dir[0] += 1;
+            this.facing = Direction.RIGHT;
         }
         if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
         {
