@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="background" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJzl0qcBgDAABdGsFsBQDMVAMBRDMRRDGZ7bId8hnjh/1hgTIEQE69kxEqTIBJ2jQIlK0DUaOLSC7tBjwCjoCTMWrILesOPAKegLNx68gvb97e//fX5GU5k=
+  </data>
+ </layer>
+ <layer name="ground" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4D+wBiITYBYk0rmaQOxDhAbArERFcxDdp8W1Hxi7EdWj40Pcx/MfEr5AEjlB80=
+  </data>
+ </layer>
+ <objectgroup name="ground" width="20" height="12">
+  <object type="Platform" x="1" y="513" width="62" height="124">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="1155" y="449" width="121" height="175">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="-1" y="642" width="189" height="316">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="knit needles" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4B4wDfQDqASYB1oB1AJAAAdiAAU
+  </data>
+ </layer>
+ <objectgroup name="bridge horizontal" width="20" height="12">
+  <object name="bridge" type="Rectangle" x="64" y="479" width="28" height="28">
+   <properties>
+    <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="8"/>
+    <property name="minHeight" value="0"/>
+    <property name="rotation" value="90"/>
+    <property name="toolKey" value="0"/>
+    <property name="width" value="0.5"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="needle" width="20" height="12">
+  <object type="Tool" x="5" y="455" width="53" height="53">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object type="Tool" x="642" y="583" width="60" height="55">
+   <properties>
+    <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="true"/>
+    <property name="isSolid" value="false"/>
+    <property name="maxHeight" value="8"/>
+    <property name="minHeight" value="0"/>
+    <property name="prebuilt" value="false"/>
+    <property name="rotation" value="0"/>
+    <property name="width" value="0.5"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="platforms" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBhagBGIWUjgj4JRMJwBADCQABA=
+  </data>
+ </layer>
+ <objectgroup name="cubes" width="20" height="12">
+  <object type="Platform" x="67" y="579" width="59" height="57">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="195" y="707" width="444" height="246">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="642" y="646" width="634" height="310">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="288" y="73" width="59" height="58">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
+    <property name="isSolid" value="true"/>
+    <property name="mass" value="10"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="545" y="71" width="59" height="58">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
+    <property name="isSolid" value="true"/>
+    <property name="mass" value="10"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="807" y="72" width="59" height="58">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
+    <property name="isSolid" value="true"/>
+    <property name="mass" value="10"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="platforms" width="20" height="12">
+  <object type="Platform" x="264" y="138" width="114" height="46">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="520" y="136" width="109" height="46">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="776" y="136" width="114" height="43">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="checkpoints" width="20" height="12">
+  <object type="Spawn" x="6" y="349" width="49" height="47"/>
+ </objectgroup>
+ <objectgroup name="test" width="20" height="12">
+  <object name="badrect" type="Rectangle" gid="57" x="320" y="128" width="64" height="64">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
+    <property name="isSolid" value="true"/>
+    <property name="mass" value="10"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
