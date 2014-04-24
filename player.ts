@@ -267,7 +267,7 @@ class Player {
             this.climb();
         }
     }
-
+        
     goUp()
     {
         // if we can climb then start climbing. Otherwise, do nothing
