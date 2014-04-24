@@ -139,6 +139,8 @@ interface Climbable {
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, otherShape: Physics2DShape):boolean;
 
     getClimbableShape():Physics2DShape;
+
+    getTopPosition():number;
 }
 
 class ClimbableDefault implements Climbable
@@ -154,6 +156,12 @@ class ClimbableDefault implements Climbable
     getClimbableShape():Physics2DShape
     {
         return this.shape;
+    }
+
+    // override this...
+    getTopPosition():number
+    {
+        return 0;
     }
 }
 

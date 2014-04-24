@@ -284,7 +284,7 @@ class Player {
         this.isClimbing = false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
-        this.currentTexture = this.jumpTexture;
+        this.currentTexture.play();
     }
 
     stillOnGround():boolean
@@ -330,9 +330,21 @@ class Player {
         }
     }
 
+    flipFacing()
+    {
+        this.facing = (this.facing == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+    }
+
     climb()
     {
-        this.currentTexture = this.climbTexture;
+        // when player y center ( = their y position) exceeds the top of the climbable object (y position - height),
+        // use stand texture instead...
+        var showClimbAnimation:boolean = this.rigidSprite.body.getPosition()[1] > this.climbableObject.getTopPosition();
+        if (showClimbAnimation) {
+            this.currentTexture = this.climbTexture;
+        } else {
+            this.currentTexture = this.standTexture;
+        }
         // make the player kinematic so they can't fall
         //this.rigidSprite.body.setAsKinematic();
         // calculate the movement direction
@@ -340,10 +352,12 @@ class Player {
         if (this.game.keyboard.keyPressed("LEFT"))
         {
             dir[0] -= 1;
+            this.facing = Direction.LEFT;
         }
         if (this.game.keyboard.keyPressed("RIGHT"))
         {
             dir[0] += 1;
+            this.facing = Direction.RIGHT;
         }
         if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
         {
@@ -352,6 +366,13 @@ class Player {
         if (this.game.keyboard.keyPressed("DOWN") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
         {
             dir[1] += 1;
+        }
+
+        if (dir[1] == 0 )
+        {
+            this.currentTexture.pause();
+        } else {
+            this.currentTexture.play();
         }
 
 //        var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
@@ -447,12 +468,13 @@ class Player {
                 this.goDown();
             }
 
-            if (this.onGround)
+            if ((this.onGround && (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED)))
             {
-                if ((Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED))
-                {
-                    this.currentTexture = this.standTexture;
-                }
+                this.currentTexture = this.standTexture;
+            }
+            if (!this.onGround)
+            {
+                this.currentTexture = this.jumpTexture;
             }
         }
 

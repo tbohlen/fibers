@@ -57,6 +57,6 @@ class ToolYarnBall extends RigidSprite
             this.sprite.setWidth(size+1); // for some reason adding the one makes it work
             this.sprite.setHeight(size+1);
         }
-        super.draw(draw2D, offset);
+        super.draw(draw2d, offset);
     }
 }

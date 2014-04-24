@@ -324,6 +324,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         return this.shape;
     }
 
+    getTopPosition():number
+    {
+        return this.body.getPosition()[1] - this.sprite.getHeight();
+    }
+
     draw(draw2D:Draw2D, offset:number[]) {
         /*
         if (this.game.debugMode){
