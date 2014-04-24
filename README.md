@@ -122,13 +122,17 @@ properties must be included:
 * (optional) rotation:<<number in radians>> (defaults to 0)
 * (optional) isBuildable:<<true or false>> (defaults to false)
 * (optional) isClimbable:<<true or false>> (defaults to false)
+* (optional) isPullable::<<true or false>> (defaults to false)
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
 * (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool>>
+* (optional) growSurface:<<left, right, top, or bottom>> (defaults to top)
 
 Spawn points can be added very simply. Just place a 1 tile x 1 tile (not strictly necessary,
 but makes it easier to visualize where the player is going to appear) object in the location
 you would like the player to spawn and set its type to "Spawn". That's it!
 
+ToolYarnBall should have "ToolYarnBall" as their type
+* toolKey:number which corresponds to which tool it should map to
 
 # Making Menu UI
 ---Button---

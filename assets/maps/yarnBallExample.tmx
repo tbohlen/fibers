@@ -1,60 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="14" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="28" height="14" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
  <tileset firstgid="129" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
- <layer name="background" width="32" height="14">
+ <layer name="background" width="28" height="14">
   <data encoding="base64" compression="zlib">
-   eJzt06cBgDAABdGsFsBQDMVQDMVQDMVQhuem4CMinrgBzhpjPPgIYD/uEBFiJIJOkSFHIegSFWo0gm7Roccg6BETZiyCXrFhxyHoExduPIL++nf3v/v/T/+/bLOfYQ==
+   eJztzScSgEAQRNG92gKGYAiGYAiGYAiGcHi+nMKPgKKrnviqrTHGgQsPVqGf/r/3/vkIECJSailGghSZUks5CpSolFqq0aBFp9RSjwEjJqWWZixYsSm1tOPAiUuppa/vBr2vb4E=
   </data>
  </layer>
- <layer name="ground" width="32" height="14">
+ <layer name="ground" width="28" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2B4AZMBtl9ngO3XpFCvFhBrMxDnD3T1MD4+eWSMDgyB2AiIjRkGJh5J9T+1Ab39jyv+aMlHxuj+pQcfGQMA6YkRUQ==
+   eJxjYBgFo4C+wITO9unQ2T5NEtVqAbE2A3HuRFcP4+OTR8aGQGwExMYM9IkHUv1HKRho/9GCjy/+aMFHxgADmw/d
   </data>
  </layer>
- <layer name="knitting" width="32" height="14">
+ <layer name="knitting" width="28" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDEbASyU1o2DwA9aBdsAIBQBkrAAg
+   eJxjYBgFo2AUYAOWRKjhpbkrRsEoGDgAANdkAEc=
   </data>
  </layer>
- <objectgroup name="ground" width="32" height="14">
-  <object type="Platform" x="1540" y="517" width="504" height="55">
+ <objectgroup name="ground" width="28" height="14">
+  <object type="Platform" x="1284" y="517" width="504" height="55">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="259" y="516" width="249" height="375">
+  <object type="Platform" x="3" y="516" width="249" height="375">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="512" y="771" width="1532" height="122">
+  <object type="Platform" x="256" y="771" width="1532" height="122">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1026" y="516" width="379" height="55">
+  <object type="Platform" x="770" y="516" width="379" height="55">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1345" y="321" width="60" height="188">
-   <properties>
-    <property name="rigidBody" value="static"/>
-   </properties>
-  </object>
-  <object type="Platform" x="1" y="771" width="253" height="121">
+  <object type="Platform" x="1089" y="321" width="60" height="188">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="knitting needle" width="32" height="14">
-  <object name="start knit" type="Tool" x="451" y="451" width="57" height="57">
+ <objectgroup name="knitting needle" width="28" height="14">
+  <object name="start knit" type="Tool" x="195" y="451" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -64,49 +59,47 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="90"/>
-    <property name="width" value="0.5"/>
+    <property name="toolKey" value="1"/>
+    <property name="width" value="1"/>
    </properties>
   </object>
-  <object name="door crochet" type="Tool" x="1027" y="451" width="60" height="57">
+  <object name="door crochet" type="Tool" x="771" y="451" width="60" height="57">
    <properties>
     <property name="prebuilt" value="true"/>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Tool" x="130" y="708" width="60" height="58">
+  <object name="yarn ball1" type="ToolYarnBall" x="198" y="342" width="55" height="55">
    <properties>
-    <property name="initHeight" value="0"/>
-    <property name="isBuildable" value="true"/>
-    <property name="isClimbable" value="true"/>
-    <property name="isSolid" value="false"/>
-    <property name="maxHeight" value="4"/>
-    <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="false"/>
-    <property name="rotation" value="0"/>
-    <property name="width" value="0.5"/>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="yarn ball2" type="ToolYarnBall" x="766" y="358" width="58" height="51">
+   <properties>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="checkpoints" width="32" height="14">
-  <object name="start" type="Checkpoint" x="356" y="432" width="63" height="79">
+ <objectgroup name="checkpoints" width="28" height="14">
+  <object name="start" type="Checkpoint" x="100" y="432" width="63" height="79">
    <properties>
     <property name="checkpointName" value="start"/>
    </properties>
   </object>
-  <object name="other side" type="Checkpoint" x="1033" y="453" width="48" height="54">
+  <object name="other side" type="Checkpoint" x="777" y="453" width="48" height="54">
    <properties>
     <property name="checkpointName" value="ground"/>
    </properties>
   </object>
-  <object name="Spawn" type="Spawn" x="21" y="546" width="64" height="64"/>
+  <object name="Spawn" type="Spawn" x="22" y="438" width="64" height="64"/>
  </objectgroup>
- <layer name="door" width="32" height="14">
+ <layer name="door" width="28" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGHgAABwAAAQ==
+   eJxjYBgFo2AUjIJRMAowAQAGIAAB
   </data>
  </layer>
- <objectgroup name="door" width="32" height="14">
-  <object name="door" type="Rectangle" x="1024" y="574" width="62" height="193">
+ <objectgroup name="door" width="28" height="14">
+  <object name="door" type="Rectangle" x="768" y="574" width="62" height="193">
    <properties>
     <property name="initHeight" value="3"/>
     <property name="isBuildable" value="true"/>
@@ -119,13 +112,13 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="climeable surface" width="32" height="14">
+ <layer name="climeable surface" width="28" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALqAk4g5hlA+wWBWGQA7ZcEYpkBtF8RiFUG0P6hAgA0rwC1
+   eJxjYBgFo2AUDHXACcQ8dLRPEIhF6GifJBDL0NE+RSBWoaN9gxUAABFvALU=
   </data>
  </layer>
- <objectgroup name="climable" width="32" height="14">
-  <object name="climable" type="Rectangle" x="1412" y="518" width="118" height="245">
+ <objectgroup name="climable" width="28" height="14">
+  <object name="climable" type="Rectangle" x="1156" y="518" width="118" height="245">
    <properties>
     <property name="initHeight" value="4"/>
     <property name="isBuildable" value="false"/>

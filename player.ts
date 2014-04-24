@@ -12,7 +12,7 @@
 // and each sheet has a corresponding cycle time.
 
 class Player {
-    SPEED = 0.1;
+    SPEED = 0.2;
     JUMP_SPEED = 0.5;
     DIST_EPSILON = 0.05;
     CLIMB_SPEED = 2;
@@ -32,9 +32,14 @@ class Player {
 
     facing:Direction = Direction.RIGHT;
 
+    // pulling
+    isPulling:boolean = false;
+    pulledObject:Rectangle = null;
+
     standTexture:AnimatedTexture = new AnimatedTexture("assets/player/stand.png", [256, 256], 3, true);
     walkTexture:AnimatedTexture = new AnimatedTexture("assets/player/walk.png", [256, 256], 8, true);
     jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 7, false);
+    climbTexture:AnimatedTexture = new AnimatedTexture("assets/player/climb.png", [256, 256], 6, true);
     currentTexture:AnimatedTexture = null;
 
     frameDimensions:number[] = [256, 256];
@@ -44,6 +49,12 @@ class Player {
     lastClimbPosition:number[] = null;
 
     playerDimensions:number[] = [128, 128];
+    playerHitBox:number[][] = [
+        [-20, -52],
+        [20, -52],
+        [20, 64],
+        [-20, 64]
+    ];
 
     keys:any;
     collisionUtil:Physics2DCollisionUtils;
@@ -56,6 +67,7 @@ class Player {
         this.standTexture.loadTexture(graphicsDevice);
         this.walkTexture.loadTexture(graphicsDevice);
         this.jumpTexture.loadTexture(graphicsDevice);
+        this.climbTexture.loadTexture(graphicsDevice);
         this.currentTexture = this.standTexture;
     }
 
@@ -73,11 +85,11 @@ class Player {
             color: [1.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-playerParams.width/4, -playerParams.height/2,
-                                                                                   playerParams.width/4, playerParams.height/2);
+//        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-this.playerHitBox[0]/2, -this.playerHitBox[1]/2,
+//                this.playerHitBox[0]/2, this.playerHitBox[1]/2);
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
-            vertices: playerVertices,
+            vertices: this.playerHitBox,
             group: ShapeGroups.PLAYER,
             mask: ObjectMasks.SOLID
         });
@@ -112,6 +124,7 @@ class Player {
 
         // set up jumping for the player
         this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
+
     }
 
     // sets the texture used to display the character. If no texture is null, displays a white box
@@ -139,16 +152,15 @@ class Player {
         if (normal[1] > 0 && normal[1] > normal[0])
         {
             this.onGround = true;
-            console.log("Setting onGround to true");
             this.groundShape = otherShape;
         }
 
         // also need to check if this stopped us from moving left or right in the air
-        if (!this.onGround && !this.isClimbing && normal[0] > 0)
+        if (normal[0] > 0)
         {
             this.rightBlockingShape = otherShape;
         }
-        else if (!this.onGround && !this.isClimbing && normal[0] > 0)
+        else if (normal[0] < 0)
         {
             this.leftBlockingShape = otherShape;
         }
@@ -191,23 +203,59 @@ class Player {
         this.rigidSprite.body.setVelocity([0, vel[1]]);
     }
 
+    pull(rect:Rectangle)
+    {
+        if (!this.pulledObject) {
+            this.pulledObject = rect;
+            this.isPulling = true;
+            rect.isBeingPulled = true;
+            this.walkTexture.reverse();
+            console.log("PULLING!");
+        }
+    }
+
+    release(rect:Rectangle)
+    {
+        if (this.isPulling) {
+            rect.isBeingPulled = false;
+            this.isPulling = false;
+            this.pulledObject = null;
+            this.walkTexture.reverse();
+            console.log("RELEASED!");
+        }
+    }
+
     walkLeft()
     {
         // we should only be allowed to walk if we are on the ground.
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
-        this.facing = Direction.LEFT;
-        console.log("Walk");
-        this.currentTexture = this.walkTexture;
+        var newVel:number[] = [-1*this.SPEED, vel[1]];
+        this.rigidSprite.body.setVelocity(newVel);
+        if (this.isPulling) {
+            this.facing = Direction.RIGHT;
+        } else {
+            this.facing = Direction.LEFT;
+        }
+        if (this.onGround)
+        {
+            this.currentTexture = this.walkTexture;
+        }
     }
 
     walkRight()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
-        this.facing = Direction.RIGHT;
-        console.log("Walk");
-        this.currentTexture = this.walkTexture;
+        var newVel:number[] = [this.SPEED, vel[1]];
+        this.rigidSprite.body.setVelocity(newVel);
+        if (this.isPulling) {
+            this.facing = Direction.LEFT;
+        } else {
+            this.facing = Direction.RIGHT;
+        }
+        if (this.onGround)
+        {
+            this.currentTexture = this.walkTexture;
+        }
     }
 
     goDown()
@@ -236,6 +284,7 @@ class Player {
         this.isClimbing = false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        this.currentTexture = this.jumpTexture;
     }
 
     stillOnGround():boolean
@@ -247,33 +296,43 @@ class Player {
         var witB:number[] = [];
         var axis:number[] = [];
         if (this.groundShape != null && this.onGround) {
-            return this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.groundShape);
+            // for them still to be on the ground they have to be intersecting with it AND the axis between
+            // the ground and them must be at a 45 degree angle or higher (otherwise they are "slipping")
+            var dist:number = this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0], this.groundShape, witA, witB, axis);
+            return (axis[1] > 0 && axis[1] > axis[0] && dist < this.DIST_EPSILON);
         }
         return false;
     }
 
     canMoveLeft():boolean
     {
-        // one can move left if they are on the ground or if they are in the air and not blocked from moving
-        var canMove:boolean = this.onGround || (this.leftBlockingShape == null);
-        if (this.leftBlockingShape != null) {
-            canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
+        // one can move left if they are on the ground or if they are climbing or if there is no shape blocking them
+        if (this.onGround || this.isClimbing || this.leftBlockingShape == null || this.leftBlockingShape.body == null)
+        {
+            return true;
         }
-        return canMove;
+        else
+        {
+            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
+        }
     }
 
     canMoveRight():boolean
     {
-        // one can move left if they are on the ground or if they are in the air and not blocked from moving
-        var canMove:boolean = this.onGround || (this.rightBlockingShape == null);
-        if (this.rightBlockingShape != null) {
-            canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+        // one can move right if they are on the ground or if they are climbing or if there is no shape blocking them
+        if (this.onGround || this.isClimbing || this.rightBlockingShape == null || this.rightBlockingShape.body == null)
+        {
+            return true;
         }
-        return canMove;
+        else
+        {
+            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+        }
     }
 
     climb()
     {
+        this.currentTexture = this.climbTexture;
         // make the player kinematic so they can't fall
         //this.rigidSprite.body.setAsKinematic();
         // calculate the movement direction
@@ -342,9 +401,6 @@ class Player {
 
         // double check that we are on the ground
         var newOnGround:boolean = this.stillOnGround();
-        if (newOnGround != this.onGround) {
-            console.log("Switching onGround to " + newOnGround);
-        }
         this.onGround = newOnGround;
 
         // reset back to last checkpoint when R is pressed
@@ -356,26 +412,30 @@ class Player {
             }
         }
 
-        // to be allowed to jump you either have to be climbing or have to be on the ground
-        if (this.game.keyboard.keyPressed("SPACE") && (this.isClimbing || this.stillOnGround())) {
-            this.rigidSprite.body.setAsDynamic();
-            this.jumpUp();
-        }
-        // if we didn't jump and instead are climbing, move around
-        else if (this.isClimbing) {
-            this.climb();
+        if (!this.game.keyboard.keyPressed("E") && this.pulledObject != null)
+        {
+            this.release(this.pulledObject);
         }
 
-        // if we are not climbing (but we can be jumping) then move
-        if (!this.isClimbing)
+        // to be allowed to jump you either have to be climbing or have to be on the ground
+        if (this.game.keyboard.keyPressed("SPACE") && (this.isClimbing || this.onGround))
+        {
+            this.rigidSprite.body.setAsDynamic();
+            console.log("JUMPING!");
+            this.jumpUp();
+        } else if (this.isClimbing)
+        {
+            // if we didn't jump and instead are climbing, move around
+            this.climb();
+        } else if (!this.isClimbing)
         {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
-            if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft())
+            if (this.game.keyboard.keyPressed("LEFT"))
             {
                 this.walkLeft();
             }
-            if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight())
+            if (this.game.keyboard.keyPressed("RIGHT"))
             {
                 this.walkRight();
             }
@@ -387,15 +447,14 @@ class Player {
             {
                 this.goDown();
             }
-        }
 
-        if (!this.onGround)
-        {
-            this.currentTexture = this.jumpTexture;
-        }
-        else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED)
-        {
-            this.currentTexture = this.standTexture;
+            if (this.onGround)
+            {
+                if ((Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED))
+                {
+                    this.currentTexture = this.standTexture;
+                }
+            }
         }
 
         // force the player to not fall due to gravity if they are climbing
@@ -412,6 +471,10 @@ class Player {
         }
         this.canClimb = false;
         this.canBuild = false;
+
+        if (this.isPulling && this.rigidSprite.body){
+            this.pulledObject.body.setVelocity(this.rigidSprite.body.getVelocity());
+        }
 
         if (oldTexture != this.currentTexture)
         {

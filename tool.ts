@@ -1,6 +1,7 @@
 /// <reverence path="player.ts"/>
 /// <reference path="rigidSprite.ts"/>
 /// <reference path="interfaces.ts"/>
+/// <reference path="toolYarnBall"/>
 /// <reference path="tileset.ts"/>
 /// <reference path="rectangle.ts"/>
 /// <reference path="InpDevWrapper.ts"/>
@@ -23,6 +24,7 @@ class Tool extends RigidSprite implements Interactable
 
     game:GameObject;
     buildable:Buildable;
+    toolYarnBall:ToolYarnBall;
 
     constructor (options:ToolOptions, game:GameObject)
     {
@@ -35,6 +37,15 @@ class Tool extends RigidSprite implements Interactable
         else
         {
             this.buildable = null;
+        }
+
+        if (options.hasOwnProperty("toolYarnBall") && options.toolYarnBall != null)
+        {
+            this.toolYarnBall = options.toolYarnBall;
+        }
+        else
+        {
+            this.toolYarnBall = null;
         }
 
         // make sure the mask is set so that this does not interact with anything
@@ -129,7 +140,8 @@ class Tool extends RigidSprite implements Interactable
                 rotation: rotation,
                 isBuildable : (obj.properties.isBuildable == "true"),
                 isClimbable : (obj.properties.isClimbable == "true"),
-                isSolid : (obj.properties.isSolid == "true")
+                isSolid : (obj.properties.isSolid == "true"),
+                isPullable : (obj.properties.isPullable == "true")
             };
 
             if (obj.gid)
@@ -177,6 +189,12 @@ class Tool extends RigidSprite implements Interactable
                 this.buildable.buildDown();
             }
         }
+    }
+
+    setToolYarnBall(toolYarnBall:ToolYarnBall)
+    {
+        this.toolYarnBall = toolYarnBall;
+        this.toolYarnBall.setBuildable(this.buildable);
     }
 
     draw(draw2D:Draw2D, offset:number[]) {

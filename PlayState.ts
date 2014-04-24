@@ -12,7 +12,7 @@ class PlayState implements TurbGameState
     player:Player;
     physicsDebug:Physics2DDebugDraw;
     mapSize:number[] = [Infinity, Infinity];
-    constructor(game:GameObject, jsonMap:string = "tutorial")
+    constructor(game:GameObject, jsonMap:string = "dynamicTest")
     {
         console.log("passed map is " + jsonMap);
         this.game = game;

@@ -39,6 +39,11 @@ interface RigidSpriteOptions
     body ?: Physics2DRigidBody;
 }
 
+interface ToolYarnBallOptions extends RigidSpriteOptions
+{
+    maxDimension : number;
+}
+
 interface RectangleOptions extends RigidSpriteOptions
 {
     initHeight : number;
@@ -48,13 +53,16 @@ interface RectangleOptions extends RigidSpriteOptions
     rotation: number;
     isBuildable : boolean;
     isClimbable : boolean;
+    isPullable: boolean;
     isSolid : boolean; // if true indicates that this object should intersect with others.
     bodyType ?: string; // specifies static, kinematic or dynamic
+    growSurface ?: string; // specified which side of the object should grow
 }
 
 interface ToolOptions extends RigidSpriteOptions
 {
     buildable ?: Buildable;
+    toolYarnBall ?: ToolYarnBall;
 }
 
 interface ChainOptions extends RigidSpriteOptions
@@ -96,6 +104,11 @@ interface Buildable {
      * The object implementing this interface needs to react accordingly.
      */
     buildDown():void;
+    /**
+     * This method should return a number between 0 and 1 indicating what percentage of
+     * yarn has been used by this object.
+     */
+    ratioYarnUsed():number;
 }
 
 

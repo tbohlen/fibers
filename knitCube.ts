@@ -93,6 +93,11 @@ class KnitCube extends RigidSprite implements Buildable
         return kc;
     }
 
+    ratioYarnUsed():number
+    {
+        return this.currentDimension/this.maxDimension;
+    }
+
     public buildUp():void
     {
         if (this.currentDimension + this.GROW_SPEED < this.maxDimension) {

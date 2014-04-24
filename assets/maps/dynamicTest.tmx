@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="100" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="fibers" tilewidth="64" tileheight="64">
-  <image source="../tiles/tiles.png" width="256" height="1024"/>
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
  <layer name="background" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztx7URA0EUBcFLRczMrPyj0stA31mvu2qM6XVd10+DNEy9P09bozROkzQtPG3N0jwt0rLwtLVK67RJ28LT1i7t0yEdC09bp3ROl3QtPG3d0j090rPwtPVK7/RJ38IDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAD8ALGnEjE=
+   eJztxycSQlEUBcG/NYIhGIIhGIIhGIIhLJ6zA655rrtqxPS6ruunQRqm3p+nrVEap0maFp62ZmmeFmlZeNpapXXapG3haWuX9umQjoWnrVM6p0u6Fp62bumeHulZeNp6pXf6pG/hAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAfnnLI3E=
   </data>
  </layer>
  <layer name="ground" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztzskNgDAAA8Fwn/3Xi9NAvgExI638dSkA3zakMU1p7vwFgPdZ0pq2xtb2Xgd/5khnuhpbu3sdBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAeAB/aADH
+   eJztzjkOgDAAA8FwNBwNx//fivOBtAExI63cuhSAbxvSmKY0d/4CwPssaU1bY2t7r4M/c6QzXY2t3b0OAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAPN0uAUs=
   </data>
  </layer>
  <objectgroup name="platforms" width="100" height="100">
@@ -27,7 +27,7 @@
  </objectgroup>
  <layer name="needle" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJztzjENAAAIA7Apwb9MNOwgPK2CJgAAXJrvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJUF0Z8AHw==
+   eJztzjENAAAIA7Dpwr8wNOwgPK2CJgAAXJrvAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAJUF4U8AOw==
   </data>
  </layer>
  <objectgroup name="chain" width="100" height="100">
@@ -42,25 +42,12 @@
   </object>
  </objectgroup>
  <objectgroup name="rectangle" width="100" height="100">
-  <object name="Rectangle" type="Rectangle" gid="31" x="128" y="192" width="64" height="64">
+  <object name="Rectangle" type="Rectangle" gid="57" x="192" y="192" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
     <property name="mass" value="10"/>
-   </properties>
-  </object>
-  <object name="dynamic cube" type="Rectangle" x="391" y="388" width="68" height="58">
-   <properties>
-    <property name="bodyType" value="dynamic"/>
-    <property name="initHeight" value="1"/>
-    <property name="isBuildable" value="true"/>
-    <property name="isClimbable" value="false"/>
-    <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="1"/>
-    <property name="minHeight" value="1"/>
-    <property name="rigidBody" value="dynamic"/>
-    <property name="rotation" value="0"/>
-    <property name="width" value="1"/>
    </properties>
   </object>
  </objectgroup>
