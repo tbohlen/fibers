@@ -400,8 +400,7 @@ class Player {
         this.rigidSprite.body.setRotation(0);
 
         // double check that we are on the ground
-        var newOnGround:boolean = this.stillOnGround();
-        this.onGround = newOnGround;
+        this.onGround = this.stillOnGround();
 
         // reset back to last checkpoint when R is pressed
         if (this.game.keyboard.keyPressed("R"))
@@ -431,11 +430,11 @@ class Player {
         {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
-            if (this.game.keyboard.keyPressed("LEFT"))
+            if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft())
             {
                 this.walkLeft();
             }
-            if (this.game.keyboard.keyPressed("RIGHT"))
+            if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight())
             {
                 this.walkRight();
             }
