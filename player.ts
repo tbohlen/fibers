@@ -226,11 +226,9 @@ class Player {
         this.rigidSprite.body.setVelocity(newVel);
         if (this.isPulling) {
             this.facing = Direction.RIGHT;
-            this.pulledObject.body.setVelocity(newVel);
         } else {
             this.facing = Direction.LEFT;
         }
-
         if (this.onGround)
         {
             this.currentTexture = this.walkTexture;
@@ -244,7 +242,6 @@ class Player {
         this.rigidSprite.body.setVelocity(newVel);
         if (this.isPulling) {
             this.facing = Direction.LEFT;
-            this.pulledObject.body.setVelocity(newVel);
         } else {
             this.facing = Direction.RIGHT;
         }
@@ -427,11 +424,11 @@ class Player {
         {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
-            if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft())
+            if (this.game.keyboard.keyPressed("LEFT"))
             {
                 this.walkLeft();
             }
-            if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight())
+            if (this.game.keyboard.keyPressed("RIGHT"))
             {
                 this.walkRight();
             }
@@ -467,6 +464,10 @@ class Player {
         }
         this.canClimb = false;
         this.canBuild = false;
+
+        if (this.isPulling && this.rigidSprite.body){
+            this.pulledObject.body.setVelocity(this.rigidSprite.body.getVelocity());
+        }
 
         if (oldTexture != this.currentTexture)
         {
