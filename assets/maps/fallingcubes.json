@@ -96,7 +96,7 @@
                      "isBuildable":"true",
                      "isClimbable":"false",
                      "isSolid":"true",
-                     "maxHeight":"17",
+                     "maxHeight":"8",
                      "minHeight":"0",
                      "rotation":"90",
                      "toolKey":"0",
@@ -141,7 +141,7 @@
                      "initHeight":"0",
                      "isBuildable":"true",
                      "isClimbable":"true",
-                     "isSolid":"true",
+                     "isSolid":"false",
                      "maxHeight":"8",
                      "minHeight":"0",
                      "prebuilt":"false",
@@ -221,7 +221,9 @@
                  "properties":
                     {
                      "bodyType":"dynamic",
-                     "isSolid":"true"
+                     "isPullable":"true",
+                     "isSolid":"true",
+                     "mass":"10"
                     },
                  "type":"Rectangle",
                  "visible":true,
@@ -235,7 +237,9 @@
                  "properties":
                     {
                      "bodyType":"dynamic",
-                     "isSolid":"true"
+                     "isPullable":"true",
+                     "isSolid":"true",
+                     "mass":"10"
                     },
                  "type":"Rectangle",
                  "visible":true,
@@ -249,7 +253,9 @@
                  "properties":
                     {
                      "bodyType":"dynamic",
-                     "isSolid":"true"
+                     "isPullable":"true",
+                     "isSolid":"true",
+                     "mass":"10"
                     },
                  "type":"Rectangle",
                  "visible":true,
