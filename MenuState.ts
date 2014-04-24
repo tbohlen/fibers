@@ -2,14 +2,16 @@
  * Created by martelly on 4/13/2014.
  */
 
+/// <reference path="interfaces.ts"/>
 
-class MenuState implements TurbGameState
+class MenuState extends TurbGameState
 {
     game:GameObject;
     returnState:TurbGameState;
     tileset:Tileset;
     constructor(game:GameObject, jsonMap:String, returnState:TurbGameState = null)
     {
+        super(game);
         this.game = game;
         this.returnState = returnState;
         this.tileset = new Tileset(jsonMap+".json", game);
