@@ -354,6 +354,13 @@ class Player {
             dir[1] += 1;
         }
 
+        if (dir[1] == 0 )
+        {
+            this.currentTexture.pause();
+        } else {
+            this.currentTexture.play();
+        }
+
 //        var vectorDir:any = this.mathDevice.v2Build(dir[0], dir[1]);
 //        var normalizedDir:any = this.mathDevice.v2Normalize(vectorDir);
 
