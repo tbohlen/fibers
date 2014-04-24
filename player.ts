@@ -39,6 +39,7 @@ class Player {
     standTexture:AnimatedTexture = new AnimatedTexture("assets/player/stand.png", [256, 256], 3, true);
     walkTexture:AnimatedTexture = new AnimatedTexture("assets/player/walk.png", [256, 256], 8, true);
     jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 7, false);
+    climbTexture:AnimatedTexture = new AnimatedTexture("assets/player/climb.png", [256, 256], 6, true);
     currentTexture:AnimatedTexture = null;
 
     frameDimensions:number[] = [256, 256];
@@ -60,6 +61,7 @@ class Player {
         this.standTexture.loadTexture(graphicsDevice);
         this.walkTexture.loadTexture(graphicsDevice);
         this.jumpTexture.loadTexture(graphicsDevice);
+        this.climbTexture.loadTexture(graphicsDevice);
         this.currentTexture = this.standTexture;
     }
 
@@ -200,6 +202,7 @@ class Player {
         if (!this.pulledObject) {
             this.pulledObject = rect;
             this.isPulling = true;
+            rect.isBeingPulled = true;
             this.walkTexture.reverse();
             console.log("PULLING!");
         }
@@ -208,6 +211,7 @@ class Player {
     release(rect:Rectangle)
     {
         if (this.isPulling) {
+            rect.isBeingPulled = false;
             this.isPulling = false;
             this.pulledObject = null;
             this.walkTexture.reverse();
@@ -325,6 +329,7 @@ class Player {
 
     climb()
     {
+        this.currentTexture = this.climbTexture;
         // make the player kinematic so they can't fall
         //this.rigidSprite.body.setAsKinematic();
         // calculate the movement direction
@@ -402,6 +407,11 @@ class Player {
             if (resetPosition != null) {
                 this.rigidSprite.body.setPosition(resetPosition);
             }
+        }
+
+        if (!this.game.keyboard.keyPressed("E") && this.pulledObject != null)
+        {
+            this.release(this.pulledObject);
         }
 
         // to be allowed to jump you either have to be climbing or have to be on the ground

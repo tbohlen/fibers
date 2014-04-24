@@ -45,6 +45,7 @@
   <object name="Rectangle" type="Rectangle" gid="57" x="192" y="192" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
     <property name="mass" value="10"/>
    </properties>

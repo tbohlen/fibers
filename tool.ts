@@ -130,6 +130,7 @@ class Tool extends RigidSprite implements Interactable
                 isBuildable : (obj.properties.isBuildable == "true"),
                 isClimbable : (obj.properties.isClimbable == "true"),
                 isSolid : (obj.properties.isSolid == "true"),
+                isPullable : (obj.properties.isPullable == "true")
             };
 
             if (obj.gid)
