@@ -48,6 +48,7 @@ interface RectangleOptions extends RigidSpriteOptions
     rotation: number;
     isBuildable : boolean;
     isClimbable : boolean;
+    isPullable: boolean;
     isSolid : boolean; // if true indicates that this object should intersect with others.
     bodyType ?: string; // specifies static, kinematic or dynamic
     growSurface ?: string; // specified which side of the object should grow

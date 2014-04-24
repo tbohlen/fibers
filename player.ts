@@ -199,6 +199,7 @@ class Player {
         if (!this.pulledObject) {
             this.pulledObject = rect;
             this.isPulling = true;
+            rect.isBeingPulled = true;
             this.walkTexture.reverse();
             console.log("PULLING!");
         }
@@ -207,6 +208,7 @@ class Player {
     release(rect:Rectangle)
     {
         if (this.isPulling) {
+            rect.isBeingPulled = false;
             this.isPulling = false;
             this.pulledObject = null;
             this.walkTexture.reverse();
@@ -401,6 +403,11 @@ class Player {
             if (resetPosition != null) {
                 this.rigidSprite.body.setPosition(resetPosition);
             }
+        }
+
+        if (!this.game.keyboard.keyPressed("E") && this.pulledObject != null)
+        {
+            this.release(this.pulledObject);
         }
 
         // to be allowed to jump you either have to be climbing or have to be on the ground

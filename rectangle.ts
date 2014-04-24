@@ -35,6 +35,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     //dragging
     isBeingPulled:boolean = false;
+    isPullable:boolean = false;
 
     // Climbable interface
     isClimbable:boolean;
@@ -57,6 +58,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             this.growSurface = "top";
         }
+
+        this.isPullable = options.isPullable;
 
         this.game = game;
 
@@ -104,6 +107,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         var isSolid:boolean = (obj.properties.isSolid == "true");
         var isBuildable:boolean = (obj.properties.isBuildable == "true");
         var isClimbable:boolean = (obj.properties.isClimbable == "true");
+        var isPullable:boolean = (obj.properties.isPullable == "true");
         var growSurface:string = (obj.properties.hasOwnProperty("growSurface")) ? obj.properties.growSurface : "top";
         var mask:number = isSolid ? (isClimbable ? ObjectMasks.PLAYEREMPTY : ObjectMasks.SOLID) : ObjectMasks.EMPTY;
 
@@ -112,6 +116,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             staticFriction : 0.3,
             dynamicFriction : 0.2
         });
+
         var vertices:number[][] = game.physicsDevice.createRectangleVertices(-obj.width/2, 0, obj.width/2, 1);
         var shape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: vertices,
@@ -148,6 +153,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             isBuildable : isBuildable,
             isClimbable : isClimbable,
             isSolid : isSolid,
+            isPullable: isPullable,
             bodyType: obj.properties.bodyType,
             growSurface: growSurface
         };
@@ -291,14 +297,15 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     playerCollideCallback(player:Player):void
     {
         //handle pulling and releasing...
-        if (this.game.keyboard.keyPressed("E") && !this.isBeingPulled &&
-            ((this.game.keyboard.keyPressed("LEFT") &&  this.body.getPosition()[0] > player.getPosition()[0]) ||
-             (this.game.keyboard.keyPressed("RIGHT") && this.body.getPosition()[0] < player.getPosition()[0]))) {
-            this.isBeingPulled = true;
-            player.pull(this);
-        } else if (this.isBeingPulled) {
-            this.isBeingPulled = false;
-            player.release(this);
+        if (this.isPullable)
+        {
+            if (this.game.keyboard.keyPressed("E") && !this.isBeingPulled &&
+                ((this.game.keyboard.keyPressed("LEFT") &&  this.body.getPosition()[0] > player.getPosition()[0]) ||
+                 (this.game.keyboard.keyPressed("RIGHT") && this.body.getPosition()[0] < player.getPosition()[0]))) {
+                player.pull(this);
+            } else if (this.isBeingPulled) {
+                player.release(this);
+            }
         }
     }
 

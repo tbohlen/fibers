@@ -109,6 +109,7 @@
                  "properties":
                     {
                      "bodyType":"dynamic",
+                     "isPullable":"true",
                      "isSolid":"true",
                      "mass":"10"
                     },

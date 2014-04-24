@@ -122,6 +122,7 @@ properties must be included:
 * (optional) rotation:<<number in radians>> (defaults to 0)
 * (optional) isBuildable:<<true or false>> (defaults to false)
 * (optional) isClimbable:<<true or false>> (defaults to false)
+* (optional) isPullable::<<true or false>> (defaults to false)
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
 * (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool>>
 * (optional) growSurface:<<left, right, top, or bottom>> (defaults to top)
