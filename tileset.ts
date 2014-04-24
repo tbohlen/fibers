@@ -7,6 +7,7 @@
 /// <reference path="knitCube.ts"/>
 /// <reference path="chain.ts"/>
 /// <reference path="tool.ts"/>
+/// <reference path="toolYarnBall.ts"/>
 /// <reference path="rectangle.ts"/>
 /// <reference path="checkpoint.ts"/>
 /// <reference path="spawn.ts"/>
@@ -58,6 +59,7 @@ class Tileset {
     ranLoadMap:boolean = false;
 
     buildables:any = {};
+    toolYarnBalls:any = {};
     tools:any = {};
 
     // XXX: Don't modify!!
@@ -177,6 +179,10 @@ class Tileset {
                     console.log("Adding tool");
                     this.tools[obj.properties.toolKey] = rigidSprite;
                 }
+                else if (obj.type == "ToolYarnBall" && obj.properties.hasOwnProperty("toolKey"))
+                {
+                    this.toolYarnBalls[obj.properties.toolKey] = rigidSprite;
+                }
                 else if (obj.properties.hasOwnProperty("toolKey"))
                 {
                     this.buildables[obj.properties.toolKey] = rigidSprite;
@@ -253,6 +259,12 @@ class Tileset {
                 console.log("Found match for key: " + key);
                 (<Tool>this.tools[key]).buildable = this.buildables[key];
             }
+            if (this.toolYarnBalls.hasOwnProperty(key))
+            {
+                console.log("found match for key");
+                (<Tool>this.tools[key]).setToolYarnBall(this.toolYarnBalls[key]);
+            }
+
         }
 
         this.ranLoadMap = true;

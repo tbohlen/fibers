@@ -196,6 +196,11 @@ class Chain extends RigidSprite implements Buildable, Climbable
         }
     }
 
+    ratioYarnUsed():number
+    {
+        return this.currentHeight/this.maxHeight;
+    }
+
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape: Physics2DShape):boolean
     {
         return collisionUtil.intersects(this.getClimbableShape(), shape);

@@ -39,6 +39,11 @@ interface RigidSpriteOptions
     body ?: Physics2DRigidBody;
 }
 
+interface ToolYarnBallOptions extends RigidSpriteOptions
+{
+    maxDimension : number;
+}
+
 interface RectangleOptions extends RigidSpriteOptions
 {
     initHeight : number;
@@ -57,6 +62,7 @@ interface RectangleOptions extends RigidSpriteOptions
 interface ToolOptions extends RigidSpriteOptions
 {
     buildable ?: Buildable;
+    toolYarnBall ?: ToolYarnBall;
 }
 
 interface ChainOptions extends RigidSpriteOptions
@@ -98,6 +104,11 @@ interface Buildable {
      * The object implementing this interface needs to react accordingly.
      */
     buildDown():void;
+    /**
+     * This method should return a number between 0 and 1 indicating what percentage of
+     * yarn has been used by this object.
+     */
+    ratioYarnUsed():number;
 }
 
 

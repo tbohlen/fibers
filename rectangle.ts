@@ -218,6 +218,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         }
     }
 
+    ratioYarnUsed():number
+    {
+        return this.currentSize/this.maxSize;
+    }
+
     /*
      * Method: buildShape
      * Builds a new shape that is the size specified and replaces the old body shape with the new one.
