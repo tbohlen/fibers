@@ -48,23 +48,19 @@ class AnimatedTexture {
 
     updateCurrentFrame()
     {
+        var finalFrame:number = this.isReversed ? 0 : (this.frameCount - 1);
+        var firstFrame:number = this.isReversed ? (this.frameCount - 1) : 0;
         if (!this.isPaused) {
             if (this.didLoop && this.isLooping == false) {
-                this.currentFrame = 0;
+                this.currentFrame = finalFrame;
             } else {
-                if (this.isReversed) {
-                    if (this.currentFrame == 0) {
-                        this.didLoop = true;
-                    }
-                    this.currentFrame = (this.currentFrame - 1);
-                    if (this.currentFrame < 0) {
+                if (this.currentFrame == finalFrame) {
+                    this.didLoop = true;
+                }
+                this.currentFrame = this.isReversed ? (this.currentFrame - 1) : (this.currentFrame + 1) % this.frameCount;
+
+                if (this.isReversed && this.currentFrame < 0) {
                         this.currentFrame = this.frameCount - 1;
-                    }
-                } else {
-                    if (this.currentFrame == (this.frameCount - 1)) {
-                        this.didLoop = true;
-                    }
-                    this.currentFrame = (this.currentFrame + 1) % this.frameCount;
                 }
             }
         }

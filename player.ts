@@ -284,7 +284,7 @@ class Player {
         this.isClimbing = false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
-        this.currentTexture = this.jumpTexture;
+        this.currentTexture.play();
     }
 
     stillOnGround():boolean
@@ -454,12 +454,13 @@ class Player {
                 this.goDown();
             }
 
-            if (this.onGround)
+            if ((this.onGround && (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED)))
             {
-                if ((Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED))
-                {
-                    this.currentTexture = this.standTexture;
-                }
+                this.currentTexture = this.standTexture;
+            }
+            if (!this.onGround)
+            {
+                this.currentTexture = this.jumpTexture;
             }
         }
 
