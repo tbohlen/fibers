@@ -12,7 +12,7 @@
 // and each sheet has a corresponding cycle time.
 
 class Player {
-    SPEED = 0.1;
+    SPEED = 0.2;
     JUMP_SPEED = 0.5;
     DIST_EPSILON = 0.05;
     CLIMB_SPEED = 2;
@@ -116,6 +116,7 @@ class Player {
 
         // set up jumping for the player
         this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
+
     }
 
     // sets the texture used to display the character. If no texture is null, displays a white box
