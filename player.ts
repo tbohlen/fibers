@@ -139,16 +139,15 @@ class Player {
         if (normal[1] > 0 && normal[1] > normal[0])
         {
             this.onGround = true;
-            console.log("Setting onGround to true");
             this.groundShape = otherShape;
         }
 
         // also need to check if this stopped us from moving left or right in the air
-        if (!this.onGround && !this.isClimbing && normal[0] > 0)
+        if (normal[0] > 0)
         {
             this.rightBlockingShape = otherShape;
         }
-        else if (!this.onGround && !this.isClimbing && normal[0] > 0)
+        else if (normal[0] < 0)
         {
             this.leftBlockingShape = otherShape;
         }
@@ -197,7 +196,6 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
         this.facing = Direction.LEFT;
-        console.log("Walk");
         this.currentTexture = this.walkTexture;
     }
 
@@ -206,7 +204,6 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
         this.facing = Direction.RIGHT;
-        console.log("Walk");
         this.currentTexture = this.walkTexture;
     }
 
@@ -247,29 +244,38 @@ class Player {
         var witB:number[] = [];
         var axis:number[] = [];
         if (this.groundShape != null && this.onGround) {
-            return this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.groundShape);
+            // for them still to be on the ground they have to be intersecting with it AND the axis between
+            // the ground and them must be at a 45 degree angle or higher (otherwise they are "slipping")
+            var dist:number = this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0], this.groundShape, witA, witB, axis);
+            return (axis[1] > 0 && axis[1] > axis[0] && dist < this.DIST_EPSILON);
         }
         return false;
     }
 
     canMoveLeft():boolean
     {
-        // one can move left if they are on the ground or if they are in the air and not blocked from moving
-        var canMove:boolean = this.onGround || (this.leftBlockingShape == null);
-        if (this.leftBlockingShape != null) {
-            canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
+        // one can move left if they are on the ground or if they are climbing or if there is no shape blocking them
+        if (this.onGround || this.isClimbing || this.leftBlockingShape == null || this.leftBlockingShape.body == null)
+        {
+            return true;
         }
-        return canMove;
+        else
+        {
+            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
+        }
     }
 
     canMoveRight():boolean
     {
-        // one can move left if they are on the ground or if they are in the air and not blocked from moving
-        var canMove:boolean = this.onGround || (this.rightBlockingShape == null);
-        if (this.rightBlockingShape != null) {
-            canMove = canMove || !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+        // one can move right if they are on the ground or if they are climbing or if there is no shape blocking them
+        if (this.onGround || this.isClimbing || this.rightBlockingShape == null || this.rightBlockingShape.body == null)
+        {
+            return true;
         }
-        return canMove;
+        else
+        {
+            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+        }
     }
 
     climb()
@@ -342,9 +348,6 @@ class Player {
 
         // double check that we are on the ground
         var newOnGround:boolean = this.stillOnGround();
-        if (newOnGround != this.onGround) {
-            console.log("Switching onGround to " + newOnGround);
-        }
         this.onGround = newOnGround;
 
         // reset back to last checkpoint when R is pressed

@@ -129,7 +129,7 @@ class Tool extends RigidSprite implements Interactable
                 rotation: rotation,
                 isBuildable : (obj.properties.isBuildable == "true"),
                 isClimbable : (obj.properties.isClimbable == "true"),
-                isSolid : (obj.properties.isSolid == "true")
+                isSolid : (obj.properties.isSolid == "true"),
             };
 
             if (obj.gid)

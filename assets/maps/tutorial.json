@@ -186,8 +186,8 @@
                  "y":453
                 }, 
                 {
-                 "height":64,
-                 "name":"Spawn",
+                 "height":26,
+                 "name":"spawn",
                  "properties":
                     {
 

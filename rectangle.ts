@@ -20,13 +20,15 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static debugColorSolid:number[] = [1.0, 0.0, 0.0, 1.0];
     GROW_SPEED:number = 2;
 
-    maxHeight:number;
-    minHeight:number;
+    maxSize:number;
+    minSize:number;
     width:number;
-    currentHeight:number;
+    height:number;
+    currentSize:number;
     rotation:number;
     material:Physics2DMaterial;
     mask:number;
+    growSurface:string = "top";
 
     // Buildable interface
     isBuildable:boolean;
@@ -43,11 +45,25 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         super(options);
 
+        // grow surface selection
+        this.growSurface = options.growSurface;
+        if (this.growSurface != "top"
+            && this.growSurface != "bottom"
+            && this.growSurface != "left"
+            && this.growSurface != "right")
+        {
+            this.growSurface = "top";
+        }
+
         this.game = game;
-        this.maxHeight = options.maxHeight;
-        this.minHeight = options.minHeight;
+
+        this.maxSize = options.maxHeight;
+        this.minSize = options.minHeight;
+        this.currentSize = options.initHeight;
+
         this.width = options.width;
-        this.currentHeight = options.initHeight;
+        this.height = options.initHeight;
+
         this.rotation = options.rotation;
 
         this.isBuildable = options.isBuildable;
@@ -58,14 +74,13 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
         // whenever the height is 0, this should not be interactable
         // if the height is greater than 0 it should
-        if (this.currentHeight == 0)
+        if (this.currentSize == 0)
         {
             this.game.physicsWorld.removeRigidBody(this.body);
         }
-        else
-        {
-            this.buildShape(this.currentHeight);
-        }
+
+
+        this.buildShape(this.currentSize);
 
         this.shape = this.body.shapes[0];
         this.material = this.shape.getMaterial();
@@ -86,6 +101,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         var isSolid:boolean = (obj.properties.isSolid == "true");
         var isBuildable:boolean = (obj.properties.isBuildable == "true");
         var isClimbable:boolean = (obj.properties.isClimbable == "true");
+        var growSurface:string = (obj.properties.hasOwnProperty("growSurface")) ? obj.properties.growSurface : "top";
         var mask:number = isSolid ? (isClimbable ? ObjectMasks.PLAYEREMPTY : ObjectMasks.SOLID) : ObjectMasks.EMPTY;
 
         var material:Physics2DMaterial = game.physicsDevice.createMaterial({
@@ -108,7 +124,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         });
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
-            height: initHeight, // XXX: hack to make sure we don't get errors from 0 width objects
+            height: initHeight == 0 ? initHeight + 1 : initHeight, // XXX: hack to make sure we don't get errors from 0 width objects
             origin : [obj.width/2, 0],
             color: Rectangle.debugColorClimbable
         });
@@ -129,7 +145,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             isBuildable : isBuildable,
             isClimbable : isClimbable,
             isSolid : isSolid,
-            bodyType: obj.properties.bodyType
+            bodyType: obj.properties.bodyType,
+            growSurface: growSurface
         };
 
         var newRectangle:Rectangle = new Rectangle(rectOptions, game);
@@ -145,23 +162,23 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     buildUp()
     {
         // first check that we are below our maximum size
-        if(this.currentHeight < this.maxHeight) {
+        if(this.currentSize < this.maxSize) {
             // if so, find the next height that we should grow to, limiting by the maximum height
-            var nextHeight = this.currentHeight + this.GROW_SPEED;
-            if (nextHeight > this.maxHeight)
+            var nextSize = this.currentSize + this.GROW_SPEED;
+            if (nextSize > this.maxSize)
             {
-                nextHeight = this.maxHeight;
+                nextSize = this.maxSize;
             }
 
             // whenever the height is 0, this should not be interactable
             // if the height is greater than 0 it should
-            var appeared:boolean = this.currentHeight == 0 && nextHeight > 0;
+            var appeared:boolean = this.currentSize == 0 && nextSize > 0;
             if (appeared)
             {
                 this.game.physicsWorld.addRigidBody(this.body);
             }
 
-            this.buildShape(nextHeight);
+            this.buildShape(nextSize);
         }
     }
 
@@ -172,23 +189,23 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     buildDown()
     {
         // first check that we are above our minimum size
-        if(this.currentHeight > this.minHeight) {
+        if(this.currentSize > this.minSize) {
             // if so, find the next height that we should shrink to, limiting by the minimum height
-            var nextHeight = this.currentHeight - this.GROW_SPEED;
-            if (nextHeight < this.minHeight)
+            var nextSize = this.currentSize - this.GROW_SPEED;
+            if (nextSize < this.minSize)
             {
-                nextHeight = this.minHeight;
+                nextSize = this.minSize;
             }
 
             // whenever the height is 0, this should not be interactable
             // if the height is greater than 0 it should
-            var disappeared:boolean = this.currentHeight > 0 && nextHeight == 0;
+            var disappeared:boolean = this.currentSize > 0 && nextSize == 0;
             if (disappeared)
             {
                 this.game.physicsWorld.removeRigidBody(this.body);
             }
 
-            this.buildShape(nextHeight);
+            this.buildShape(nextSize);
         }
     }
 
@@ -198,18 +215,64 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
      */
     buildShape(height:number)
     {
-        this.currentHeight = height;
+        this.currentSize = height;
         // build a new shape that is the correct size and replace the old shape with this new one
-        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(-this.width/2, 0, this.width/2, height);
+        if (height == 0) { height++;} // XXX: hack to make sure we don't get errors from 0 width rectangles
+        var left:number = 0;
+        var right:number = 0;
+        var top:number = 0;
+        var bottom:number = 0;
+        var origin:number[] = [];
+
+        switch (this.growSurface)
+        {
+            case "top":
+                left = -this.width/2;
+                right = this.width/2;
+                top = this.currentSize;
+                bottom = 0;
+                origin = [this.width/2, 0];
+                break;
+            case "left":
+                left = -this.width/2;
+                right = -this.width/2 + this.currentSize;
+                top = this.height;
+                bottom = 0;
+                origin = [(this.width/2), 0];
+                break;
+            case "bottom":
+                left = -this.width/2;
+                right = this.width/2;
+                top = this.height;
+                bottom = -this.currentSize + this.height;
+                origin = [this.width/2, this.currentSize - this.height];
+                break;
+            case "right":
+                left = this.width/2 - this.currentSize;
+                right = this.width/2;
+                top = this.height;
+                bottom = 0;
+                origin = [this.currentSize - (this.width/2), 0];
+                break;
+        }
+
+        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(left, top, right, bottom);
         var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
             vertices: vertices,
             material: this.material,
             group: ShapeGroups.OVERLAPPABLES,
             mask: this.mask
         });
-        this.body.removeShape(this.body.shapes[0]);
+        if (this.body.shapes[0]) {
+            this.body.removeShape(this.body.shapes[0]);
+        }
         this.body.addShape(shape);
         this.shape = shape;
+
+        // change the sprite to match
+        this.sprite.setHeight(top-bottom);
+        this.sprite.setWidth(right-left);
+        this.sprite.setOrigin(origin);
     }
 
     /*
@@ -257,9 +320,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.sprite.setColor(Rectangle.debugColorSolid);
         }
 
-        if (this.currentHeight > 0) {
-            this.sprite.setHeight(this.currentHeight);
-            this.sprite.setWidth(this.width);
+        if (this.currentSize > 0) {
             super.draw(draw2D, offset);
         }
     }

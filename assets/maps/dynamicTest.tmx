@@ -56,5 +56,19 @@
     <property name="mass" value="10"/>
    </properties>
   </object>
+  <object name="dynamic cube" type="Rectangle" x="391" y="388" width="68" height="58">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="initHeight" value="1"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="1"/>
+    <property name="minHeight" value="1"/>
+    <property name="rigidBody" value="dynamic"/>
+    <property name="rotation" value="0"/>
+    <property name="width" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

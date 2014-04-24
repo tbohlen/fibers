@@ -10,7 +10,7 @@
 
 class Button extends RigidSprite
 {
-    public static debugColor:number[] = [0.8, .3, 1.0, 1.0];
+    public static debugColor:number[] = [0.8, .3, 1.0, 0.2];
     game:GameObject;
 
     constructor(options:RigidSpriteOptions, game:GameObject)
@@ -82,7 +82,7 @@ class Button extends RigidSprite
 
     draw(draw2D:Draw2D, offset:number[])
     {
-        this.sprite.setColor(Platform.debugColor);
+        this.sprite.setColor(Button.debugColor);
         super.draw(draw2D, offset);
     }
 
