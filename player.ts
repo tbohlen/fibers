@@ -32,6 +32,10 @@ class Player {
 
     facing:Direction = Direction.RIGHT;
 
+    // pulling
+    isPulling:boolean = false;
+    pulledObject:Rectangle = null;
+
     standTexture:AnimatedTexture = new AnimatedTexture("assets/player/stand.png", [256, 256], 3, true);
     walkTexture:AnimatedTexture = new AnimatedTexture("assets/player/walk.png", [256, 256], 8, true);
     jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 7, false);
@@ -190,21 +194,60 @@ class Player {
         this.rigidSprite.body.setVelocity([0, vel[1]]);
     }
 
+    pull(rect:Rectangle)
+    {
+        if (!this.pulledObject) {
+            this.pulledObject = rect;
+            this.isPulling = true;
+            this.walkTexture.reverse();
+            console.log("PULLING!");
+        }
+    }
+
+    release(rect:Rectangle)
+    {
+        if (this.isPulling) {
+            this.isPulling = false;
+            this.pulledObject = null;
+            this.walkTexture.reverse();
+            console.log("RELEASED!");
+        }
+    }
+
     walkLeft()
     {
         // we should only be allowed to walk if we are on the ground.
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([-1*this.SPEED, vel[1]]);
-        this.facing = Direction.LEFT;
-        this.currentTexture = this.walkTexture;
+        var newVel:number[] = [-1*this.SPEED, vel[1]];
+        this.rigidSprite.body.setVelocity(newVel);
+        if (this.isPulling) {
+            this.facing = Direction.RIGHT;
+            this.pulledObject.body.setVelocity(newVel);
+        } else {
+            this.facing = Direction.LEFT;
+        }
+
+        if (this.onGround)
+        {
+            this.currentTexture = this.walkTexture;
+        }
     }
 
     walkRight()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([this.SPEED, vel[1]]);
-        this.facing = Direction.RIGHT;
-        this.currentTexture = this.walkTexture;
+        var newVel:number[] = [this.SPEED, vel[1]];
+        this.rigidSprite.body.setVelocity(newVel);
+        if (this.isPulling) {
+            this.facing = Direction.LEFT;
+            this.pulledObject.body.setVelocity(newVel);
+        } else {
+            this.facing = Direction.RIGHT;
+        }
+        if (this.onGround)
+        {
+            this.currentTexture = this.walkTexture;
+        }
     }
 
     goDown()
@@ -233,6 +276,7 @@ class Player {
         this.isClimbing = false;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        this.currentTexture = this.jumpTexture;
     }
 
     stillOnGround():boolean
@@ -360,17 +404,16 @@ class Player {
         }
 
         // to be allowed to jump you either have to be climbing or have to be on the ground
-        if (this.game.keyboard.keyPressed("SPACE") && (this.isClimbing || this.stillOnGround())) {
+        if (this.game.keyboard.keyPressed("SPACE") && (this.isClimbing || this.onGround))
+        {
             this.rigidSprite.body.setAsDynamic();
+            console.log("JUMPING!");
             this.jumpUp();
-        }
-        // if we didn't jump and instead are climbing, move around
-        else if (this.isClimbing) {
+        } else if (this.isClimbing)
+        {
+            // if we didn't jump and instead are climbing, move around
             this.climb();
-        }
-
-        // if we are not climbing (but we can be jumping) then move
-        if (!this.isClimbing)
+        } else if (!this.isClimbing)
         {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
@@ -390,15 +433,14 @@ class Player {
             {
                 this.goDown();
             }
-        }
 
-        if (!this.onGround)
-        {
-            this.currentTexture = this.jumpTexture;
-        }
-        else if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED)
-        {
-            this.currentTexture = this.standTexture;
+            if (this.onGround)
+            {
+                if ((Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED))
+                {
+                    this.currentTexture = this.standTexture;
+                }
+            }
         }
 
         // force the player to not fall due to gravity if they are climbing

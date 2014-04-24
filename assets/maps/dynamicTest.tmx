@@ -42,32 +42,11 @@
   </object>
  </objectgroup>
  <objectgroup name="rectangle" width="100" height="100">
-  <object name="Rectangle" type="Rectangle" gid="59" x="128" y="192" width="64" height="64">
-   <properties>
-    <property name="bodyType" value="dynamic"/>
-    <property name="isSolid" value="true"/>
-    <property name="mass" value="10"/>
-   </properties>
-  </object>
   <object name="Rectangle" type="Rectangle" gid="57" x="192" y="192" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isSolid" value="true"/>
     <property name="mass" value="10"/>
-   </properties>
-  </object>
-  <object name="dynamic cube" type="Rectangle" x="391" y="388" width="68" height="58">
-   <properties>
-    <property name="bodyType" value="dynamic"/>
-    <property name="initHeight" value="1"/>
-    <property name="isBuildable" value="true"/>
-    <property name="isClimbable" value="false"/>
-    <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="1"/>
-    <property name="minHeight" value="1"/>
-    <property name="rigidBody" value="dynamic"/>
-    <property name="rotation" value="0"/>
-    <property name="width" value="1"/>
    </properties>
   </object>
  </objectgroup>

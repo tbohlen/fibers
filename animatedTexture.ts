@@ -9,6 +9,7 @@ class AnimatedTexture {
     texture:Texture;
     currentFrame:number = 0;
     didLoop:boolean = false;
+    isReversed:boolean = false;
 
     loadTexture(graphicsDevice:GraphicsDevice)
     {
@@ -28,22 +29,38 @@ class AnimatedTexture {
     constructor(public textureFile:string, public frameDimensions:number[], public frameCount:number, public isLooping:boolean)
     {}
 
+    reverse()
+    {
+        this.isReversed = !this.isReversed;
+        this.resetLoop();
+    }
+
     updateCurrentFrame()
     {
         if (this.didLoop && this.isLooping == false)
         {
             this.currentFrame = 0;
         } else {
-            if (this.currentFrame == this.frameCount - 1) {
-                this.didLoop = true;
+            if (this.isReversed) {
+                if (this.currentFrame == 0) {
+                    this.didLoop = true;
+                }
+                this.currentFrame = (this.currentFrame - 1);
+                if (this.currentFrame < 0) {
+                    this.currentFrame = this.frameCount - 1;
+                }
+            } else {
+                if (this.currentFrame == (this.frameCount - 1)) {
+                    this.didLoop = true;
+                }
+                this.currentFrame = (this.currentFrame + 1) % this.frameCount;
             }
-            this.currentFrame = (this.currentFrame + 1) % this.frameCount;
         }
     }
 
     resetLoop()
     {
-        this.currentFrame = 0;
+        this.currentFrame = this.isReversed ? (this.frameCount - 1) : 0;
         this.didLoop = false;
     }
 

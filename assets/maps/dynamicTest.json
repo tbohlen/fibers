@@ -103,22 +103,6 @@
          "name":"rectangle",
          "objects":[
                 {
-                 "gid":59,
-                 "height":64,
-                 "name":"Rectangle",
-                 "properties":
-                    {
-                     "bodyType":"dynamic",
-                     "isSolid":"true",
-                     "mass":"10"
-                    },
-                 "type":"Rectangle",
-                 "visible":true,
-                 "width":64,
-                 "x":128,
-                 "y":192
-                }, 
-                {
                  "gid":57,
                  "height":64,
                  "name":"Rectangle",

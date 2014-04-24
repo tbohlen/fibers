@@ -33,6 +33,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     // Buildable interface
     isBuildable:boolean;
 
+    //dragging
+    isBeingPulled:boolean = false;
+
     // Climbable interface
     isClimbable:boolean;
     shape:Physics2DShape;
@@ -287,7 +290,16 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     playerCollideCallback(player:Player):void
     {
-        // does nothing
+        //handle pulling and releasing...
+        if (this.game.keyboard.keyPressed("E") && !this.isBeingPulled &&
+            ((this.game.keyboard.keyPressed("LEFT") &&  this.body.getPosition()[0] > player.getPosition()[0]) ||
+             (this.game.keyboard.keyPressed("RIGHT") && this.body.getPosition()[0] < player.getPosition()[0]))) {
+            this.isBeingPulled = true;
+            player.pull(this);
+        } else if (this.isBeingPulled) {
+            this.isBeingPulled = false;
+            player.release(this);
+        }
     }
 
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape:Physics2DShape):boolean
