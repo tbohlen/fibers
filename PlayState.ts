@@ -101,7 +101,7 @@ class PlayState extends TurbGameState
         if (this.game.graphicsDevice.beginFrame())
         {
             // check for debug mode change
-            if (this.game.keyboard.keyPressed("M")) {
+            if (this.game.keyboard.justPressed("M")) {
                 this.game.debugMode = !this.game.debugMode;
             }
             if (this.game.keyboard.justPressed("P"))
