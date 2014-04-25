@@ -13,8 +13,6 @@
 /// <reference path="spawn.ts"/>
 /// <reference path="uiClasses.ts"/>
 
-var BASE_MAP_URL:string = "assets/maps/";
-
 // @TODO: Add support for multiple layers
 // later, multiple tilesets
 // do something clever with transparent color to blend:
@@ -40,6 +38,7 @@ var BASE_MAP_URL:string = "assets/maps/";
 
 class Tileset {
 
+    public static BASE_MAP_URL:string = "assets/maps/";
     mapTexture:any;
     mapData:any;
 
@@ -103,7 +102,7 @@ class Tileset {
                 this.tileSet = tileSet;
 
                 // setup texture
-                var textureURL = BASE_MAP_URL + tileSet.image;
+                var textureURL = Tileset.BASE_MAP_URL + tileSet.image;
 
                 this.game.graphicsDevice.createTexture({
                     src: textureURL,
@@ -123,7 +122,7 @@ class Tileset {
             dynamicFriction: 0
         });
 
-        this.game.engine.request(BASE_MAP_URL + mapFilename,
+        this.game.engine.request(Tileset.BASE_MAP_URL + mapFilename,
             this.mapLoadedCallback);
     }
 

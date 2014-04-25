@@ -16,6 +16,7 @@
 /// <reference path="mixins.ts"/>
 /// <reference path="chain.ts"/>
 /// <reference path="PlayState.ts"/>
+/// <reference path="progression.ts"/>
 /// <reference path="MenuState.ts"/>
 /// <reference path="InpDevWrapper.ts"/>
 /// <reference path="masks.ts"/>
@@ -90,9 +91,11 @@ var game:GameObject = {
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
+    progression : new Progression(TurbulenzEngine, "testProgression"),
     debugMode : false,
     nextState : null
 };
+game.progression.setGameObject(game);
 
 var currentState:TurbGameState = new MenuState(game, "mainMenu");
 

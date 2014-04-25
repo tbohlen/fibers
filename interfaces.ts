@@ -29,6 +29,12 @@ interface InteractablesObject {
     climbables : Climbable[];
 }
 
+interface ProgressEntry {
+    stateType : string;
+    map : string;
+    nextName : string;
+}
+
 interface GameObject {
     engine : TurbulenzEngine;
     mathDevice : MathDevice;
@@ -39,6 +45,7 @@ interface GameObject {
     physicsDevice : Physics2DDevice;
     physicsWorld : Physics2DWorld;
     collisionHelp: CollisionHelper;
+    progression : Progression;
     checkpointManager : CheckpointManager;
     debugMode : boolean;
     nextState : TurbGameState;

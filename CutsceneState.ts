@@ -1,20 +1,21 @@
 /**
- * Created by martelly on 4/13/2014.
+ * Created by martelly on 4/24/2014.
  */
 
-/// <reference path="interfaces.ts"/>
-
-class MenuState extends TurbGameState
+/**
+ * Basically exactly the same as the menu state except that the button "A" advances
+ * the scene
+ */
+class CutsceneState extends TurbGameState
 {
     game:GameObject;
-    returnState:TurbGameState;
     tileset:Tileset;
-    public static bgColor:number[] = [0, 0, 0.0, 1.0];
-    constructor(game:GameObject, jsonMap:String, returnState:TurbGameState = null)
+    public static bgColor:number[] = [0.3, 0.4, 0.0, 1.0];
+    constructor(game:GameObject, jsonMap:String)
     {
         super(game);
+        console.log(jsonMap);
         this.game = game;
-        this.returnState = returnState;
         this.tileset = new Tileset(jsonMap+".json", game);
         var viewport:number[] = [];
         this.game.draw2D.getViewport(viewport);
@@ -24,11 +25,11 @@ class MenuState extends TurbGameState
     {
         if (this.game.graphicsDevice.beginFrame())
         {
-            this.game.graphicsDevice.clear(MenuState.bgColor, 1.0);
+            this.game.graphicsDevice.clear(CutsceneState.bgColor, 1.0);
             this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
-            if (this.game.keyboard.justPressed("P"))
+            if (this.game.keyboard.justPressed("A"))
             {
-                this.game.nextState = this.returnState == null ? this.game.progression.getNextState() : this.returnState;
+                this.game.nextState = this.game.progression.getNextState();
             }
             if (this.tileset.isLoaded())
             {

@@ -11,8 +11,7 @@
  <objectgroup name="buttons" width="20" height="12">
   <object name="playButton" type="Button" x="720" y="539" width="156" height="52">
    <properties>
-    <property name="nextState" value="PlayState"/>
-    <property name="stateArgs" value="tutorial"/>
+    <property name="progress" value="current"/>
    </properties>
   </object>
   <object name="instrucButton" type="Button" x="722" y="607" width="153" height="42"/>

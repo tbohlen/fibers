@@ -1,0 +1,23 @@
+{
+  "start": {
+      "stateType" : "CutsceneState",
+      "map" : "testcutscene1",
+      "nextName" : "cut1"
+    },
+  "cut1": {
+      "stateType" : "CutsceneState",
+      "map" : "testcutscene2",
+      "nextName" : "cut2"
+    },
+  "cut2": {
+      "stateType" : "CutsceneState",
+      "map" : "testcutscene3",
+      "nextName" : "firstLev"
+    },
+
+  "firstLev": {
+    "stateType" : "PlayState",
+    "map" : "dynamicTest",
+    "nextName" : ""
+  }
+}
