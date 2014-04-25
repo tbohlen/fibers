@@ -110,8 +110,12 @@ tool the following:
 * toolKey:<<the same value you gave the rectangle>>
 
 Checkpoints must have "Checkpoint" as their type and the following Name:Value pairs in the object properties:
-* checkpointName:<<some identifying string>>
-* press R to go to the last checkpoint that you passed 
+* "checkpointName":<<some identifying string>>
+* press R to go to the last checkpoint that you passed
+* Optional: "progress": "start"|"next"|"current"
+    * "start" will go back to the very first thing in the progression
+    * "next" will go to the next thing in the progression
+    * "current" will restart the current state
 
 Rectangles must have "Rectangle" as their type. Rectangles can be climbable or
 not, and buildable or not. Additional options will be added soon. The following

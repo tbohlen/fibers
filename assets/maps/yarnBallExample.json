@@ -224,6 +224,19 @@
                  "width":64,
                  "x":22,
                  "y":438
+                }, 
+                {
+                 "height":176,
+                 "name":"end",
+                 "properties":
+                    {
+                     "progress":"next"
+                    },
+                 "type":"Checkpoint",
+                 "visible":true,
+                 "width":86,
+                 "x":1460,
+                 "y":337
                 }],
          "opacity":1,
          "type":"objectgroup",

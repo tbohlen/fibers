@@ -17,7 +17,7 @@
 
   "firstLev": {
     "stateType" : "PlayState",
-    "map" : "tutorial",
+    "map" : "yarnBallExample",
     "nextName" : "secondLev"
   },
 

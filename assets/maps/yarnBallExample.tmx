@@ -92,6 +92,11 @@
    </properties>
   </object>
   <object name="Spawn" type="Spawn" x="22" y="438" width="64" height="64"/>
+  <object name="end" type="Checkpoint" x="1460" y="337" width="86" height="176">
+   <properties>
+    <property name="progress" value="next"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="door" width="28" height="14">
   <data encoding="base64" compression="zlib">
