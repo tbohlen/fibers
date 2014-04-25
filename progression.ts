@@ -74,6 +74,7 @@ class Progression
 
     getNextState()
     {
+        console.log("let's progress to the next state");
         var nextName = this.currentEntry["nextName"];
         if (!(nextName in this.entries))
         {
