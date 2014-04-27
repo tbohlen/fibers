@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="20" height="16" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="menuScreenPow2" tilewidth="64" tileheight="64">
   <image source="../menuScreenPow2.png" trans="adb2b9" width="1024" height="1024"/>
  </tileset>
- <layer name="Tile Layer 1" width="20" height="12">
+ <tileset firstgid="257" name="title" tilewidth="64" tileheight="64">
+  <image source="../title.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJydzLczH3Acx+HfXRjCRKJmInomPZj0NmkRTHqb9DbpbYpeJl3wR3pGnHPf8757ls997hWJvN7TJ3y0l39fiCL6zf0rMcQG9uKI5xvfSSCRJJJJIZUfgb000vlJBplkkU0OueTxK7CXTwGFFFFMCaX8poxyKgJ7lVRRTQ211FFPA4000RzYa6GVNtrp4A+d/KWLbnoCe7300c8AgwwxzAijjDEe2JtgkimmmWGWOeZZYJGlwN4yK6yyxjobbLLFNjvsBvb+scc+BxxyxDEnnHLGeWDvgkuuuOaGW+645z8PPL7TewbFj0Nv
+   eJxNz1WQEFQAQNHdpZQSRBrpkgZpkE7pRlLaAARpEJSUbqS7EaVUuqQ7DJCUUgmDUFHyMLMzvI8z9/tGRkZERBEZ3RjEJBaxicMLvEhc4hGfBCTkJRIFTczLQZPwCklJRnJSkJJUpCYNr5KWdKQPmoGMQTORmSxkJRvZeY0c5CQXuclDXvIFzR/9+qwFeJ2CFKIwRShKMYpTgpK8QSlKUyZoWcoFLU8FKlKJylShKm9SjerUoCa1qB20DnWD1qM+DWhIIxrzFk1oSjOa04KWvB20Fa2DtqEt7WhPB97hXd7jfTrSic58QJegXfkwaDe604Oe9KI3fehLPz6iPwP4mE+CDmRQ0MEMYSjD+JThjGAkoxjNGMYyjvFBJzAx6CQmM4XPmMo0pjODmcxiNnOYy7yg81kQdCGLWMwSlrKM5azgc1byBV+yitVB17A26Dq+4mu+YT0b2MgmNrOFrWxjOzuC7uTboLvYzR72so/9HOAghzjMEY5yjONBT3Ay6Hd8zw/8yClO8xNnOMs5znOBi/wc9BKXg17hKtf4hV/5jevc4Ca3+J0/+JO/gt7mTtC73ONv/uFf7vMf//OAhzziMU+IiHrep8zjn7I=
   </data>
  </layer>
- <objectgroup name="buttons" width="20" height="12">
-  <object name="playButton" type="Button" x="720" y="539" width="156" height="52">
+ <objectgroup name="buttons" width="20" height="16">
+  <object name="playButton" type="Button" x="461" y="469" width="115" height="90">
    <properties>
     <property name="progress" value="current"/>
    </properties>
   </object>
-  <object name="instrucButton" type="Button" x="722" y="607" width="153" height="42"/>
-  <object name="creditsButton" type="Button" x="723" y="661" width="151" height="36"/>
+  <object name="instrucButton" type="Button" x="384" y="571" width="192" height="48"/>
+  <object name="creditsButton" type="Button" x="458" y="634" width="115" height="48"/>
  </objectgroup>
 </map>
