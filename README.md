@@ -110,8 +110,12 @@ tool the following:
 * toolKey:<<the same value you gave the rectangle>>
 
 Checkpoints must have "Checkpoint" as their type and the following Name:Value pairs in the object properties:
-* checkpointName:<<some identifying string>>
-* press R to go to the last checkpoint that you passed 
+* "checkpointName":<<some identifying string>>
+* press R to go to the last checkpoint that you passed
+* Optional: "progress": "start"|"next"|"current"
+    * "start" will go back to the very first thing in the progression
+    * "next" will go to the next thing in the progression
+    * "current" will restart the current state
 
 Rectangles must have "Rectangle" as their type. Rectangles can be climbable or
 not, and buildable or not. Additional options will be added soon. The following
@@ -137,6 +141,21 @@ ToolYarnBall should have "ToolYarnBall" as their type
 # Making Menu UI
 ---Button---
 1. Make rectangle object
-2. "Type" should be button
-3. Under properties, make sure you assign "nextState" to a type of state: either "MenuState" or "PlayState"
-4. Optionally (highly suggested) you can assign "stateArgs" and put the name of the next Tiled map to load i.e. "mainMenu"
+2. "Type" should be Button
+Options 1: Under properties, make sure you assign "nextState" to a type of state: either "MenuState" or "PlayState"
+    Optionally (highly suggested) you can assign "stateArgs" and put the name of the next Tiled map to load i.e. "mainMenu"
+Options 2: Under properties, assign "progress" to "start", "current", or "next"
+    "start" --> Start from the start state in the progression json
+    "current" --> remake the current state
+    "next" --> Go to the next state in the progression
+
+# Setting a progression
+- Progression file is in json format. (Look at testProgression for an example)
+- First level of json will be names that are completely up to you. However, there must be at least one name called
+    "start". This will be the start state of the progression.
+- Assigned to each of these names will be a dictionary with the following mappings
+    - "stateType" --> the type of state that should be used (e.g. MenuState or PlayState)
+    - "map" --> the filename of the map to be loaded (e.g. mainMenu, dynamicTest. Don't include the .json extension)
+    - "nextName" --> the name of the state to be moved on to next. The name should be one that is in the top level of
+        the json
+

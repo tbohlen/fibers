@@ -62,11 +62,28 @@ class Button extends RigidSprite
                 if (obj.properties.hasOwnProperty("stateArgs"))
                 {
                     game.nextState = new window[obj.properties.nextState](game, obj.properties.stateArgs)
-                }else
+                } else
                 {
                     game.nextState = new window[obj.properties.nextState](game);
                 }
             }
+        } else if (obj.properties.hasOwnProperty("progress"))
+        {
+            callback = function()
+            {
+                if (obj.properties.progress == "start")
+                {
+                    game.nextState = game.progression.resetToStartState();
+                } else if (obj.properties.progress == "next")
+                {
+                    game.nextState = game.progression.getNextState();
+                } else if (obj.properties.progress == "current")
+                {
+                    game.nextState = game.progression.getNewCurrentState();
+                } else {
+                    console.log("button behavior undefined for a progress");
+                }
+            };
         }
         // add event listener
         game.keyboard.addEventListener("mouseup",
