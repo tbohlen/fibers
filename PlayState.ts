@@ -3,6 +3,7 @@
  */
 /// <reference path="interfaces.ts"/>
 /// <reference path="MenuState.ts"/>
+/// <reference path="HUD.ts"/>
 
 class PlayState extends TurbGameState
 {
@@ -10,6 +11,7 @@ class PlayState extends TurbGameState
     defaultTileSet:string;
     tileset:Tileset;
     player:Player;
+    hud:HUD;
     physicsDebug:Physics2DDebugDraw;
     mapSize:number[] = [Infinity, Infinity];
     constructor(game:GameObject, jsonMap:string = "dynamicTest")
@@ -27,6 +29,8 @@ class PlayState extends TurbGameState
         // build the player
         this.player = new Player(game, [70, 0]);
         game.collisionHelp.setPlayer(this.player);
+        // make the HUD
+        this.hud = new HUD(game);
         // make the debug physics device
         this.physicsDebug = Physics2DDebugDraw.create({
             graphicsDevice: this.game.graphicsDevice
@@ -101,7 +105,7 @@ class PlayState extends TurbGameState
         if (this.game.graphicsDevice.beginFrame())
         {
             // check for debug mode change
-            if (this.game.keyboard.keyPressed("M")) {
+            if (this.game.keyboard.justPressed("M")) {
                 this.game.debugMode = !this.game.debugMode;
             }
             if (this.game.keyboard.justPressed("P"))
@@ -140,6 +144,9 @@ class PlayState extends TurbGameState
                 this.loadMapIfNecessary();
                 this.tileset.draw(draw2D, offset);
             }
+
+            // draw the HUD to the screen
+            this.hud.draw(draw2D, offset);
 
             // draw the player to the screen
             this.player.draw(draw2D, offset);

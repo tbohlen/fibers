@@ -169,7 +169,7 @@ class Tileset {
                     continue;
                 }
                 var rigidSprite = window[obj.type].constructFromTiled(obj, this, this.game);
-                console.log("Created object of type: " + obj.type);
+                //console.log("Created object of type: " + obj.type);
 
                 if (rigidSprite != null)
                 {
@@ -179,7 +179,7 @@ class Tileset {
                 // testing so that we can map up rectangles and tiles
                 if (obj.type == "Tool" && obj.properties.hasOwnProperty("toolKey"))
                 {
-                    console.log("Adding tool");
+                    //console.log("Adding tool");
                     this.tools[obj.properties.toolKey] = rigidSprite;
                 }
                 else if (obj.type == "ToolYarnBall" && obj.properties.hasOwnProperty("toolKey"))
@@ -232,7 +232,7 @@ class Tileset {
     }
 
     loadMap() {
-        console.log("loading map!");
+        //console.log("loading map!");
         var layerCount = this.mapData.layers.length;
         for (var i:number = 0; i < layerCount; i+=1)
         {
@@ -253,13 +253,13 @@ class Tileset {
             }
         }
 
-        console.log("mapping tools");
+        //console.log("mapping tools");
         for (var key in this.tools)
         {
-            console.log("found key: " + key);
+            //console.log("found key: " + key);
             if (this.buildables.hasOwnProperty(key))
             {
-                console.log("Found match for key: " + key);
+                //console.log("Found match for key: " + key);
                 (<Tool>this.tools[key]).buildable = this.buildables[key];
             }
             if (this.toolYarnBalls.hasOwnProperty(key))

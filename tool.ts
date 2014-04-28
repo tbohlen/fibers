@@ -93,9 +93,16 @@ class Tool extends RigidSprite implements Interactable
         {
             var rectWidth = parseFloat(obj.properties.width) * 64;
             var initHeight:number = (parseFloat(obj.properties.initHeight) ? parseFloat(obj.properties.initHeight) * 64 : 0);
-            var initialPos:number[] = [obj.x + obj.width/2, obj.y + obj.height];
             var maxHeight:number = parseFloat(obj.properties.maxHeight) * 64;
             var minHeight:number = parseFloat(obj.properties.minHeight) * 64;
+            var initialPos:number[] = [obj.x + obj.width/2, obj.y + obj.height];
+
+            // limit the size to the shapes we can handle
+            //maxHeight = Math.floor(maxHeight / 32) * 32;
+            //minHeight = Math.floor(minHeight / 32) * 32;
+            //initHeight = Math.floor(initHeight / 32) * 32;
+            //rectWidth = Math.ceil(rectWidth / 64) * 64;
+
 
             // build the rectangle here if not prebuilt
             var material:Physics2DMaterial = game.physicsDevice.createMaterial({
@@ -133,10 +140,11 @@ class Tool extends RigidSprite implements Interactable
                 sprite : sprite,
                 initialPos : initialPos,
                 body : body,
-                initHeight : initHeight,
-                maxHeight : maxHeight,
-                minHeight : minHeight,
+                initSize : initHeight,
+                maxSize : maxHeight,
+                minSize : minHeight,
                 width : rectWidth,
+                height : initHeight,
                 rotation: rotation,
                 isBuildable : (obj.properties.isBuildable == "true"),
                 isClimbable : (obj.properties.isClimbable == "true"),

@@ -10,7 +10,7 @@
  </layer>
  <layer name="ground" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2B4AdEBtl92CNvPCcRcQMwNxDxEqGcEYiYgZkbCykjyMDlcNDoQBGIhIBYGYhGyfEAZkARiKSCWBmKZAbCf3v7XBGItINYGYh2o3TD/C2GRpwYfGRsCsREQGwOxCZ34yBgAkAMM/g==
+   eJxjYBgFo2B4AZMBtl94CNvPCcRcQMwNxDxEqGcEYiYgZkailYBYGoiloLQWEGsDsQ4Qa6JhdCAIxEJQP4hQ4A+QOaJk6qOW/bIDaL8kA3HpABQHsPjhhuoRQqK5GTDjjxi+NBRjk0fGhkBsBMTGSPbC0g2MD5M3QVNPLh8ZAwBDjw2p
   </data>
  </layer>
  <layer name="knitting" width="32" height="14">
@@ -18,7 +18,7 @@
    eJxjYBgFo2AUDEbASyU1o2DwA9aBdsAIBQBkrAAg
   </data>
  </layer>
- <objectgroup name="ground" width="32" height="14" visible="0">
+ <objectgroup name="ground" width="32" height="14">
   <object type="Platform" x="1540" y="517" width="504" height="55">
    <properties>
     <property name="rigidBody" value="static"/>
@@ -49,8 +49,23 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
+  <object type="Platform" x="-24" y="355" width="33" height="411">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="2039" y="271" width="55" height="245">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="2038" y="579" width="22" height="191">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
  </objectgroup>
- <objectgroup name="knitting needle" width="32" height="14" visible="0">
+ <objectgroup name="knitting needle" width="32" height="14">
   <object name="start knit" type="Tool" x="451" y="451" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
@@ -84,7 +99,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="checkpoints" width="32" height="14" visible="0">
+ <objectgroup name="checkpoints" width="32" height="14">
   <object name="start" type="Checkpoint" x="356" y="432" width="63" height="79">
    <properties>
     <property name="checkpointName" value="start"/>
@@ -102,7 +117,7 @@
    eJxjYBgFo2AUjIJRMApGHgAABwAAAQ==
   </data>
  </layer>
- <objectgroup name="door" width="32" height="14" visible="0">
+ <objectgroup name="door" width="32" height="14">
   <object name="door" type="Rectangle" x="1024" y="574" width="62" height="193">
    <properties>
     <property name="initHeight" value="3"/>
@@ -118,10 +133,10 @@
  </objectgroup>
  <layer name="climeable surface" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AU0BuIAbH4ANovB8TyNDSfE4h5aGg+ISAIxCIDaL8kEMsMoP2KQKwygPYPFQAAi7YBHw==
+   eJxjYBgFo2AUjALqAk4g5hlA+wWBWGQA7ZcEYpkBtF8RiFUG0P6hAgA0rwC1
   </data>
  </layer>
- <objectgroup name="climable" width="32" height="14" visible="0">
+ <objectgroup name="climable" width="32" height="14">
   <object name="climable" type="Rectangle" x="1412" y="518" width="118" height="245">
    <properties>
     <property name="initHeight" value="4"/>

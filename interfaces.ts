@@ -67,10 +67,11 @@ interface ToolYarnBallOptions extends RigidSpriteOptions
 
 interface RectangleOptions extends RigidSpriteOptions
 {
-    initHeight : number;
-    maxHeight : number;
-    minHeight : number;
+    initSize : number;
+    maxSize : number;
+    minSize : number;
     width : number;
+    height : number;
     rotation: number;
     isBuildable : boolean;
     isClimbable : boolean;

@@ -208,7 +208,7 @@
          "name":"platform",
          "objects":[
                 {
-                 "height":50,
+                 "height":52,
                  "name":"",
                  "properties":
                     {
@@ -243,6 +243,43 @@
                  "width":50,
                  "x":31,
                  "y":437
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
+        }, 
+        {
+         "height":12,
+         "name":"boundaries",
+         "objects":[
+                {
+                 "height":350,
+                 "name":"",
+                 "properties":
+                    {
+                     "rigidBody":"static"
+                    },
+                 "type":"Platform",
+                 "visible":true,
+                 "width":42,
+                 "x":-33,
+                 "y":288
+                }, 
+                {
+                 "height":350,
+                 "name":"",
+                 "properties":
+                    {
+                     "rigidBody":"static"
+                    },
+                 "type":"Platform",
+                 "visible":true,
+                 "width":42,
+                 "x":1270,
+                 "y":289
                 }],
          "opacity":1,
          "type":"objectgroup",

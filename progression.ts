@@ -10,12 +10,14 @@
 class Progression
 {
     game:GameObject;
-    entries:any = {};
+    private entries:any = {};
+    private collectedYarnBalls:number;
     currentEntry:ProgressEntry;
     public static BASE_MAP_URL:string = "assets/story/";
     jsonLoadedCallback:(jsonData) => void;
     constructor(engine:TurbulenzEngine, filename:string)
     {
+        this.collectedYarnBalls = 0;
         this.entries = {};
         this.currentEntry = {
             stateType : "null",
@@ -50,6 +52,16 @@ class Progression
     setGameObject(game:GameObject):void
     {
         this.game = game;
+    }
+
+    addYarnBall():void
+    {
+        this.collectedYarnBalls++;
+    }
+
+    totalYarnBalls():number
+    {
+        return this.collectedYarnBalls;
     }
 
     getNewCurrentState()

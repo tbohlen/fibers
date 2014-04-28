@@ -8,4 +8,9 @@
    eJzt0ycWhEAUBdHeWg8YBgwMhmAIBhhDMITFU5vgC84TV9QCyjvnPggQwj/cEb6IkRh0igw/5AZdoESF2qAbtOjQG/SAERP+Bj1jwYrNoHccOHEZ9NO/6T/9p//0n/7Tf/pP/+k//af/3vPfDWDjbSg=
   </data>
  </layer>
+ <layer name="ground" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJztx8kJACAABDHb8fh49F+bW4UgJDCPKQUAAAD+V1NLPY0HP9NKO50HfwFlfAot
+  </data>
+ </layer>
 </map>
