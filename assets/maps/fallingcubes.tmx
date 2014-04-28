@@ -10,7 +10,7 @@
  </layer>
  <layer name="ground" width="20" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4D+wBiITYBYk0rmaQOxDhAbArERFcxDdp8W1Hxi7EdWj40Pcx/MfEr5AEjlB80=
+   eJxjYBgFo4D+gBOIuYBYk0rmCQKxEBALA7EIFcwDmSUFxdJArI0mz43GB8nrMED8o4WFLwXlGwKxERAbA7EJEl8KjY8uj4sPADXSBpE=
   </data>
  </layer>
  <objectgroup name="ground" width="20" height="12">
@@ -118,7 +118,7 @@
   </object>
  </objectgroup>
  <objectgroup name="platforms" width="20" height="12">
-  <object type="Platform" x="264" y="138" width="114" height="46">
+  <object type="Platform" x="261" y="135" width="114" height="46">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
@@ -136,5 +136,17 @@
  </objectgroup>
  <objectgroup name="checkpoints" width="20" height="12">
   <object type="Spawn" x="6" y="349" width="49" height="47"/>
+ </objectgroup>
+ <objectgroup name="boundaries" width="20" height="12">
+  <object type="Rectangle" x="-56" y="132" width="60" height="374">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="1269" y="71" width="60" height="374">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="28" height="36" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="background" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJzt0ycWhEAUBdHeWg8YBgwMhmAIBhhDMITFU5vgC84TV9QCyjvnPggQwj/cEb6IkRh0igw/5AZdoESF2qAbtOjQG/SAERP+Bj1jwYrNoHccOHEZ9NO/6T/9p//0n/7Tf/pP/+k//af/3vPfDWDjbSg=
+  </data>
+ </layer>
+ <layer name="ground" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBTDASWf7BKloFiMQMwMxE5RmQRKHiSkhqYGJjYKBAcjxwkJA7SigDHDR2T5FBkheg8UvNno0/9EGaAKxFhBrA7EOHfiGQGwExMZAbEIHPgCMbQrz
+  </data>
+ </layer>
+ <layer name="knitting needles" width="28" height="36">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUjIJRMApGwSgYBaNgFCAD1oF2wBAHvFRWhw0wAjETEDMTQYMAHwV2jQLqAFi+oiTeRzoAAAR7AFo=
+  </data>
+ </layer>
+ <objectgroup name="tools" width="28" height="36"/>
+ <objectgroup name="ground" width="28" height="36">
+  <object type="Rectangle" x="-5" y="2181" width="1794" height="120">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="390" y="1862" width="756" height="52">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="1094" y="1922" width="695" height="56">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="644" y="1670" width="247" height="52">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="903" y="1411" width="307" height="54">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="1286" y="1411" width="504" height="54">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="1476" y="1283" width="60" height="124">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

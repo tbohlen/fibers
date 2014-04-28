@@ -13,7 +13,7 @@
  </layer>
  <layer name="ground" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2B4AZMBtl9ngO3XpFCvFhBrMxDnD3T1MD4+eWSMDgyB2AiIjRkGJh5J9T+1Ab39jyv+aMlHxuj+pQcfGQMA6YkRUQ==
+   eJxjYBgFo2B4AZMBtl94CNvPCcRcQMwNxDxEqGcEYiYgZkailYBYGoiloLQWEGsDsQ4Qa6JhdCAIxEJQP4hQ4A+QOaJk6qOW/bIDaL8kA3HpABQHsPjhhuoRQqK5GTDjjxi+NBRjk0fGhkBsBMTGSPbC0g2MD5M3QVNPLh8ZAwBDjw2p
   </data>
  </layer>
  <layer name="knitting" width="32" height="14">
@@ -48,6 +48,21 @@
    </properties>
   </object>
   <object type="Platform" x="1" y="771" width="253" height="121">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="-24" y="355" width="33" height="411">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="2039" y="271" width="55" height="245">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Platform" x="2038" y="579" width="22" height="191">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>

@@ -88,7 +88,7 @@
   </data>
  </layer>
  <objectgroup name="platform" width="20" height="12">
-  <object type="Platform" x="195" y="390" width="247" height="50">
+  <object type="Platform" x="195" y="390" width="247" height="52">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
@@ -96,5 +96,17 @@
  </objectgroup>
  <objectgroup name="checkpoints" width="20" height="12">
   <object type="Spawn" x="31" y="437" width="50" height="56"/>
+ </objectgroup>
+ <objectgroup name="boundaries" width="20" height="12">
+  <object type="Rectangle" x="-21" y="289" width="42" height="350">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="1270" y="289" width="42" height="350">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
