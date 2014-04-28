@@ -282,6 +282,7 @@ class Player {
         this.groundShape = null;
         this.onGround = false;
         this.isClimbing = false;
+        this.lastClimbPosition = null;
         var vel:number[] = this.rigidSprite.body.getVelocity();
         this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
         this.currentTexture.play();
@@ -489,6 +490,7 @@ class Player {
         // If the player continues to intersect the object, then we'll detect that again before the next update
         if (!this.canClimb) {
             this.isClimbing = false;
+            this.lastClimbPosition = null;
         }
         this.canClimb = false;
         this.canBuild = false;
