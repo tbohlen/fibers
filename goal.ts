@@ -10,7 +10,6 @@
  *
  */
 
-
 class Goal extends RigidSprite implements Interactable
 {
     public static debugColorGoal:number[] = [0.0, 1.0, 0.0, 1.0];
@@ -78,7 +77,7 @@ class Goal extends RigidSprite implements Interactable
         // check to see if the player is overlapping the right object
         if (this.game.collisionHelp.collisionUtils.intersects(this.body.shapes[0], player.rigidSprite.body.shapes[0]))
         {
-            console.log("Made it to the end of the level, HOORAY!");
+            console.log("Made it to the end of the level... HOORAY!");
         }
     }
 

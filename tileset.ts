@@ -54,6 +54,7 @@ class Tileset {
     firstGID:number;
 
     tileSet:any;
+    transparentColor:number;
 
     ranLoadMap:boolean = false;
 
@@ -94,6 +95,9 @@ class Tileset {
                 var tileSet = mapData.tilesets[0];
                 var imageHeight:number = tileSet.imageheight;
                 var imageWidth:number = tileSet.imagewidth;
+                if (tileSet.transparentcolor){
+                    this.transparentColor = parseInt(tileSet.transparentcolor.slice(1), 16);
+                }
                 this.margin = tileSet.margin;
                 this.spacing = tileSet.spacing;
                 this.imageRows = Math.floor((imageHeight - this.margin) / (this.tileHeight + this.spacing));
