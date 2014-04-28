@@ -83,7 +83,7 @@ class Button extends RigidSprite
                 } else {
                     console.log("button behavior undefined for a progress");
                 }
-            }
+            };
         }
         // add event listener
         game.keyboard.addEventListener("mouseup",

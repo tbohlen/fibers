@@ -17,6 +17,12 @@
 
   "firstLev": {
     "stateType" : "PlayState",
+    "map" : "yarnBallExample",
+    "nextName" : "secondLev"
+  },
+
+  "secondLev": {
+    "stateType" : "PlayState",
     "map" : "dynamicTest",
     "nextName" : ""
   }

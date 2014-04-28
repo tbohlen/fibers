@@ -3,6 +3,7 @@
  */
 /// <reference path="interfaces.ts"/>
 /// <reference path="MenuState.ts"/>
+/// <reference path="HUD.ts"/>
 
 class PlayState extends TurbGameState
 {
@@ -10,6 +11,7 @@ class PlayState extends TurbGameState
     defaultTileSet:string;
     tileset:Tileset;
     player:Player;
+    hud:HUD;
     physicsDebug:Physics2DDebugDraw;
     mapSize:number[] = [Infinity, Infinity];
     constructor(game:GameObject, jsonMap:string = "dynamicTest")
@@ -27,6 +29,8 @@ class PlayState extends TurbGameState
         // build the player
         this.player = new Player(game, [70, 0]);
         game.collisionHelp.setPlayer(this.player);
+        // make the HUD
+        this.hud = new HUD(game);
         // make the debug physics device
         this.physicsDebug = Physics2DDebugDraw.create({
             graphicsDevice: this.game.graphicsDevice
@@ -110,7 +114,7 @@ class PlayState extends TurbGameState
             }
             if (this.game.keyboard.justPressed("H"))
             {
-                this.game.nextState = new PlayState(this.game, this.defaultTileSet)
+                this.game.nextState = this.game.progression.getNewCurrentState();
             }
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;
@@ -140,6 +144,9 @@ class PlayState extends TurbGameState
                 this.loadMapIfNecessary();
                 this.tileset.draw(draw2D, offset);
             }
+
+            // draw the HUD to the screen
+            this.hud.draw(draw2D, offset);
 
             // draw the player to the screen
             this.player.draw(draw2D, offset);

@@ -178,4 +178,5 @@ interface CheckpointOptions
     name : String;
     checkpointManager : CheckpointManager;
     completed ?: boolean;
+    completedCallback ?: Function;
 }
