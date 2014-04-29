@@ -454,9 +454,16 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         //handle pulling and releasing...
         if (this.isPullable)
         {
-            if (this.game.keyboard.keyPressed("E") && !this.isBeingPulled &&
-                ((this.game.keyboard.keyPressed("LEFT") &&  this.body.getPosition()[0] > player.getPosition()[0]) ||
-                 (this.game.keyboard.keyPressed("RIGHT") && this.body.getPosition()[0] < player.getPosition()[0]))) {
+            var rectPos:any[] = this.body.getPosition();
+            var playerPos:any[] = player.getPosition();
+
+            if (this.game.keyboard.keyPressed("E") &&
+                !this.isBeingPulled &&
+                // prevent pulling from above...
+                (rectPos[1] <= playerPos[1] + player.playerDimensions[1]/2 + 16) &&
+                ((this.game.keyboard.keyPressed("LEFT")  && rectPos[0] > playerPos[0]) ||
+                 (this.game.keyboard.keyPressed("RIGHT") && rectPos[0] < playerPos[0])))
+            {
                 player.pull(this);
             } else if (this.isBeingPulled) {
                 player.release(this);
