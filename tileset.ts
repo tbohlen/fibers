@@ -140,6 +140,17 @@ class Tileset {
         return (this.mapData != null);
     }
 
+    // kill this tileset by making sure that all rigid bodies cannot interact
+    kill()
+    {
+        for (var i:number = 0; i < this.rigidSprites.length; i++)
+        {
+            var sprite:RigidSprite = this.rigidSprites[i];
+            sprite.kill();
+        }
+
+    }
+
 
     /*
      * Method: loadObjectLayer

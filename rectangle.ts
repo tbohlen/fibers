@@ -40,6 +40,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/nonclimbable.png";
     public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [192, 0, 256, 32];
 
+    maxSizeForID:number;
+
     maxSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     minSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     width:number; // in WIDTH_INTERVAL units
@@ -50,7 +52,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     mask:number;
     growSurface:string = "top";
     lastBuildTime:number = 0;
+    isInWorld:boolean = false; // tracks if the body is currently interactable
 
+    // sprite related variables
     texture:Texture = null;
     animatedTexture:AnimatedTexture = null;
     textureLoaded:boolean = false;
@@ -90,6 +94,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     constructor(options:RectangleOptions, game:GameObject)
     {
         super(options);
+
+        this.maxSizeForID = options.maxSize / 64;
 
         // grow surface selection
         this.growSurface = options.growSurface;
@@ -166,7 +172,12 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // if the height is greater than 0 it should
         if (this.currentSize == 0)
         {
+            this.isInWorld = false;
             this.game.physicsWorld.removeRigidBody(this.body);
+        }
+        else
+        {
+            this.isInWorld = true;
         }
 
         this.buildShape(this.currentSize);
@@ -178,19 +189,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
         // load textures based on climbable or not climbable
         var that:any = this;
-        //var textureParams:TextureParameters = {
-            //src: this.textureFile,
-            //mipmaps: true,
-            //onload: function onLoadBottom(texture:Texture, status?:number)
-            //{
-                //if (texture)
-                //{
-                    //that.texture = texture;
-                    //that.textureLoaded = true;
-                //}
-            //}
-        //};
-        //var loadingTexture:any = this.game.graphicsDevice.createTexture(textureParams);
         this.animatedTexture = new AnimatedTexture(this.textureFile, [this.widthInterval, this.heightInterval], this.numberOfFrames, false, true);
         this.animatedTexture.loadTexture(this.game.graphicsDevice, (texture) => {
             if (texture)
@@ -309,7 +307,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // first check that we are below our maximum size and that there has been a delay since the last build
         var time:number = new Date().getTime();
-        if(this.currentSize < this.maxSize && time > this.lastBuildTime + this.buildDelay) {
+        if(this.currentSize < this.maxSize && time > this.lastBuildTime + this.buildDelay && !this.isDead) {
             // set up the animation
             this.animatedTexture.setReverse(false);
             this.animating = true;
@@ -325,6 +323,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             var appeared:boolean = this.currentSize == 0 && nextSize > 0;
             if (appeared)
             {
+                this.isInWorld = true;
                 this.game.physicsWorld.addRigidBody(this.body);
             }
 
@@ -343,7 +342,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // first check that we are above our minimum size and there has been a delay since the last build
         var time:number = new Date().getTime();
-        if(this.currentSize > this.minSize && time > this.lastBuildTime + this.buildDelay) {
+        if(this.currentSize > this.minSize && time > this.lastBuildTime + this.buildDelay && !this.isDead) {
             // set up the animation
             this.animatedTexture.setReverse(true);
             this.animating = true;
@@ -362,6 +361,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             var disappeared:boolean = this.currentSize > 0 && nextSize == 0;
             if (disappeared)
             {
+                this.isInWorld = false;
                 this.game.physicsWorld.removeRigidBody(this.body);
             }
 
@@ -473,7 +473,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     playerCollideCallback(player:Player):void
     {
         //handle pulling and releasing...
-        if (this.isPullable)
+        if (this.isPullable && !this.isDead)
         {
             var rectPos:any[] = this.body.getPosition();
             var playerPos:any[] = player.getPosition();
@@ -492,7 +492,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape:Physics2DShape):boolean
     {
-        return collisionUtil.intersects(this.getClimbableShape(), shape);
+        var climbable:boolean = this.isClimbable && collisionUtil.intersects(this.getClimbableShape(), shape) && this.isInWorld && !this.isDead;
+        console.log("is " + this.rotation + " " + this.maxSizeForID);
+        console.log("Position is " + this.body.getPosition()[0] + ", " + this.body.getPosition()[1]);
+        console.log("Is " + climbable);
+        return climbable;
     }
 
     getClimbableShape():Physics2DShape

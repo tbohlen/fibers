@@ -134,7 +134,8 @@ class Tool extends RigidSprite implements Interactable
             body.setPosition(initialPos);
             body.setRotation(rotation);
 
-            // 64s are to scale from tile size to pixels
+
+            console.log("IsClimbable: " + obj.properties.isClimbable);
 
             var rectOptions:RectangleOptions = {
                 sprite : sprite,
@@ -185,7 +186,7 @@ class Tool extends RigidSprite implements Interactable
     {
         // check to see if the player is overlapping the right object
         if (this.game.collisionHelp.collisionUtils.intersects(this.body.shapes[0], player.rigidSprite.body.shapes[0])
-                                                  && this.buildable != null && this.buildable.isBuildable)
+                                                  && this.buildable != null && this.buildable.isBuildable && !this.isDead)
         {
             // handle key presses
             if (this.game.keyboard.keyPressed("W"))
