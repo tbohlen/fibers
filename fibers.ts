@@ -63,13 +63,15 @@ var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
 var bgMusicSource:SoundSource = soundDevice.createSource({
     looping: true
 });
-    var bgMusic:Sound = soundDevice.createSound({
-        src: "assets/music/byathread.mp3",
-        uncompress: false,
-        onload: function (soundData) {
-            bgMusicSource.play(soundData);
-        }
-    });
+var bgMusic:Sound = soundDevice.createSound({
+    src: "assets/music/byathread.mp3",
+    uncompress: false,
+    onload: function (soundData) {
+        bgMusicSource.play(soundData);
+    }
+});
+// disable the music for now...
+bgMusicSource.stop();
 
 var htmlControls:HTMLControls = null;
 

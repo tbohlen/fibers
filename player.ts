@@ -301,8 +301,9 @@ class Player {
             // the ground and them must be at a 45 degree angle or higher (otherwise they are "slipping")
             var dist:number = this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0], this.groundShape, witA, witB, axis);
             return (axis[1] > 0 && axis[1] > axis[0] && dist < this.DIST_EPSILON);
+        } else {
+            return false;
         }
-        return false;
     }
 
     canMoveLeft():boolean
