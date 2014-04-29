@@ -26,7 +26,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static WIDTH_INTERVAL_CLIMBABLE:number = 64;
     public static HEIGHT_BUFFER_CLIMBABLE:number = 25;
     public static WIDTH_BUFFER_CLIMBABLE:number = 18;
-    public static BOTTOM_OFFSET_CLIMBABLE:number = 0;
+    public static BOTTOM_OFFSET_CLIMBABLE:number = 14;
     public static TEXTURE_FILE_CLIMBABLE:string = "assets/climbable.png";
     public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [256, 0, 320, 64];
 
@@ -588,7 +588,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                         + ((this.heightInterval - this.heightBuffer) * finalShift[0] * i) // offset to stack images
                         - ((this.widthInterval - this.widthBuffer) * finalShift[1] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.y = pos[1]
-                        //- Rectangle.BOTTOM_OFFSET * finalShift[1]
+                        + this.bottomOffset * finalShift[1]
                         - (correction[1] * (this.heightInterval - this.heightBuffer))
                         + ((this.heightInterval - this.heightBuffer) * finalShift[1] * i)
                         - ((this.widthInterval - this.widthBuffer) * finalShift[0] * (j - ((jMax - 1)/2))); // offset for width
