@@ -213,7 +213,7 @@ class Chain extends RigidSprite implements Buildable, Climbable
 
     getTopPosition():number
     {
-        return this.body.getPosition()[1] - this.sprite.getHeight();
+        return this.body.getPosition()[1] - this.currentHeight;
     }
 
     /*
