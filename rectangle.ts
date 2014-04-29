@@ -19,13 +19,26 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static debugColorBuildable:number[] = [1.0, 1.0, 1.0, 1.0];
     public static debugColorClimbable:number[] = [0.0, 1.0, 0.0, 1.0];
     public static debugColorSolid:number[] = [1.0, 0.0, 0.0, 1.0];
-    public static BUILD_DELAY:number = 300;
-    public static NUMBER_OF_FRAMES:number = 4;
-    public static HEIGHT_INTERVAL:number = 64;
-    public static WIDTH_INTERVAL:number = 64;
-    public static VERT_BUFFER:number = 37;
-    public static HORIZ_BUFFER:number = 30;
-    public static BOTTOM_OFFSET:number = 10;
+
+    public static BUILD_DELAY_CLIMBABLE:number = 300;
+    public static NUMBER_OF_FRAMES_CLIMBABLE:number = 5;
+    public static HEIGHT_INTERVAL_CLIMBABLE:number = 64;
+    public static WIDTH_INTERVAL_CLIMBABLE:number = 64;
+    public static HEIGHT_BUFFER_CLIMBABLE:number = 25;
+    public static WIDTH_BUFFER_CLIMBABLE:number = 18;
+    public static BOTTOM_OFFSET_CLIMBABLE:number = 0;
+    public static TEXTURE_FILE_CLIMBABLE:string = "assets/climbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [256, 0, 320, 64];
+
+    public static BUILD_DELAY_NONCLIMBABLE:number = 300;
+    public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 4;
+    public static HEIGHT_INTERVAL_NONCLIMBABLE:number = 32;
+    public static WIDTH_INTERVAL_NONCLIMBABLE:number = 64;
+    public static HEIGHT_BUFFER_NONCLIMBABLE:number = 14;
+    public static WIDTH_BUFFER_NONCLIMBABLE:number = 8;
+    public static BOTTOM_OFFSET_NONCLIMBABLE:number = 0;
+    public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/nonclimbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [192, 0, 256, 32];
 
     maxSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     minSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
@@ -38,15 +51,24 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     growSurface:string = "top";
     lastBuildTime:number = 0;
 
-    bottomTexture:Texture = null;
-    middleTexture:Texture = null;
-    topTexture:AnimatedTexture = null;
-    bottomLoaded:boolean = false;
-    topLoaded:boolean = false;
-    middleLoaded:boolean = false;
+    texture:Texture = null;
+    animatedTexture:AnimatedTexture = null;
+    textureLoaded:boolean = false;
+    animatedTextureLoaded:boolean = false;
     animationTimeout;
     animating:boolean = false;
     afterAnimatingSize:number = 0;
+
+    // variables for animation that depend on climbable/nonclimbable
+    buildDelay:number;
+    numberOfFrames:number;
+    heightInterval:number;
+    widthInterval:number;
+    heightBuffer:number;
+    widthBuffer:number;
+    bottomOffset:number;
+    textureFile:string;
+    finalTextureRectangle:number[];
 
     // Buildable interface
     isBuildable:boolean;
@@ -79,21 +101,46 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.growSurface = "top";
         }
 
+        if(options.isClimbable)
+        {
+            this.buildDelay = Rectangle.BUILD_DELAY_CLIMBABLE;
+            this.numberOfFrames = Rectangle.NUMBER_OF_FRAMES_CLIMBABLE
+            this.heightInterval = Rectangle.HEIGHT_INTERVAL_CLIMBABLE;
+            this.widthInterval = Rectangle.WIDTH_INTERVAL_CLIMBABLE;
+            this.heightBuffer = Rectangle.HEIGHT_BUFFER_CLIMBABLE;
+            this.widthBuffer = Rectangle.WIDTH_BUFFER_CLIMBABLE;
+            this.bottomOffset = Rectangle.BOTTOM_OFFSET_CLIMBABLE;
+            this.textureFile = Rectangle.TEXTURE_FILE_CLIMBABLE;
+            this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CLIMBABLE;
+        }
+        else
+        {
+            this.buildDelay = Rectangle.BUILD_DELAY_NONCLIMBABLE;
+            this.numberOfFrames = Rectangle.NUMBER_OF_FRAMES_NONCLIMBABLE
+            this.heightInterval = Rectangle.HEIGHT_INTERVAL_NONCLIMBABLE;
+            this.widthInterval = Rectangle.WIDTH_INTERVAL_NONCLIMBABLE;
+            this.heightBuffer = Rectangle.HEIGHT_BUFFER_NONCLIMBABLE;
+            this.widthBuffer = Rectangle.WIDTH_BUFFER_NONCLIMBABLE;
+            this.bottomOffset = Rectangle.BOTTOM_OFFSET_NONCLIMBABLE;
+            this.textureFile = Rectangle.TEXTURE_FILE_NONCLIMBABLE;
+            this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE;
+        }
+
         // limit the size to the shapes we can handle and convert from pixel units to sprite-size units
-        options.maxSize = Math.ceil(options.maxSize / (Rectangle.HEIGHT_INTERVAL-Rectangle.VERT_BUFFER));
-        options.minSize = Math.floor(options.minSize / (Rectangle.HEIGHT_INTERVAL-Rectangle.VERT_BUFFER));
-        options.initSize = Math.floor(options.initSize / (Rectangle.HEIGHT_INTERVAL-Rectangle.VERT_BUFFER));
+        options.maxSize = Math.ceil(options.maxSize / (this.heightInterval-this.heightBuffer));
+        options.minSize = Math.floor(options.minSize / (this.heightInterval-this.heightBuffer));
+        options.initSize = Math.floor(options.initSize / (this.heightInterval-this.heightBuffer));
         if (this.growSurface == "top" || this.growSurface == "bottom")
         {
             // in this case height interval really does map to height
-            options.width = Math.ceil(options.width / (Rectangle.WIDTH_INTERVAL - Rectangle.HORIZ_BUFFER));
-            options.height = Math.ceil(options.height / (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER));
+            options.width = Math.ceil(options.width / (this.widthInterval - this.widthBuffer));
+            options.height = Math.ceil(options.height / (this.heightInterval - this.heightBuffer));
         }
         else if (this.growSurface == "left" || this.growSurface == "right")
         {
             // in this case the height interval actually maps to width because of sprite rotations later on
-            options.width = Math.ceil(options.width / (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER));
-            options.height = Math.ceil(options.height / (Rectangle.WIDTH_INTERVAL - Rectangle.HORIZ_BUFFER));
+            options.width = Math.ceil(options.width / (this.heightInterval - this.heightBuffer));
+            options.height = Math.ceil(options.height / (this.widthInterval - this.widthBuffer));
         }
 
         this.isPullable = options.isPullable;
@@ -129,60 +176,42 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         this.body.setPosition(options.initialPos);
         this.body.setRotation(options.rotation);
 
-        // load textures
+        // load textures based on climbable or not climbable
         var that:any = this;
-        var bottomParams:TextureParameters = {
-            src: "assets/chainBottom.png",
-            mipmaps: true,
-            width: Rectangle.WIDTH_INTERVAL,
-            height: Rectangle.HEIGHT_INTERVAL,
-            onload: function onLoadBottom(texture:Texture, status?:number)
-            {
-                if (texture)
-                {
-                    that.bottomTexture = texture;
-                    that.bottomLoaded = true;
-                }
-            }
-        };
-        var loadingBottom:any = this.game.graphicsDevice.createTexture(bottomParams);
-        var middleParams:TextureParameters = {
-            src: "assets/chainMiddle.png",
-            mipmaps: true,
-            width: Rectangle.WIDTH_INTERVAL,
-            height: Rectangle.HEIGHT_INTERVAL,
-            onload: function onLoadMiddle(texture:Texture, status?:number)
-            {
-                if (texture)
-                {
-                    that.middleTexture = texture;
-                    that.middleLoaded = true;
-                }
-            }
-        };
-        var loadingMiddle:any = this.game.graphicsDevice.createTexture(middleParams);
-
-        // the top is animated, so load an animated version
-        this.topTexture = new AnimatedTexture("assets/chainTop.png", [64, 64], Rectangle.NUMBER_OF_FRAMES, false, true);
-        this.topTexture.loadTexture(this.game.graphicsDevice, (texture) => {
+        //var textureParams:TextureParameters = {
+            //src: this.textureFile,
+            //mipmaps: true,
+            //onload: function onLoadBottom(texture:Texture, status?:number)
+            //{
+                //if (texture)
+                //{
+                    //that.texture = texture;
+                    //that.textureLoaded = true;
+                //}
+            //}
+        //};
+        //var loadingTexture:any = this.game.graphicsDevice.createTexture(textureParams);
+        this.animatedTexture = new AnimatedTexture(this.textureFile, [this.widthInterval, this.heightInterval], this.numberOfFrames, false, true);
+        this.animatedTexture.loadTexture(this.game.graphicsDevice, (texture) => {
             if (texture)
             {
                 that.topLoaded = true;
+                that.texture = texture;
             }
         });
 
         // prepare the animation timeout
         this.animationTimeout = window.setInterval(
             ()=> {
-                if (this.topTexture) {
-                    this.topTexture.updateCurrentFrame();
+                if (this.animatedTexture) {
+                    this.animatedTexture.updateCurrentFrame();
                 }
-            }, Rectangle.BUILD_DELAY/Rectangle.NUMBER_OF_FRAMES);
+            }, this.buildDelay/this.numberOfFrames);
 
         // prepare a loop callback for the end of the top animation
-        this.topTexture.setLoopCallback(()=> {
+        this.animatedTexture.setLoopCallback(()=> {
             // if we're waiting for the animation to end, when it does end set the size again
-            if (this.animating && this.topTexture.isReversed)
+            if (this.animating && this.animatedTexture.isReversed)
             {
                 this.currentSize = this.afterAnimatingSize;
                 this.buildShape(this.currentSize);
@@ -204,8 +233,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // limit the size to the shapes we can handle and convert from pixel units to sprite-size units
         //var effectiveWidth =
         //var effectiveHeight =
-            //options.width = Math.ceil(options.width / (Rectangle.WIDTH_INTERVAL - Rectangle.HORIZ_BUFFER));
-            //options.height = Math.ceil(options.height / (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER));
+            //options.width = Math.ceil(options.width / (this.widthInterval - this.widthBuffer));
+            //options.height = Math.ceil(options.height / (this.heightInterval - this.heightBuffer));
 
 
         var initialPos:number[] = [obj.x + obj.width/2, obj.y+initSize];
@@ -280,9 +309,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // first check that we are below our maximum size and that there has been a delay since the last build
         var time:number = new Date().getTime();
-        if(this.currentSize < this.maxSize && time > this.lastBuildTime + Rectangle.BUILD_DELAY) {
+        if(this.currentSize < this.maxSize && time > this.lastBuildTime + this.buildDelay) {
             // set up the animation
-            this.topTexture.setReverse(false);
+            this.animatedTexture.setReverse(false);
             this.animating = true;
             // if so, find the next height that we should grow to, limiting by the maximum height
             var nextSize = this.currentSize + 1;
@@ -314,9 +343,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // first check that we are above our minimum size and there has been a delay since the last build
         var time:number = new Date().getTime();
-        if(this.currentSize > this.minSize && time > this.lastBuildTime + Rectangle.BUILD_DELAY) {
+        if(this.currentSize > this.minSize && time > this.lastBuildTime + this.buildDelay) {
             // set up the animation
-            this.topTexture.setReverse(true);
+            this.animatedTexture.setReverse(true);
             this.animating = true;
             // if so, find the next height that we should shrink to, limiting by the minimum height
             var nextSize = this.currentSize - 1;
@@ -354,10 +383,10 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // build a new shape that is the correct size and replace the old shape with this new one
         this.currentSize = size;
-        var pixelSize:number = size * (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER);
+        var pixelSize:number = size * (this.heightInterval - this.heightBuffer);
         if (pixelSize == 0) { pixelSize++;} // XXX: hack to make sure we don't get errors from 0 width rectangles
-        var pixelWidth:number = this.width * (Rectangle.WIDTH_INTERVAL - Rectangle.HORIZ_BUFFER);
-        var pixelHeight:number = this.height * (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER);
+        var pixelWidth:number = this.width * (this.widthInterval - this.widthBuffer);
+        var pixelHeight:number = this.height * (this.heightInterval - this.heightBuffer);
         var left:number = 0;
         var right:number = 0;
         var top:number = 0;
@@ -419,22 +448,14 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         for (var i:number = 0; i < size; i++)
         {
             var sprite:Draw2DSprite = Draw2DSprite.create({
-                width: Rectangle.WIDTH_INTERVAL,
-                height: Rectangle.HEIGHT_INTERVAL,
-                origin : [Rectangle.WIDTH_INTERVAL/2, Rectangle.HEIGHT_INTERVAL/2],
-                textureRectangle: [0, 0, Rectangle.WIDTH_INTERVAL, Rectangle.HEIGHT_INTERVAL],
+                width: this.widthInterval,
+                height: this.heightInterval,
+                origin : [this.widthInterval/2, this.heightInterval/2],
+                textureRectangle: [0, 0, this.widthInterval, this.heightInterval],
                 rotation: (this.rotation - Math.PI)
             });
-            if (i == 0)
-            {
-                sprite.setTexture(this.bottomTexture);
-            }
-            else
-            {
-                // the top one (num - 1) also gets the middleTexture, but this will be replaced during the
-                // draw function with the corret frame of the top texture
-                sprite.setTexture(this.middleTexture);
-            }
+            sprite.setTexture(this.texture);
+            sprite.setTextureRectangle(this.finalTextureRectangle);
             this.sprites.push(sprite);
         }
     }
@@ -493,14 +514,14 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             var sprite:Draw2DSprite = this.sprites[this.sprites.length - 1];
 
-            if (this.topTexture.texture && this.animating) {
-                sprite.setTexture(this.topTexture.texture);
-                sprite.setTextureRectangle(this.topTexture.currentFrameRectangle());
+            if (this.animatedTexture.texture && this.animating) {
+                sprite.setTexture(this.animatedTexture.texture);
+                sprite.setTextureRectangle(this.animatedTexture.currentFrameRectangle());
             }
             else
             {
-                sprite.setTexture(this.middleTexture);
-                sprite.setTextureRectangle([0, 0, Rectangle.WIDTH_INTERVAL, Rectangle.HEIGHT_INTERVAL]);
+                sprite.setTexture(this.texture);
+                sprite.setTextureRectangle(this.finalTextureRectangle);
             }
         }
 
@@ -541,7 +562,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
             // if we are growing up or down, then the sprite width really is this.width, but if we are growing left or right
             // then the sprite width is actually this.height
-            // TODO: Fix this cause its ridiculousness
+            // TODO: Fix this ridiculousness
             var jMax:number;
             if (this.growSurface == "top" || this.growSurface == "bottom")
             {
@@ -563,14 +584,14 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                     var pos:number[] = this.body.getPosition();
                     sprite.x = pos[0]
                         //- Rectangle.BOTTOM_OFFSET * finalShift[0] // offset b/c bottom of tile is not bottom of image
-                        - (correction[0] * (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER)) // offset b/c of origin shift
-                        + ((Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER) * finalShift[0] * i) // offset to stack images
-                        - ((Rectangle.WIDTH_INTERVAL - Rectangle.HORIZ_BUFFER) * finalShift[1] * (j - ((jMax - 1)/2))); // offset for width
+                        - (correction[0] * (this.heightInterval - this.heightBuffer)) // offset b/c of origin shift
+                        + ((this.heightInterval - this.heightBuffer) * finalShift[0] * i) // offset to stack images
+                        - ((this.widthInterval - this.widthBuffer) * finalShift[1] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.y = pos[1]
                         //- Rectangle.BOTTOM_OFFSET * finalShift[1]
-                        - (correction[1] * (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER))
-                        + ((Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER) * finalShift[1] * i)
-                        - ((Rectangle.WIDTH_INTERVAL - Rectangle.HORIZ_BUFFER) * finalShift[0] * (j - ((jMax - 1)/2))); // offset for width
+                        - (correction[1] * (this.heightInterval - this.heightBuffer))
+                        + ((this.heightInterval - this.heightBuffer) * finalShift[1] * i)
+                        - ((this.widthInterval - this.widthBuffer) * finalShift[0] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.rotation = rotation + additionalRotation;
 
                     sprite.x -= offset[0];
