@@ -279,6 +279,10 @@ class Player {
 
     jumpUp()
     {
+        if (this.pulledObject){
+            this.release(this.pulledObject);
+        }
+
         this.groundShape = null;
         this.onGround = false;
         this.isClimbing = false;
