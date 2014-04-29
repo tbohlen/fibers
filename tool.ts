@@ -188,11 +188,11 @@ class Tool extends RigidSprite implements Interactable
                                                   && this.buildable != null && this.buildable.isBuildable)
         {
             // handle key presses
-            if (this.game.keyboard.keyPressed("E") && this.game.keyboard.keyPressed("UP"))
+            if (this.game.keyboard.keyPressed("W"))
             {
                 this.buildable.buildUp();
             }
-            else if (this.game.keyboard.keyPressed("E") && this.game.keyboard.keyPressed("DOWN"))
+            else if (this.game.keyboard.keyPressed("S"))
             {
                 this.buildable.buildDown();
             }
