@@ -25,7 +25,6 @@ class MenuState extends TurbGameState
     {
         if (this.game.graphicsDevice.beginFrame())
         {
-            console.log("made the menu update");
             this.game.graphicsDevice.clear(MenuState.bgColor, 1.0);
             this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
             if (this.game.keyboard.justPressed("P"))
