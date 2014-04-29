@@ -502,7 +502,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     getTopPosition():number
     {
-        return this.body.getPosition()[1] - this.currentSize * (Rectangle.HEIGHT_INTERVAL - Rectangle.VERT_BUFFER);
+        return this.body.getPosition()[1] - this.currentSize * (this.heightInterval - this.heightBuffer);
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
