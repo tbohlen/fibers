@@ -21,14 +21,14 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static debugColorSolid:number[] = [1.0, 0.0, 0.0, 1.0];
 
     public static BUILD_DELAY_CLIMBABLE:number = 300;
-    public static NUMBER_OF_FRAMES_CLIMBABLE:number = 5;
+    public static NUMBER_OF_FRAMES_CLIMBABLE:number = 4;
     public static HEIGHT_INTERVAL_CLIMBABLE:number = 64;
     public static WIDTH_INTERVAL_CLIMBABLE:number = 64;
-    public static HEIGHT_BUFFER_CLIMBABLE:number = 25;
-    public static WIDTH_BUFFER_CLIMBABLE:number = 18;
-    public static BOTTOM_OFFSET_CLIMBABLE:number = 14;
-    public static TEXTURE_FILE_CLIMBABLE:string = "assets/climbable.png";
-    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [256, 0, 320, 64];
+    public static HEIGHT_BUFFER_CLIMBABLE:number = 37;
+    public static WIDTH_BUFFER_CLIMBABLE:number = 30;
+    public static BOTTOM_OFFSET_CLIMBABLE:number = 10;
+    public static TEXTURE_FILE_CLIMBABLE:string = "assets/chain.png";
+    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [192, 0, 256, 64];
 
     public static BUILD_DELAY_NONCLIMBABLE:number = 300;
     public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 4;
@@ -39,6 +39,16 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static BOTTOM_OFFSET_NONCLIMBABLE:number = 0;
     public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/nonclimbable.png";
     public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [192, 0, 256, 32];
+
+    public static BUILD_DELAY_CUBE:number = 300;
+    public static NUMBER_OF_FRAMES_CUBE:number = 5;
+    public static HEIGHT_INTERVAL_CUBE:number = 64;
+    public static WIDTH_INTERVAL_CUBE:number = 64;
+    public static HEIGHT_BUFFER_CUBE:number = 25;
+    public static WIDTH_BUFFER_CUBE:number = 18;
+    public static BOTTOM_OFFSET_CUBE:number = 14;
+    public static TEXTURE_FILE_CUBE:string = "assets/climbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [256, 0, 320, 64];
 
     maxSizeForID:number;
 
@@ -119,6 +129,18 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.textureFile = Rectangle.TEXTURE_FILE_CLIMBABLE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CLIMBABLE;
         }
+        else if (!options.isBuildable)
+        {
+            this.buildDelay = Rectangle.BUILD_DELAY_CUBE;
+            this.numberOfFrames = Rectangle.NUMBER_OF_FRAMES_CUBE
+            this.heightInterval = Rectangle.HEIGHT_INTERVAL_CUBE;
+            this.widthInterval = Rectangle.WIDTH_INTERVAL_CUBE;
+            this.heightBuffer = Rectangle.HEIGHT_BUFFER_CUBE;
+            this.widthBuffer = Rectangle.WIDTH_BUFFER_CUBE;
+            this.bottomOffset = Rectangle.BOTTOM_OFFSET_CUBE;
+            this.textureFile = Rectangle.TEXTURE_FILE_CUBE;
+            this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CUBE;
+        }
         else
         {
             this.buildDelay = Rectangle.BUILD_DELAY_NONCLIMBABLE;
@@ -131,6 +153,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.textureFile = Rectangle.TEXTURE_FILE_NONCLIMBABLE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE;
         }
+
 
         // limit the size to the shapes we can handle and convert from pixel units to sprite-size units
         options.maxSize = Math.ceil(options.maxSize / (this.heightInterval-this.heightBuffer));
@@ -518,7 +541,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             var sprite:Draw2DSprite = this.sprites[this.sprites.length - 1];
 
-            if (this.animatedTexture.texture && this.animating) {
+            if (this.animatedTexture.texture && this.animating && this.isBuildable) // if !this.isBuildable then its static
+            {
                 sprite.setTexture(this.animatedTexture.texture);
                 sprite.setTextureRectangle(this.animatedTexture.currentFrameRectangle());
             }
