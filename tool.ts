@@ -23,20 +23,17 @@ class Tool extends RigidSprite implements Interactable
     public static debugColorBuildable:number[] = [0.0, 1.0, 0.0, 1.0];
 
     game:GameObject;
-    buildable:Buildable;
+    buildables:Buildable[];
     toolYarnBall:ToolYarnBall;
 
     constructor (options:ToolOptions, game:GameObject)
     {
         super(options);
         this.game = game;
+        this.buildables = [];
         if (options.hasOwnProperty("buildable") && options.buildable != null)
         {
-            this.buildable = options.buildable;
-        }
-        else
-        {
-            this.buildable = null;
+            this.buildables.push(options.buildable);
         }
 
         if (options.hasOwnProperty("toolYarnBall") && options.toolYarnBall != null)
@@ -186,16 +183,20 @@ class Tool extends RigidSprite implements Interactable
     {
         // check to see if the player is overlapping the right object
         if (this.game.collisionHelp.collisionUtils.intersects(this.body.shapes[0], player.rigidSprite.body.shapes[0])
-                                                  && this.buildable != null && this.buildable.isBuildable && !this.isDead)
+                                                  && this.buildables.length > 0 && !this.isDead)
         {
             // handle key presses
-            if (this.game.keyboard.keyPressed("W"))
+            for (var i:number = 0; i < this.buildables.length; i++)
             {
-                this.buildable.buildUp();
-            }
-            else if (this.game.keyboard.keyPressed("S"))
-            {
-                this.buildable.buildDown();
+                var buildable:Buildable = this.buildables[i];
+                if (this.game.keyboard.keyPressed("W"))
+                {
+                    buildable.buildUp();
+                }
+                else if (this.game.keyboard.keyPressed("S"))
+                {
+                    buildable.buildDown();
+                }
             }
         }
     }
@@ -203,7 +204,7 @@ class Tool extends RigidSprite implements Interactable
     setToolYarnBall(toolYarnBall:ToolYarnBall)
     {
         this.toolYarnBall = toolYarnBall;
-        this.toolYarnBall.setBuildable(this.buildable);
+        this.toolYarnBall.setBuildable(this.buildables[0]); // XXX: Arbitrarily sets the first buildable
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
