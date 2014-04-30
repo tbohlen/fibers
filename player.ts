@@ -11,6 +11,9 @@
 // direction (facing), possibly multiple animated sprite sheets,
 // and each sheet has a corresponding cycle time.
 
+// should refactor the player as a state machine...
+// this is a mess :'(
+
 class Player {
     SPEED = 0.2;
     JUMP_SPEED = 0.5;
@@ -40,6 +43,7 @@ class Player {
     walkTexture:AnimatedTexture = new AnimatedTexture("assets/player/walk.png", [256, 256], 8, true);
     jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 7, false);
     climbTexture:AnimatedTexture = new AnimatedTexture("assets/player/climb.png", [256, 256], 6, true);
+    pullTexture:AnimatedTexture = new AnimatedTexture("assets/player/pull.png", [256, 256], 8, true);
     currentTexture:AnimatedTexture = null;
 
     frameDimensions:number[] = [256, 256];
@@ -61,6 +65,7 @@ class Player {
     mathDevice:MathDevice;
     game:GameObject;
 
+    // should not have to do this. A little ridiculous.
     loadTextures(graphicsDevice:GraphicsDevice)
     {
         // import an image to use as the player display and when loading is done set it as the player's texture
@@ -68,7 +73,8 @@ class Player {
         this.walkTexture.loadTexture(graphicsDevice);
         this.jumpTexture.loadTexture(graphicsDevice);
         this.climbTexture.loadTexture(graphicsDevice);
-        this.currentTexture = this.standTexture;
+        this.pullTexture.loadTexture(graphicsDevice);
+        this.setCurrentTexture(this.standTexture);
     }
 
     constructor (game:GameObject, position:number[])
@@ -132,6 +138,21 @@ class Player {
         if (this.rigidSprite.sprite != null)
         {
             this.rigidSprite.sprite.setTexture(texture);
+        }
+    }
+
+    // only change the currentTexture if it is actually different.
+    // if so, reset the texture loop.
+    setCurrentTexture(texture:AnimatedTexture)
+    {
+        if (texture != this.currentTexture)
+        {
+            if (texture && this.currentTexture) {
+                console.log("changing texture from: " + this.currentTexture.textureFile + " to: " + texture.textureFile);
+            }
+            this.currentTexture = texture;
+            this.currentTexture.resetLoop();
+            this.currentTexture.play();
         }
     }
 
@@ -231,15 +252,8 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         var newVel:number[] = [-1*this.SPEED, vel[1]];
         this.rigidSprite.body.setVelocity(newVel);
-        if (this.isPulling) {
-            this.facing = Direction.RIGHT;
-        } else {
-            this.facing = Direction.LEFT;
-        }
-        if (this.onGround)
-        {
-            this.currentTexture = this.walkTexture;
-        }
+        this.facing = Direction.LEFT;
+
     }
 
     walkRight()
@@ -247,15 +261,7 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         var newVel:number[] = [this.SPEED, vel[1]];
         this.rigidSprite.body.setVelocity(newVel);
-        if (this.isPulling) {
-            this.facing = Direction.LEFT;
-        } else {
-            this.facing = Direction.RIGHT;
-        }
-        if (this.onGround)
-        {
-            this.currentTexture = this.walkTexture;
-        }
+        this.facing = Direction.RIGHT;
     }
 
     goDown()
@@ -279,7 +285,7 @@ class Player {
 
     jumpUp()
     {
-        if (this.pulledObject){
+        if (this.pulledObject) {
             this.release(this.pulledObject);
         }
 
@@ -333,8 +339,7 @@ class Player {
         if (this.onGround || this.isClimbing || this.rightBlockingShape == null || this.rightBlockingShape.body == null)
         {
             return true;
-        }
-        else
+        } else
         {
             return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
         }
@@ -347,14 +352,6 @@ class Player {
 
     climb()
     {
-        // when player y center ( = their y position) exceeds the top of the climbable object (y position - height),
-        // use stand texture instead...
-        var showClimbAnimation:boolean = this.rigidSprite.body.getPosition()[1] > this.climbableObject.getTopPosition();
-        if (showClimbAnimation) {
-            this.currentTexture = this.climbTexture;
-        } else {
-            this.currentTexture = this.standTexture;
-        }
         // make the player kinematic so they can't fall
         //this.rigidSprite.body.setAsKinematic();
         // calculate the movement direction
@@ -423,10 +420,55 @@ class Player {
         this.lastClimbPosition = currentPos;
     }
 
+
+    // consolidate texture updates based on the current player state.
+    // call within update(). This is a step towards refactoring the player into a finite state machine.
+    updateTexture()
+    {
+        if (this.isClimbing)
+        {
+            // when player y center ( = their y position) exceeds the top of the climbable object (y position - height),
+            // use stand texture instead...
+            var showClimbAnimation:boolean = this.rigidSprite.body.getPosition()[1] > this.climbableObject.getTopPosition();
+            if (showClimbAnimation)
+            {
+                this.setCurrentTexture(this.climbTexture);
+            } else
+            {
+                this.setCurrentTexture(this.standTexture);
+            }
+        } else
+        {
+            if (this.onGround)
+            {
+                var isStill:boolean = (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED);
+                if (isStill)
+                {
+                    this.setCurrentTexture(this.standTexture);
+                } else {
+                    if (this.isPulling)
+                    {
+                        this.setCurrentTexture(this.pullTexture);
+                    } else
+                    {
+                        this.setCurrentTexture(this.walkTexture);
+                    }
+                }
+            } else
+            {
+                this.setCurrentTexture(this.jumpTexture);
+            }
+        }
+
+        if (this.currentTexture.texture)
+        {
+            this.setTexture(this.currentTexture.texture);
+            this.setTextureRectangle(this.currentTexture.currentFrameRectangle(this.facing));
+        }
+    }
+
     update()
     {
-        var oldTexture:AnimatedTexture = this.currentTexture;
-
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
 
@@ -457,34 +499,20 @@ class Player {
         {
             // if we didn't jump and instead are climbing, move around
             this.climb();
-        } else if (!this.isClimbing)
-        {
+        } else if (!this.isClimbing) {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
-            if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft())
-            {
+            if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft()) {
                 this.walkLeft();
             }
-            if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight())
-            {
+            if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight()) {
                 this.walkRight();
             }
-            if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
-            {
+            if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild)) {
                 this.goUp();
             }
-            if (this.game.keyboard.keyPressed("DOWN") && !(this.game.keyboard.keyPressed("E") && this.canBuild))
-            {
+            if (this.game.keyboard.keyPressed("DOWN") && !(this.game.keyboard.keyPressed("E") && this.canBuild)) {
                 this.goDown();
-            }
-
-            if ((this.onGround && (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED)))
-            {
-                this.currentTexture = this.standTexture;
-            }
-            if (!this.onGround)
-            {
-                this.currentTexture = this.jumpTexture;
             }
         }
 
@@ -508,14 +536,7 @@ class Player {
             this.pulledObject.body.setVelocity(this.rigidSprite.body.getVelocity());
         }
 
-        if (oldTexture != this.currentTexture)
-        {
-            this.currentTexture.resetLoop();
-        }
-        if (this.currentTexture.texture) {
-            this.setTexture(this.currentTexture.texture);
-            this.setTextureRectangle(this.currentTexture.currentFrameRectangle(this.facing));
-        }
+        this.updateTexture();
     }
 
     // draws the player's sprite to the screen

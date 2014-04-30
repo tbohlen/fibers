@@ -47,8 +47,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static TEXTURE_FILE_CUBE:string = "assets/nonclimbable.png";
     public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [192, 0, 256, 32];
 
-    maxSizeForID:number;
-
     maxSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     minSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     width:number; // in WIDTH_INTERVAL units
@@ -100,8 +98,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     constructor(options:RectangleOptions, game:GameObject)
     {
         super(options);
-
-        this.maxSizeForID = options.maxSize / 64;
 
         // grow surface selection
         this.growSurface = options.growSurface;
@@ -509,9 +505,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape:Physics2DShape):boolean
     {
         var climbable:boolean = this.isClimbable && collisionUtil.intersects(this.getClimbableShape(), shape) && this.isInWorld && !this.isDead;
-        console.log("is " + this.rotation + " " + this.maxSizeForID);
-        console.log("Position is " + this.body.getPosition()[0] + ", " + this.body.getPosition()[1]);
-        console.log("Is " + climbable);
         return climbable;
     }
 
