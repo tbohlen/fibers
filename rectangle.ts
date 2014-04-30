@@ -24,31 +24,28 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static NUMBER_OF_FRAMES_CLIMBABLE:number = 4;
     public static HEIGHT_INTERVAL_CLIMBABLE:number = 64;
     public static WIDTH_INTERVAL_CLIMBABLE:number = 64;
-    public static HEIGHT_BUFFER_CLIMBABLE:number = 37;
+    public static HEIGHT_BUFFER_CLIMBABLE:number = 27;
     public static WIDTH_BUFFER_CLIMBABLE:number = 30;
-    public static BOTTOM_OFFSET_CLIMBABLE:number = 10;
     public static TEXTURE_FILE_CLIMBABLE:string = "assets/chain.png";
     public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [192, 0, 256, 64];
 
     public static BUILD_DELAY_NONCLIMBABLE:number = 300;
-    public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 4;
-    public static HEIGHT_INTERVAL_NONCLIMBABLE:number = 32;
+    public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 5;
+    public static HEIGHT_INTERVAL_NONCLIMBABLE:number = 64;
     public static WIDTH_INTERVAL_NONCLIMBABLE:number = 64;
-    public static HEIGHT_BUFFER_NONCLIMBABLE:number = 14;
-    public static WIDTH_BUFFER_NONCLIMBABLE:number = 8;
-    public static BOTTOM_OFFSET_NONCLIMBABLE:number = 0;
-    public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/nonclimbable.png";
-    public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [192, 0, 256, 32];
+    public static HEIGHT_BUFFER_NONCLIMBABLE:number = 25;
+    public static WIDTH_BUFFER_NONCLIMBABLE:number = 18;
+    public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/climbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [256, 0, 320, 64];
 
     public static BUILD_DELAY_CUBE:number = 300;
-    public static NUMBER_OF_FRAMES_CUBE:number = 5;
-    public static HEIGHT_INTERVAL_CUBE:number = 64;
+    public static NUMBER_OF_FRAMES_CUBE:number = 4;
+    public static HEIGHT_INTERVAL_CUBE:number = 32;
     public static WIDTH_INTERVAL_CUBE:number = 64;
-    public static HEIGHT_BUFFER_CUBE:number = 25;
-    public static WIDTH_BUFFER_CUBE:number = 18;
-    public static BOTTOM_OFFSET_CUBE:number = 14;
-    public static TEXTURE_FILE_CUBE:string = "assets/climbable.png";
-    public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [256, 0, 320, 64];
+    public static HEIGHT_BUFFER_CUBE:number = 14;
+    public static WIDTH_BUFFER_CUBE:number = 7;
+    public static TEXTURE_FILE_CUBE:string = "assets/nonclimbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [192, 0, 256, 32];
 
     maxSizeForID:number;
 
@@ -80,7 +77,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     widthInterval:number;
     heightBuffer:number;
     widthBuffer:number;
-    bottomOffset:number;
     textureFile:string;
     finalTextureRectangle:number[];
 
@@ -125,7 +121,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.widthInterval = Rectangle.WIDTH_INTERVAL_CLIMBABLE;
             this.heightBuffer = Rectangle.HEIGHT_BUFFER_CLIMBABLE;
             this.widthBuffer = Rectangle.WIDTH_BUFFER_CLIMBABLE;
-            this.bottomOffset = Rectangle.BOTTOM_OFFSET_CLIMBABLE;
             this.textureFile = Rectangle.TEXTURE_FILE_CLIMBABLE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CLIMBABLE;
         }
@@ -137,7 +132,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.widthInterval = Rectangle.WIDTH_INTERVAL_CUBE;
             this.heightBuffer = Rectangle.HEIGHT_BUFFER_CUBE;
             this.widthBuffer = Rectangle.WIDTH_BUFFER_CUBE;
-            this.bottomOffset = Rectangle.BOTTOM_OFFSET_CUBE;
             this.textureFile = Rectangle.TEXTURE_FILE_CUBE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CUBE;
         }
@@ -149,7 +143,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.widthInterval = Rectangle.WIDTH_INTERVAL_NONCLIMBABLE;
             this.heightBuffer = Rectangle.HEIGHT_BUFFER_NONCLIMBABLE;
             this.widthBuffer = Rectangle.WIDTH_BUFFER_NONCLIMBABLE;
-            this.bottomOffset = Rectangle.BOTTOM_OFFSET_NONCLIMBABLE;
             this.textureFile = Rectangle.TEXTURE_FILE_NONCLIMBABLE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE;
         }
@@ -611,13 +604,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                     var sprite:Draw2DSprite = this.sprites[i];
                     var pos:number[] = this.body.getPosition();
                     sprite.x = pos[0]
-                        //- Rectangle.BOTTOM_OFFSET * finalShift[0] // offset b/c bottom of tile is not bottom of image
-                        - (correction[0] * (this.heightInterval - this.heightBuffer)) // offset b/c of origin shift
+                        - (correction[0] * this.heightInterval) // offset b/c of origin shift
                         + ((this.heightInterval - this.heightBuffer) * finalShift[0] * i) // offset to stack images
                         - ((this.widthInterval - this.widthBuffer) * finalShift[1] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.y = pos[1]
-                        + this.bottomOffset * finalShift[1]
-                        - (correction[1] * (this.heightInterval - this.heightBuffer))
+                        - (correction[1] * this.heightInterval)
                         + ((this.heightInterval - this.heightBuffer) * finalShift[1] * i)
                         - ((this.widthInterval - this.widthBuffer) * finalShift[0] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.rotation = rotation + additionalRotation;
