@@ -58,9 +58,9 @@ class Tileset {
 
     ranLoadMap:boolean = false;
 
-    buildables:any = {};
-    toolYarnBalls:any = {};
-    tools:any = {};
+    buildables:any[] = [];
+    toolYarnBalls:any[] = [];
+    tools:any[] = [];
 
     // XXX: Don't modify!!
     game:GameObject;
@@ -140,6 +140,17 @@ class Tileset {
         return (this.mapData != null);
     }
 
+    // kill this tileset by making sure that all rigid bodies cannot interact
+    kill()
+    {
+        for (var i:number = 0; i < this.rigidSprites.length; i++)
+        {
+            var sprite:RigidSprite = this.rigidSprites[i];
+            sprite.kill();
+        }
+
+    }
+
 
     /*
      * Method: loadObjectLayer
@@ -180,15 +191,15 @@ class Tileset {
                 if (obj.type == "Tool" && obj.properties.hasOwnProperty("toolKey"))
                 {
                     //console.log("Adding tool");
-                    this.tools[obj.properties.toolKey] = rigidSprite;
+                    this.tools.push([obj.properties.toolKey, rigidSprite]);
                 }
                 else if (obj.type == "ToolYarnBall" && obj.properties.hasOwnProperty("toolKey"))
                 {
-                    this.toolYarnBalls[obj.properties.toolKey] = rigidSprite;
+                    this.toolYarnBalls.push([obj.properties.toolKey, rigidSprite]);
                 }
                 else if (obj.properties.hasOwnProperty("toolKey"))
                 {
-                    this.buildables[obj.properties.toolKey] = rigidSprite;
+                    this.buildables.push([obj.properties.toolKey, rigidSprite]);
                 }
             }
         }
@@ -254,17 +265,27 @@ class Tileset {
         }
 
         //console.log("mapping tools");
-        for (var key in this.tools)
+        for (var i:number = 0; i < this.tools.length; i++)
         {
+            var key:string = <string>(this.tools[i][0]);
+            var tool:Tool = <Tool>(this.tools[i][1]);
             //console.log("found key: " + key);
-            if (this.buildables.hasOwnProperty(key))
+
+            for (var j:number = 0; j < this.buildables.length; j++)
             {
-                //console.log("Found match for key: " + key);
-                (<Tool>this.tools[key]).buildable = this.buildables[key];
+                if (this.buildables[j][0] == key)
+                {
+                    //console.log("Found match for key: " + key);
+                    tool.buildables.push(this.buildables[j][1]);
+                }
             }
-            if (this.toolYarnBalls.hasOwnProperty(key))
+
+            for (var k:number = 0; k < this.toolYarnBalls.length; k++)
             {
-                (<Tool>this.tools[key]).setToolYarnBall(this.toolYarnBalls[key]);
+                if (this.toolYarnBalls[k][0] == key)
+                {
+                    tool.setToolYarnBall(this.toolYarnBalls[k][1]);
+                }
             }
 
         }

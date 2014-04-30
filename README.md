@@ -128,7 +128,7 @@ properties must be included:
 * (optional) isClimbable:<<true or false>> (defaults to false)
 * (optional) isPullable::<<true or false>> (defaults to false)
 * (optional) initHeight:<<integer in pixels>> (if included, this will supersede the height of the object as shown in tiled)
-* (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool>>
+* (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool you want to control this rectangle>>
 * (optional) growSurface:<<left, right, top, or bottom>> (defaults to top)
 
 Spawn points can be added very simply. Just place a 1 tile x 1 tile (not strictly necessary,

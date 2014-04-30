@@ -12,6 +12,7 @@ class RigidSprite {
     public body:Physics2DRigidBody = null;
     gid:number; // represents the tile on te large texture graphic to use to display this sprite
     initialPos:number[];
+    isDead:boolean;
 
     constructor (options:RigidSpriteOptions) {
         this.sprite = options.sprite;
@@ -19,6 +20,7 @@ class RigidSprite {
         this.sprite.x = options.initialPos[0];
         this.sprite.y = options.initialPos[1];
         this.gid = (options.gid ? options.gid : 0);
+        this.isDead = false;
 
         if (options.body) {
             this.body = options.body;
@@ -29,6 +31,11 @@ class RigidSprite {
     getShapes():Physics2DShape[]
     {
         return this.body.shapes;
+    }
+
+    kill()
+    {
+        this.isDead = true;
     }
 
     draw(draw2D:Draw2D, offset) {

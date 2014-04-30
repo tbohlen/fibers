@@ -42,7 +42,7 @@
     <property name="maxHeight" value="4"/>
     <property name="minHeight" value="0"/>
     <property name="rotation" value="0"/>
-    <property name="toolKey" value="1"/>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
   <object name="Up" type="Rectangle" x="768" y="512" width="64" height="64">
@@ -55,7 +55,7 @@
     <property name="maxHeight" value="4"/>
     <property name="minHeight" value="0"/>
     <property name="rotation" value="0"/>
-    <property name="toolKey" value="2"/>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
   <object name="Up" type="Rectangle" x="1088" y="512" width="64" height="64">
@@ -68,7 +68,7 @@
     <property name="maxHeight" value="4"/>
     <property name="minHeight" value="0"/>
     <property name="rotation" value="0"/>
-    <property name="toolKey" value="3"/>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
  </objectgroup>
