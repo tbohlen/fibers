@@ -133,7 +133,6 @@ class Tileset {
             mipmaps: true,
             onload: (texture) => {
                 if (texture) {
-                    console.log("adding texture to spritesheet: "+i);
                     this.spritesheets[i].mapTexture = texture;
                 }
             }
@@ -158,7 +157,6 @@ class Tileset {
 
     setTexture(rigidSprite:RigidSprite, spriteSheet:Spritesheet) {
         var textureRectangle:number[] = this.getTileCoordinatesForIndex(rigidSprite.gid, spriteSheet);
-        console.log(spriteSheet.firstGID);
         rigidSprite.sprite.setTextureRectangle(textureRectangle);
         rigidSprite.sprite.setTexture(spriteSheet.mapTexture);
     }

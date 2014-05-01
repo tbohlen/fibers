@@ -12,6 +12,7 @@ class AnimatedTexture {
     isReversed:boolean = false;
     isPaused:boolean = false;
     loopCallback:Function = null;
+    keyframes:number[] = null;
 
     loadTexture(graphicsDevice:GraphicsDevice, callback?)
     {
@@ -32,6 +33,12 @@ class AnimatedTexture {
         });
     }
 
+    // handles keyframes in addition to standard setup
+    getFrameCount():number
+    {
+        return this.keyframes ? this.keyframes.length : this.frameCount;
+    }
+
     constructor(public textureFile:string, public frameDimensions:number[], public frameCount:number, public isLooping:boolean, public noAutoreset?:boolean)
     {}
 
@@ -42,7 +49,7 @@ class AnimatedTexture {
 
     setTexture(n:number)
     {
-        this.currentFrame = n % this.frameCount;
+        this.currentFrame = n % this.getFrameCount();
     }
 
     reverse()
@@ -72,76 +79,34 @@ class AnimatedTexture {
 
     updateCurrentFrame()
     {
-        var finalFrame:number = this.isReversed ? 0 : (this.frameCount - 1);
-        var firstFrame:number = this.isReversed ? (this.frameCount - 1) : 0;
+        var frameCount:number = this.getFrameCount();
+        var finalFrame:number = this.isReversed ? 0 : (frameCount - 1);
+        var firstFrame:number = this.isReversed ? (frameCount - 1) : 0;
+
         if (!this.isPaused) {
             if (this.didLoop && this.isLooping == false) {
                 this.currentFrame = finalFrame;
-
                 // call callback, if any
                 if (this.loopCallback)
                 {
                     this.loopCallback();
                 }
             } else {
-                this.currentFrame = this.isReversed ? (this.currentFrame - 1) : (this.currentFrame + 1) % this.frameCount;
+                this.currentFrame = this.isReversed ? (this.currentFrame - 1) : (this.currentFrame + 1) % frameCount;
 
                 if (this.isReversed && this.currentFrame < 0) {
-                    this.currentFrame = this.frameCount - 1;
+                    this.currentFrame = frameCount - 1;
                 }
-
                 if (this.currentFrame == finalFrame) {
                     this.didLoop = true;
                 }
-                    /*
-        if (this.didLoop && this.isLooping == false)
-        {
-            if (this.noAutoreset && !this.isReversed)
-            {
-                this.currentFrame = this.frameCount - 1;
-            }
-            else {
-                console.log("MOVE 1");
-                this.currentFrame = 0;
-            }
-
-            // call callback, if any
-            if (this.loopCallback)
-            {
-                this.loopCallback();
-            }
-        } else {
-            if (this.isReversed) {
-                // increment
-                console.log("MOVE 2");
-                this.currentFrame = (this.currentFrame - 1);
-                if (this.currentFrame < 0) {
-                    this.currentFrame = this.frameCount - 1;
-                }
-
-                // test for didLoop
-                if ((!this.noAutoreset && this.currentFrame == (this.frameCount - 1))
-                    || (this.noAutoreset && this.currentFrame == 0))
-                {
-                    this.didLoop = true;
-                }
-            } else {
-                // increment
-                this.currentFrame = (this.currentFrame + 1) % this.frameCount;
-
-                // test for didLoop
-                if ((!this.noAutoreset && this.currentFrame == 0)
-                    || (this.noAutoreset && this.currentFrame == (this.frameCount - 1))) {
-                    this.didLoop = true;
-                }
-                     */
             }
         }
     }
 
     resetLoop()
     {
-        this.currentFrame = this.isReversed ? (this.frameCount - 1) : 0;
+        this.currentFrame = this.isReversed ? (this.getFrameCount() - 1) : 0;
         this.didLoop = false;
     }
 
@@ -150,7 +115,8 @@ class AnimatedTexture {
      */
     currentFrameRectangle(facing?:Direction)
     {
-        var textureX = this.frameDimensions[0]*this.currentFrame;
+        var trueCurrentFrame:number = this.keyframes ? this.keyframes[this.currentFrame] : this.currentFrame;
+        var textureX = this.frameDimensions[0]*trueCurrentFrame;
         var textureY = 0;
         var textureWidth = this.frameDimensions[0];
         var textureHeight = this.frameDimensions[1];

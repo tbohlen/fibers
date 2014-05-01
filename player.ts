@@ -121,6 +121,8 @@ class Player {
                 }
             }, this.animationFrameDurationMS);
 
+        this.jumpTexture.keyframes = [1,4];
+
         this.rigidSprite = playerRigidSprite;
         this.rigidSprite.body.setPosition(position); // should be added to rigidSprite...
 
@@ -131,7 +133,6 @@ class Player {
 
         // set up jumping for the player
         this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
-
     }
 
     // sets the texture used to display the character. If no texture is null, displays a white box
@@ -148,9 +149,9 @@ class Player {
     {
         if (texture != this.currentTexture)
         {
-            if (texture && this.currentTexture) {
-                console.log("changing texture from: " + this.currentTexture.textureFile + " to: " + texture.textureFile);
-            }
+//            if (texture && this.currentTexture) {
+//                console.log("changing texture from: " + this.currentTexture.textureFile + " to: " + texture.textureFile);
+//            }
             this.currentTexture = texture;
             this.currentTexture.resetLoop();
             this.currentTexture.play();
@@ -236,7 +237,7 @@ class Player {
             this.isPulling = true;
             rect.isBeingPulled = true;
             this.walkTexture.reverse();
-            console.log("PULLING!");
+            //console.log("PULLING!");
         }
     }
 
@@ -247,7 +248,7 @@ class Player {
             this.isPulling = false;
             this.pulledObject = null;
             this.walkTexture.reverse();
-            console.log("RELEASED!");
+            //console.log("RELEASED!");
         }
     }
 
@@ -319,9 +320,9 @@ class Player {
             // the ground and them must be at a 45 degree angle or higher (otherwise they are "slipping")
             var dist:number = this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0], this.groundShape, witA, witB, axis);
             var isOnGround:boolean = (axis[1] >= 0 && axis[1] > axis[0] && dist < this.DIST_EPSILON);
-            if (!isOnGround){
-                console.log("not on ground... axes: [" + axis[0] + ", " + axis[1] + "] dist: " + dist);
-            }
+//            if (!isOnGround){
+//                console.log("not on ground... axes: [" + axis[0] + ", " + axis[1] + "] dist: " + dist);
+//            }
             return isOnGround;
         } else {
             return false;
@@ -535,7 +536,7 @@ class Player {
         if (this.game.keyboard.keyPressed("SPACE") && (this.isClimbing || this.onGround))
         {
             this.rigidSprite.body.setAsDynamic();
-            console.log("JUMPING!");
+            //console.log("JUMPING!");
             this.jumpUp();
         } else if (this.isClimbing)
         {
