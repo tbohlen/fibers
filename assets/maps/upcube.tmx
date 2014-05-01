@@ -180,7 +180,7 @@
     <property name="width" value="1"/>
    </properties>
   </object>
-  <object name="cube" type="Rectangle" gid="57" x="556" y="1122" width="64" height="64">
+  <object name="cube" type="Rectangle" gid="57" x="556" y="1122" width="51" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>

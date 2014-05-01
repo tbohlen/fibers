@@ -40,8 +40,8 @@
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":120,
-                 "x":544,
+                 "width":101,
+                 "x":563,
                  "y":517
                 }, 
                 {
@@ -69,13 +69,13 @@
                     {
                      "bodyType":"rigidBody",
                      "isSolid":"true",
-                     "mass":"100"
+                     "mass":"1000"
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":118,
-                 "x":546,
-                 "y":443
+                 "width":92,
+                 "x":566,
+                 "y":442
                 }],
          "opacity":1,
          "type":"objectgroup",

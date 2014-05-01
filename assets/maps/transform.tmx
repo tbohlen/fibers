@@ -14,7 +14,7 @@
   </data>
  </layer>
  <objectgroup name="transform platforms" width="20" height="12">
-  <object name="1" type="Rectangle" x="544" y="517" width="120" height="120">
+  <object name="1" type="Rectangle" x="563" y="517" width="101" height="120">
    <properties>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="true"/>
@@ -34,11 +34,11 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Rectangle" x="546" y="443" width="118" height="70">
+  <object type="Rectangle" x="566" y="442" width="92" height="70">
    <properties>
     <property name="bodyType" value="rigidBody"/>
     <property name="isSolid" value="true"/>
-    <property name="mass" value="100"/>
+    <property name="mass" value="1000"/>
    </properties>
   </object>
  </objectgroup>
