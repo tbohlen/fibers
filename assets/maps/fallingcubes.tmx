@@ -92,28 +92,45 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
+<<<<<<< HEAD
+  <object type="Rectangle" x="296" y="258" width="44" height="50">
+=======
   <object type="Rectangle" x="288" y="265" width="64" height="64">
+>>>>>>> 4f9b110c1860cb64c88b6ccdd87a650e05af7f77
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
-    <property name="mass" value="10"/>
+    <property name="mass" value="50"/>
    </properties>
   </object>
+<<<<<<< HEAD
+  <object type="Rectangle" x="556" y="252" width="40" height="55">
+=======
   <object type="Rectangle" x="545" y="263" width="64" height="64">
+>>>>>>> 4f9b110c1860cb64c88b6ccdd87a650e05af7f77
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
-    <property name="mass" value="10"/>
+    <property name="mass" value="50"/>
    </properties>
   </object>
+<<<<<<< HEAD
+  <object type="Rectangle" x="808" y="250" width="45" height="54">
+=======
   <object type="Rectangle" x="807" y="264" width="64" height="64">
+>>>>>>> 4f9b110c1860cb64c88b6ccdd87a650e05af7f77
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
-    <property name="mass" value="10"/>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object type="Platform" x="386" y="836" width="59" height="56">
+   <properties>
+    <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
