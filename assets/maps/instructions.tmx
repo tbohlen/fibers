@@ -3,6 +3,9 @@
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
+ <tileset firstgid="129" name="instructions" tilewidth="64" tileheight="64">
+  <image source="../story/instructions.png" width="1024" height="768"/>
+ </tileset>
  <layer name="background" width="32" height="14">
   <data encoding="base64" compression="zlib">
    eJzt06cBgDAABdGsFsBQDMVQDMVQDMVQhuem4CMinrgBzhpjPPgIYD/uEBFiJIJOkSFHIegSFWo0gm7Roccg6BETZiyCXrFhxyHoExduPIL++nf3v/v/T/+/bLOfYQ==
@@ -23,6 +26,39 @@
  <layer name="knitting" width="32" height="14">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUjIJRgA3wIrFZB8wVo4BWAAAohAAT
+  </data>
+ </layer>
+ <objectgroup name="knit" width="32" height="14">
+  <object type="Tool" x="708" y="643" width="57" height="57">
+   <properties>
+    <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="true"/>
+    <property name="isSolid" value="false"/>
+    <property name="maxHeight" value="3"/>
+    <property name="minHeight" value="1"/>
+    <property name="prebuilt " value="false"/>
+    <property name="rotation" value="0"/>
+    <property name="width" value="1"/>
+   </properties>
+  </object>
+  <object type="Tool" x="514" y="645" width="57" height="57">
+   <properties>
+    <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="3"/>
+    <property name="minHeight" value="1"/>
+    <property name="prebuilt " value="false"/>
+    <property name="rotation" value="0"/>
+    <property name="width" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="grandmas" width="32" height="14">
+  <data encoding="base64" compression="zlib">
+   eJztzdVKoAEUhVHFbsFuwZwxX9q+tFuwdRwFuwW7BbtdvsMvCHpgXZ79hYT83ne8OuppoJEmmmn54m4rbbTTQSdddNNDL330M8AgQwH2hxlhlDHGmWCSKab5xwz/mWUuwP48CyyyxDIrrLLGOhtsssU2OwH2d9ljnwMOOeKYE04545wLLrkKsH/NDbfccc8DjzzxzAuvvPH++RQaXD/MVjgRRBJFNDHEEkc8CSSSRHKA/RRbqaSRTgaZZJFNDrnkkU8BhQH2i2wVU0IpZZTzh79UUEkV1dRQG2D/p90Hu6FDbA==
   </data>
  </layer>
 </map>
