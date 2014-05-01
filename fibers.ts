@@ -96,6 +96,7 @@ var game:GameObject = {
     nextState : null
 };
 game.progression.setGameObject(game);
+game.checkpointManager.setGameObject(game);
 
 var currentState:TurbGameState = new MenuState(game, "mainMenu");
 

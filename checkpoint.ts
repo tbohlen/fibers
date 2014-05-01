@@ -10,11 +10,17 @@ class CheckpointManager
 {
     allCheckpoints:Checkpoint[];
     completedCheckpoints:Checkpoint[]; // arranged in chronological order
+    game:GameObject;
 
     constructor ()
     {
         this.allCheckpoints = [];
         this.completedCheckpoints = [];
+    }
+
+    setGameObject(game:GameObject):void
+    {
+        this.game = game;
     }
 
     public pushCheckpoint(check:Checkpoint)
@@ -42,6 +48,13 @@ class CheckpointManager
         console.log(lastCheck);
         return lastCheck.body.getPosition();
     }
+	
+	public removeAllCheckpoints():void
+	{
+		this.allCheckpoints = [];
+		this.completedCheckpoints = [];
+        this.game.collisionHelp.removeAllCheckpoints();
+	}
 }
 
 class Checkpoint implements Interactable
@@ -110,7 +123,7 @@ class Checkpoint implements Interactable
             checkpointManager : game.checkpointManager,
             completedCallback : callback
         });
-        game.collisionHelp.pushInteractable(cp);
+        game.collisionHelp.pushCheckpoint(cp);
         game.checkpointManager.pushCheckpoint(cp);
         return null; // return null since this is not a rigid sprite
     }

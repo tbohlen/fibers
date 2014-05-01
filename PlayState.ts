@@ -51,12 +51,9 @@ class PlayState extends TurbGameState
     switchLevel()
     {
         var levelName:string = $("#levelNameinput").val();
+
         this.tileset.kill(); // kill all interaction with the old tileset
-        this.tileset = new Tileset(levelName+".json", this.game);
-        this.game.physicsWorld.clear();
-        // build the player
-        this.player = new Player(this.game, [70, 0]);
-        this.game.collisionHelp.setPlayer(this.player);
+        this.game.nextState = new PlayState(this.game, levelName);
     }
 
     loadMapIfNecessary()

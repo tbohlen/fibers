@@ -73,6 +73,7 @@ class Progression
         }
         if (this.currentEntry.stateType in window)
         {
+			this.game.checkpointManager.removeAllCheckpoints();
             return new window[this.currentEntry.stateType](
                 this.game,
                 this.currentEntry.map
