@@ -159,3 +159,9 @@ Options 2: Under properties, assign "progress" to "start", "current", or "next"
     - "nextName" --> the name of the state to be moved on to next. The name should be one that is in the top level of
         the json
 
+
+# MUSIC
+
+[Winter Sunshine EP](http://freemusicarchive.org/music/Evgeny_Grinko/Winter_Sunshine_EP/) by Evgeny Grinko is licensed under a Attribution-NonCommercial-NoDerivatives 2.0 Germany License.
+
+Soundtrack music, "Pillow" and "Byathread," composed by our good friend [Jeffrey Prouty](https://soundcloud.com/user95942475/).
