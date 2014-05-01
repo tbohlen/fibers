@@ -29,7 +29,7 @@
     "nextName" : "thirdLev"
   },
 
-    "thirdLev": {
+  "thirdLev": {
     "stateType" : "PlayState",
     "map" : "upcube",
     "nextName" : "endCut"

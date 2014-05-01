@@ -25,26 +25,27 @@
  </objectgroup>
  <layer name="knitting" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhD8SAWJzKZvIisVkJqJUDYnkq2z8KaAsA8rQAfQ==
+   eJxjYBgFo2AUjIKhD8SAWJzKZvKi8VnxqJUDYnkq2z8KaAsA8qAAfQ==
   </data>
  </layer>
  <objectgroup name="knit" width="32" height="14">
-  <object type="Tool" x="708" y="643" width="57" height="57">
+  <object name="1" type="Tool" x="771" y="645" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="true"/>
     <property name="isSolid" value="false"/>
     <property name="maxHeight" value="3"/>
-    <property name="minHeight" value="1"/>
+    <property name="minHeight" value="0"/>
     <property name="prebuilt " value="false"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="1"/>
     <property name="width" value="0.5"/>
    </properties>
   </object>
   <object name="0" type="Tool" x="516" y="646" width="57" height="57">
    <properties>
-    <property name="prebuilt " value="true"/>
+    <property name="prebuilt" value="true"/>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
@@ -62,10 +63,20 @@
     <property name="isSolid" value="true"/>
     <property name="maxHeight" value="3"/>
     <property name="minHeight" value="0"/>
-    <property name="prebuilt " value="true"/>
+    <property name="prebuilt" value="true"/>
     <property name="rotation" value="0"/>
     <property name="toolKey" value="0"/>
     <property name="width" value="1"/>
+   </properties>
+  </object>
+  <object name="1" type="ToolYarnBall" x="706" y="647" width="62" height="57">
+   <properties>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="0" type="ToolYarnBall" x="452" y="646" width="62" height="57">
+   <properties>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
  </objectgroup>
@@ -74,4 +85,7 @@
    eJztzbVSHVAARdHH4F7gXqDB8tHBtcC9AJLgBYTgFLgXuLM+4hbMwJlZ7dmRyPc+037RQCNNNNNCK22000EnXXQH7vfQSx/9DDDIEMOMMMoY40wE7k8yxTS/+cNfZphljnkWWGQpcH+ZFf6xyn/WWGeDTbbYZofdwP099jngkCOOOeGUM8654JKrwP1rbrjljnseeOSJZ1545Y33wP3oqEgkhljiiCeBRJJIJoVU0kiPCtvP8JdJFtnkkEse+RRQSBHFlATul/oro5wKKqniB9XUUEsd9fwM3P9q+wAOXUOl
   </data>
  </layer>
+ <objectgroup name="checkpoints" width="32" height="14">
+  <object type="Spawn" x="86" y="603" width="64" height="64"/>
+ </objectgroup>
 </map>

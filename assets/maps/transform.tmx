@@ -14,7 +14,7 @@
   </data>
  </layer>
  <objectgroup name="transform platforms" width="20" height="12">
-  <object name="1" type="Rectangle" x="563" y="517" width="101" height="120">
+  <object name="1" type="Rectangle" x="568" y="517" width="90" height="120">
    <properties>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="true"/>
@@ -34,7 +34,7 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Rectangle" x="566" y="442" width="92" height="70">
+  <object type="Rectangle" x="567" y="449" width="92" height="64">
    <properties>
     <property name="bodyType" value="rigidBody"/>
     <property name="isSolid" value="true"/>
@@ -118,7 +118,7 @@
   <object type="Checkpoint" x="197" y="268" width="116" height="118">
    <properties>
     <property name="checkpointName" value="goal"/>
-    <property name="progress " value="next"/>
+    <property name="progress" value="next"/>
    </properties>
   </object>
  </objectgroup>

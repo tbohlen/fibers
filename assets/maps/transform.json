@@ -40,8 +40,8 @@
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":101,
-                 "x":563,
+                 "width":90,
+                 "x":568,
                  "y":517
                 }, 
                 {
@@ -63,7 +63,7 @@
                  "y":518
                 }, 
                 {
-                 "height":70,
+                 "height":64,
                  "name":"",
                  "properties":
                     {
@@ -74,8 +74,8 @@
                  "type":"Rectangle",
                  "visible":true,
                  "width":92,
-                 "x":566,
-                 "y":442
+                 "x":567,
+                 "y":449
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -309,7 +309,7 @@
                  "properties":
                     {
                      "checkpointName":"goal",
-                     "progress ":"next"
+                     "progress":"next"
                     },
                  "type":"Checkpoint",
                  "visible":true,

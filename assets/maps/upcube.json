@@ -474,6 +474,19 @@
                  "width":104,
                  "x":1669,
                  "y":269
+                }, 
+                {
+                 "height":94,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "type":"Spawn",
+                 "visible":true,
+                 "width":63,
+                 "x":104,
+                 "y":577
                 }],
          "opacity":1,
          "type":"objectgroup",

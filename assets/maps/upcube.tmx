@@ -219,5 +219,6 @@
     <property name="progress" value="next"/>
    </properties>
   </object>
+  <object type="Spawn" x="104" y="577" width="63" height="94"/>
  </objectgroup>
 </map>

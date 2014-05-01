@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="15" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="23" height="15" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
- <layer name="background" width="20" height="15">
+ <layer name="background" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt0icOgEAARNG92gKGYiiGYiiGYiiGcnj+HXYMCeKJLycZa4zx4COAdewQEWIkgk6RIUchaNd9X9tbokKNRtAtOvQYBD1iwoxF0Cs27DgEfeLCjUfQ///c+gXrDWUP
+   eJzt0qsSg0AQRNH9NQImIQYSQ8AQMEAMD8Pj47lyapCz67JVR7Ts6c2dcy+8EeGGGImH/EGJCnc8kOLpIX/RoEWGXPSw5h4DfgFuMmHGEuAmG3YcAW4iOxRqW2uWHWq1rTXLDp3a1pplh1Fta82yw6q2teb//75m+Xz/7xOC5XU1
   </data>
  </layer>
- <layer name="ground" width="20" height="15">
+ <layer name="ground" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AU0BpwAjEXEGtSyTxBIBYCYmEgFqGCeSCzpKBYGoi10eS50fggeR0GiH+0sPCloHxDIDYCYmMgNkHiS6Hx0eVx8QE2wgaR
+   eJxjYBgFo2AUjATACcRcSDQ3EGtSyWxBIBZCooWhWIQKZoPMk0IzG8SXBmJtNLXcaHyQvA4DxJ9aWPhSUL4kkpmGQGwExMZAbILEl0Ljo8vj4gMACnkHaQ==
   </data>
  </layer>
- <objectgroup name="ground" width="20" height="15">
-  <object type="Platform" x="1" y="705" width="62" height="124">
+ <objectgroup name="ground" width="23" height="15">
+  <object type="Platform" x="4" y="709" width="246" height="248">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1155" y="641" width="121" height="175">
+  <object type="Platform" x="1347" y="641" width="121" height="175">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="-1" y="834" width="189" height="316">
+  <object type="Platform" x="258" y="836" width="122" height="123">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
- <layer name="knit needles" width="20" height="15">
+ <layer name="knit needles" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AU4AJ8A+0AKgHWgXYAlQAAHngAFA==
+   eJxjYBgFo2AUDGbAN9AOoDFgHWgH0BgAACJEABQ=
   </data>
  </layer>
- <objectgroup name="bridge horizontal" width="20" height="15">
-  <object name="bridge" type="Rectangle" x="64" y="671" width="28" height="28">
+ <objectgroup name="bridge horizontal" width="23" height="15">
+  <object name="bridge" type="Rectangle" x="256" y="671" width="28" height="28">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -50,14 +50,14 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="needle" width="20" height="15">
-  <object type="Tool" x="5" y="647" width="53" height="53">
+ <objectgroup name="needle" width="23" height="15">
+  <object type="Tool" x="197" y="647" width="53" height="53">
    <properties>
     <property name="prebuilt" value="true"/>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Tool" x="642" y="775" width="60" height="55">
+  <object type="Tool" x="834" y="775" width="60" height="55">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -71,32 +71,28 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="platforms" width="20" height="15">
+ <layer name="platforms" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFgxkwAjELCfxRMAqGMwAAMYAAEA==
+   eJxjYBgFIwEwAjELCfxRMApGAXUAADiIABA=
   </data>
  </layer>
- <objectgroup name="cubes" width="20" height="15">
-  <object type="Platform" x="67" y="771" width="59" height="57">
+ <objectgroup name="cubes" width="23" height="15">
+  <object type="Platform" x="259" y="771" width="59" height="57">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="195" y="899" width="444" height="246">
+  <object type="Platform" x="387" y="899" width="444" height="246">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="642" y="838" width="634" height="310">
+  <object type="Platform" x="834" y="838" width="634" height="310">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-<<<<<<< HEAD
-  <object type="Rectangle" x="296" y="258" width="44" height="50">
-=======
-  <object type="Rectangle" x="288" y="265" width="64" height="64">
->>>>>>> 4f9b110c1860cb64c88b6ccdd87a650e05af7f77
+  <object type="Rectangle" x="488" y="258" width="32" height="50">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
@@ -104,11 +100,7 @@
     <property name="mass" value="50"/>
    </properties>
   </object>
-<<<<<<< HEAD
-  <object type="Rectangle" x="556" y="252" width="40" height="55">
-=======
-  <object type="Rectangle" x="545" y="263" width="64" height="64">
->>>>>>> 4f9b110c1860cb64c88b6ccdd87a650e05af7f77
+  <object type="Rectangle" x="748" y="252" width="32" height="55">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
@@ -116,11 +108,7 @@
     <property name="mass" value="50"/>
    </properties>
   </object>
-<<<<<<< HEAD
-  <object type="Rectangle" x="808" y="250" width="45" height="54">
-=======
-  <object type="Rectangle" x="807" y="264" width="64" height="64">
->>>>>>> 4f9b110c1860cb64c88b6ccdd87a650e05af7f77
+  <object type="Rectangle" x="1000" y="250" width="32" height="54">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
@@ -128,39 +116,39 @@
     <property name="mass" value="50"/>
    </properties>
   </object>
-  <object type="Platform" x="386" y="836" width="59" height="56">
+  <object type="Platform" x="578" y="836" width="59" height="56">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="platforms" width="20" height="15">
-  <object type="Platform" x="261" y="327" width="114" height="46">
+ <objectgroup name="platforms" width="23" height="15">
+  <object type="Platform" x="453" y="327" width="114" height="46">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="520" y="328" width="109" height="46">
+  <object type="Platform" x="712" y="328" width="109" height="46">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="776" y="328" width="114" height="43">
+  <object type="Platform" x="968" y="328" width="114" height="43">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="checkpoints" width="20" height="15">
-  <object type="Spawn" x="6" y="541" width="49" height="47"/>
+ <objectgroup name="checkpoints" width="23" height="15">
+  <object type="Spawn" x="198" y="541" width="49" height="47"/>
  </objectgroup>
- <objectgroup name="boundaries" width="20" height="15">
-  <object type="Platform" x="-56" y="324" width="60" height="374">
+ <objectgroup name="boundaries" width="23" height="15">
+  <object type="Platform" x="136" y="324" width="60" height="374">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1269" y="263" width="60" height="374">
+  <object type="Platform" x="1461" y="263" width="60" height="374">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
