@@ -132,7 +132,7 @@ class PlayState extends TurbGameState
             offset[1] = playerPos[1] - (height / 2);
             offset = this.checkOffset(offset);
 
-            var bgColor = [0.0, 0.0, 0.0, 1.0];
+            var bgColor = [0.25, 0.426, 0.594, 1.0];
             this.game.graphicsDevice.clear( bgColor, 1.0 );
 
             this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
