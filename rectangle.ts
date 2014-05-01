@@ -22,12 +22,12 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     public static BUILD_DELAY_CLIMBABLE:number = 300;
     public static NUMBER_OF_FRAMES_CLIMBABLE:number = 4;
-    public static HEIGHT_INTERVAL_CLIMBABLE:number = 64;
-    public static WIDTH_INTERVAL_CLIMBABLE:number = 64;
-    public static HEIGHT_BUFFER_CLIMBABLE:number = 27;
-    public static WIDTH_BUFFER_CLIMBABLE:number = 30;
+    public static HEIGHT_INTERVAL_CLIMBABLE:number = 32;
+    public static WIDTH_INTERVAL_CLIMBABLE:number = 32;
+    public static HEIGHT_BUFFER_CLIMBABLE:number = 15;
+    public static WIDTH_BUFFER_CLIMBABLE:number = 14;
     public static TEXTURE_FILE_CLIMBABLE:string = "assets/chain.png";
-    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [192, 0, 256, 64];
+    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [96, 0, 128, 32];
 
     public static BUILD_DELAY_NONCLIMBABLE:number = 300;
     public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 5;
