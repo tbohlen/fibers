@@ -10,16 +10,16 @@
  </layer>
  <layer name="ground" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA74KSzfYJUNIsRiFlwsJmAmBmIlaA0E5LYKBgYgBwvLATUjgLKABed7VNkgOQ1WPxio0fzH22AJhBrAbE2EOvQgW8IxEZAbAzEJnTgAwBz2Qrw
+   eJxjYBgFowA34KazfcJUMocRiFmQ2ExoGASUgFgZSYyZSnaPAtIBLI5AccBCQO0owASw8CMGcNHSIViAIgMkr8HiFxs9mv9oAzSBWAuItYFYhw58QyA2AmJjIDahAx8AQnALFQ==
   </data>
  </layer>
  <layer name="knitting needles" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4B+gH2gHTAKSAasA+2AIQ54qawOG2AEYiYgZiaCBgE+CuwaBdQBsHxFSbyPdAAAKasAYQ==
+   eJxjYBgFo4B+gH2gHTAKSAasA+2AIQx4iVDDR4YeXIAZiJkI0KNg4AEsT1ES16OAgQEAJzcAXg==
   </data>
  </layer>
  <objectgroup name="tools" width="28" height="20">
-  <object type="Tool" x="193" y="1093" width="61" height="61">
+  <object type="Tool" x="130" y="1091" width="61" height="61">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -32,30 +32,24 @@
     <property name="width" value="0.5 "/>
    </properties>
   </object>
-  <object type="Tool" x="321" y="1092" width="63" height="62">
+  <object name="0" type="Tool" x="260" y="1088" width="63" height="62">
    <properties>
-    <property name="initHeight" value="0"/>
-    <property name="isBuildable" value="true"/>
-    <property name="isClimbable" value="false"/>
-    <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="5"/>
-    <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="false"/>
-    <property name="rotation" value="0"/>
-    <property name="width" value="0.8"/>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Tool" x="571" y="768" width="74" height="66">
+  <object name="1" type="Rectangle" x="580" y="698" width="60" height="192">
    <properties>
-    <property name="initHeight" value="3"/>
+    <property name="initHeight" value="2"/>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="false"/>
     <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="3"/>
+    <property name="maxHeight" value="2"/>
     <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="false"/>
+    <property name="prebuilt" value="true"/>
     <property name="rotation" value="0"/>
-    <property name="width" value="0.8"/>
+    <property name="toolKey" value="1"/>
+    <property name="width" value="1"/>
    </properties>
   </object>
   <object type="Tool" x="833" y="580" width="61" height="61">
@@ -77,27 +71,46 @@
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="true"/>
     <property name="isSolid" value="false"/>
-    <property name="maxHeight" value="7"/>
+    <property name="maxHeight" value="5"/>
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="180"/>
     <property name="width" value="0.5 "/>
    </properties>
   </object>
-  <object type="Tool" x="1165" y="842" width="37" height="40">
+  <object name="2" type="Rectangle" x="1089" y="808" width="61" height="55">
    <properties>
-    <property name="initHeight" value="0"/>
+    <property name="initHeight" value="1"/>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="false"/>
     <property name="isSolid" value="true"/>
     <property name="maxHeight" value="9"/>
-    <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="false"/>
+    <property name="minHeight" value="1"/>
+    <property name="prebuilt" value="true"/>
     <property name="rotation" value="90"/>
-    <property name="width" value="0.8"/>
+    <property name="toolKey" value="2"/>
+    <property name="width" value="1"/>
    </properties>
   </object>
-  <object type="Tool" x="1229" y="783" width="37" height="37">
+  <object name="3" type="Tool" x="1354" y="783" width="48" height="44">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="3"/>
+   </properties>
+  </object>
+  <object name="1" type="Tool" x="519" y="776" width="55" height="57">
+   <properties>
+    <property name="prebuilt" value="false"/>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="2" type="Tool" x="1090" y="774" width="53" height="52">
+   <properties>
+    <property name="prebuilt" value="false"/>
+    <property name="toolKey" value="2"/>
+   </properties>
+  </object>
+  <object name="3" type="Rectangle" x="1411" y="836" width="59" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -105,8 +118,9 @@
     <property name="isSolid" value="true"/>
     <property name="maxHeight" value="7"/>
     <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="false"/>
+    <property name="prebuilt" value="true"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="3"/>
     <property name="width" value="0.8"/>
    </properties>
   </object>
@@ -117,7 +131,7 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="390" y="838" width="756" height="52">
+  <object type="Platform" x="391" y="837" width="760" height="56">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
@@ -137,30 +151,45 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1286" y="387" width="504" height="54">
+  <object type="Platform" x="1473" y="387" width="314" height="56">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1476" y="259" width="60" height="124">
+  <object type="Platform" x="1538" y="258" width="60" height="124">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1094" y="387" width="123" height="56">
+  <object type="Platform" x="1094" y="387" width="311" height="60">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
- </objectgroup>
- <objectgroup name="cube" width="28" height="20">
-  <object type="Rectangle" x="516" y="1085" width="61" height="62">
+  <object name="0" type="Rectangle" x="324" y="1161" width="61" height="61">
+   <properties>
+    <property name="initHeight" value="0"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="5"/>
+    <property name="minHeight" value="0"/>
+    <property name="prebuilt" value="true"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="0"/>
+    <property name="width" value="1"/>
+   </properties>
+  </object>
+  <object name="cube" type="Rectangle" gid="57" x="556" y="1122" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
+    <property name="mass" value="50"/>
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="cube" width="28" height="20"/>
  <objectgroup name="boundaries" width="28" height="20">
   <object type="Platform" x="-44" y="788" width="55" height="364">
    <properties>
