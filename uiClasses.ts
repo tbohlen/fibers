@@ -97,8 +97,8 @@ class Button extends RigidSprite
 
     draw(draw2D:Draw2D, offset:number[])
     {
-        this.sprite.setColor(Button.debugColor);
-        super.draw(draw2D, offset);
+//        this.sprite.setColor(Button.debugColor);
+//        super.draw(draw2D, offset);
     }
 
     clicked():void

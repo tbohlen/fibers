@@ -33,7 +33,8 @@
                  "name":"instrucButton",
                  "properties":
                     {
-
+                     "nextState":"MenuState",
+                     "stateArgs":"menuInstructions"
                     },
                  "type":"Button",
                  "visible":true,
@@ -46,7 +47,8 @@
                  "name":"creditsButton",
                  "properties":
                     {
-
+                     "nextState":"MenuState",
+                     "stateArgs":"menuCredits"
                     },
                  "type":"Button",
                  "visible":true,

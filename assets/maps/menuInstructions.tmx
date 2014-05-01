@@ -8,4 +8,12 @@
    eJxNzkPTGAYUQNEvVmPbbGzbtp3GthrbVmMbje00ttn8lJxNZt7izN3eRAkJCYlJQkEKkZRkJCcFKUlFatLwB2lJR3oyhGYkE5mpQEWykJVsZCcHOclFbvKQl3zkp0Do76fCoUUoSjGKU4KSlOJPSlOGspSjfOjvp0qhlalCVapRnRrUpBa1qUNd6lE/tAENaRTamCY0pRnNaUFLWtGaNrSlHe1DO9CRTqGd6UJXutGdHvSkF73pQ1/60T90AAMZFPoXgxnCUIYxnBGMZBSjGcNYxoWOZwITQycxmSlMZRrTmcFM/mYWs5nD3NB5zGdB6EIWsZglLGUZy1nBSlaxmjWsDV3HejaEbmQTm9nCVrbxD9vZwU52sZs9oXvZx/7QAxzkEIc5wlGOcZwTnOQUpzkT+i9nORd6ngtc5BKXucJVrnGdG9zkFrdD73CXe6H3ecB/POQRj3nCU57xnBe85FXoa97wNvQd7/nARz7xmS985Rvf+cH//Az9BRTRe6U=
   </data>
  </layer>
+ <objectgroup name="buttons" width="20" height="14">
+  <object name="backButton" type="Button" x="9" y="15" width="171" height="86">
+   <properties>
+    <property name="nextState" value="MenuState"/>
+    <property name="stateArgs" value="menuMain"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>

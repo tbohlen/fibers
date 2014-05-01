@@ -10,6 +10,31 @@
          "width":20,
          "x":0,
          "y":0
+        }, 
+        {
+         "height":14,
+         "name":"buttons",
+         "objects":[
+                {
+                 "height":86,
+                 "name":"backButton",
+                 "properties":
+                    {
+                     "nextState":"MenuState",
+                     "stateArgs":"menuMain"
+                    },
+                 "type":"Button",
+                 "visible":true,
+                 "width":171,
+                 "x":9,
+                 "y":15
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":
