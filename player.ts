@@ -315,15 +315,20 @@ class Player {
         var witA:number[] = [];
         var witB:number[] = [];
         var axis:number[] = [];
-        if (this.groundShape != null && this.onGround) {
+        if (this.groundShape && this.onGround) {
             // for them still to be on the ground they have to be intersecting with it AND the axis between
             // the ground and them must be at a 45 degree angle or higher (otherwise they are "slipping")
-            var dist:number = this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0], this.groundShape, witA, witB, axis);
-            var isOnGround:boolean = (axis[1] >= 0 && axis[1] > axis[0] && dist < this.DIST_EPSILON);
+            try {
+                var dist:number = this.game.collisionHelp.collisionUtils.signedDistance(this.rigidSprite.body.shapes[0], this.groundShape, witA, witB, axis);
+                var isOnGround:boolean = (axis[1] >= 0 && axis[1] > axis[0] && dist < this.DIST_EPSILON);
 //            if (!isOnGround){
 //                console.log("not on ground... axes: [" + axis[0] + ", " + axis[1] + "] dist: " + dist);
 //            }
-            return isOnGround;
+                return isOnGround;
+            } catch (error) {
+                console.log("uh oh, the shape disappeared before our eyes: " + error.message);
+                return this.onGround;
+            }
         } else {
             return false;
         }
