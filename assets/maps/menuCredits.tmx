@@ -9,7 +9,7 @@
   </data>
  </layer>
  <objectgroup name="buttons" width="20" height="14">
-  <object name="backButton" x="5" y="7" width="164" height="94">
+  <object name="backButton" type="Button" x="5" y="7" width="164" height="94">
    <properties>
     <property name="nextState" value="MenuState"/>
     <property name="stateArgs" value="menuMain"/>

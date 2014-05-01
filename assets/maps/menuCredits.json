@@ -23,7 +23,7 @@
                      "nextState":"MenuState",
                      "stateArgs":"menuMain"
                     },
-                 "type":"",
+                 "type":"Button",
                  "visible":true,
                  "width":164,
                  "x":5,
