@@ -492,6 +492,7 @@ class Player {
         if ((this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) &&
             this.game.keyboard.keyPressed("E") &&
             this.lastTouchedPullable &&
+            this.onGround &&
             !this.isPulling)
         {
             var rectPos:any[] = this.lastTouchedPullable.body.getPosition();

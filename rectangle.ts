@@ -43,7 +43,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static HEIGHT_INTERVAL_CUBE:number = 64;
     public static WIDTH_INTERVAL_CUBE:number = 64;
     public static HEIGHT_BUFFER_CUBE:number = 0;
-    public static WIDTH_BUFFER_CUBE:number = 0;
+    public static WIDTH_BUFFER_CUBE:number = 9;
     public static TEXTURE_FILE_CUBE:string = "assets/cube.png";
     public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [0, 0, 64, 64];
 
