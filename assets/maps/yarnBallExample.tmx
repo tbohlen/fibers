@@ -136,4 +136,11 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="music" width="28" height="14">
+  <object name="music" type="Music" x="320" y="0" width="64" height="64">
+   <properties>
+    <property name="trackname" value="music/byathread.mp3"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
