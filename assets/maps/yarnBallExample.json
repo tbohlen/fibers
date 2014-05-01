@@ -104,7 +104,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":28,
          "x":0,
          "y":0
@@ -177,7 +177,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":28,
          "x":0,
          "y":0
@@ -191,7 +191,8 @@
                  "name":"start",
                  "properties":
                     {
-                     "checkpointName":"start"
+                     "checkpointName":"start",
+                     "yarn":"true"
                     },
                  "type":"Checkpoint",
                  "visible":true,
@@ -240,7 +241,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":28,
          "x":0,
          "y":0
@@ -282,7 +283,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":28,
          "x":0,
          "y":0
@@ -324,7 +325,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "width":28,
          "x":0,
          "y":0

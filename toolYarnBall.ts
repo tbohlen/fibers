@@ -11,15 +11,34 @@ class ToolYarnBall extends RigidSprite
 {
     game:GameObject;
     buildable:Buildable;
-    currentDimension:number;
     maxDimension:number;
-    public static debugColor:number[] = [.5,1.,1.,1.];
+    texture:Texture;
+    public static debugColor:number[] = [0.,0.,0.,1.0];
+    public static TEXTURE_FILE:string = "assets/yarnBall.png";
 
     constructor (options:ToolYarnBallOptions, game:GameObject)
     {
         super(options);
         this.game = game;
         this.maxDimension = options.maxDimension;
+        var that = this;
+        this.game.graphicsDevice.createTexture({
+            src: ToolYarnBall.TEXTURE_FILE,
+            mipmaps: true,
+            onload: (texture) => {
+                if (texture) {
+                    console.log("I loaded the asset!");
+                    var textureRect:number[] = [0,0,64,64];
+                    this.texture = texture;
+                    this.sprite.setTextureRectangle(textureRect);
+                    this.sprite.setTexture(texture);
+                } else
+                {
+                    console.log("Failed to load tool yarn ball asset");
+                }
+
+            }
+        });
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject)
@@ -27,8 +46,8 @@ class ToolYarnBall extends RigidSprite
 
         var sprite:Draw2DSprite = Draw2DSprite.create({
             width: obj.width,
-            height: obj.height,
-            color :ToolYarnBall.debugColor
+            height: obj.height
+//            color :ToolYarnBall.debugColor
         });
 
         var options:ToolYarnBallOptions = {

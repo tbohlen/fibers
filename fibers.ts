@@ -63,12 +63,8 @@ var soundDevice:SoundDevice = TurbulenzEngine.createSoundDevice({});
 var bgMusicSource:SoundSource = soundDevice.createSource({
     looping: true
 });
-var bgMusic:Sound = soundDevice.createSound({
-    src: "assets/music/byathread.mp3",
-    uncompress: false,
-    onload: function (soundData) {
-//        bgMusicSource.play(soundData);
-    }
+var sfxSource:SoundSource = soundDevice.createSource({
+    looping: false
 });
 
 var htmlControls:HTMLControls = null;
@@ -93,7 +89,10 @@ var game:GameObject = {
     collisionUtil : collisionUtil,
     progression : new Progression(TurbulenzEngine, "draft1Progression"),
     debugMode : false,
-    nextState : null
+    nextState : null,
+    soundDevice : soundDevice,
+    bgMusicSource : bgMusicSource,
+    sfxSource : sfxSource
 };
 game.progression.setGameObject(game);
 game.checkpointManager.setGameObject(game);

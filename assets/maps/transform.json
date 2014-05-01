@@ -323,6 +323,30 @@
          "width":20,
          "x":0,
          "y":0
+        }, 
+        {
+         "height":12,
+         "name":"music",
+         "objects":[
+                {
+                 "height":64,
+                 "name":"music",
+                 "properties":
+                    {
+                     "trackname":"music\/01 Winter Sunshine.mp3"
+                    },
+                 "type":"Music",
+                 "visible":true,
+                 "width":64,
+                 "x":64,
+                 "y":0
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":
