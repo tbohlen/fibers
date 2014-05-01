@@ -2,18 +2,26 @@
   "start": {
       "stateType" : "CutsceneState",
       "map" : "cutsceneIntroCreate",
+      "nextName" : "teach"
+    },
+
+
+  "teach": {
+      "stateType" : "PlayState",
+      "map" : "instructions",
       "nextName" : "cut1"
-    },
+  },
+
   "cut1": {
-      "stateType" : "CutsceneState",
-      "map" : "cutsceneIntroFight",
-      "nextName" : "firstLev"
-    },
+    "stateType" : "CutsceneState",
+    "map" : "cutsceneIntroFight",
+    "nextName" : "firstLev"
+  },
 
   "firstLev": {
     "stateType" : "PlayState",
-    "map" : "tutorial",
-    "nextName" : "endCut"
+    "map" : "instructions",
+    "nextName" : "secondLev"
   },
 
   "secondLev": {
