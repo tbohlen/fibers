@@ -92,7 +92,7 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Rectangle" x="288" y="265" width="59" height="58">
+  <object type="Rectangle" x="288" y="265" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
@@ -100,7 +100,7 @@
     <property name="mass" value="10"/>
    </properties>
   </object>
-  <object type="Rectangle" x="545" y="263" width="59" height="58">
+  <object type="Rectangle" x="545" y="263" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
@@ -108,7 +108,7 @@
     <property name="mass" value="10"/>
    </properties>
   </object>
-  <object type="Rectangle" x="807" y="264" width="59" height="58">
+  <object type="Rectangle" x="807" y="264" width="64" height="64">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
