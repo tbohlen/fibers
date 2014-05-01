@@ -114,11 +114,12 @@ class PlayState extends TurbGameState
             {
                 this.game.nextState = this.game.progression.getNewCurrentState();
             }
+
             // simulate a step of the physics by simulating a bunch of small steps until we add up to 1/60 seconds
             var startTime:number = this.game.physicsWorld.simulatedTime;
             while( this.game.physicsWorld.simulatedTime < startTime + 1/60 )
             {
-                this.game.physicsWorld.step(1000/60); // I think this should go elsewhere... or be wrapped in a test and looped
+                this.game.physicsWorld.step(1000/60); // This is really silly because the step size is actually in seconds but leaving it be is better
             }
 
             this.player.update();
