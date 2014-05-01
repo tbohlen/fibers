@@ -10,7 +10,7 @@
  </layer>
  <layer name="ground" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA34KazfcJUMocRiFmQ2ExoGASUgFgZSYyZSnaPAtIBLI5AccBCQO0owASw8CMGcNHSIViAIgMkr8HiFxs9mv9oAzSBWAuItYFYhw58QyA2AmJjIDahAx8AQnALFQ==
+   eJxjYBgFowA34KazfcJUMocRiFmQ2ExoGASUgFgZSYyZSnaPAtIBLI5AccBCQO0owASw8CMGcNHSIViAIgMkr8HiF51mYBjNf7QCmkCsBcTaQKxDB74hEBsBsTEQm9CBDwA9+AsT
   </data>
  </layer>
  <layer name="knitting needles" width="28" height="20">
@@ -78,13 +78,13 @@
     <property name="width" value="0.5 "/>
    </properties>
   </object>
-  <object name="2" type="Rectangle" x="1089" y="808" width="61" height="55">
+  <object name="2" type="Rectangle" x="1089" y="808" width="29" height="36">
    <properties>
     <property name="initHeight" value="1"/>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="false"/>
     <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="9"/>
+    <property name="maxHeight" value="7"/>
     <property name="minHeight" value="1"/>
     <property name="prebuilt" value="true"/>
     <property name="rotation" value="90"/>
@@ -136,7 +136,7 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1094" y="898" width="695" height="56">
+  <object type="Platform" x="1094" y="898" width="504" height="61">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
@@ -186,6 +186,11 @@
     <property name="isPullable" value="true"/>
     <property name="isSolid" value="true"/>
     <property name="mass" value="50"/>
+   </properties>
+  </object>
+  <object type="Platform" x="1664" y="899" width="124" height="55">
+   <properties>
+    <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
