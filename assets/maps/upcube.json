@@ -73,15 +73,15 @@
                  "y":1088
                 }, 
                 {
-                 "height":192,
+                 "height":136,
                  "name":"1",
                  "properties":
                     {
-                     "initHeight":"2",
+                     "initHeight":"1.5",
                      "isBuildable":"true",
                      "isClimbable":"false",
                      "isSolid":"true",
-                     "maxHeight":"2",
+                     "maxHeight":"1.5",
                      "minHeight":"0",
                      "prebuilt":"true",
                      "rotation":"0",
@@ -91,8 +91,8 @@
                  "type":"Rectangle",
                  "visible":true,
                  "width":60,
-                 "x":580,
-                 "y":698
+                 "x":579,
+                 "y":755
                 }, 
                 {
                  "height":61,

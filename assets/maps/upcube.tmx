@@ -38,13 +38,13 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object name="1" type="Rectangle" x="580" y="698" width="60" height="192">
+  <object name="1" type="Rectangle" x="579" y="755" width="60" height="136">
    <properties>
-    <property name="initHeight" value="2"/>
+    <property name="initHeight" value="1.5"/>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="false"/>
     <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="2"/>
+    <property name="maxHeight" value="1.5"/>
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="true"/>
     <property name="rotation" value="0"/>
