@@ -216,7 +216,7 @@
                  "y":838
                 }, 
                 {
-                 "height":58,
+                 "height":64,
                  "name":"",
                  "properties":
                     {
@@ -227,12 +227,12 @@
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":59,
+                 "width":64,
                  "x":288,
                  "y":265
                 }, 
                 {
-                 "height":58,
+                 "height":64,
                  "name":"",
                  "properties":
                     {
@@ -243,12 +243,12 @@
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":59,
+                 "width":64,
                  "x":545,
                  "y":263
                 }, 
                 {
-                 "height":58,
+                 "height":64,
                  "name":"",
                  "properties":
                     {
@@ -259,7 +259,7 @@
                     },
                  "type":"Rectangle",
                  "visible":true,
-                 "width":59,
+                 "width":64,
                  "x":807,
                  "y":264
                 }],
