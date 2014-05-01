@@ -38,7 +38,7 @@
    <properties>
     <property name="bodyType" value="rigidBody"/>
     <property name="isSolid" value="true"/>
-    <property name="mass" value="1000"/>
+    <property name="mass" value="10000"/>
    </properties>
   </object>
  </objectgroup>
@@ -106,6 +106,19 @@
   <object type="Platform" x="1270" y="289" width="42" height="350">
    <properties>
     <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer name="goal" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgF1AJiQCxORfPkgFieiuaNguEHAPPgAGs=
+  </data>
+ </layer>
+ <objectgroup name="goal" width="20" height="12">
+  <object type="Checkpoint" x="197" y="268" width="116" height="118">
+   <properties>
+    <property name="checkpointName" value="goal"/>
+    <property name="progress " value="next"/>
    </properties>
   </object>
  </objectgroup>

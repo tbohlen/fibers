@@ -10,12 +10,12 @@
  </layer>
  <layer name="ground" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA34KazfcJUMocRiFmQ2ExoGASUgFgZSYyZSnaPAtIBLI5AccBCQO0owASw8CMGcNHSIViAIgMkr8HiF51mYBjNf7QCmkCsBcTaQKxDB74hEBsBsTEQm9CBDwA9+AsT
+   eJxjYBgFowA34KazfcJUMocRiFmQ2ExoGASUgFgZSYyZSnaPAtIBLI5AccBCQO0owASw8CMGcNHSIViAIgMkr8HiFxs9mv9oAzSBWAuItYFYhw58QyA2AmJjIDahAx8AQnALFQ==
   </data>
  </layer>
  <layer name="knitting needles" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4B+gH2gHTAKSAasA+2AIQx4iVDDR4YeXIAZiJkI0KNg4AEsT1ES16OAgQEAJzcAXg==
+   eJxjYBgFo4AwEANicSqYw06kOjkglqeCfaOAcsA60A4YwoCXCDV8ZOjBBZiBmIkAPQoGHsDyFCVxPQoYGADGvQDI
   </data>
  </layer>
  <objectgroup name="tools" width="28" height="20">
@@ -52,7 +52,7 @@
     <property name="width" value="1"/>
    </properties>
   </object>
-  <object type="Tool" x="833" y="580" width="61" height="61">
+  <object type="Tool" x="831" y="580" width="61" height="61">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -110,7 +110,7 @@
     <property name="toolKey" value="2"/>
    </properties>
   </object>
-  <object name="3" type="Rectangle" x="1411" y="836" width="59" height="57">
+  <object name="3" type="Rectangle" x="1411" y="859" width="59" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -136,12 +136,12 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1094" y="898" width="504" height="61">
+  <object type="Platform" x="1094" y="898" width="696" height="56">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="644" y="646" width="247" height="52">
+  <object type="Platform" x="642" y="646" width="247" height="52">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
@@ -188,11 +188,6 @@
     <property name="mass" value="50"/>
    </properties>
   </object>
-  <object type="Platform" x="1664" y="899" width="124" height="55">
-   <properties>
-    <property name="rigidBody" value="static"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup name="cube" width="28" height="20"/>
  <objectgroup name="boundaries" width="28" height="20">
@@ -214,6 +209,14 @@
   <object type="Platform" x="1780" y="169" width="62" height="213">
    <properties>
     <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="goal" width="28" height="20">
+  <object type="Checkpoint" x="1669" y="269" width="104" height="114">
+   <properties>
+    <property name="checkpointName" value="goal"/>
+    <property name="progress" value="next"/>
    </properties>
   </object>
  </objectgroup>

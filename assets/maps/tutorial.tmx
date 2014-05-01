@@ -10,7 +10,7 @@
  </layer>
  <layer name="ground" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2B4AZMBtl94CNvPCcRcQMwNxDxEqGcEYiYgZkailYBYGoiloLQWEGsDsQ4Qa6JhdCAIxEJQP4hQ4A+QOaJk6qOW/bIDaL8kA3HpABQHsPjhhuoRQqK5GTDjjxi+NBRjk0fGhkBsBMTGSPbC0g2MD5M3QVNPLh8ZAwBDjw2p
+   eJxjYBgFo2B4AZMBtl+YCDViQCw+gPbLAbE8FnFOIOYCYm4g5iHCHEYgZgJiZiRaCYilgVgKSmsBsTYQ6wCxJhpGB4JALAT1gwgR9uMCIHNEydRHLftlB9B+SQbi0gEoDmDxww3VI4REczNgxh8xfGkoxiaPjA2B2AiIjZHshaUbGB8mb4Kmnlw+MgYAmpYOEw==
   </data>
  </layer>
  <layer name="knitting" width="32" height="14">
@@ -124,7 +124,7 @@
     <property name="isBuildable" value="true"/>
     <property name="isClimable" value="false"/>
     <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="3"/>
+    <property name="maxHeight" value="4"/>
     <property name="minHeight" value="0"/>
     <property name="rotation" value="0"/>
     <property name="toolKey" value="0"/>
@@ -147,6 +147,14 @@
     <property name="minHeight" value="4"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="Object Layer 6" width="32" height="14">
+  <object type="Checkpoint" x="1925" y="394" width="111" height="117">
+   <properties>
+    <property name="checkpointName" value="goal"/>
+    <property name="progress" value="next"/>
    </properties>
   </object>
  </objectgroup>
