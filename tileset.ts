@@ -36,10 +36,19 @@
 // material...
 // "climbable" = true
 
+class Spritesheet {
+    mapTexture:any;
+    margin:number;
+    spacing:number;
+    imageRows:number;
+    imageCols:number;
+    firstGID:number;
+    transparentColor:number;
+}
+
 class Tileset {
 
     public static BASE_MAP_URL:string = "assets/maps/";
-    mapTexture:any;
     mapData:any;
 
     mapWidth:number;
@@ -47,15 +56,7 @@ class Tileset {
     tileWidth:number;
     tileHeight:number;
 
-    margin:number;
-    spacing:number;
-    imageRows:number;
-    imageCols:number;
-    firstGID:number;
-
-    tileSet:any;
-    transparentColor:number;
-
+    spritesheets:Spritesheet[] = [];
     ranLoadMap:boolean = false;
 
     buildables:any[] = [];
@@ -92,31 +93,26 @@ class Tileset {
                 this.rigidSprites = [];
 
                 // setup tiles
-                var tileSet = mapData.tilesets[0];
-                var imageHeight:number = tileSet.imageheight;
-                var imageWidth:number = tileSet.imagewidth;
-                if (tileSet.transparentcolor){
-                    this.transparentColor = parseInt(tileSet.transparentcolor.slice(1), 16);
-                }
-                this.margin = tileSet.margin;
-                this.spacing = tileSet.spacing;
-                this.imageRows = Math.floor((imageHeight - this.margin) / (this.tileHeight + this.spacing));
-                this.imageCols = Math.floor((imageWidth - this.margin) / (this.tileWidth + this.spacing));
-                this.firstGID = tileSet.firstgid; // global id of tilekk
-                this.tileSet = tileSet;
-
-                // setup texture
-                var textureURL = Tileset.BASE_MAP_URL + tileSet.image;
-
-                this.game.graphicsDevice.createTexture({
-                    src: textureURL,
-                    mipmaps: true,
-                    onload: (texture) => {
-                        if (texture) {
-                            this.mapTexture = texture;
-                        }
+                for (var i:number = 0; i < mapData.tilesets.length; i++)
+                {
+                    var tileSet = mapData.tilesets[i];
+                    var imageHeight:number = tileSet.imageheight;
+                    var imageWidth:number = tileSet.imagewidth;
+                    var spritesheet:Spritesheet = new Spritesheet();
+                    if (tileSet.transparentcolor){
+                        spritesheet.transparentColor = parseInt(tileSet.transparentcolor.slice(1), 16);
                     }
-                });
+                    spritesheet.margin = tileSet.margin;
+                    spritesheet.spacing = tileSet.spacing;
+                    spritesheet.imageRows = Math.floor((imageHeight - spritesheet.margin) / (this.tileHeight + spritesheet.spacing));
+                    spritesheet.imageCols = Math.floor((imageWidth - spritesheet.margin) / (this.tileWidth + spritesheet.spacing));
+                    spritesheet.firstGID = tileSet.firstgid; // global id of tile
+
+                    // setup texture
+                    var textureURL = Tileset.BASE_MAP_URL + tileSet.image;
+                    this.spritesheets.push(spritesheet);
+                    this.createTexture(textureURL, i);
+                }
             }
         };
 
@@ -130,10 +126,41 @@ class Tileset {
             this.mapLoadedCallback);
     }
 
-    setTexture(rigidSprite:RigidSprite) {
-        var textureRectangle:number[] = this.getTileCoordinatesForIndex(rigidSprite.gid);
+    createTexture(url:string, i:number)
+    {
+        this.game.graphicsDevice.createTexture({
+            src: url,
+            mipmaps: true,
+            onload: (texture) => {
+                if (texture) {
+                    console.log("adding texture to spritesheet: "+i);
+                    this.spritesheets[i].mapTexture = texture;
+                }
+            }
+        });
+    }
+
+    spritesheetForGID(gid:number):Spritesheet
+    {
+        if (this.spritesheets.length == 1){
+            return this.spritesheets[0];
+        }
+
+        var i:number = 1;
+        for (; i < this.spritesheets.length; i+=1)
+        {
+            if (this.spritesheets[i].firstGID > gid) {
+                return this.spritesheets[i-1];
+            }
+        }
+        return this.spritesheets[this.spritesheets.length-1];
+    }
+
+    setTexture(rigidSprite:RigidSprite, spriteSheet:Spritesheet) {
+        var textureRectangle:number[] = this.getTileCoordinatesForIndex(rigidSprite.gid, spriteSheet);
+        console.log(spriteSheet.firstGID);
         rigidSprite.sprite.setTextureRectangle(textureRectangle);
-        rigidSprite.sprite.setTexture(this.mapTexture);
+        rigidSprite.sprite.setTexture(spriteSheet.mapTexture);
     }
 
     isLoaded():boolean {
@@ -287,7 +314,6 @@ class Tileset {
                     tool.setToolYarnBall(this.toolYarnBalls[k][1]);
                 }
             }
-
         }
 
         this.ranLoadMap = true;
@@ -306,8 +332,9 @@ class Tileset {
         var num:number = this.rigidSprites.length;
         for (var i:number = 0; i < num; i+=1) {
             var rigidSprite:RigidSprite = this.rigidSprites[i];
-            if (!rigidSprite.sprite.getTexture() && this.mapTexture) {
-                this.setTexture(rigidSprite);
+            var spriteSheet:Spritesheet = this.spritesheetForGID(rigidSprite.gid);
+            if (rigidSprite.gid !=0 && !rigidSprite.sprite.getTexture() && spriteSheet.mapTexture) {
+                this.setTexture(rigidSprite, spriteSheet);
             }
             rigidSprite.draw(draw2D, offset);
         }
@@ -318,13 +345,13 @@ class Tileset {
      *
      * Returns the coordinates in the map texture of the given tile ID (gid).
      */
-    getTileCoordinatesForIndex(tileGID:number):number[] {
-        var tileSetIndex:number = tileGID - this.firstGID;
-        var tileSetCol:number = tileSetIndex % this.imageCols;
-        var tileSetRow:number = Math.floor(tileSetIndex / this.imageCols);
+    getTileCoordinatesForIndex(tileGID:number, spriteSheet:Spritesheet):number[] {
+        var tileSetIndex:number = tileGID - spriteSheet.firstGID;
+        var tileSetCol:number = tileSetIndex % spriteSheet.imageCols;
+        var tileSetRow:number = Math.floor(tileSetIndex / spriteSheet.imageCols);
         // We expect [437, 161] for tile [0,0]
-        var tileSetX:number = Math.round(tileSetCol * (this.tileWidth + this.spacing) + this.margin);
-        var tileSetY:number = Math.round(tileSetRow * (this.tileHeight + this.spacing) + this.margin);
+        var tileSetX:number = Math.round(tileSetCol * (this.tileWidth + spriteSheet.spacing) + spriteSheet.margin);
+        var tileSetY:number = Math.round(tileSetRow * (this.tileHeight + spriteSheet.spacing) + spriteSheet.margin);
 
         return [tileSetX, tileSetY, tileSetX + this.tileWidth, tileSetY + this.tileHeight];
     }
