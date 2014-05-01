@@ -14,8 +14,8 @@ class CutsceneState extends TurbGameState
     constructor(game:GameObject, jsonMap:String)
     {
         super(game);
-        console.log(jsonMap);
         this.game = game;
+
         this.tileset = new Tileset(jsonMap+".json", game);
         var viewport:number[] = [];
         this.game.draw2D.getViewport(viewport);

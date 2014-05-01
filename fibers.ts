@@ -91,7 +91,7 @@ var game:GameObject = {
     collisionHelp : collisionHelp,
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
-    progression : new Progression(TurbulenzEngine, "testProgression"),
+    progression : new Progression(TurbulenzEngine, "draft1Progression"),
     debugMode : false,
     nextState : null
 };

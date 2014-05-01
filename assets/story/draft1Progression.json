@@ -1,0 +1,30 @@
+{
+  "start": {
+      "stateType" : "CutsceneState",
+      "map" : "cutsceneIntroCreate",
+      "nextName" : "cut1"
+    },
+  "cut1": {
+      "stateType" : "CutsceneState",
+      "map" : "cutsceneIntroFight",
+      "nextName" : "firstLev"
+    },
+
+  "firstLev": {
+    "stateType" : "PlayState",
+    "map" : "tutorial",
+    "nextName" : "endCut"
+  },
+
+  "secondLev": {
+    "stateType" : "PlayState",
+    "map" : "dynamicTest",
+    "nextName" : "endCut"
+  },
+
+  "endCut": {
+      "stateType" : "CutsceneState",
+      "map" : "cutsceneEnd",
+      "nextName" : ""
+  }
+}
