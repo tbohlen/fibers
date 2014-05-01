@@ -146,8 +146,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
         // limit the size to the shapes we can handle and convert from pixel units to sprite-size units
         options.maxSize = Math.ceil(options.maxSize / (this.heightInterval-this.heightBuffer));
-        options.minSize = Math.floor(options.minSize / (this.heightInterval-this.heightBuffer));
-        options.initSize = Math.floor(options.initSize / (this.heightInterval-this.heightBuffer));
+        options.minSize = Math.ceil(options.minSize / (this.heightInterval-this.heightBuffer));
+        options.initSize = Math.ceil(options.initSize / (this.heightInterval-this.heightBuffer));
         if (this.growSurface == "top" || this.growSurface == "bottom")
         {
             // in this case height interval really does map to height
