@@ -62,6 +62,32 @@
          "width":20,
          "x":0,
          "y":0
+        }, 
+        {
+         "height":16,
+         "name":"soundtrack",
+         "objects":[
+                {
+                 "height":64,
+                 "name":"music",
+                 "properties":
+                    {
+                     "delay":"0",
+                     "loop":"true",
+                     "trackname":"music\/pillow.mp3"
+                    },
+                 "type":"Music",
+                 "visible":true,
+                 "width":64,
+                 "x":0,
+                 "y":0
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":20,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":

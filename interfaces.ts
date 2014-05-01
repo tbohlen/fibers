@@ -51,6 +51,9 @@ interface GameObject {
     debugMode : boolean;
     nextState : TurbGameState;
     spawn ?: Spawn;
+    soundDevice : SoundDevice;
+    bgMusicSource : SoundSource;
+    sfxSource : SoundSource;
 }
 
 interface RigidSpriteOptions

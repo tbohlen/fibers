@@ -131,6 +131,11 @@ properties must be included:
 * (optional => only if tool prebuilt:true)toolKey:<<the same value you gave the tool you want to control this rectangle>>
 * (optional) growSurface:<<left, right, top, or bottom>> (defaults to top)
 
+To add music to a level, create a "Music" object in tiled, and give it attributes:
+* trackname: "music/pillow.mp3" (is relative to the assets directory...)
+* (optional): isLooping <<true or false>> (defaults to false)
+* (optional): delay (number of seconds) (does nothing right now)
+
 Spawn points can be added very simply. Just place a 1 tile x 1 tile (not strictly necessary,
 but makes it easier to visualize where the player is going to appear) object in the location
 you would like the player to spawn and set its type to "Spawn". That's it!

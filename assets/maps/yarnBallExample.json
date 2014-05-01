@@ -328,6 +328,30 @@
          "width":28,
          "x":0,
          "y":0
+        }, 
+        {
+         "height":14,
+         "name":"music",
+         "objects":[
+                {
+                 "height":64,
+                 "name":"music",
+                 "properties":
+                    {
+                     "trackname":"music\/byathread.mp3"
+                    },
+                 "type":"Music",
+                 "visible":true,
+                 "width":64,
+                 "x":320,
+                 "y":0
+                }],
+         "opacity":1,
+         "type":"objectgroup",
+         "visible":true,
+         "width":28,
+         "x":0,
+         "y":0
         }],
  "orientation":"orthogonal",
  "properties":
