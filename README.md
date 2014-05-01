@@ -116,6 +116,8 @@ Checkpoints must have "Checkpoint" as their type and the following Name:Value pa
     * "start" will go back to the very first thing in the progression
     * "next" will go to the next thing in the progression
     * "current" will restart the current state
+* Optional: "yarn": "true"|"false"
+    * "true" will make it so that you collect an extra yarn ball
 
 Rectangles must have "Rectangle" as their type. Rectangles can be climbable or
 not, and buildable or not. Additional options will be added soon. The following
