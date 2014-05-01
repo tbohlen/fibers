@@ -302,8 +302,10 @@ class Player {
         this.isClimbing = false;
         this.lastClimbPosition = null;
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
         this.currentTexture.play();
+        window.setTimeout(() => {
+            this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        }, 400);
     }
 
     stillOnGround():boolean
