@@ -34,18 +34,18 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static HEIGHT_INTERVAL_NONCLIMBABLE:number = 64;
     public static WIDTH_INTERVAL_NONCLIMBABLE:number = 64;
     public static HEIGHT_BUFFER_NONCLIMBABLE:number = 25;
-    public static WIDTH_BUFFER_NONCLIMBABLE:number = 18;
+    public static WIDTH_BUFFER_NONCLIMBABLE:number = 17;
     public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/climbable.png";
     public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [256, 0, 320, 64];
 
     public static BUILD_DELAY_CUBE:number = 300;
-    public static NUMBER_OF_FRAMES_CUBE:number = 4;
-    public static HEIGHT_INTERVAL_CUBE:number = 32;
+    public static NUMBER_OF_FRAMES_CUBE:number = 1;
+    public static HEIGHT_INTERVAL_CUBE:number = 64;
     public static WIDTH_INTERVAL_CUBE:number = 64;
-    public static HEIGHT_BUFFER_CUBE:number = 14;
-    public static WIDTH_BUFFER_CUBE:number = 7;
-    public static TEXTURE_FILE_CUBE:string = "assets/nonclimbable.png";
-    public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [192, 0, 256, 32];
+    public static HEIGHT_BUFFER_CUBE:number = 0;
+    public static WIDTH_BUFFER_CUBE:number = 0;
+    public static TEXTURE_FILE_CUBE:string = "assets/cube.png";
+    public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [0, 0, 64, 64];
 
     maxSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     minSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
@@ -484,22 +484,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     playerCollideCallback(player:Player):void
     {
-        //handle pulling and releasing...
-        if (this.isPullable && !this.isDead)
-        {
-            var rectPos:any[] = this.body.getPosition();
-            var playerPos:any[] = player.getPosition();
-
-            if (this.game.keyboard.keyPressed("E") &&
-                !this.isBeingPulled &&
-                // prevent pulling from above...
-                (rectPos[1] <= playerPos[1] + player.playerDimensions[1]/2 + 16) &&
-                ((this.game.keyboard.keyPressed("LEFT")  && rectPos[0] > playerPos[0]) ||
-                 (this.game.keyboard.keyPressed("RIGHT") && rectPos[0] < playerPos[0])))
-            {
-                player.pull(this);
-            }
-        }
     }
 
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape:Physics2DShape):boolean

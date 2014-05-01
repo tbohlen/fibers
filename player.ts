@@ -29,6 +29,7 @@ class Player {
 
     leftBlockingShape:Physics2DShape = null;
     rightBlockingShape:Physics2DShape = null;
+    lastTouchedPullable:Rectangle = null;
 
     onGround:boolean = false; // true if the player is standing on the ground, or was last time we checked
     groundShape: Physics2DShape = null; // the last surface the player was standing on
@@ -199,6 +200,10 @@ class Player {
         if (otherObject.hasOwnProperty("isBuildable") && otherObject.isBuildable) {
             this.canBuild = true;
         }
+
+        if (otherObject.isPullable) {
+            this.lastTouchedPullable = otherObject;
+        }
     }
 
     // just calls into sprite
@@ -252,8 +257,9 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         var newVel:number[] = [-1*this.SPEED, vel[1]];
         this.rigidSprite.body.setVelocity(newVel);
-        this.facing = Direction.LEFT;
-
+        if (!this.isPulling) {
+            this.facing = Direction.LEFT;
+        }
     }
 
     walkRight()
@@ -261,7 +267,9 @@ class Player {
         var vel:number[] = this.rigidSprite.body.getVelocity();
         var newVel:number[] = [this.SPEED, vel[1]];
         this.rigidSprite.body.setVelocity(newVel);
-        this.facing = Direction.RIGHT;
+        if (!this.isPulling) {
+            this.facing = Direction.RIGHT;
+        }
     }
 
     goDown()
@@ -467,6 +475,39 @@ class Player {
         }
     }
 
+    lastTouchedPullableDirection():Direction
+    {
+        if (this.lastTouchedPullable)
+        {
+            var signedDist:number = this.lastTouchedPullable.body.getPosition()[0] - this.getPosition()[0];
+            if (signedDist < 0){
+                return Direction.RIGHT;
+            }
+        }
+        return Direction.LEFT;
+    }
+
+    tryToPull()
+    {
+        if ((this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) &&
+            this.game.keyboard.keyPressed("E") &&
+            this.lastTouchedPullable &&
+            !this.isPulling)
+        {
+            var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
+            var playerPos:any[] = this.getPosition();
+
+            var distToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
+            var threshold:number = this.playerDimensions[0]/2 + 30;
+            var isNotAbove:boolean = (rectPos[1] <= (playerPos[1] + this.playerDimensions[1]/2 + 16));
+
+            if ((distToPullable < threshold) && isNotAbove)
+            {
+                this.pull(this.lastTouchedPullable);
+            }
+        }
+    }
+
     update()
     {
         // reset rotation just in case
@@ -506,6 +547,7 @@ class Player {
                 this.walkLeft();
             }
             if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight()) {
+                // verify that pullable is nearby
                 this.walkRight();
             }
             if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild)) {
@@ -514,6 +556,7 @@ class Player {
             if (this.game.keyboard.keyPressed("DOWN") && !(this.game.keyboard.keyPressed("E") && this.canBuild)) {
                 this.goDown();
             }
+            this.tryToPull();
         }
 
         // force the player to not fall due to gravity if they are climbing
@@ -534,6 +577,7 @@ class Player {
 
         if (this.isPulling && this.rigidSprite.body){
             this.pulledObject.body.setVelocity(this.rigidSprite.body.getVelocity());
+            this.facing = this.lastTouchedPullableDirection();
         }
 
         this.updateTexture();
