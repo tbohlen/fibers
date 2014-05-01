@@ -21,24 +21,31 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     public static debugColorSolid:number[] = [1.0, 0.0, 0.0, 1.0];
 
     public static BUILD_DELAY_CLIMBABLE:number = 300;
-    public static NUMBER_OF_FRAMES_CLIMBABLE:number = 5;
+    public static NUMBER_OF_FRAMES_CLIMBABLE:number = 4;
     public static HEIGHT_INTERVAL_CLIMBABLE:number = 64;
     public static WIDTH_INTERVAL_CLIMBABLE:number = 64;
-    public static HEIGHT_BUFFER_CLIMBABLE:number = 25;
-    public static WIDTH_BUFFER_CLIMBABLE:number = 18;
-    public static BOTTOM_OFFSET_CLIMBABLE:number = 14;
-    public static TEXTURE_FILE_CLIMBABLE:string = "assets/climbable.png";
-    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [256, 0, 320, 64];
+    public static HEIGHT_BUFFER_CLIMBABLE:number = 27;
+    public static WIDTH_BUFFER_CLIMBABLE:number = 30;
+    public static TEXTURE_FILE_CLIMBABLE:string = "assets/chain.png";
+    public static FINAL_TEXTURE_RECTANGLE_CLIMBABLE:number[] = [192, 0, 256, 64];
 
     public static BUILD_DELAY_NONCLIMBABLE:number = 300;
-    public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 4;
-    public static HEIGHT_INTERVAL_NONCLIMBABLE:number = 32;
+    public static NUMBER_OF_FRAMES_NONCLIMBABLE:number = 5;
+    public static HEIGHT_INTERVAL_NONCLIMBABLE:number = 64;
     public static WIDTH_INTERVAL_NONCLIMBABLE:number = 64;
-    public static HEIGHT_BUFFER_NONCLIMBABLE:number = 14;
-    public static WIDTH_BUFFER_NONCLIMBABLE:number = 8;
-    public static BOTTOM_OFFSET_NONCLIMBABLE:number = 0;
-    public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/nonclimbable.png";
-    public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [192, 0, 256, 32];
+    public static HEIGHT_BUFFER_NONCLIMBABLE:number = 25;
+    public static WIDTH_BUFFER_NONCLIMBABLE:number = 18;
+    public static TEXTURE_FILE_NONCLIMBABLE:string = "assets/climbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE:number[] = [256, 0, 320, 64];
+
+    public static BUILD_DELAY_CUBE:number = 300;
+    public static NUMBER_OF_FRAMES_CUBE:number = 4;
+    public static HEIGHT_INTERVAL_CUBE:number = 32;
+    public static WIDTH_INTERVAL_CUBE:number = 64;
+    public static HEIGHT_BUFFER_CUBE:number = 14;
+    public static WIDTH_BUFFER_CUBE:number = 7;
+    public static TEXTURE_FILE_CUBE:string = "assets/nonclimbable.png";
+    public static FINAL_TEXTURE_RECTANGLE_CUBE:number[] = [192, 0, 256, 32];
 
     maxSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
     minSize:number; // in HEIGHT_INTERVAL - VERT_BUFFER units
@@ -50,7 +57,9 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     mask:number;
     growSurface:string = "top";
     lastBuildTime:number = 0;
+    isInWorld:boolean = false; // tracks if the body is currently interactable
 
+    // sprite related variables
     texture:Texture = null;
     animatedTexture:AnimatedTexture = null;
     textureLoaded:boolean = false;
@@ -66,7 +75,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     widthInterval:number;
     heightBuffer:number;
     widthBuffer:number;
-    bottomOffset:number;
     textureFile:string;
     finalTextureRectangle:number[];
 
@@ -109,9 +117,19 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.widthInterval = Rectangle.WIDTH_INTERVAL_CLIMBABLE;
             this.heightBuffer = Rectangle.HEIGHT_BUFFER_CLIMBABLE;
             this.widthBuffer = Rectangle.WIDTH_BUFFER_CLIMBABLE;
-            this.bottomOffset = Rectangle.BOTTOM_OFFSET_CLIMBABLE;
             this.textureFile = Rectangle.TEXTURE_FILE_CLIMBABLE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CLIMBABLE;
+        }
+        else if (!options.isBuildable)
+        {
+            this.buildDelay = Rectangle.BUILD_DELAY_CUBE;
+            this.numberOfFrames = Rectangle.NUMBER_OF_FRAMES_CUBE
+            this.heightInterval = Rectangle.HEIGHT_INTERVAL_CUBE;
+            this.widthInterval = Rectangle.WIDTH_INTERVAL_CUBE;
+            this.heightBuffer = Rectangle.HEIGHT_BUFFER_CUBE;
+            this.widthBuffer = Rectangle.WIDTH_BUFFER_CUBE;
+            this.textureFile = Rectangle.TEXTURE_FILE_CUBE;
+            this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_CUBE;
         }
         else
         {
@@ -121,10 +139,10 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             this.widthInterval = Rectangle.WIDTH_INTERVAL_NONCLIMBABLE;
             this.heightBuffer = Rectangle.HEIGHT_BUFFER_NONCLIMBABLE;
             this.widthBuffer = Rectangle.WIDTH_BUFFER_NONCLIMBABLE;
-            this.bottomOffset = Rectangle.BOTTOM_OFFSET_NONCLIMBABLE;
             this.textureFile = Rectangle.TEXTURE_FILE_NONCLIMBABLE;
             this.finalTextureRectangle = Rectangle.FINAL_TEXTURE_RECTANGLE_NONCLIMBABLE;
         }
+
 
         // limit the size to the shapes we can handle and convert from pixel units to sprite-size units
         options.maxSize = Math.ceil(options.maxSize / (this.heightInterval-this.heightBuffer));
@@ -166,7 +184,12 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         // if the height is greater than 0 it should
         if (this.currentSize == 0)
         {
+            this.isInWorld = false;
             this.game.physicsWorld.removeRigidBody(this.body);
+        }
+        else
+        {
+            this.isInWorld = true;
         }
 
         this.buildShape(this.currentSize);
@@ -178,19 +201,6 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
         // load textures based on climbable or not climbable
         var that:any = this;
-        //var textureParams:TextureParameters = {
-            //src: this.textureFile,
-            //mipmaps: true,
-            //onload: function onLoadBottom(texture:Texture, status?:number)
-            //{
-                //if (texture)
-                //{
-                    //that.texture = texture;
-                    //that.textureLoaded = true;
-                //}
-            //}
-        //};
-        //var loadingTexture:any = this.game.graphicsDevice.createTexture(textureParams);
         this.animatedTexture = new AnimatedTexture(this.textureFile, [this.widthInterval, this.heightInterval], this.numberOfFrames, false, true);
         this.animatedTexture.loadTexture(this.game.graphicsDevice, (texture) => {
             if (texture)
@@ -309,7 +319,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // first check that we are below our maximum size and that there has been a delay since the last build
         var time:number = new Date().getTime();
-        if(this.currentSize < this.maxSize && time > this.lastBuildTime + this.buildDelay) {
+        if(this.currentSize < this.maxSize && time > this.lastBuildTime + this.buildDelay && !this.isDead) {
             // set up the animation
             this.animatedTexture.setReverse(false);
             this.animating = true;
@@ -325,6 +335,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             var appeared:boolean = this.currentSize == 0 && nextSize > 0;
             if (appeared)
             {
+                this.isInWorld = true;
                 this.game.physicsWorld.addRigidBody(this.body);
             }
 
@@ -343,7 +354,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     {
         // first check that we are above our minimum size and there has been a delay since the last build
         var time:number = new Date().getTime();
-        if(this.currentSize > this.minSize && time > this.lastBuildTime + this.buildDelay) {
+        if(this.currentSize > this.minSize && time > this.lastBuildTime + this.buildDelay && !this.isDead) {
             // set up the animation
             this.animatedTexture.setReverse(true);
             this.animating = true;
@@ -362,6 +373,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
             var disappeared:boolean = this.currentSize > 0 && nextSize == 0;
             if (disappeared)
             {
+                this.isInWorld = false;
                 this.game.physicsWorld.removeRigidBody(this.body);
             }
 
@@ -473,7 +485,7 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
     playerCollideCallback(player:Player):void
     {
         //handle pulling and releasing...
-        if (this.isPullable)
+        if (this.isPullable && !this.isDead)
         {
             var rectPos:any[] = this.body.getPosition();
             var playerPos:any[] = player.getPosition();
@@ -492,7 +504,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
 
     isClimbableAtObjectPosition(collisionUtil:Physics2DCollisionUtils, shape:Physics2DShape):boolean
     {
-        return collisionUtil.intersects(this.getClimbableShape(), shape);
+        var climbable:boolean = this.isClimbable && collisionUtil.intersects(this.getClimbableShape(), shape) && this.isInWorld && !this.isDead;
+        return climbable;
     }
 
     getClimbableShape():Physics2DShape
@@ -514,7 +527,8 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         {
             var sprite:Draw2DSprite = this.sprites[this.sprites.length - 1];
 
-            if (this.animatedTexture.texture && this.animating) {
+            if (this.animatedTexture.texture && this.animating && this.isBuildable) // if !this.isBuildable then its static
+            {
                 sprite.setTexture(this.animatedTexture.texture);
                 sprite.setTextureRectangle(this.animatedTexture.currentFrameRectangle());
             }
@@ -583,13 +597,11 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                     var sprite:Draw2DSprite = this.sprites[i];
                     var pos:number[] = this.body.getPosition();
                     sprite.x = pos[0]
-                        //- Rectangle.BOTTOM_OFFSET * finalShift[0] // offset b/c bottom of tile is not bottom of image
-                        - (correction[0] * (this.heightInterval - this.heightBuffer)) // offset b/c of origin shift
+                        - (correction[0] * this.heightInterval) // offset b/c of origin shift
                         + ((this.heightInterval - this.heightBuffer) * finalShift[0] * i) // offset to stack images
                         - ((this.widthInterval - this.widthBuffer) * finalShift[1] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.y = pos[1]
-                        + this.bottomOffset * finalShift[1]
-                        - (correction[1] * (this.heightInterval - this.heightBuffer))
+                        - (correction[1] * this.heightInterval)
                         + ((this.heightInterval - this.heightBuffer) * finalShift[1] * i)
                         - ((this.widthInterval - this.widthBuffer) * finalShift[0] * (j - ((jMax - 1)/2))); // offset for width
                     sprite.rotation = rotation + additionalRotation;

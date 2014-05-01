@@ -71,7 +71,7 @@
                      "maxHeight":"4",
                      "minHeight":"0",
                      "rotation":"0",
-                     "toolKey":"1"
+                     "toolKey":"0"
                     },
                  "type":"Rectangle",
                  "visible":true,
@@ -92,7 +92,7 @@
                      "maxHeight":"4",
                      "minHeight":"0",
                      "rotation":"0",
-                     "toolKey":"2"
+                     "toolKey":"0"
                     },
                  "type":"Rectangle",
                  "visible":true,
@@ -113,7 +113,7 @@
                      "maxHeight":"4",
                      "minHeight":"0",
                      "rotation":"0",
-                     "toolKey":"3"
+                     "toolKey":"0"
                     },
                  "type":"Rectangle",
                  "visible":true,
