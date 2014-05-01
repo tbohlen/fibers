@@ -12,15 +12,10 @@
 /// <reference path="checkpoint.ts"/>
 /// <reference path="spawn.ts"/>
 /// <reference path="uiClasses.ts"/>
+/// <reference path="music.ts"/>
 
-// @TODO: Add support for multiple layers
-// later, multiple tilesets
-// do something clever with transparent color to blend:
-// need to maintain a list of the actual Sprite objects
-// so we can attach physics attributes to them
-// convert this to a 2-pass setup:
-// 1. create a list of layers of draw2dsprites,
-// then redraw the sprites
+// @TODO:
+// do something clever with transparent color to blend
 
 // Tips for making proper tilesets in Tiled.app:
 // Ensure that objects have a width and height!

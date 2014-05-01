@@ -27,4 +27,13 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="soundtrack" width="20" height="16">
+  <object name="music" type="Music" x="0" y="0" width="64" height="64">
+   <properties>
+    <property name="delay" value="0"/>
+    <property name="loop" value="true"/>
+    <property name="trackname" value="music/pillow.mp3"/>
+   </properties>
+  </object>
+ </objectgroup>
 </map>
