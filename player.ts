@@ -42,7 +42,7 @@ class Player {
 
     standTexture:AnimatedTexture = new AnimatedTexture("assets/player/stand.png", [256, 256], 3, true);
     walkTexture:AnimatedTexture = new AnimatedTexture("assets/player/walk.png", [256, 256], 8, true);
-    jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 7, false);
+    jumpTexture:AnimatedTexture = new AnimatedTexture("assets/player/jump.png", [256, 256], 5, false);
     climbTexture:AnimatedTexture = new AnimatedTexture("assets/player/climb.png", [256, 256], 6, true);
     pullTexture:AnimatedTexture = new AnimatedTexture("assets/player/pull.png", [256, 256], 8, true);
     currentTexture:AnimatedTexture = null;
@@ -305,7 +305,7 @@ class Player {
         this.currentTexture.play();
         window.setTimeout(() => {
             this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
-        }, 400);
+        }, 200);
     }
 
     stillOnGround():boolean
