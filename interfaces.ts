@@ -21,6 +21,7 @@ class TurbGameState {
     clearWorld()
     {
         this.game.physicsWorld.clear();
+		this.game.checkpointManager.removeAllCheckpoints();
     }
 }
 
