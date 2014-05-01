@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="14" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="instructions" tilewidth="64" tileheight="64">
+  <image source="../instructions.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="14">
+  <data encoding="base64" compression="zlib">
+   eJxNzkPTGAYUQNEvVmPbbGzbtp3GthrbVmMbje00ttn8lJxNZt7izN3eRAkJCYlJQkEKkZRkJCcFKUlFatLwB2lJR3oyhGYkE5mpQEWykJVsZCcHOclFbvKQl3zkp0Do76fCoUUoSjGKU4KSlOJPSlOGspSjfOjvp0qhlalCVapRnRrUpBa1qUNd6lE/tAENaRTamCY0pRnNaUFLWtGaNrSlHe1DO9CRTqGd6UJXutGdHvSkF73pQ1/60T90AAMZFPoXgxnCUIYxnBGMZBSjGcNYxoWOZwITQycxmSlMZRrTmcFM/mYWs5nD3NB5zGdB6EIWsZglLGUZy1nBSlaxmjWsDV3HejaEbmQTm9nCVrbxD9vZwU52sZs9oXvZx/7QAxzkEIc5wlGOcZwTnOQUpzkT+i9nORd6ngtc5BKXucJVrnGdG9zkFrdD73CXe6H3ecB/POQRj3nCU57xnBe85FXoa97wNvQd7/nARz7xmS985Rvf+cH//Az9BRTRe6U=
+  </data>
+ </layer>
+</map>

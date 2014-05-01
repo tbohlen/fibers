@@ -302,8 +302,10 @@ class Player {
         this.isClimbing = false;
         this.lastClimbPosition = null;
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
         this.currentTexture.play();
+        window.setTimeout(() => {
+            this.rigidSprite.body.setVelocity([vel[0], -1*this.JUMP_SPEED]);
+        }, 400);
     }
 
     stillOnGround():boolean
@@ -492,6 +494,7 @@ class Player {
         if ((this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) &&
             this.game.keyboard.keyPressed("E") &&
             this.lastTouchedPullable &&
+            this.onGround &&
             !this.isPulling)
         {
             var rectPos:any[] = this.lastTouchedPullable.body.getPosition();

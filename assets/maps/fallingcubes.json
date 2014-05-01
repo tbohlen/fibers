@@ -223,7 +223,7 @@
                      "bodyType":"dynamic",
                      "isPullable":"true",
                      "isSolid":"true",
-                     "mass":"10"
+                     "mass":"50"
                     },
                  "type":"Rectangle",
                  "visible":true,
@@ -239,7 +239,7 @@
                      "bodyType":"dynamic",
                      "isPullable":"true",
                      "isSolid":"true",
-                     "mass":"10"
+                     "mass":"50"
                     },
                  "type":"Rectangle",
                  "visible":true,
@@ -255,10 +255,11 @@
                      "bodyType":"dynamic",
                      "isPullable":"true",
                      "isSolid":"true",
-                     "mass":"10"
+                     "mass":"50"
                     },
                  "type":"Rectangle",
                  "visible":true,
+
                  "width":64,
                  "x":807,
                  "y":264

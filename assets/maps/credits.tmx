@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="20" height="16" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="20" height="14" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="credits" tilewidth="64" tileheight="64">
   <image source="../credits.png" width="1024" height="1024"/>
  </tileset>
- <layer name="Tile Layer 1" width="20" height="16">
+ <layer name="Tile Layer 1" width="20" height="14">
   <data encoding="base64" compression="zlib">
-   eJxtxVO4kAcAANB7s7XMhbVVy/ZabmF5bWFx2XbLNtayjaXlWtzSsm3bPO/9D+c7oSEhIWEISzjCE4GIRCIyUYhKNKITg5jECjg2cfiCuMQjPglISCISk4SkJCM5Kfgy4JSkIjVp+Iq0fM03pCM9GfiWjGQiM1kCzko2spODnOQiN3nISz7yU4CCFKIw3wVchO8pSjGKU4KSlKI0ZfiBspSjPBX4MeCKVKIyVahKNarzEzX4mV+oSS1qU4dfA65LPerTgIY04jca04SmNKM5LWhJK1oH3Ia2tKM9HehIJzrTha50ozs96Ekvegfch9/pSz/6M4CBDGIwQxjKMIYzgpGMCng0YxjLOMYzgYlM4g8m8ydTmMo0pjMj4JnMYjZzmMs85rOAhSxiMUtYyjKWsyLglfzFKlazhrWs42/Ws4GNbGIzW9jKtoC38w872MkudrOHvfzLf+xjPwc4yCH+D/gwRzjKMY5zgpOc4jRnOMs5znOBi1wK+DJXuMo1rnODm9ziNne4yz3u84CHPAr4MU94yjOe84KXvOI1b3jLO97zgY+EhH7+J8ign2Q=
+   eJxtzsVWFVAAQNGH3Z3Y2IGY2GICdnd3YhcGdndgotjdgWCP7BopNp/i/oA72OtMT1QkEslHfgpQkEIUpghFKUZxSlCSUpSmTKBlKUd5KlCRSlSmClWJphrVqUFNalE70DrEUJd61KcBDWlEY5rQlGbE0pw4WgTakla0pg1tiacd7elARzrRmS50JYFugXanBz3pRW8SSSKZPvSlH/0ZwEAGMTjQIQxlGMMZwUhGMZoxjGUc45nARCYxOdDQ30xmMZs5zGUe80lhAQtZFGjobwUrWUUqq1nDWtaRxno2BDqFqUxjOjPYxnZ2sJNd7GYPe9nHfg4EupglLGUZyznKMY5zgpOcIoPTnCGTs4FuZBOb2cJWLnOFq1zjOje4yS1uc4e7gR7kEIc5QjpZPCabHJ7wlGc85wUveRXoOc5zgYtc4jVveMs73vOBj3ziM1/4Gug97vOAhzziG9/J5Qc/+cVv/vCXf+QF+h9SD3eV
   </data>
  </layer>
 </map>
