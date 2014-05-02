@@ -5,12 +5,12 @@
  </tileset>
  <layer name="background" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJzt0qsSg0AQRNH9NQImIQYSQ8AQMEAMD8Pj47lyapCz67JVR7Ts6c2dcy+8EeGGGImH/EGJCnc8kOLpIX/RoEWGXPSw5h4DfgFuMmHGEuAmG3YcAW4iOxRqW2uWHWq1rTXLDp3a1pplh1Fta82yw6q2teb//75m+Xz/7xOC5XU1
+   eJzt0qsagzAQhNG8GgXTUgOtoWAoGKCGi+Hy8Pxyv0Vu4iqOGJfZSe6ce+GNCDfESDzkD0pUuOOBFE8P+YsGLTLkooc19xjwC3CTCTOWADfZsOMIcBPZoVDbWrPsUKttrVl26NS21iw7jGpba5YdVrWtNf//9zXLd/v+3yf5dXaO
   </data>
  </layer>
  <layer name="ground" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjATACcRcSDQ3EGtSyWxBIBZCooWhWIQKZoPMk0IzG8SXBmJtNLXcaHyQvA4DxJ9aWPhSUL4kkpmGQGwExMZAbILEl0Ljo8vj4gMACnkHaQ==
+   eJxjYBgFo2AUjATACcRcSDQ3EPNQyWxBIBZCooWhmBrmg8yUQjMbxJfGYr4oGh/kVx0g1gRiLSDWRuNLQbEkkpmGQGwExMYMkHCChZUUGh8kb4KmHhsfAH5CBgo=
   </data>
  </layer>
  <objectgroup name="ground" width="23" height="15">

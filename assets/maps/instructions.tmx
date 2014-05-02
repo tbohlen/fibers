@@ -16,7 +16,7 @@
  </layer>
  <layer name="ground" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALKwHHGgXbB0ARcQMw9gLQQEAsPIC0FxNIDSAMAaJkHuQ==
+   eJxjYBgFo2AUjALKQAMQxwJx3AC7Y6gBLiDmHkBaCIiFB5CWAmLpAaQBnO0ILA==
   </data>
  </layer>
  <objectgroup name="ground" width="32" height="14">
@@ -28,7 +28,7 @@
  </objectgroup>
  <layer name="knitting" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALKwVlGBoZzQHyCEVX8PJB/gRG7noEC04DumU6Em3jR+KxUsn8e0O75gyxMRiIAACNkBog=
+   eJxjYBgFo2AUjALKgS8Q+wHxCUZU8fNA/gVGbDqoC0KBOIxItdOA7plOhJt40fisJLoJF5gHtHs+HcJkFOAHAONIBjE=
   </data>
  </layer>
  <objectgroup name="knit" width="32" height="14">
