@@ -95,11 +95,10 @@ class Checkpoint implements Interactable
             name = "Untitled checkpoint";
         }
 
-        var callback:Function = function(){};
+        var progressCallback:Function = function(){};
         if (obj.properties.hasOwnProperty("progress"))
         {
-            console.log("checkpoint progress");
-            callback = function()
+            progressCallback = function()
             {
                 if (obj.properties.progress == "start")
                 {
@@ -111,17 +110,37 @@ class Checkpoint implements Interactable
                 {
                     game.nextState = game.progression.getNewCurrentState();
                 } else {
-                    console.log("button behavior undefined for a progress");
+                    console.log("checkpoint behavior undefined for a progress:" + obj.properties.progress);
                 }
             };
-
         }
+        var yarnBallCallback:Function = function(){};
+        if (obj.properties.hasOwnProperty("yarn"))
+        {
+            console.log("yarn checkpoint");
+            yarnBallCallback = function()
+            {
+                console.log(obj.properties.yarn);
+                if (obj.properties.yarn == "true")
+                {
+                    game.progression.addYarnBall();
+                } else
+                {
+                    console.log("no yarn ball added");
+                }
+            }
+        }
+
+        var allCallbacks:Function = function(){
+            progressCallback();
+            yarnBallCallback();
+        };
 
         var cp:Checkpoint = new Checkpoint({
             body : body,
             name : name,
             checkpointManager : game.checkpointManager,
-            completedCallback : callback
+            completedCallback : allCallbacks
         });
         game.collisionHelp.pushCheckpoint(cp);
         game.checkpointManager.pushCheckpoint(cp);
@@ -134,10 +153,10 @@ class Checkpoint implements Interactable
         {
             this.completed = true;
             this.checkpointManager.completeCheckpoint(this);
+            this.completedCallback();
             console.log("yeah! You completed a checkpoint");
         }
 
-        this.completedCallback();
     }
 
     getShapes():Physics2DShape[]

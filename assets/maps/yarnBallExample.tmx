@@ -84,6 +84,7 @@
   <object name="start" type="Checkpoint" x="100" y="432" width="63" height="79">
    <properties>
     <property name="checkpointName" value="start"/>
+    <property name="yarn" value="true"/>
    </properties>
   </object>
   <object name="other side" type="Checkpoint" x="894" y="306" width="48" height="54">
@@ -133,13 +134,6 @@
     <property name="minHeight" value="4"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="0"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup name="music" width="28" height="14">
-  <object name="music" type="Music" x="320" y="0" width="64" height="64">
-   <properties>
-    <property name="trackname" value="music/byathread.mp3"/>
    </properties>
   </object>
  </objectgroup>
