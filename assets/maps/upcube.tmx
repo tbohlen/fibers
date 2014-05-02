@@ -15,7 +15,7 @@
  </layer>
  <layer name="knitting needles" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4AwEANicSqYw06kOjkglqeCfaOAcsA60A4YwoCXCDV8ZOjBBZiBmIkAPQoGHsDyFCVxPQoYGADGvQDI
+   eJxjYBgFo4AwEANicTraJwfE8nS0bxTgBqwD7YAhDHiJUMNHhh5cgBmImQjQo2DgASxPURLXo4CBAQCajQDB
   </data>
  </layer>
  <objectgroup name="tools" width="28" height="20">
@@ -53,7 +53,7 @@
     <property name="width" value="0.5 "/>
    </properties>
   </object>
-  <object name="6" type="Tool" x="1012" y="329" width="80" height="54">
+  <object name="6 rect" type="Rectangle" x="1034" y="326" width="50" height="54">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -61,7 +61,7 @@
     <property name="isSolid" value="false"/>
     <property name="maxHeight" value="5"/>
     <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="false"/>
+    <property name="prebuilt" value="true"/>
     <property name="rotation" value="180"/>
     <property name="toolKey" value="6"/>
     <property name="width" value="0.5 "/>
@@ -111,6 +111,12 @@
     <property name="rotation" value="0"/>
     <property name="toolKey" value="4"/>
     <property name="width" value="0.8"/>
+   </properties>
+  </object>
+  <object name="6 tool" x="992" y="324" width="57" height="58">
+   <properties>
+    <property name="prebuilt" value="true"/>
+    <property name="toolKey" value="6"/>
    </properties>
   </object>
  </objectgroup>
@@ -229,7 +235,7 @@
     <property name="toolKey" value="5"/>
    </properties>
   </object>
-  <object name="6" type="ToolYarnBall" x="1096" y="327" width="55" height="54">
+  <object name="6" type="ToolYarnBall" x="932" y="327" width="55" height="54">
    <properties>
     <property name="toolKey" value="6"/>
    </properties>
