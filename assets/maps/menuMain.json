@@ -68,19 +68,18 @@
          "name":"soundtrack",
          "objects":[
                 {
-                 "height":64,
-                 "name":"music",
+                 "height":59,
+                 "name":"",
                  "properties":
                     {
-                     "delay":"0",
-                     "loop":"true",
-                     "trackname":"music\/pillow.mp3"
+                     "isLooping":"true",
+                     "trackname":"music\/byathread.mp3"
                     },
                  "type":"Music",
                  "visible":true,
-                 "width":64,
-                 "x":0,
-                 "y":0
+                 "width":51,
+                 "x":20,
+                 "y":17
                 }],
          "opacity":1,
          "type":"objectgroup",

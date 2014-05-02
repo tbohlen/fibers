@@ -6,6 +6,9 @@
  <tileset firstgid="129" name="instructions" tilewidth="64" tileheight="64">
   <image source="../story/instructions.png" width="1024" height="1024"/>
  </tileset>
+ <tileset firstgid="385" name="tiles2" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
  <layer name="background" width="32" height="14">
   <data encoding="base64" compression="zlib">
    eJzt06cBgDAABdGsFsBQDMVQDMVQDMVQhuem4CMinrgBzhpjPPgIYD/uEBFiJIJOkSFHIegSFWo0gm7Roccg6BETZiyCXrFhxyHoExduPIL++nf3v/v/T/+/bLOfYQ==
@@ -13,7 +16,7 @@
  </layer>
  <layer name="ground" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMBCAC4i5B5AWAmLhAaSlgFh6AGkASLwG8Q==
+   eJxjYBgFo2AUjALKwHHGgXbB0ARcQMw9gLQQEAsPIC0FxNIDSAMAaJkHuQ==
   </data>
  </layer>
  <objectgroup name="ground" width="32" height="14">
@@ -25,7 +28,7 @@
  </objectgroup>
  <layer name="knitting" width="32" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhD8SAWJzKZvKi8VnxqJUDYnkq2z8KaAsA8qAAfQ==
+   eJxjYBgFo2AUjALKwVlGBoZzQHyCEVX8PJB/gRG7noEC04DumU6Em3jR+KxUsn8e0O75gyxMRiIAACNkBog=
   </data>
  </layer>
  <objectgroup name="knit" width="32" height="14">
@@ -49,7 +52,7 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Checkpoint" x="1228" y="586" width="110" height="115">
+  <object type="Checkpoint" x="1929" y="585" width="110" height="115">
    <properties>
     <property name="checkpointName" value="goal"/>
     <property name="progress" value="next"/>
@@ -79,6 +82,14 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
+  <object type="Rectangle" x="1265" y="642" width="32" height="55">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
+    <property name="isSolid" value="true"/>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="grandmas instructions" width="32" height="14">
   <data encoding="base64" compression="zlib">
@@ -88,4 +99,5 @@
  <objectgroup name="checkpoints" width="32" height="14">
   <object type="Spawn" x="86" y="603" width="64" height="64"/>
  </objectgroup>
+ <objectgroup name="cube" width="32" height="14"/>
 </map>
