@@ -272,6 +272,19 @@
                  "width":64,
                  "x":61,
                  "y":41
+                }, 
+                {
+                 "height":964,
+                 "name":"",
+                 "properties":
+                    {
+                     "rigidBody":"static"
+                    },
+                 "type":"Platform",
+                 "visible":true,
+                 "width":35,
+                 "x":218,
+                 "y":39
                 }],
          "opacity":1,
          "type":"objectgroup",

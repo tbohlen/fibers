@@ -19,7 +19,7 @@
   </data>
  </layer>
  <objectgroup name="tools" width="28" height="20">
-  <object type="Tool" x="130" y="1091" width="61" height="61">
+  <object name="3" type="Tool" x="130" y="1091" width="61" height="61">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -29,6 +29,7 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="3"/>
     <property name="width" value="0.5 "/>
    </properties>
   </object>
@@ -38,21 +39,7 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object name="1" type="Rectangle" x="579" y="755" width="60" height="136">
-   <properties>
-    <property name="initHeight" value="1.5"/>
-    <property name="isBuildable" value="true"/>
-    <property name="isClimbable" value="false"/>
-    <property name="isSolid" value="true"/>
-    <property name="maxHeight" value="1.5"/>
-    <property name="minHeight" value="0"/>
-    <property name="prebuilt" value="true"/>
-    <property name="rotation" value="0"/>
-    <property name="toolKey" value="1"/>
-    <property name="width" value="1"/>
-   </properties>
-  </object>
-  <object type="Tool" x="831" y="580" width="61" height="61">
+  <object name="5" type="Tool" x="831" y="580" width="61" height="61">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -62,10 +49,11 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="5"/>
     <property name="width" value="0.5 "/>
    </properties>
   </object>
-  <object type="Tool" x="1012" y="329" width="80" height="54">
+  <object name="6" type="Tool" x="1012" y="329" width="80" height="54">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -75,6 +63,7 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="180"/>
+    <property name="toolKey" value="6"/>
     <property name="width" value="0.5 "/>
    </properties>
   </object>
@@ -92,25 +81,25 @@
     <property name="width" value="1"/>
    </properties>
   </object>
-  <object name="3" type="Tool" x="1354" y="783" width="48" height="44">
+  <object name="4" type="Tool" x="1354" y="783" width="48" height="44">
    <properties>
     <property name="prebuilt" value="true"/>
-    <property name="toolKey" value="3"/>
+    <property name="toolKey" value="4"/>
    </properties>
   </object>
   <object name="1" type="Tool" x="519" y="776" width="55" height="57">
    <properties>
-    <property name="prebuilt" value="false"/>
+    <property name="prebuilt" value="true"/>
     <property name="toolKey" value="1"/>
    </properties>
   </object>
   <object name="2" type="Tool" x="1090" y="774" width="53" height="52">
    <properties>
-    <property name="prebuilt" value="false"/>
+    <property name="prebuilt" value="true"/>
     <property name="toolKey" value="2"/>
    </properties>
   </object>
-  <object name="3" type="Rectangle" x="1411" y="859" width="59" height="57">
+  <object name="4" type="Rectangle" x="1411" y="859" width="59" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -120,7 +109,7 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="true"/>
     <property name="rotation" value="0"/>
-    <property name="toolKey" value="3"/>
+    <property name="toolKey" value="4"/>
     <property name="width" value="0.8"/>
    </properties>
   </object>
@@ -219,6 +208,55 @@
     <property name="progress" value="next"/>
    </properties>
   </object>
-  <object type="Spawn" x="104" y="577" width="63" height="94"/>
+  <object type="Spawn" x="68" y="798" width="63" height="94"/>
+  <object name="3" type="ToolYarnBall" x="68" y="1093" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="3"/>
+   </properties>
+  </object>
+  <object name="0" type="ToolYarnBall" x="198" y="1093" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object name="4" type="ToolYarnBall" x="1287" y="773" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="4"/>
+   </properties>
+  </object>
+  <object name="5" type="ToolYarnBall" x="770" y="587" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="5"/>
+   </properties>
+  </object>
+  <object name="6" type="ToolYarnBall" x="1096" y="327" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="6"/>
+   </properties>
+  </object>
+  <object name="1" type="ToolYarnBall" x="459" y="776" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="2" type="ToolYarnBall" x="1029" y="774" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="2"/>
+   </properties>
+  </object>
+  <object name="1" type="Rectangle" x="580" y="744" width="61" height="61">
+   <properties>
+    <property name="initHeight" value="1.5"/>
+    <property name="isBuildable" value="true"/>
+    <property name="isClimbable" value="false"/>
+    <property name="isSolid" value="true"/>
+    <property name="maxHeight" value="1.5"/>
+    <property name="minHeight" value="0"/>
+    <property name="prebuilt" value="true"/>
+    <property name="rotation" value="0"/>
+    <property name="toolKey" value="1"/>
+    <property name="width" value="1"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

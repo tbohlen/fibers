@@ -41,6 +41,21 @@
     <property name="mass" value="10000"/>
    </properties>
   </object>
+  <object name="1" type="ToolYarnBall" x="456" y="584" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="0" type="ToolYarnBall" x="1025" y="581" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object name="2" type="ToolYarnBall" x="1156" y="583" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="knit" width="20" height="12">
   <data encoding="base64" compression="zlib">
@@ -60,7 +75,7 @@
     <property name="toolKey" value="1"/>
    </properties>
   </object>
-  <object type="Tool" x="1089" y="582" width="63" height="54">
+  <object name="2" type="Tool" x="1089" y="582" width="63" height="54">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -70,6 +85,7 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="2"/>
     <property name="width" value="0.5"/>
    </properties>
   </object>
@@ -119,13 +135,6 @@
    <properties>
     <property name="checkpointName" value="goal"/>
     <property name="progress" value="next"/>
-   </properties>
-  </object>
- </objectgroup>
- <objectgroup name="music" width="20" height="12">
-  <object name="music" type="Music" x="64" y="0" width="64" height="64">
-   <properties>
-    <property name="trackname" value="music/01 Winter Sunshine.mp3"/>
    </properties>
   </object>
  </objectgroup>

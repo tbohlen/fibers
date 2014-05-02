@@ -31,6 +31,12 @@
 
   "thirdLev": {
     "stateType" : "PlayState",
+    "map" : "fallingcubes",
+    "nextName" : "fourthLev"
+  },
+
+  "fourthLev": {
+    "stateType" : "PlayState",
     "map" : "upcube",
     "nextName" : "endCut"
   },

@@ -76,6 +76,45 @@
                  "width":92,
                  "x":567,
                  "y":449
+                }, 
+                {
+                 "height":54,
+                 "name":"1",
+                 "properties":
+                    {
+                     "toolKey":"1"
+                    },
+                 "type":"ToolYarnBall",
+                 "visible":true,
+                 "width":55,
+                 "x":456,
+                 "y":584
+                }, 
+                {
+                 "height":54,
+                 "name":"0",
+                 "properties":
+                    {
+                     "toolKey":"0"
+                    },
+                 "type":"ToolYarnBall",
+                 "visible":true,
+                 "width":55,
+                 "x":1025,
+                 "y":581
+                }, 
+                {
+                 "height":54,
+                 "name":"2",
+                 "properties":
+                    {
+                     "toolKey":"2"
+                    },
+                 "type":"ToolYarnBall",
+                 "visible":true,
+                 "width":55,
+                 "x":1156,
+                 "y":583
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -129,7 +168,7 @@
                 }, 
                 {
                  "height":54,
-                 "name":"",
+                 "name":"2",
                  "properties":
                     {
                      "initHeight":"0",
@@ -140,6 +179,7 @@
                      "minHeight":"0",
                      "prebuilt":"false",
                      "rotation":"0",
+                     "toolKey":"2",
                      "width":"0.5"
                     },
                  "type":"Tool",
@@ -316,30 +356,6 @@
                  "width":116,
                  "x":197,
                  "y":268
-                }],
-         "opacity":1,
-         "type":"objectgroup",
-         "visible":true,
-         "width":20,
-         "x":0,
-         "y":0
-        }, 
-        {
-         "height":12,
-         "name":"music",
-         "objects":[
-                {
-                 "height":64,
-                 "name":"music",
-                 "properties":
-                    {
-                     "trackname":"music\/01 Winter Sunshine.mp3"
-                    },
-                 "type":"Music",
-                 "visible":true,
-                 "width":64,
-                 "x":64,
-                 "y":0
                 }],
          "opacity":1,
          "type":"objectgroup",

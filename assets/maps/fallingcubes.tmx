@@ -19,7 +19,7 @@
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
-  <object type="Platform" x="1347" y="641" width="121" height="175">
+  <object type="Platform" x="1347" y="641" width="118" height="189">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
@@ -32,7 +32,7 @@
  </objectgroup>
  <layer name="knit needles" width="23" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUDGbAN9AOoDFgHWgH0BgAACJEABQ=
+   eJxjYBgFo2AUkALEgFicRmbLAbE8mhgfjewaLIB1oB1AYwAA82AAfg==
   </data>
  </layer>
  <objectgroup name="bridge horizontal" width="23" height="15">
@@ -50,14 +50,14 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="needle" width="23" height="15">
-  <object type="Tool" x="197" y="647" width="53" height="53">
+ <objectgroup name="knit" width="23" height="15">
+  <object name="0" type="Tool" x="197" y="647" width="53" height="53">
    <properties>
     <property name="prebuilt" value="true"/>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Tool" x="834" y="775" width="60" height="55">
+  <object name="1" type="Tool" x="834" y="775" width="60" height="55">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -67,7 +67,29 @@
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="false"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="1"/>
     <property name="width" value="0.5"/>
+   </properties>
+  </object>
+  <object name="0" type="ToolYarnBall" x="138" y="645" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object name="1" type="ToolYarnBall" x="898" y="776" width="55" height="54">
+   <properties>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object type="Platform" x="-53" y="363" width="60" height="374">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
+  <object type="Checkpoint" x="1350" y="521" width="110" height="115">
+   <properties>
+    <property name="checkpointName" value="goal"/>
+    <property name="progress" value="next"/>
    </properties>
   </object>
  </objectgroup>
@@ -140,14 +162,9 @@
   </object>
  </objectgroup>
  <objectgroup name="checkpoints" width="23" height="15">
-  <object type="Spawn" x="198" y="541" width="49" height="47"/>
+  <object type="Spawn" x="41" y="475" width="49" height="47"/>
  </objectgroup>
  <objectgroup name="boundaries" width="23" height="15">
-  <object type="Platform" x="136" y="324" width="60" height="374">
-   <properties>
-    <property name="rigidBody" value="static"/>
-   </properties>
-  </object>
   <object type="Platform" x="1461" y="263" width="60" height="374">
    <properties>
     <property name="rigidBody" value="static"/>

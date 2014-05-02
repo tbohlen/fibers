@@ -116,6 +116,11 @@
    </properties>
   </object>
   <object name="Spawn" type="Spawn" x="61" y="41" width="64" height="64"/>
+  <object type="Platform" x="218" y="39" width="35" height="964">
+   <properties>
+    <property name="rigidBody" value="static"/>
+   </properties>
+  </object>
  </objectgroup>
  <layer name="door" width="32" height="25">
   <data encoding="base64" compression="zlib">
