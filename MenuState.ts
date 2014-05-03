@@ -13,7 +13,7 @@ class MenuState extends TurbGameState
     constructor(game:GameObject, jsonMap:String, returnState:TurbGameState = null)
     {
         super(game);
-        super.clearWorld();
+        this.game.keyboard.resetListeners();
         this.game = game;
 
 
