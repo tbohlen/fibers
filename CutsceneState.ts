@@ -14,6 +14,7 @@ class CutsceneState extends TurbGameState
     constructor(game:GameObject, jsonMap:String)
     {
         super(game);
+        super.clearWorld();
         this.game = game;
 
         this.tileset = new Tileset(jsonMap+".json", game);

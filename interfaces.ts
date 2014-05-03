@@ -22,6 +22,8 @@ class TurbGameState {
     {
         this.game.physicsWorld.clear();
 		this.game.checkpointManager.removeAllCheckpoints();
+        this.game.collisionHelp.removeAllInteractables();
+        this.game.keyboard.resetListeners();
     }
 }
 

@@ -110,7 +110,7 @@ class PlayState extends TurbGameState
             {
                 this.game.nextState = new MenuState(this.game, "menuMain", this);
             }
-            if (this.game.keyboard.justPressed("H"))
+            if (this.game.keyboard.justPressed("R"))
             {
                 this.game.nextState = this.game.progression.getNewCurrentState();
             }

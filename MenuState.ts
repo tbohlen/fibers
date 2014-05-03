@@ -13,7 +13,9 @@ class MenuState extends TurbGameState
     constructor(game:GameObject, jsonMap:String, returnState:TurbGameState = null)
     {
         super(game);
+        this.game.keyboard.resetListeners();
         this.game = game;
+
 
         this.returnState = returnState;
         this.tileset = new Tileset(jsonMap+".json", game);
