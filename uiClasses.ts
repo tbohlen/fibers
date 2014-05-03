@@ -77,9 +77,10 @@ class Button extends RigidSprite
                 } else if (obj.properties.progress == "next")
                 {
                     game.nextState = game.progression.getNextState();
-                } else if (obj.properties.progress == "current")
-                {
+                } else if (obj.properties.progress == "current") {
                     game.nextState = game.progression.getNewCurrentState();
+                } else if (obj.properties.progress == "resume") {
+                    game.keyboard.virtualKeyPress("P"); // (this is really hacky)
                 } else {
                     console.log("button behavior undefined for a progress");
                 }

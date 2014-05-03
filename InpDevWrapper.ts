@@ -127,6 +127,13 @@ class InpDevWrapper
         }
     }
 
+    virtualKeyPress(key:string):void
+    {
+        this.keys[key] = true;
+        this.recentlyPressed[key] = true;
+        this.recentlyReleased[key] = false;
+    }
+
     resetListeners():void
     {
         this.mouseDownListeners = [];
