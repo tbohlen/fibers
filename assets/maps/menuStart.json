@@ -34,7 +34,7 @@
                  "properties":
                     {
                      "nextState":"MenuState",
-                     "stateArgs":"menuInstructions"
+                     "stateArgs":"menuStartInstructions"
                     },
                  "type":"Button",
                  "visible":true,
@@ -48,7 +48,7 @@
                  "properties":
                     {
                      "nextState":"MenuState",
-                     "stateArgs":"menuCredits"
+                     "stateArgs":"menuStartCredits"
                     },
                  "type":"Button",
                  "visible":true,

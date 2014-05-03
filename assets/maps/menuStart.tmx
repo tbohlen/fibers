@@ -17,13 +17,13 @@
   <object name="instrucButton" type="Button" x="384" y="571" width="192" height="48">
    <properties>
     <property name="nextState" value="MenuState"/>
-    <property name="stateArgs" value="menuInstructions"/>
+    <property name="stateArgs" value="menuStartInstructions"/>
    </properties>
   </object>
   <object name="creditsButton" type="Button" x="458" y="634" width="115" height="48">
    <properties>
     <property name="nextState" value="MenuState"/>
-    <property name="stateArgs" value="menuCredits"/>
+    <property name="stateArgs" value="menuStartCredits"/>
    </properties>
   </object>
  </objectgroup>

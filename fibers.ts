@@ -97,7 +97,7 @@ var game:GameObject = {
 game.progression.setGameObject(game);
 game.checkpointManager.setGameObject(game);
 
-var currentState:TurbGameState = new MenuState(game, "menuMain");
+var currentState:TurbGameState = new MenuState(game, "menuStart");
 
 // run the game
 function update()
