@@ -127,6 +127,12 @@ class InpDevWrapper
         }
     }
 
+    resetListeners():void
+    {
+        this.mouseDownListeners = [];
+        this.mouseUpListeners = [];
+    }
+
     keyPressed(key:string):boolean
     {
         if (key in this.keys)
