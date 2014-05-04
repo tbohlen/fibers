@@ -15,6 +15,14 @@ class TurbGameState {
     }
 
     update():void{
+        if (this.game.keyboard.justPressed("M"))
+        {
+            var newGain:number = Math.abs(this.game.bgMusicSource.gain - 1.0);
+            console.log("new gain : " + newGain);
+            this.game.bgMusicSource.gain = newGain;
+            this.game.sfxSource.gain = newGain;
+        }
+
         return;
     }
 
