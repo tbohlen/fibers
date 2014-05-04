@@ -37,6 +37,7 @@ class Player {
     facing:Direction = Direction.RIGHT;
 
     // pulling
+    canPull:boolean = false;
     isPulling:boolean = false;
     pulledObject:Rectangle = null;
 
@@ -236,7 +237,6 @@ class Player {
             this.pulledObject = rect;
             this.isPulling = true;
             rect.isBeingPulled = true;
-            this.walkTexture.reverse();
             //console.log("PULLING!");
         }
     }
@@ -247,7 +247,6 @@ class Player {
             rect.isBeingPulled = false;
             this.isPulling = false;
             this.pulledObject = null;
-            this.walkTexture.reverse();
             //console.log("RELEASED!");
         }
     }
@@ -456,17 +455,19 @@ class Player {
             if (this.onGround)
             {
                 var isStill:boolean = (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED);
-                if (isStill)
+                if (this.isPulling)
+                {
+                    this.setCurrentTexture(this.pullTexture);
+                } else if (this.canPull)
+                {
+                    this.setCurrentTexture(this.pullTexture);
+                    this.pullTexture.pause();
+                } else if (isStill)
                 {
                     this.setCurrentTexture(this.standTexture);
-                } else {
-                    if (this.isPulling)
-                    {
-                        this.setCurrentTexture(this.pullTexture);
-                    } else
-                    {
-                        this.setCurrentTexture(this.walkTexture);
-                    }
+                } else
+                {
+                    this.setCurrentTexture(this.walkTexture);
                 }
             } else
             {
@@ -495,23 +496,31 @@ class Player {
 
     tryToPull()
     {
-        if ((this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) &&
-            this.game.keyboard.keyPressed("E") &&
+        if (this.game.keyboard.keyPressed("E") &&
             this.lastTouchedPullable &&
             this.onGround &&
             !this.isPulling)
         {
+            this.pullTexture.play();
             var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
             var playerPos:any[] = this.getPosition();
 
             var distToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
-            var threshold:number = this.playerDimensions[0]/2 + 30;
+            var pullThreshold:number = this.playerDimensions[0]/2 + 10;
             var isNotAbove:boolean = (rectPos[1] <= (playerPos[1] + this.playerDimensions[1]/2 + 16));
 
-            if ((distToPullable < threshold) && isNotAbove)
+            if ((distToPullable < pullThreshold) && isNotAbove)
             {
-                this.pull(this.lastTouchedPullable);
+                if (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) {
+                    this.pull(this.lastTouchedPullable);
+                } else {
+                    this.canPull = true;
+                }
+            } else {
+                this.canPull = false;
             }
+        } else {
+            this.canPull = false;
         }
     }
 
@@ -584,6 +593,9 @@ class Player {
 
         if (this.isPulling && this.rigidSprite.body){
             this.pulledObject.body.setVelocity(this.rigidSprite.body.getVelocity());
+        }
+        if (this.isPulling || this.canPull)
+        {
             this.facing = this.lastTouchedPullableDirection();
         }
 
