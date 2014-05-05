@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="introBridgeDown" tilewidth="64" tileheight="64">
+  <image source="../story/introBridgeDown.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="257" name="introCreate" tilewidth="64" tileheight="64">
+  <image source="../story/introCreate.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="513" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJw1yEMSIDEAAMDJ2rZt27Zt27Zt27ZtPW07lZpDXzqELAtRlmUFKEghClOEohSjOCUoSSlKU4aylItCUj7nKlCRSlSmClWpRnVqUJNa1KYOdakXhaR+zjWgIY1oTBOa0ozmtKAlrWhNG9rSLgpJ+5zrQEc60ZkudKUb3elBT3rRmz70pV8Ukv45N4CBDGIwQxjKMIYzgpGMYjRjGMu4KCTjc24CE5nEZKYwlWlMZwYzmcVs5jCXeVFI5ufcAhayiMUsYSnLWM4KVrKK1axhLeuikKzPuQ1sZBOb2cJWtrGdHexkF7vZw172RSHZn3MHOMghDnOEoxzjOCc4ySlOc4aznItCcj7nLnCRS1zmCle5xnVucJNb3OYOd7kXheR+zj3gIY94zBOe8oznvOAlr3jNG97yLgrJ+5z7wEc+8ZkvfOUb3/nBT37xmz/85V8Ukv9sLlqp
+  </data>
+ </layer>
+ <layer name="bckgd" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJztw0ERABAABEDXgAY0oAENaCCC/i+Puwb3M3ZmQ/heFMFQVwYndVVwUVcHN3VN8FDXBi91HfAFypcFhw==
+  </data>
+ </layer>
+ <layer name="more ground" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFlABtJgYGHSbKzdEEmqEFxMZAbEIF8wyBZhgBsRAQC1PBPJg5UkAsTQXzYOaMuo8y9wEAcGsD0Q==
+  </data>
+ </layer>
+</map>

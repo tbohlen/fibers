@@ -3,9 +3,12 @@
  <tileset firstgid="1" name="introFightPow2" tilewidth="64" tileheight="64">
   <image source="../story/introFightPow2.png" trans="adb2b9" width="1024" height="1024"/>
  </tileset>
+ <tileset firstgid="257" name="introFight" tilewidth="64" tileheight="64">
+  <image source="../story/introFight.png" width="1024" height="1024"/>
+ </tileset>
  <layer name="Tile Layer 1" width="20" height="12">
   <data encoding="base64" compression="zlib">
-   eJxt0VVTlAEYhuG1W+xAVMRWTETEAAmxu7C7WywMFBW7u11MVAwMRMX4aVw78zmzs7MH19nz3idvOBQKhalHfRrQkEY0pglNaUZzWtCSVrQmgTYkB8KBtrSjPR3oSCc604WuJNKNJLrTg55RreheL1LoTR/60o/+DGAggxhMKkMYyjCGx+mNYCRpjCKd0WQwhkzGMo7xTCCLbCbG6eWQSx75TKKAyUxhKtOYzgxmMovZzInprWEu85jPAhayiMUUsoSlLGM5K1jJKlbH9PYEzbWsYz0b2MgmNrOFrWxjOzvYyS52x/RKg+ZeitjHfg5wkEMUc5gjHOUYJRznREzvetA8ySlOU8YZznKO81zgIpe4zBWuci3OPyLNG9zkFre5w13ucZ8HPOQRj3nC06hGRFWgnGc85wUvecVrKnjDW95RyXs+8JFPUf4FIs3PfOEr36jmOzX84Ce/qOU3f/gb3P/f1wEHvV1y
+   eJxtzlVTVQEUgNFz7cZrF4qBXdiN2CIGdit2K4KJhd0tdmG3omLHT3OduefhPPiwZs/s2fPNTiaCIEmCKlSlGtWpQU1qUZs61KUe9WlAGg3JCFLaJ1LCZiMa04SmNKM5LWhJK1rThnTa0i5sxXrJqBU2O9CRTmTSmS50pRvd6UFPetGbPvT9z39Z9KM/AxjIIAYzhKEMYzgjGMkoshkd62VFrRzGMJZxjGcCE5nEZHKZQh5TmcZ0ZsR6OVErn5nMYjZzmMs85rOAhSxiMUtYyjKWx3r5UauAFaxkFatZw1rWsZ4NbGQTm9nCVrbFegVRq5DtFFHMDnayi93sYS8l7GM/BzjIoVivMGqVcpgjHOUYxznBSU5xmjOc5RznucDFWK80al3iMle4yjXKuM4NbnKL29zhLve4z4NQkPKQ8nDalfOIxzzhKc94zgte8orXvOEt73gfClI+UBFOuwo+8onPVPKFr3zjOz/4yS9+84e/4b1GJf8Aar9XGg==
   </data>
  </layer>
 </map>

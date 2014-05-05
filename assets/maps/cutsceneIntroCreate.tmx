@@ -3,9 +3,15 @@
  <tileset firstgid="1" name="introCreatePow2" tilewidth="64" tileheight="64">
   <image source="../story/introCreatePow2.png" trans="adb2b9" width="1024" height="1024"/>
  </tileset>
+ <tileset firstgid="257" name="introCreate" tilewidth="64" tileheight="64">
+  <image source="../story/introCreate.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="513" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
  <layer name="Tile Layer 1" width="20" height="12">
   <data encoding="base64" compression="zlib">
-   eJytzPdTDgAcx/EnGVFIGZmdWZkXCRGH7Map7FnZkYvSoLKyaVBkpSgl41/06u557p57zvObH1533/vcfd+JgUAgkRjGEMtYxjGeCcQxkUnEk8BkpjA1+B9qhO5pJJHMdGYwk1mkMJs5zGUe81lAapTeQhaxmCUsZRlppJPBclawklWsZk2UXiZrWUcW68lmAxvZRA6b2UIuW9kWpbedHewkj13sZg972cd+DpBPAYUURekdpJgSSjnEYY5wlGMc5wQnOcVpzvyjd5YyyqngHOe5wEUucZkrVHKVa1RxPaJ3N6iaG9ykhlpuUUc9DTRymzs00UxLWGNUe9A97vOAh7TyiMc84SnPeM4LXvKKtrBGSDcddPKaN3QF97e8o4f3fOAjn/hMb0RrgEH66Ocr38L27wwxzA9G+MkvfvMnovflPxrt/QUoF1Jh
+   eJxNzsMSZUEARMH7xrZt27Zt27Zt27Zt69MmO14vepFxdhWVy2VZLipAQQpRmCIUpRjFKUFJSlGaMpSlXJDlWz5RgYpUojJVqEo1qlODmtSiNnWoS724F1o/0YCGNKIxTWhKM5rTgpa0ojVtaEu7uBfaPtGBjnSiM13oSje604Oe9KI3fehLv7gX2j8xgIEMYjBDGMowhjOCkYxiNGMYy7i4Fzo+MYGJTGIyU5jKNKYzg5nMYjZzmMu8uBc6P7GAhSxiMUtYyjKWs4KVrGI1a1jLurgXuj6xgY1sYjNb2Mo2trODnexiN3vYy74gy3d/4gAHOcRhjnCUYxznBCc5xWnOcJZzQZbv+cQFLnKJy1zhKte4zg1ucovb3OEu9+Je6P3EAx7yiMc84SnPeM4LXvKK17zhLe/iXuj7xAc+8onPfOEr3/jOD37yi9/84S//wscs3//i3Fm9
   </data>
  </layer>
 </map>
