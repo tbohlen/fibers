@@ -26,27 +26,21 @@ class MenuState extends TurbGameState
     update()
     {
         super.update();
-
-        if (this.game.graphicsDevice.beginFrame())
+        this.game.graphicsDevice.clear(MenuState.bgColor, 1.0);
+        this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
+        if (this.game.keyboard.justPressed("P"))
         {
-            this.game.graphicsDevice.clear(MenuState.bgColor, 1.0);
-            this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
-            if (this.game.keyboard.justPressed("P"))
-            {
-                this.game.nextState = this.returnState == null ? this.game.progression.getNextState() : this.returnState;
-            }
-            if (this.tileset.isLoaded())
-            {
-                if (!this.tileset.ranLoadMap) {
-                    console.log("Loading menu tileset");
-                    this.tileset.loadMap();
-                }
-                this.tileset.draw(this.game.draw2D, [0, 0]);
-            }
-
-            this.game.draw2D.end();
-
-            this.game.graphicsDevice.endFrame();
+            this.game.nextState = this.returnState == null ? this.game.progression.getNextState() : this.returnState;
         }
+        if (this.tileset.isLoaded())
+        {
+            if (!this.tileset.ranLoadMap) {
+                console.log("Loading menu tileset");
+                this.tileset.loadMap();
+            }
+            this.tileset.draw(this.game.draw2D, [0, 0]);
+        }
+
+        this.game.draw2D.end();
     }
 }
