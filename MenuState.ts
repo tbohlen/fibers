@@ -25,6 +25,8 @@ class MenuState extends TurbGameState
 
     update()
     {
+        super.update();
+
         if (this.game.graphicsDevice.beginFrame())
         {
             this.game.graphicsDevice.clear(MenuState.bgColor, 1.0);

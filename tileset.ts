@@ -41,6 +41,7 @@ class Spritesheet {
     transparentColor:number;
 }
 
+
 class Tileset {
 
     public static BASE_MAP_URL:string = "assets/maps/";
