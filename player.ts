@@ -509,8 +509,7 @@ class Player {
 
     tryToPull()
     {
-        if (this.game.keyboard.keyPressed("E") &&
-            this.lastTouchedPullable &&
+        if (this.lastTouchedPullable &&
             this.onGround &&
             !this.isPulling)
         {
@@ -524,10 +523,11 @@ class Player {
 
             if ((distToPullable < pullThreshold) && isNotAbove)
             {
-                if (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) {
+                this.canPull = true;
+                
+                if (this.game.keyboard.keyPressed("E") &&
+                    (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT"))) {
                     this.pull(this.lastTouchedPullable);
-                } else {
-                    this.canPull = true;
                 }
             } else {
                 this.canPull = false;
