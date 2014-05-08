@@ -441,19 +441,16 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         var vertices:number[][];
         if (!this.isBuildable)
         {
-            var offsetConst:number = 4;
-            var offsetLeft:number = left + (pixelWidth/offsetConst);
-            var offsetRight:number = right - (pixelWidth/offsetConst);
-            var offsetTop:number = top - (pixelHeight/offsetConst);
-            var offsetBottom:number = bottom + (pixelHeight/offsetConst);
-            var vertCenter:number = (top-bottom)/2;
-            var horizCenter:number = left + pixelWidth/2;
+            var offsetConst:number = 18; // keep this less than half the player's width. Otherwise you get weird cases where the player can wedge themselves into corners
+            var offsetLeft:number = left + offsetConst;
+            var offsetRight:number = right - offsetConst;
+            var offsetTop:number = top - offsetConst;
+            var offsetBottom:number = bottom + offsetConst;
             vertices = [[left, offsetBottom], [offsetLeft, bottom], [offsetRight, bottom], [right, offsetBottom],
                         [right, offsetTop], [offsetRight, top], [offsetLeft, top], [left, offsetTop]];
         }
         else
         {
-
             vertices = this.game.physicsDevice.createRectangleVertices(left, top, right, bottom);
         }
 
