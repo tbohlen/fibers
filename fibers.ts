@@ -20,6 +20,7 @@
 /// <reference path="MenuState.ts"/>
 /// <reference path="InpDevWrapper.ts"/>
 /// <reference path="masks.ts"/>
+/// <reference path="sfx.ts"/>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,8 +95,12 @@ var game:GameObject = {
     nextState : null,
     soundDevice : soundDevice,
     bgMusicSource : bgMusicSource,
-    sfxSource : sfxSource
+    sfxSource : sfxSource,
+    sfx: null
 };
+
+game.sfx = new SFX(game);
+
 game.progression.setGameObject(game);
 game.checkpointManager.setGameObject(game);
 
@@ -104,6 +109,8 @@ var currentState:TurbGameState = new MenuState(game, "menuStart");
 // run the game
 function update()
 {
+    this.game.soundDevice.update();
+
     // update to the next state (can just pass in the same state)
     if (this.game.graphicsDevice.beginFrame())
     {

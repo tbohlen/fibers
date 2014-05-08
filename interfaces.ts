@@ -66,6 +66,7 @@ interface GameObject {
     soundDevice : SoundDevice;
     bgMusicSource : SoundSource;
     sfxSource : SoundSource;
+    sfx: SFX;
 }
 
 interface RigidSpriteOptions

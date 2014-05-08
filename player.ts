@@ -6,6 +6,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="animatedTexture.ts"/>
 /// <reference path="masks.ts"/>
+/// <reference path="sfx.ts"/>
 
 // a player's sprite is an instance of an animated sprite, which has a
 // direction (facing), possibly multiple animated sprite sheets,
@@ -301,6 +302,8 @@ class Player {
 
     jumpUp()
     {
+        this.game.sfx.setCurrentFX(this.game.sfx.jumpSFX);
+
         if (this.pulledObject) {
             this.release(this.pulledObject);
         }
