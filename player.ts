@@ -136,6 +136,12 @@ class Player {
         this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
     }
 
+    // Determine if the player is moving horizontally...
+    isStill():boolean
+    {
+        return Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED;
+    }
+
     // sets the texture used to display the character. If no texture is null, displays a white box
     setTexture(texture) {
         if (this.rigidSprite.sprite != null)
@@ -371,9 +377,14 @@ class Player {
         }
     }
 
+    oppositeFacing(direction:Direction):Direction
+    {
+        return (direction == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+    }
+
     flipFacing()
     {
-        this.facing = (this.facing == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+        this.facing = this.oppositeFacing(this.facing);
     }
 
     climb()
@@ -467,7 +478,6 @@ class Player {
         {
             if (this.onGround)
             {
-                var isStill:boolean = (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED);
                 if (this.isPulling)
                 {
                     this.setCurrentTexture(this.pullTexture);
@@ -475,7 +485,7 @@ class Player {
                 {
                     this.setCurrentTexture(this.pullTexture);
                     this.pullTexture.pause();
-                } else if (isStill)
+                } else if (this.isStill())
                 {
                     this.setCurrentTexture(this.standTexture);
                 } else
@@ -504,40 +514,50 @@ class Player {
                 return Direction.RIGHT;
             }
         }
+        // default to returning the opposite of the player's current facing
+        // since the pulling sprite is flipped (if no pullables have been encountered yet)
         return Direction.LEFT;
     }
 
     tryToPull()
     {
-        if (this.lastTouchedPullable &&
-            this.onGround &&
-            !this.isPulling)
+        var isStill:boolean = this.isStill();
+
+        this.canPull = false;
+
+        if (this.onGround)
         {
-            this.pullTexture.play();
-            var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
-            var playerPos:any[] = this.getPosition();
-
-            var hDistToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
-            var hDistThreshold:number = this.playerDimensions[0]/2 + 10;
-            var vDistToPullable:number = (rectPos[1] - (playerPos[1] + this.playerDimensions[1]/2 + 16));
-
-            if ((hDistToPullable < hDistThreshold) && vDistToPullable <= 0 && vDistToPullable > -32)
+            if (isStill &&
+                this.game.keyboard.keyPressed("E") &&
+                !this.lastTouchedPullable)
             {
-                if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED){
-                    this.canPull = true;
-                } else {
-                    this.canPull = false;
-                }
+                this.canPull = true;
+            } else if (this.lastTouchedPullable &&
+                      !this.isPulling)
+            {
+                this.pullTexture.play();
+                var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
+                var playerPos:any[] = this.getPosition();
 
-                if (this.game.keyboard.keyPressed("E") &&
-                    (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT"))) {
-                    this.pull(this.lastTouchedPullable);
+                var hDistToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
+                var hDistThreshold:number = this.playerDimensions[0] / 2 + 10;
+                var vDistToPullable:number = (rectPos[1] - (playerPos[1] + this.playerDimensions[1] / 2 + 16));
+
+                if ((hDistToPullable < hDistThreshold) &&
+                    vDistToPullable <= 0 && vDistToPullable > -32)
+                {
+                    if (isStill)
+                    {
+                        this.canPull = true;
+                    }
+
+                    if (this.game.keyboard.keyPressed("E") &&
+                        (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")))
+                    {
+                        this.pull(this.lastTouchedPullable);
+                    }
                 }
-            } else {
-                this.canPull = false;
             }
-        } else {
-            this.canPull = false;
         }
     }
 
