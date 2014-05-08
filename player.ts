@@ -517,14 +517,14 @@ class Player {
             var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
             var playerPos:any[] = this.getPosition();
 
-            var distToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
-            var pullThreshold:number = this.playerDimensions[0]/2 + 10;
-            var isNotAbove:boolean = (rectPos[1] <= (playerPos[1] + this.playerDimensions[1]/2 + 16));
+            var hDistToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
+            var hDistThreshold:number = this.playerDimensions[0]/2 + 10;
+            var vDistToPullable:number = (rectPos[1] - (playerPos[1] + this.playerDimensions[1]/2 + 16));
 
-            if ((distToPullable < pullThreshold) && isNotAbove)
+            if ((hDistToPullable < hDistThreshold) && vDistToPullable <= 0 && vDistToPullable > -32)
             {
                 this.canPull = true;
-                
+
                 if (this.game.keyboard.keyPressed("E") &&
                     (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT"))) {
                     this.pull(this.lastTouchedPullable);
