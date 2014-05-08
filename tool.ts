@@ -192,10 +192,17 @@ class Tool extends RigidSprite implements Interactable
                 if (this.game.keyboard.keyPressed("W"))
                 {
                     buildable.buildUp();
+                    this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
                 }
                 else if (this.game.keyboard.keyPressed("S"))
                 {
                     buildable.buildDown();
+                    this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
+                } else if (!this.game.sfxSource.paused &&
+                            ((this.game.sfx.currentSFX == this.game.sfx.knitDownSFX) ||
+                            (this.game.sfx.currentSFX == this.game.sfx.knitUpSFX)))
+                {
+                    this.game.sfxSource.pause();
                 }
             }
         }

@@ -53,8 +53,15 @@ class SFX
         var data:Sound = sound.soundData;
         if (data)
         {
-            this.currentSFX = sound;
-            this.game.sfxSource.play(data);
+            if (this.currentSFX != sound || !this.game.sfxSource.playing){
+                this.currentSFX = sound;
+                this.game.sfxSource.rewind();
+                this.game.sfxSource.play(data);
+            }
+            if (this.currentSFX == sound && this.game.sfxSource.paused)
+            {
+                this.game.sfxSource.resume();
+            }
         }
     }
 }
