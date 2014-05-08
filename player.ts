@@ -523,7 +523,11 @@ class Player {
 
             if ((hDistToPullable < hDistThreshold) && vDistToPullable <= 0 && vDistToPullable > -32)
             {
-                this.canPull = true;
+                if (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED){
+                    this.canPull = true;
+                } else {
+                    this.canPull = false;
+                }
 
                 if (this.game.keyboard.keyPressed("E") &&
                     (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT"))) {
