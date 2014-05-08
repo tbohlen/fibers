@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="introFalling" tilewidth="64" tileheight="64">
+  <image source="../story/introFalling.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="257" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxd03dXjnEAgOEHGZGdRAjZIzPZZFb23nvLHhllz5K9ZSUZIWRk89Fc5zjv6Xf8cZ37E9xlURQ9oQ51qUcc9WlAQxoRT2OakEBTmtGcFrzlHe+ppiWtaE0ibUiiLcm0oz0pdKAjnUilM7/5Qxe6Bk2jG93pQU960Zs+9KUf/UlnAAODDmJw0CEMJYNhZDKcEYxkFKMZw1jGMT5oFhOCTmQSk5nCVLLJIZdpTGcGM5nF7KBzmBt0HvNZwEIWsZglLGUZy1nBSlaxOuga1gZdx3o2sJFNbGYLW8ljG9vZwU52Bd3NnqB72cd+8jnAQQ5xmAIKOcJRjnE86AlOBj3Fac5wlnOcp4hiLlDCRS5xmStBr3It6HVucJNb3OYOd7lHKfd5wEMe8ThoWfTvj1jLeUoFz3jOC15SySte84aqqPaL//+I9QMf+cRnavjCV77xnR/85FdU+0WsfwFQLV95
+  </data>
+ </layer>
+ <layer name="balls" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUDFUAAAPAAAE=
+  </data>
+ </layer>
+</map>

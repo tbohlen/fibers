@@ -100,6 +100,7 @@ class Checkpoint implements Interactable
         {
             progressCallback = function()
             {
+                console.log("progress callback called")
                 if (obj.properties.progress == "start")
                 {
                     game.nextState = game.progression.resetToStartState();
@@ -114,7 +115,9 @@ class Checkpoint implements Interactable
                 }
             };
         }
-        var yarnBallCallback:Function = function(){};
+        var yarnBallCallback:Function = function(){
+            progressCallback();
+        };
         if (obj.properties.hasOwnProperty("yarn"))
         {
             console.log("yarn checkpoint");
@@ -124,9 +127,13 @@ class Checkpoint implements Interactable
                 if (obj.properties.yarn == "true")
                 {
                     game.progression.addYarnBall();
+//                    var animation:Animation = new Animation(game, "textureFileName", [],
+//                    50, 2, 10, progressCallback);
+//                    game.animationHelp.addAnimation(animation);
                 } else
                 {
                     console.log("no yarn ball added");
+                    progressCallback();
                 }
             }
         }
@@ -140,7 +147,7 @@ class Checkpoint implements Interactable
             body : body,
             name : name,
             checkpointManager : game.checkpointManager,
-            completedCallback : allCallbacks
+            completedCallback : yarnBallCallback
         });
         game.collisionHelp.pushCheckpoint(cp);
         game.checkpointManager.pushCheckpoint(cp);
