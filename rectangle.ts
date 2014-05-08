@@ -437,8 +437,26 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                 break;
         }
 
+        // if this is not buildable, its a cube, and so we will give it rounded corners
+        var vertices:number[][];
+        if (!this.isBuildable)
+        {
+            var offsetConst:number = 4;
+            var offsetLeft:number = left + (pixelWidth/offsetConst);
+            var offsetRight:number = right - (pixelWidth/offsetConst);
+            var offsetTop:number = top - (pixelHeight/offsetConst);
+            var offsetBottom:number = bottom + (pixelHeight/offsetConst);
+            var vertCenter:number = (top-bottom)/2;
+            var horizCenter:number = left + pixelWidth/2;
+            vertices = [[left, offsetBottom], [offsetLeft, bottom], [offsetRight, bottom], [right, offsetBottom],
+                        [right, offsetTop], [offsetRight, top], [offsetLeft, top], [left, offsetTop]];
+        }
+        else
+        {
 
-        var vertices:number[][] = this.game.physicsDevice.createRectangleVertices(left, top, right, bottom);
+            vertices = this.game.physicsDevice.createRectangleVertices(left, top, right, bottom);
+        }
+
         var shape:Physics2DShape = this.game.physicsDevice.createPolygonShape({
             vertices: vertices,
             material: this.material,

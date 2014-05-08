@@ -57,10 +57,12 @@ class Player {
 
     playerDimensions:number[] = [128, 128];
     playerHitBox:number[][] = [
-        [-20, -52],
-        [20, -52],
-        [20, 64],
-        [-20, 64]
+        [-20, -46],
+        [0, -52],
+        [20, -46],
+        [20, 58],
+        [0, 64],
+        [-20, 58]
     ];
 
     keys:any;
@@ -94,8 +96,6 @@ class Player {
             color: [1.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-//        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-this.playerHitBox[0]/2, -this.playerHitBox[1]/2,
-//                this.playerHitBox[0]/2, this.playerHitBox[1]/2);
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: this.playerHitBox,
@@ -355,7 +355,7 @@ class Player {
             var normal = [];
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.leftBlockingShape, 1000/60, point, normal);
-            console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
+            //console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
             return !intersecting && typeof sweepHit == "undefined";
         }
@@ -374,7 +374,7 @@ class Player {
             var normal = [];
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.rightBlockingShape, 1000/60, point, normal);
-            console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
+            //console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
             return !intersecting && typeof sweepHit == "undefined";
         }
