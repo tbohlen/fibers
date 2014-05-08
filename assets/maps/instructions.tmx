@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="14" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="40" height="14" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
@@ -9,30 +9,33 @@
  <tileset firstgid="385" name="tiles2" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
- <layer name="background" width="32" height="14">
+ <tileset firstgid="513" name="instructions" tilewidth="64" tileheight="64">
+  <image source="../story/instructions.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="background" width="40" height="14">
   <data encoding="base64" compression="zlib">
-   eJzt06cBgDAABdGsFsBQDMVQDMVQDMVQhuem4CMinrgBzhpjPPgIYD/uEBFiJIJOkSFHIegSFWo0gm7Roccg6BETZiyCXrFhxyHoExduPIL++nf3v/v/T/+/bLOfYQ==
+   eJzt1LkOg0AMhGFejUDD0STQ5GiANAQajiYhD59fQm5WcrteoVj6iqln5Cjar0GLDk8kSBHjZJjlerwwYESBEhlywyw3YcaCFRVqnHExzHJvfLDhizseuOJmmLXeZYfuLn1nrXfZobtL31nrXXbo7tJ31nqXHbq79J213kP5f1rvofw/rfdQ/p/W+///HeP//QATrsV1
   </data>
  </layer>
- <layer name="ground" width="32" height="14">
+ <layer name="ground" width="40" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALKQAMQxwJx3AC7Y6gBLiDmHkBaCIiFB5CWAmLpAaQBnO0ILA==
+   eJztiDEKACAMxLpqJ+2k/f8/vbHD7QW5QAjETAghhPiPASf0UievqwtuGKVBXlcPvDBLk7yuPqdiCKo=
   </data>
  </layer>
- <objectgroup name="ground" width="32" height="14">
-  <object type="Platform" x="1" y="708" width="2041" height="183">
+ <objectgroup name="ground" width="40" height="14">
+  <object type="Platform" x="2" y="709" width="2555" height="181">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
- <layer name="knitting" width="32" height="14">
+ <layer name="knitting" width="40" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALKgS8Q+wHxCUZU8fNA/gVGbDqoC0KBOIxItdOA7plOhJt40fisJLoJF5gHtHs+HcJkFOAHAONIBjE=
+   eJxjYBgFo2AUjIJRQGvgC8R+QHyCEVX8PJB/gRGbDvqCUCAOI1LtNKB7p1PBzbxofFbKjQSDeUC3zR8EYToKaAsAM8QGMQ==
   </data>
  </layer>
- <objectgroup name="knit" width="32" height="14">
-  <object name="1" type="Tool" x="771" y="645" width="57" height="57">
+ <objectgroup name="knit" width="40" height="14">
+  <object name="1" type="Tool" x="1283" y="645" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -46,19 +49,19 @@
     <property name="width" value="0.5"/>
    </properties>
   </object>
-  <object name="0" type="Tool" x="516" y="646" width="57" height="57">
+  <object name="0" type="Tool" x="1028" y="646" width="57" height="57">
    <properties>
     <property name="prebuilt" value="true"/>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Checkpoint" x="1929" y="585" width="110" height="115">
+  <object type="Checkpoint" x="2441" y="585" width="110" height="115">
    <properties>
     <property name="checkpointName" value="goal"/>
     <property name="progress" value="next"/>
    </properties>
   </object>
-  <object name="0" type="Rectangle" x="573" y="711" width="57" height="57">
+  <object name="0" type="Rectangle" x="1085" y="711" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -72,17 +75,17 @@
     <property name="width" value="1"/>
    </properties>
   </object>
-  <object name="1" type="ToolYarnBall" x="706" y="647" width="62" height="57">
+  <object name="1" type="ToolYarnBall" x="1218" y="647" width="62" height="57">
    <properties>
     <property name="toolKey" value="1"/>
    </properties>
   </object>
-  <object name="0" type="ToolYarnBall" x="452" y="646" width="62" height="57">
+  <object name="0" type="ToolYarnBall" x="964" y="646" width="62" height="57">
    <properties>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Rectangle" x="1265" y="642" width="32" height="55">
+  <object type="Rectangle" x="1777" y="642" width="32" height="55">
    <properties>
     <property name="bodyType" value="dynamic"/>
     <property name="isPullable" value="true"/>
@@ -91,13 +94,13 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="grandmas instructions" width="32" height="14">
+ <layer name="grandmas instructions" width="40" height="14">
   <data encoding="base64" compression="zlib">
-   eJztzbVSHVAARdHH4F7gXqDB8tHBtcC9AJLgBYTgFLgXuLM+4hbMwJlZ7dmRyPc+037RQCNNNNNCK22000EnXXQH7vfQSx/9DDDIEMOMMMoY40wE7k8yxTS/+cNfZphljnkWWGQpcH+ZFf6xyn/WWGeDTbbYZofdwP099jngkCOOOeGUM8654JKrwP1rbrjljnseeOSJZ1545Y33wP3oqEgkhljiiCeBRJJIJoVU0kiPCtvP8JdJFtnkkEse+RRQSBHFlATul/oro5wKKqniB9XUUEsd9fwM3P9q+wAOXUOl
+   eJzt0jdPVXEcx+HDpSjlaiJFuoNd2ivQDd6IbrjJhu8GAQXUQbCAyKA0aQOggIWBJgg6YEUEnoHhSvBGkyMw+E2e4SS/5P8ZzuUgCK4EB3fVXN3viDi7Rs1+R8RZLdf/4r6OG9TTQCM3uUUTzbRwmzvcDTP2D3aPVtq4zwMe8oh2OnhMJ0/oCuHNSCQIEkkimZTI72+f8oxueuilj36eM8AgQwwzEkLfMT2ZZJFNTpy+UcYY5wUvmWCSKV7xmje8ZTqEvlQ9aaSTQXS7L7pL5wyzzDHPAu9YZIn3LLPCBz6G0JenI58CCimK6brIpZjbVT7xmS985RvfWeMH6/xkg80Q+uKtkqqY78QE/ynJpHCIw6SSRjoZRDnC0YR/HLhjmd7LIpscjpNLHvkUUEgRxZzY476T3jvFac5wlnOc5wIllFJGORV73Pd/v24L4EhJlA==
   </data>
  </layer>
- <objectgroup name="checkpoints" width="32" height="14">
-  <object type="Spawn" x="86" y="603" width="64" height="64"/>
+ <objectgroup name="checkpoints" width="40" height="14">
+  <object type="Spawn" x="196" y="582" width="64" height="64"/>
  </objectgroup>
- <objectgroup name="cube" width="32" height="14"/>
+ <objectgroup name="cube" width="40" height="14"/>
 </map>
