@@ -180,9 +180,9 @@ class Player {
             this.onGround = true;
             this.groundShape = otherShape;
         }
-
         // also need to check if this stopped us from moving left or right in the air
-        if (normal[0] > 0)
+        // use an else if b/c we don't want to use the ground to block us
+        else if (normal[0] > 0)
         {
             this.rightBlockingShape = otherShape;
         }
@@ -346,6 +346,7 @@ class Player {
             var normal = [];
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.leftBlockingShape, 1000/60, point, normal);
+            console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
             return !intersecting && typeof sweepHit == "undefined";
         }
@@ -360,7 +361,13 @@ class Player {
         } else
         {
             //console.log("Do have right blocking shape");
-            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+            var point = [];
+            var normal = [];
+            var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+            var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.rightBlockingShape, 1000/60, point, normal);
+            console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
+            // you can move left if you aren't currently intersecting and won't in the next movement step left
+            return !intersecting && typeof sweepHit == "undefined";
         }
     }
 
