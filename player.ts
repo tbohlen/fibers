@@ -173,14 +173,16 @@ class Player {
         // whenever we hit another shape, check to see if it counts as ground
         // TODO: Wrap this normal test into the stillOnGround function
         var normal:number[] = arbiter.getNormal();
+        //console.log("Collide! " + normal[0] + ", " + normal[1]);
         if (normal[1] > 0 && normal[1] > Math.abs(normal[0]))
         {
+            //console.log("On ground is true");
             this.onGround = true;
             this.groundShape = otherShape;
         }
-
         // also need to check if this stopped us from moving left or right in the air
-        if (normal[0] > 0)
+        // use an else if b/c we don't want to use the ground to block us
+        else if (normal[0] > 0)
         {
             this.rightBlockingShape = otherShape;
         }
@@ -297,8 +299,6 @@ class Player {
             this.release(this.pulledObject);
         }
 
-        this.groundShape = null;
-        this.onGround = false;
         this.isClimbing = false;
         this.lastClimbPosition = null;
         var vel:number[] = this.rigidSprite.body.getVelocity();
@@ -342,7 +342,13 @@ class Player {
         }
         else
         {
-            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
+            var point = [];
+            var normal = [];
+            var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
+            var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.leftBlockingShape, 1000/60, point, normal);
+            console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
+            // you can move left if you aren't currently intersecting and won't in the next movement step left
+            return !intersecting && typeof sweepHit == "undefined";
         }
     }
 
@@ -354,7 +360,14 @@ class Player {
             return true;
         } else
         {
-            return !this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+            //console.log("Do have right blocking shape");
+            var point = [];
+            var normal = [];
+            var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
+            var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.rightBlockingShape, 1000/60, point, normal);
+            console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
+            // you can move left if you aren't currently intersecting and won't in the next movement step left
+            return !intersecting && typeof sweepHit == "undefined";
         }
     }
 
@@ -531,6 +544,7 @@ class Player {
 
         // double check that we are on the ground
         this.onGround = this.stillOnGround();
+        //console.log("on ground is " + this.onGround);
 
         // reset back to last checkpoint when R is pressed
         if (this.game.keyboard.keyPressed("R"))
@@ -560,10 +574,12 @@ class Player {
             this.rigidSprite.body.setAsDynamic();
             // handle key presses
             if (this.game.keyboard.keyPressed("LEFT") && this.canMoveLeft()) {
+                //console.log("CanMoveLeft");
                 this.walkLeft();
             }
             if (this.game.keyboard.keyPressed("RIGHT") && this.canMoveRight()) {
                 // verify that pullable is nearby
+                //console.log("CanMoveRight");
                 this.walkRight();
             }
             if (this.game.keyboard.keyPressed("UP") && !(this.game.keyboard.keyPressed("E") && this.canBuild)) {
