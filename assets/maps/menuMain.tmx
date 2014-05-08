@@ -1,38 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="20" height="16" tilewidth="64" tileheight="64">
- <tileset firstgid="1" name="title" tilewidth="64" tileheight="64">
-  <image source="../title.png" width="1024" height="1024"/>
+ <tileset firstgid="1" name="pause" tilewidth="64" tileheight="64">
+  <image source="../pause.png" trans="adb2b9" width="1024" height="1024"/>
  </tileset>
  <layer name="Tile Layer 1" width="20" height="16">
   <data encoding="base64" compression="zlib">
-   eJxN1Ge0CHQAxuF77ZWVrbIVIXvLzibZq2TvkGRmj0L2ng3ZM2VHyp5l72xRkZVCPPec65z/h+f8Pr9f3siIiIgYREY3JrGITRziEo/4JCAhiXiBxCQhadBkJA/6IilISSpSk4a0pCM9L/Eyr5CBjEEzkTloFrKSjey8ymvkICevk4vc5OEN8gbNF701qvkpQEEKUZgiFKUYxSlBSUrxJqUpE7Qs5YKWpwIVeYtKVKYKValGdWpQk1q8HbQ27wStQ13qUZ8GNKQRjWlCU5rxLu/RPOj7tAjakla0pg1taUd7OtCRTnSmCx/QNWg3ugf9kB58RE8+phe96UNf+tGfTxjAwKCDGBx0CEMZxnBGMJJP+YxRjGYMnzOWcUHHMyHoRCYxmSlMZRrTmcFMZjGbOcxlXtAv+DLoV3zNfL5hAQtZxGKWsJRlLGcFK4OuYnXQb1nDd3zPWtaxng1sZBOb+YEtbA36I9uC/sTPbGcHO9nFbvawl33s5wAHORT0F34NepgjHOUYxznBSU5xmjOc5Rzn+S3oBS4GvcRlrnCVa1znd25wkz/4k7+4xe2gf3Mn6F3ucZ8H/MND/uU/HvGYJ/zPU6IO4HmfAat2nnI=
+   eJx1yzW0iGEAgOHfOdoVg+5B96B70FwMugfdg+4BVzNwdQy6B92D7kFzMege5JXP8m2+4Tnv9KYkSZKXfOSnAFnJRnZykJNc5CYPKf95gpKUojRlKEtBClGYIhSlGMUpEXmCalSnBjWpRTnKU4GKVKIyVagaeYLGNKEpzWhObepQl3rUpwENaRR5gg6k0pFOdKYFLWlFa9rQlna0jzxBH/rSj/4MoAtd6UZ3etCTXvSOPMFIRjGaMYxlIIMYzBCGMozhjIg8wTSmM4OZzGIc45nARCYxmSlMjTzBIhazhKUsYzZzmEsa85jPAhZGnmAd69nARjaxnBWks5JVrGYNayNPsJs97GUf+9nMFrayje3sYCe7Ik9wgpOc4jRnOMBBDnGYIxzlGMcjT3CVa1znBjc5yznOc4GLXOIyVyJP8IgMHvOEp9ziNne4yz3u84CHkSd4x3s+8JFPPOM5L3jJK17zhreRJ/jFb/7wlyRLknyWL3zlG9/5QSY/I0/wD1EtoIU=
   </data>
  </layer>
  <objectgroup name="buttons" width="20" height="16">
-  <object name="playButton" type="Button" x="461" y="469" width="115" height="90">
+  <object name="resumeButton" type="Button" x="532" y="418" width="227" height="47">
    <properties>
-    <property name="progress" value="current"/>
+    <property name="progress" value="resume"/>
    </properties>
   </object>
-  <object name="instrucButton" type="Button" x="384" y="571" width="192" height="48">
+  <object name="instrucButton" type="Button" x="567" y="594" width="192" height="48">
    <properties>
     <property name="nextState" value="MenuState"/>
     <property name="stateArgs" value="menuInstructions"/>
    </properties>
   </object>
-  <object name="creditsButton" type="Button" x="458" y="634" width="115" height="48">
+  <object name="creditsButton" type="Button" x="643" y="657" width="115" height="48">
    <properties>
     <property name="nextState" value="MenuState"/>
     <property name="stateArgs" value="menuCredits"/>
    </properties>
   </object>
+  <object name="levelRestartButton" type="Button" x="521" y="476" width="237" height="47">
+   <properties>
+    <property name="progress" value="current"/>
+   </properties>
+  </object>
+  <object name="gameRestartButton" type="Button" x="544" y="533" width="215" height="48">
+   <properties>
+    <property name="progress" value="start"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="soundtrack" width="20" height="16">
-  <object name="music" type="Music" x="0" y="0" width="64" height="64">
+  <object type="Music" x="20" y="17" width="51" height="59">
    <properties>
-    <property name="delay" value="0"/>
-    <property name="loop" value="true"/>
-    <property name="trackname" value="music/pillow.mp3"/>
+    <property name="isLooping" value="true"/>
+    <property name="trackname" value="music/byathread.mp3"/>
    </properties>
   </object>
  </objectgroup>

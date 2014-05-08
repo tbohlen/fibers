@@ -14,6 +14,18 @@
   "cut1": {
     "stateType" : "CutsceneState",
     "map" : "cutsceneIntroFight",
+    "nextName" : "cut2"
+  },
+
+  "cut2": {
+    "stateType" : "CutsceneState",
+    "map" : "cutsceneBridgeDown",
+    "nextName" : "cut3"
+  },
+
+  "cut3": {
+    "stateType" : "CutsceneState",
+    "map" : "cutsceneFalling",
     "nextName" : "firstLev"
   },
 
@@ -29,7 +41,13 @@
     "nextName" : "thirdLev"
   },
 
-    "thirdLev": {
+  "thirdLev": {
+    "stateType" : "PlayState",
+    "map" : "fallingcubes",
+    "nextName" : "fourthLev"
+  },
+
+  "fourthLev": {
     "stateType" : "PlayState",
     "map" : "upcube",
     "nextName" : "endCut"

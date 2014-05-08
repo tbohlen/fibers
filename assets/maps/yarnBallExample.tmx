@@ -87,7 +87,7 @@
     <property name="yarn" value="true"/>
    </properties>
   </object>
-  <object name="other side" type="Checkpoint" x="777" y="453" width="48" height="54">
+  <object name="other side" type="Checkpoint" x="894" y="306" width="48" height="54">
    <properties>
     <property name="checkpointName" value="ground"/>
    </properties>

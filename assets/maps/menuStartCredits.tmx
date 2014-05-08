@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="14" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="credits" tilewidth="64" tileheight="64">
+  <image source="../credits.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="14">
+  <data encoding="base64" compression="zlib">
+   eJxtzFN7FmAAgOEvWwvL1tKWjaNsay1z2dayFlfLbrXllm3b/CndP+A9uK/n7MkSiUSyko3s5CAnuchNHvKSj/wUoCCFKBxoEaIoSjGKU4JoSlKK0pShLOUoTwUqBlqJylShKtWoTg1qEkMtalOHutQjlrhA69OAhjSiMU1oSjOa04KWtKI1bWhLu0B70Zs+9KUf7elARzrRmS50pRvd6UHPQEO//gxgIIMYzBCGEs8wEhge6AhGMorRjGEs4xjPBCYyiUQmM4WpTAt0OjOYySxmM4e5zGM+C1jIIhazhKUsC3Q5K1hJEqtYzRrWso71bGAjm9jMFpID3co2trODnewihd3sIZW97GM/BzjIoUAPc4SjHOM4JzjJKdI4zRnSyeAs5zgf6AUuconLXCGTq1zjOje4yS1uc4e73Av0Pg94yCMe84SnPOM5L3jJK17zhre8C/Q9H/jIJz7zha984zs/+MkvfvOHv/wL9D8qB3zl
+  </data>
+ </layer>
+ <objectgroup name="buttons" width="20" height="14">
+  <object name="backButton" type="Button" x="5" y="7" width="164" height="94">
+   <properties>
+    <property name="nextState" value="MenuState"/>
+    <property name="stateArgs" value="menuStart"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -33,6 +33,7 @@ function objectMask(isSolid:boolean):number
 
 var width:number = 1280;
 var height:number = 720;
+var fps:number = 60;
 var graphicsDevice = TurbulenzEngine.createGraphicsDevice( {} );
 var inputDevice = TurbulenzEngine.createInputDevice( {} );
 // build the physics device to allow 2D constraint physics
@@ -88,6 +89,7 @@ var game:GameObject = {
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     progression : new Progression(TurbulenzEngine, "draft1Progression"),
+    animationHelp : new AnimationHelper(),
     debugMode : false,
     nextState : null,
     soundDevice : soundDevice,
@@ -97,14 +99,20 @@ var game:GameObject = {
 game.progression.setGameObject(game);
 game.checkpointManager.setGameObject(game);
 
-var currentState:TurbGameState = new MenuState(game, "menuMain");
+var currentState:TurbGameState = new MenuState(game, "menuStart");
 
 // run the game
 function update()
 {
     // update to the next state (can just pass in the same state)
-    currentState.update();
+    if (this.game.graphicsDevice.beginFrame())
+    {
+        currentState.update();
+        game.animationHelp.update();
+        this.game.graphicsDevice.endFrame();
+    }
     game.keyboard.update();
+
     if (game.nextState != null)
     {
         currentState = game.nextState;
@@ -146,6 +154,6 @@ function loadHtmlControls() {
 
 loadHtmlControls();
 
-TurbulenzEngine.setInterval( update, 1000/60 );
+TurbulenzEngine.setInterval( update, 1000/fps );
 
 //Mixins.mixinExample();

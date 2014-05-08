@@ -14,6 +14,7 @@ class CutsceneState extends TurbGameState
     constructor(game:GameObject, jsonMap:String)
     {
         super(game);
+        super.clearWorld();
         this.game = game;
 
         this.tileset = new Tileset(jsonMap+".json", game);
@@ -23,26 +24,22 @@ class CutsceneState extends TurbGameState
 
     update()
     {
-        if (this.game.graphicsDevice.beginFrame())
+        super.update();
+        this.game.graphicsDevice.clear(CutsceneState.bgColor, 1.0);
+        this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
+        if (this.game.keyboard.justPressed("A"))
         {
-            this.game.graphicsDevice.clear(CutsceneState.bgColor, 1.0);
-            this.game.draw2D.begin(draw2D.blend.alpha, draw2D.sort.deferred);
-            if (this.game.keyboard.justPressed("A"))
-            {
-                this.game.nextState = this.game.progression.getNextState();
-            }
-            if (this.tileset.isLoaded())
-            {
-                if (!this.tileset.ranLoadMap) {
-                    console.log("Loading menu tileset");
-                    this.tileset.loadMap();
-                }
-                this.tileset.draw(this.game.draw2D, [0, 0]);
-            }
-
-            this.game.draw2D.end();
-
-            this.game.graphicsDevice.endFrame();
+            this.game.nextState = this.game.progression.getNextState();
         }
+        if (this.tileset.isLoaded())
+        {
+            if (!this.tileset.ranLoadMap) {
+                console.log("Loading menu tileset");
+                this.tileset.loadMap();
+            }
+            this.tileset.draw(this.game.draw2D, [0, 0]);
+        }
+
+        this.game.draw2D.end();
     }
 }

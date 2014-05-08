@@ -4,6 +4,7 @@
 /// <reference path="CollisionHelper.ts"/>
 /// <reference path="player.ts"/>
 /// <reference path="checkpoint.ts"/>
+/// <reference path="AnimationHelper.ts"/>
 /// <reference path="spawn.ts"/>
 
 class TurbGameState {
@@ -15,6 +16,14 @@ class TurbGameState {
     }
 
     update():void{
+        if (this.game.keyboard.justPressed("M"))
+        {
+            var newGain:number = Math.abs(this.game.bgMusicSource.gain - 1.0);
+            console.log("new gain : " + newGain);
+            this.game.bgMusicSource.gain = newGain;
+            this.game.sfxSource.gain = newGain;
+        }
+
         return;
     }
 
@@ -22,6 +31,8 @@ class TurbGameState {
     {
         this.game.physicsWorld.clear();
 		this.game.checkpointManager.removeAllCheckpoints();
+        this.game.collisionHelp.removeAllInteractables();
+        this.game.keyboard.resetListeners();
     }
 }
 
@@ -48,6 +59,7 @@ interface GameObject {
     collisionHelp: CollisionHelper;
     progression : Progression;
     checkpointManager : CheckpointManager;
+    animationHelp : AnimationHelper;
     debugMode : boolean;
     nextState : TurbGameState;
     spawn ?: Spawn;

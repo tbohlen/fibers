@@ -4,11 +4,14 @@
 
 class HUD
 {
-    public static yarnWidth = 20; // width of yarn icon
-    public static yarnHeight = 20; // height of yarn icon
+    public static yarnWidth = 30; // width of yarn icon
+    public static yarnHeight = 30; // height of yarn icon
     public static yarnSpacing = 10; // distance between successive icons
     public static greyedOutColor = [.2, .2, .2, .8];
-    public static collectedColor = [.2, .8, .2, .8];
+    public static collectedColor = [1., 1., 1., 1.];
+    public static TEXTURE_FILE:string = "assets/yarnBall.png";
+    texture:Texture;
+    textureRect:number[];
 
     private spritePositions:number[][]; // (x,y) points of center of icons
     private sprites:Draw2DSprite[];
@@ -17,6 +20,21 @@ class HUD
     constructor(game:GameObject, yarnNumber:number = 5)
     {
         this.game = game;
+        this.game.graphicsDevice.createTexture({
+            src: ToolYarnBall.TEXTURE_FILE,
+            mipmaps: true,
+            onload: (texture) => {
+                if (texture) {
+                    this.texture = texture;
+                } else
+                {
+                    console.log("Failed to load HUD asset");
+                }
+                this.refreshSprites();
+            }
+        });
+        this.textureRect=[0,0,64,64];
+
         this.numOfYarnBalls = 0;
         this.spritePositions = [];
         var x:number = HUD.yarnSpacing + HUD.yarnWidth/2;
@@ -45,6 +63,7 @@ class HUD
     refreshSprites():void
     {
         this.numOfYarnBalls = this.game.progression.totalYarnBalls();
+        this.sprites = [];
         for (var i = 0; i < this.spritePositions.length; i++)
         {
             var sprite:Draw2DSprite;
@@ -56,7 +75,9 @@ class HUD
                     x : this.spritePositions[i][0],
                     y : this.spritePositions[i][1],
                     origin : [HUD.yarnWidth/2, HUD.yarnHeight/2],
-                    color : HUD.collectedColor
+                    color : HUD.collectedColor,
+                    texture : this.texture,
+                    textureRectangle : this.textureRect
                 });
             } else
             {
@@ -66,7 +87,8 @@ class HUD
                     x : this.spritePositions[i][0],
                     y : this.spritePositions[i][1],
                     origin : [HUD.yarnWidth/2, HUD.yarnHeight/2],
-                    color : HUD.greyedOutColor
+                    color : HUD.greyedOutColor,
+                    texture : null
                 });
             }
 

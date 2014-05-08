@@ -1,60 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="14" tilewidth="64" tileheight="64">
+<map version="1.0" orientation="orthogonal" width="36" height="14" tilewidth="64" tileheight="64">
  <tileset firstgid="1" name="tiles" tilewidth="64" tileheight="64">
   <image source="../tiles/tiles.png" width="512" height="1024"/>
  </tileset>
  <tileset firstgid="129" name="instructions" tilewidth="64" tileheight="64">
   <image source="../story/instructions.png" width="1024" height="1024"/>
  </tileset>
- <layer name="background" width="32" height="14">
+ <tileset firstgid="385" name="tiles2" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
+ <layer name="background" width="36" height="14">
   <data encoding="base64" compression="zlib">
-   eJzt06cBgDAABdGsFsBQDMVQDMVQDMVQhuem4CMinrgBzhpjPPgIYD/uEBFiJIJOkSFHIegSFWo0gm7Roccg6BETZiyCXrFhxyHoExduPIL++nf3v/v/T/+/bLOfYQ==
+   eJzN1Ckag1AUg9G3tVdqWjAtGAYD1DAYBsOw+P76biBXHBGdfIkhhAcSPBHF+YU3UmQO8gdf5Cgc5BIVajQOcosOPX4O8oARE2YH2e57wYoNuyDbfR84ceEWZLtv9f/Yfav/x+5b/T923+r/sf2p/8f2p/6fP3W4sc0=
   </data>
  </layer>
- <layer name="ground" width="32" height="14">
+ <layer name="ground" width="36" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMBCAC4i5B5AWAmLhAaSlgFh6AGkASLwG8Q==
+   eJxjYBgFo2AUjILhBRqAOBaI4wbYHcMNaAKxFhBrA7EOEHMBMfcA0oZAbATExkBsAsRCQCw8gDS6e6SAWHoAaQC1egpq
   </data>
  </layer>
- <objectgroup name="ground" width="32" height="14">
-  <object type="Platform" x="1" y="708" width="2041" height="183">
+ <objectgroup name="ground" width="36" height="14">
+  <object type="Platform" x="0" y="708" width="2304" height="183">
    <properties>
     <property name="rigidBody" value="static"/>
    </properties>
   </object>
  </objectgroup>
- <layer name="knitting" width="32" height="14">
+ <layer name="knitting" width="36" height="14">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIKhD8SAWJzKZvIisVkJqJUDYnkq2z8KaAsA8rQAfQ==
+   eJxjYBgFo2AUjILhB3yB2A+ITzCiip8H8i8wYtNBWxAKxGFEqp0GdN90MtzIi8ZnJd0IrGAe0C3zByDMRgFlAACLhgYx
   </data>
  </layer>
- <objectgroup name="knit" width="32" height="14">
-  <object type="Tool" x="708" y="643" width="57" height="57">
+ <objectgroup name="knit" width="36" height="14">
+  <object name="1" type="Tool" x="1027" y="645" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="true"/>
     <property name="isSolid" value="false"/>
     <property name="maxHeight" value="3"/>
-    <property name="minHeight" value="1"/>
+    <property name="minHeight" value="0"/>
     <property name="prebuilt " value="false"/>
     <property name="rotation" value="0"/>
+    <property name="toolKey" value="1"/>
     <property name="width" value="0.5"/>
    </properties>
   </object>
-  <object name="0" type="Tool" x="516" y="646" width="57" height="57">
+  <object name="0" type="Tool" x="772" y="646" width="57" height="57">
    <properties>
-    <property name="prebuilt " value="true"/>
+    <property name="prebuilt" value="true"/>
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Checkpoint" x="1228" y="586" width="110" height="115">
+  <object type="Checkpoint" x="2185" y="585" width="110" height="115">
    <properties>
     <property name="checkpointName" value="goal"/>
     <property name="progress" value="next"/>
    </properties>
   </object>
-  <object name="0" type="Rectangle" x="573" y="711" width="57" height="57">
+  <object name="0" type="Rectangle" x="829" y="711" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
     <property name="isBuildable" value="true"/>
@@ -62,16 +66,43 @@
     <property name="isSolid" value="true"/>
     <property name="maxHeight" value="3"/>
     <property name="minHeight" value="0"/>
-    <property name="prebuilt " value="true"/>
+    <property name="prebuilt" value="true"/>
     <property name="rotation" value="0"/>
     <property name="toolKey" value="0"/>
     <property name="width" value="1"/>
    </properties>
   </object>
+  <object name="1" type="ToolYarnBall" x="962" y="647" width="62" height="57">
+   <properties>
+    <property name="toolKey" value="1"/>
+   </properties>
+  </object>
+  <object name="0" type="ToolYarnBall" x="708" y="646" width="62" height="57">
+   <properties>
+    <property name="toolKey" value="0"/>
+   </properties>
+  </object>
+  <object type="Rectangle" x="1521" y="642" width="32" height="55">
+   <properties>
+    <property name="bodyType" value="dynamic"/>
+    <property name="isPullable" value="true"/>
+    <property name="isSolid" value="true"/>
+    <property name="mass" value="50"/>
+   </properties>
+  </object>
  </objectgroup>
- <layer name="grandmas instructions" width="32" height="14">
+ <layer name="grandmas instructions" width="36" height="14">
   <data encoding="base64" compression="zlib">
-   eJztzbVSHVAARdHH4F7gXqDB8tHBtcC9AJLgBYTgFLgXuLM+4hbMwJlZ7dmRyPc+037RQCNNNNNCK22000EnXXQH7vfQSx/9DDDIEMOMMMoY40wE7k8yxTS/+cNfZphljnkWWGQpcH+ZFf6xyn/WWGeDTbbYZofdwP099jngkCOOOeGUM8654JKrwP1rbrjljnseeOSJZ1545Y33wP3oqEgkhljiiCeBRJJIJoVU0kiPCtvP8JdJFtnkkEse+RRQSBHFlATul/oro5wKKqniB9XUUEsd9fwM3P9q+wAOXUOl
+   eJztzrVSHVAARdHH4F7gXqDB8tHBtcC9AJLgBYTgFLgXuLN+4jbAmVntmR2JfO8z7RcNNNJEMy200kY7HXTSRXfgnh566aOfAQYZYpgRRhljnInAPZNMMc1v/vCXGWaZY54FFlkK3LPMCv9Y5T9rrLPBJltss8Nu4J499jngkCOOOeGUM8654JKrwD3X3HDLHfc88MgTz7zwyhvvgXuioyKRGGKJI54EEkkimRRSSSM9KmxPhv9Mssgmh1zyyKeAQooopiRwT6n/MsqpoJIqflBNDbXUUc/PwD1ffR+rIEOl
+  </data>
+ </layer>
+ <objectgroup name="checkpoints" width="36" height="14">
+  <object type="Spawn" x="256" y="603" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="cube" width="36" height="14"/>
+ <layer name="words" width="36" height="14">
+  <data encoding="base64" compression="zlib">
+   eJztzjcKgFAUBdG/Me10X0YwghGMa3XsrG2uwhs4/ThnWe+LECNBigy58KdDjwEjJszCn7sCJSrUaNAKfxas2LDjwCn8+VoefPXEowChesL6ZRfbjw57
   </data>
  </layer>
 </map>
