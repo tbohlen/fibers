@@ -127,8 +127,15 @@ class Checkpoint implements Interactable
                 if (obj.properties.yarn == "true")
                 {
                     game.progression.addYarnBall();
-//                    var animation:Animation = new Animation(game, "textureFileName", [],
-//                    50, 2, 10, progressCallback);
+//                    var animation:Animation = new Animation({
+//                        game: game,
+//                        textureFileName: "textureFilename",
+//                        frameDimensions:[],
+//                        frameCount:50,
+//                        durationSeconds:2,
+//                        fps:10,
+//                        finalCallback:progressCallback
+//                    });
 //                    game.animationHelp.addAnimation(animation);
                 } else
                 {
