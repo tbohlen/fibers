@@ -4,7 +4,7 @@
 /// <reference path="CollisionHelper.ts"/>
 /// <reference path="player.ts"/>
 /// <reference path="checkpoint.ts"/>
-/// <reference path="AnimationHelper.ts"/>
+/// <reference path="Timer.ts"/>
 /// <reference path="spawn.ts"/>
 
 class TurbGameState {
@@ -59,7 +59,7 @@ interface GameObject {
     collisionHelp: CollisionHelper;
     progression : Progression;
     checkpointManager : CheckpointManager;
-    animationHelp : AnimationHelper;
+    timer : Timer;
     debugMode : boolean;
     nextState : TurbGameState;
     spawn ?: Spawn;

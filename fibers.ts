@@ -90,7 +90,7 @@ var game:GameObject = {
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     progression : new Progression(TurbulenzEngine, "draft1Progression"),
-    animationHelp : new AnimationHelper(),
+    timer : new Timer(fps),
     debugMode : false,
     nextState : null,
     soundDevice : soundDevice,
@@ -115,7 +115,7 @@ function update()
     if (this.game.graphicsDevice.beginFrame())
     {
         currentState.update();
-        game.animationHelp.update();
+        game.timer.update();
         this.game.graphicsDevice.endFrame();
     }
     game.keyboard.update();
