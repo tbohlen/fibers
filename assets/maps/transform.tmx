@@ -34,7 +34,7 @@
     <property name="toolKey" value="0"/>
    </properties>
   </object>
-  <object type="Rectangle" x="567" y="449" width="92" height="64">
+  <object type="Rectangle" x="568" y="449" width="92" height="64">
    <properties>
     <property name="bodyType" value="rigidBody"/>
     <property name="isSolid" value="true"/>

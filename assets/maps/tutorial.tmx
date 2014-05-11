@@ -180,6 +180,7 @@
    <properties>
     <property name="checkpointName" value="goal"/>
     <property name="progress" value="next"/>
+    <property name="yarn" value="true"/>
    </properties>
   </object>
  </objectgroup>
