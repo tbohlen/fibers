@@ -56,7 +56,7 @@ class HUD
         this.spritePositions = [];
         var x:number = HUD.yarnSpacing + HUD.yarnWidth/2;
         var y:number = HUD.yarnSpacing + HUD.yarnHeight/2;
-		x = 1280/2 - HUD.yarnWidth*(yarnNumber/2) - HUD.yarnWidth/2; // centered
+		//x = 1280/2 - HUD.yarnWidth*(yarnNumber/2) - HUD.yarnWidth/2; // centered
         for (var i = 0; i < yarnNumber; i++)
         {
             this.spritePositions.push([x,y]);
