@@ -209,19 +209,6 @@
                  "width":64,
                  "x":256,
                  "y":603
-                }, 
-                {
-                 "height":71,
-                 "name":"yarnTest",
-                 "properties":
-                    {
-                     "yarn":"true"
-                    },
-                 "type":"Checkpoint",
-                 "visible":true,
-                 "width":78,
-                 "x":466,
-                 "y":606
                 }],
          "opacity":1,
          "type":"objectgroup",

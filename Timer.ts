@@ -42,23 +42,30 @@ class Sequence
         this.name  = name;
         this.game = game;
         this.actions = actions;
-        this.game.timer.addSequence(this);
+        this.currentIndex = 0;
+    }
+
+    static makeSequence(game:GameObject, name:string, actions:SequenceAction[]):void
+    {
+        var seq:Sequence = new Sequence(game, name, actions);
+        game.timer.addSequence(seq);
     }
 
     nextFrame():void
     {
-        if (this.currentIndex > this.actions.length)
+        if (this.currentIndex >= this.actions.length)
         {
             this.game.timer.removeSequence(this);
         } else
         {
+            // run the current action
+            this.actions[this.currentIndex].nextFrame();
             // check if it's time to move on to next action
             if (this.actions[this.currentIndex].isComplete())
             {
+                console.log("Next action index");
                 this.currentIndex += 1;
             }
-            // run the current action
-            this.actions[this.currentIndex].nextFrame();
         }
     }
 }
@@ -72,10 +79,10 @@ class SequenceAction
     currentFrame:number;
     totalFrameCount:number;
     private completed:boolean;
-    constructor(game:GameObject, delaySeconds:number, action:Function) {
+    constructor(game:GameObject, delay:number, action:Function) {
         this.action = action;
         this.currentFrame = 0;
-        this.totalFrameCount = delaySeconds/game.timer.fps;
+        this.totalFrameCount = delay*game.timer.fps;
         this.completed = false;
     }
 
