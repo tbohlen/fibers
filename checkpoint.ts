@@ -5,6 +5,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="player.ts"/>
 /// <reference path="tileset.ts"/>
+/// <reference path="Timer.ts"/>
 
 class CheckpointManager
 {
@@ -126,17 +127,16 @@ class Checkpoint implements Interactable
                 console.log(obj.properties.yarn);
                 if (obj.properties.yarn == "true")
                 {
-                    game.progression.addYarnBall();
-//                    var animation:Animation = new Animation({
-//                        game: game,
-//                        textureFileName: "textureFilename",
-//                        frameDimensions:[],
-//                        frameCount:50,
-//                        durationSeconds:2,
-//                        fps:10,
-//                        finalCallback:progressCallback
-//                    });
-//                    game.animationHelp.addAnimation(animation);
+                    game.progression.addYarnBall(); // will cause animation
+                    Sequence.makeSequence(game, "animateYarnBall",[
+                        new SequenceAction(game, 0, function() {
+                            game.keyboard.toggleKeyboard(false);
+                        }),
+                        new SequenceAction(game, 2, progressCallback),
+                        new SequenceAction(game, 0, function() {
+                            game.keyboard.toggleKeyboard(true);
+                        })
+                    ]);
                 } else
                 {
                     console.log("no yarn ball added");
