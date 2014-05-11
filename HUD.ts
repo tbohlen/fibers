@@ -147,11 +147,11 @@ class HUD
                 textRect = [(Math.floor(state/HUD.pauseBetweenFrames)%HUD.animFrames)*128, 0,
                         ((Math.floor(state/HUD.pauseBetweenFrames)%HUD.animFrames)+1)*128, 128];
                 sprite = Draw2DSprite.create({
-                    width: HUD.yarnWidth,
-                    height: HUD.yarnHeight,
+                    width: HUD.yarnWidth*2,
+                    height: HUD.yarnHeight*2,
                     x : this.spritePositions[i][0],
                     y : this.spritePositions[i][1],
-                    origin : [HUD.yarnWidth/2, HUD.yarnHeight/2],
+                    origin : [HUD.yarnWidth, HUD.yarnHeight],
                     color : HUD.collectedColor,
                     texture : this.animTexture,
                     textureRectangle : textRect
