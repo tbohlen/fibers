@@ -6,6 +6,7 @@
 /// <reference path="interfaces.ts"/>
 /// <reference path="animatedTexture.ts"/>
 /// <reference path="masks.ts"/>
+/// <reference path="sfx.ts"/>
 
 // a player's sprite is an instance of an animated sprite, which has a
 // direction (facing), possibly multiple animated sprite sheets,
@@ -56,10 +57,12 @@ class Player {
 
     playerDimensions:number[] = [128, 128];
     playerHitBox:number[][] = [
-        [-20, -52],
-        [20, -52],
-        [20, 64],
-        [-20, 64]
+        [-20, -46],
+        [0, -52],
+        [20, -46],
+        [20, 58],
+        [0, 64],
+        [-20, 58]
     ];
 
     keys:any;
@@ -93,8 +96,6 @@ class Player {
             color: [1.0, 1.0, 1.0, 1.0]
         };
         var playerSprite:Draw2DSprite = Draw2DSprite.create(playerParams);
-//        var playerVertices:number[][] = game.physicsDevice.createRectangleVertices(-this.playerHitBox[0]/2, -this.playerHitBox[1]/2,
-//                this.playerHitBox[0]/2, this.playerHitBox[1]/2);
 
         var playerShape:Physics2DShape = game.physicsDevice.createPolygonShape({
             vertices: this.playerHitBox,
@@ -136,6 +137,12 @@ class Player {
         this.rigidSprite.body.shapes[0].addEventListener('begin', this.checkCollision, undefined, false);
     }
 
+    // Determine if the player is moving horizontally...
+    isStill():boolean
+    {
+        return Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED;
+    }
+
     // sets the texture used to display the character. If no texture is null, displays a white box
     setTexture(texture) {
         if (this.rigidSprite.sprite != null)
@@ -174,7 +181,7 @@ class Player {
         // TODO: Wrap this normal test into the stillOnGround function
         var normal:number[] = arbiter.getNormal();
         //console.log("Collide! " + normal[0] + ", " + normal[1]);
-        if (normal[1] > 0 && normal[1] > Math.abs(normal[0]))
+        if (normal[1] > 0 && normal[1] >= Math.abs(normal[0]))
         {
             //console.log("On ground is true");
             this.onGround = true;
@@ -295,6 +302,8 @@ class Player {
 
     jumpUp()
     {
+        this.game.sfx.setCurrentFX(this.game.sfx.jumpSFX);
+
         if (this.pulledObject) {
             this.release(this.pulledObject);
         }
@@ -344,9 +353,15 @@ class Player {
         {
             var point = [];
             var normal = [];
+            // test for an intersection if we did move in that direction
+            var origVel:number[] = this.rigidSprite.body.getVelocity();
+            var testVel:number[] = [-this.SPEED, origVel[1]];
+            this.rigidSprite.body.setVelocity(testVel)
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.leftBlockingShape, 1000/60, point, normal);
             console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
+            // move the body back
+            this.rigidSprite.body.setVelocity(origVel);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
             return !intersecting && typeof sweepHit == "undefined";
         }
@@ -363,17 +378,28 @@ class Player {
             //console.log("Do have right blocking shape");
             var point = [];
             var normal = [];
+            // test for an intersection if we did move in that direction
+            var origVel:number[] = this.rigidSprite.body.getVelocity();
+            var testVel:number[] = [this.SPEED, origVel[1]];
+            this.rigidSprite.body.setVelocity(testVel)
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.rightBlockingShape, 1000/60, point, normal);
             console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
+            // move the body back
+            this.rigidSprite.body.setVelocity(origVel);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
             return !intersecting && typeof sweepHit == "undefined";
         }
     }
 
+    oppositeFacing(direction:Direction):Direction
+    {
+        return (direction == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+    }
+
     flipFacing()
     {
-        this.facing = (this.facing == Direction.LEFT) ? Direction.RIGHT : Direction.LEFT;
+        this.facing = this.oppositeFacing(this.facing);
     }
 
     climb()
@@ -467,7 +493,6 @@ class Player {
         {
             if (this.onGround)
             {
-                var isStill:boolean = (Math.abs(this.rigidSprite.body.getVelocity()[0]) < this.THRESHOLD_STANDING_SPEED);
                 if (this.isPulling)
                 {
                     this.setCurrentTexture(this.pullTexture);
@@ -475,7 +500,7 @@ class Player {
                 {
                     this.setCurrentTexture(this.pullTexture);
                     this.pullTexture.pause();
-                } else if (isStill)
+                } else if (this.isStill())
                 {
                     this.setCurrentTexture(this.standTexture);
                 } else
@@ -504,36 +529,50 @@ class Player {
                 return Direction.RIGHT;
             }
         }
+        // default to returning the opposite of the player's current facing
+        // since the pulling sprite is flipped (if no pullables have been encountered yet)
         return Direction.LEFT;
     }
 
     tryToPull()
     {
-        if (this.game.keyboard.keyPressed("E") &&
-            this.lastTouchedPullable &&
-            this.onGround &&
-            !this.isPulling)
+        var isStill:boolean = this.isStill();
+
+        this.canPull = false;
+
+        if (this.onGround)
         {
-            this.pullTexture.play();
-            var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
-            var playerPos:any[] = this.getPosition();
-
-            var distToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
-            var pullThreshold:number = this.playerDimensions[0]/2 + 10;
-            var isNotAbove:boolean = (rectPos[1] <= (playerPos[1] + this.playerDimensions[1]/2 + 16));
-
-            if ((distToPullable < pullThreshold) && isNotAbove)
+            if (isStill &&
+                this.game.keyboard.keyPressed("E") &&
+                !this.lastTouchedPullable)
             {
-                if (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")) {
-                    this.pull(this.lastTouchedPullable);
-                } else {
-                    this.canPull = true;
+                this.canPull = true;
+            } else if (this.lastTouchedPullable &&
+                      !this.isPulling)
+            {
+                this.pullTexture.play();
+                var rectPos:any[] = this.lastTouchedPullable.body.getPosition();
+                var playerPos:any[] = this.getPosition();
+
+                var hDistToPullable:number = Math.abs(rectPos[0] - playerPos[0]);
+                var hDistThreshold:number = this.playerDimensions[0] / 2 + 10;
+                var vDistToPullable:number = (rectPos[1] - (playerPos[1] + this.playerDimensions[1] / 2 + 16));
+
+                if ((hDistToPullable < hDistThreshold) &&
+                    vDistToPullable <= 0 && vDistToPullable > -32)
+                {
+                    if (isStill)
+                    {
+                        this.canPull = true;
+                    }
+
+                    if (this.game.keyboard.keyPressed("E") &&
+                        (this.game.keyboard.keyPressed("LEFT") || this.game.keyboard.keyPressed("RIGHT")))
+                    {
+                        this.pull(this.lastTouchedPullable);
+                    }
                 }
-            } else {
-                this.canPull = false;
             }
-        } else {
-            this.canPull = false;
         }
     }
 

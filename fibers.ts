@@ -20,6 +20,7 @@
 /// <reference path="MenuState.ts"/>
 /// <reference path="InpDevWrapper.ts"/>
 /// <reference path="masks.ts"/>
+/// <reference path="sfx.ts"/>
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,13 +90,17 @@ var game:GameObject = {
     checkpointManager : new CheckpointManager(),
     collisionUtil : collisionUtil,
     progression : new Progression(TurbulenzEngine, "draft1Progression"),
-    animationHelp : new AnimationHelper(),
+    timer : new Timer(fps),
     debugMode : false,
     nextState : null,
     soundDevice : soundDevice,
     bgMusicSource : bgMusicSource,
-    sfxSource : sfxSource
+    sfxSource : sfxSource,
+    sfx: null
 };
+
+game.sfx = new SFX(game);
+
 game.progression.setGameObject(game);
 game.checkpointManager.setGameObject(game);
 
@@ -104,11 +109,13 @@ var currentState:TurbGameState = new MenuState(game, "menuStart");
 // run the game
 function update()
 {
+    this.game.soundDevice.update();
+
     // update to the next state (can just pass in the same state)
     if (this.game.graphicsDevice.beginFrame())
     {
         currentState.update();
-        game.animationHelp.update();
+        game.timer.update();
         this.game.graphicsDevice.endFrame();
     }
     game.keyboard.update();

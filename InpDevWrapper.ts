@@ -8,6 +8,8 @@ class InpDevWrapper
     mouse:any;
     private mouseBody:Physics2DRigidBody;
 
+    private mouseEnabled:boolean;
+    private keyboardEnabled:boolean;
     private reverseMapping:any;
     private recentlyPressed:any;
     private recentlyReleased:any;
@@ -27,6 +29,8 @@ class InpDevWrapper
 
         this.mouseDownListeners = [];
         this.mouseUpListeners = [];
+        this.mouseEnabled = true;
+        this.keyboardEnabled = true;
 
         this.inputDev = inputDevice;
         this.reverseMapping = {};
@@ -129,7 +133,6 @@ class InpDevWrapper
 
     virtualKeyPress(key:string):void
     {
-        this.keys[key] = true;
         this.recentlyPressed[key] = true;
         this.recentlyReleased[key] = false;
     }
@@ -142,7 +145,7 @@ class InpDevWrapper
 
     keyPressed(key:string):boolean
     {
-        if (key in this.keys)
+        if (this.keyboardEnabled && key in this.keys)
         {
             return this.keys[key];
         }
@@ -151,7 +154,7 @@ class InpDevWrapper
 
     justPressed(key:string):boolean
     {
-        if (key in this.recentlyPressed) {
+        if (this.keyboardEnabled && key in this.recentlyPressed) {
             return this.recentlyPressed[key];
         }
         return false;
@@ -159,7 +162,7 @@ class InpDevWrapper
 
     justReleased(key:string):boolean
     {
-        if (key in this.recentlyReleased) {
+        if (this.keyboardEnabled && key in this.recentlyReleased) {
             return this.recentlyReleased[key];
         }
         return false;
@@ -167,7 +170,7 @@ class InpDevWrapper
 
     mousePressed():boolean
     {
-        return this.mouse.pressed;
+        return this.mouseEnabled && this.mouse.pressed;
     }
 
     mouseX():number
@@ -187,12 +190,12 @@ class InpDevWrapper
 
     mouseJustPressed():boolean
     {
-        return this.mouse.justPressed;
+        return this.mouseEnabled && this.mouse.justPressed;
     }
 
     mouseJustReleased():boolean
     {
-        return this.mouse.justReleased;
+        return this.mouseEnabled && this.mouse.justReleased;
     }
 
     mouseShape():Physics2DShape
@@ -205,5 +208,15 @@ class InpDevWrapper
     {
         this.recentlyPressed = {};
         this.recentlyReleased = {};
+    }
+
+    toggleKeyboard(toggle:boolean):void
+    {
+        this.keyboardEnabled = toggle;
+    }
+
+    toggleMouse(toggle:boolean):void
+    {
+        this.mouseEnabled = toggle;
     }
 }
