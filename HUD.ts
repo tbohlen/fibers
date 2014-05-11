@@ -12,8 +12,8 @@ class HUD
     public static TEXTURE_FILE:string = "assets/goal.png";
     public static ANIMATION_TEXTURE_FILE:string = "assets/goalAnim.png";
     public static animFrames:number = 4;
-    public static pauseBetweenFrames:number = 30;
-    public static totalFrames:number = 130;
+    public static pauseBetweenFrames:number = 20;
+    public static totalFrames:number = 180;
     animTexture:Texture;
     texture:Texture;
     textureRect:number[];
@@ -56,6 +56,7 @@ class HUD
         this.spritePositions = [];
         var x:number = HUD.yarnSpacing + HUD.yarnWidth/2;
         var y:number = HUD.yarnSpacing + HUD.yarnHeight/2;
+		x = 1280/2 - HUD.yarnWidth*(yarnNumber/2) - HUD.yarnWidth/2; // centered
         for (var i = 0; i < yarnNumber; i++)
         {
             this.spritePositions.push([x,y]);

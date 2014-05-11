@@ -132,7 +132,7 @@ class Checkpoint implements Interactable
                         new SequenceAction(game, 0, function() {
                             game.keyboard.toggleKeyboard(false);
                         }),
-                        new SequenceAction(game, 2, progressCallback),
+                        new SequenceAction(game, 4, progressCallback),
                         new SequenceAction(game, 0, function() {
                             game.keyboard.toggleKeyboard(true);
                         })
