@@ -462,7 +462,8 @@
                  "properties":
                     {
                      "checkpointName":"goal",
-                     "progress":"next"
+                     "progress":"next",
+                     "yarn":"true"
                     },
                  "type":"Checkpoint",
                  "visible":true,

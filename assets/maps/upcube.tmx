@@ -215,6 +215,7 @@
    <properties>
     <property name="checkpointName" value="goal"/>
     <property name="progress" value="next"/>
+    <property name="yarn" value="true"/>
    </properties>
   </object>
   <object type="Spawn" x="73" y="892" width="63" height="94"/>
