@@ -4,16 +4,16 @@
 
 class HUD
 {
-    public static yarnWidth = 30; // width of yarn icon
-    public static yarnHeight = 30; // height of yarn icon
-    public static yarnSpacing = 10; // distance between successive icons
+    public static yarnWidth = 50; // width of yarn icon
+    public static yarnHeight = 50; // height of yarn icon
+    public static yarnSpacing = 30; // distance between successive icons
     public static greyedOutColor = [.2, .2, .2, .8];
     public static collectedColor = [1., 1., 1., 1.];
     public static TEXTURE_FILE:string = "assets/goal.png";
     public static ANIMATION_TEXTURE_FILE:string = "assets/goalAnim.png";
     public static animFrames:number = 4;
-    public static pauseBetweenFrames:number = 15;
-    public static totalFrames:number = 120;
+    public static pauseBetweenFrames:number = 30;
+    public static totalFrames:number = 130;
     animTexture:Texture;
     texture:Texture;
     textureRect:number[];
