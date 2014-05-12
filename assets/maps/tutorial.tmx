@@ -13,7 +13,7 @@
  </layer>
  <layer name="ground" width="32" height="25">
   <data encoding="base64" compression="zlib">
-   eJztkssKgzAQRaOuNN34qqi0gjutGx///229QgJDtDBYIZs5cBjGPC4yUUoQBEEQBOF/Ns/5OWPPE1Ye89+wO/kewwRq+GDcE8AQRqT2sIWNqSP8wAkOji4pzMw/FIz8X+z3lBfP3ZX/8phfK9472Gdg56PNmYxUrY7z4/St8WydOsMFriTXvhvb2/XN2X+1p34BoBYOEw==
+   eJxjYBgFo2AUjIJRMApGwSigHIgOsP2yRKgRA2LxAbRfDojlsYhzAjEXEHMDMQ8R5jACMRMQMyPRSlAzuLDIodPoQBCIhYBYGIhFiLAfFwCZI0OmvuFgvySR9msCsRYQazNA4lwYyX4hqBhMXgdNPT6+NBRjk0fGhkBsBMTGSPZKQfXC+DB5EzT15PKRMQAgwQzK
   </data>
  </layer>
  <layer name="knitting" width="32" height="25">
@@ -21,7 +21,7 @@
    eJztziECACAIwEAKUf//XJLdAgbv8sIiAAA49kWz2i+YkK8HPlVtkAAh
   </data>
  </layer>
- <objectgroup name="ground" width="32" height="25">
+ <objectgroup name="ground" width="32" height="25" visible="0">
   <object type="Platform" x="1540" y="1221" width="504" height="55">
    <properties>
     <property name="rigidBody" value="static"/>
@@ -68,7 +68,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="knitting needle" width="32" height="25">
+ <objectgroup name="knitting needle" width="32" height="25" visible="0">
   <object name="1" type="Tool" x="451" y="1155" width="57" height="57">
    <properties>
     <property name="initHeight" value="0"/>
@@ -104,7 +104,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="checkpoints" width="32" height="25">
+ <objectgroup name="checkpoints" width="32" height="25" visible="0">
   <object name="start" type="Checkpoint" x="356" y="1136" width="63" height="79">
    <properties>
     <property name="checkpointName" value="start"/>
@@ -127,7 +127,7 @@
    eJztwTEBAAAAwqD1T20LL6AAAAA+BgyAAAE=
   </data>
  </layer>
- <objectgroup name="door" width="32" height="25">
+ <objectgroup name="door" width="32" height="25" visible="0">
   <object name="door" type="Rectangle" x="1024" y="1278" width="62" height="193">
    <properties>
     <property name="initHeight" value="3"/>
@@ -156,12 +156,12 @@
    </properties>
   </object>
  </objectgroup>
- <layer name="climeable surface" width="32" height="25">
+ <layer name="climeable surface" width="32" height="25" visible="0">
   <data encoding="base64" compression="zlib">
    eJxjYBgFo2AUjIJRMApGwSgYBcMBcAIxzwDaLwjEIgNovyQQywyg/YpArDKA9g8VAAA6LwC1
   </data>
  </layer>
- <objectgroup name="climable" width="32" height="25">
+ <objectgroup name="climable" width="32" height="25" visible="0">
   <object name="climable" type="Rectangle" x="1412" y="1222" width="118" height="245">
    <properties>
     <property name="initHeight" value="4"/>
@@ -175,7 +175,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="checkpoint" width="32" height="25">
+ <objectgroup name="checkpoint" width="32" height="25" visible="0">
   <object type="Checkpoint" x="1925" y="1098" width="111" height="117">
    <properties>
     <property name="checkpointName" value="goal"/>

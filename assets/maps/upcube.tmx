@@ -13,7 +13,7 @@
  </layer>
  <layer name="ground" width="28" height="20">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFowA34KazfcJUMocRiFmQ2ExoGASUgFgZSYyZSnaPAtIBLI5AccBCQO0owASw8CMGcNHSIViAIgMkr8HiFxs9mv9oAzSBWAuItYFYhw58QyA2AmJjIDahAx8AQnALFQ==
+   eJxjYBgFowA3EKWzfbJUMocRiFmQ2ExIGFlcGUmcmUp2jwLSASyOQHHAQkDtKMAEsPAjBvDQ0iFYgCIDJF6Z8NCj+Y82QBOItYBYG4h16MA3BGIjIDYGYhM68AHMxQrt
   </data>
  </layer>
  <layer name="knitting needles" width="28" height="20">
@@ -21,7 +21,7 @@
    eJxjYBgFo4AwEANicQrNWAbEy4lUKwfE8hTaNwqoA1gH2gFDGPASoYaPDD24ADMQMxGgR8HAA1ieoiSuRwEDAwDTrQIO
   </data>
  </layer>
- <objectgroup name="tools" width="28" height="20">
+ <objectgroup name="tools" width="28" height="20" visible="0">
   <object name="3" type="Tool" x="130" y="1091" width="61" height="61">
    <properties>
     <property name="initHeight" value="0"/>
@@ -123,7 +123,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="ground" width="28" height="20">
+ <objectgroup name="ground" width="28" height="20" visible="0">
   <object type="Platform" x="-5" y="1157" width="1794" height="120">
    <properties>
     <property name="rigidBody" value="static"/>
@@ -187,8 +187,8 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="cube" width="28" height="20"/>
- <objectgroup name="boundaries" width="28" height="20">
+ <objectgroup name="cube" width="28" height="20" visible="0"/>
+ <objectgroup name="boundaries" width="28" height="20" visible="0">
   <object type="Platform" x="-44" y="788" width="55" height="364">
    <properties>
     <property name="rigidBody" value="static"/>
@@ -210,7 +210,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="goal" width="28" height="20">
+ <objectgroup name="goal" width="28" height="20" visible="0">
   <object type="Checkpoint" x="1669" y="269" width="104" height="114">
    <properties>
     <property name="checkpointName" value="goal"/>

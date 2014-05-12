@@ -10,7 +10,7 @@
  </layer>
  <layer name="ground" width="26" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo4Aw4ARiZiBmgtI8aOIsA+SuUTB0ACitcAExNxqbB58mMoAgEAsBsTAaW5jKdkkCsRQQS6PZAxMjZBcoDHSAWBOItYBYG43PBcUwc4XQ7DQEYiMgNkZSyw2VR+aD5E3Q1CPz0d0NogHj7QaH
+   eJxjYBgFo4AwYARiZiBmgtIsaOIsOPSNglEAA5xAzAXE3GhsHirbIwjEQkAsjMYWprJdkkAsBcTSaPbAxAjZBQoDHSDWBGItINZG43NBMcxcITQ7DYHYCIiNkdRyQzEyHyRvgqYemY/ubhANAIKxBmA=
   </data>
  </layer>
  <objectgroup name="ground" width="26" height="15">

@@ -3,9 +3,12 @@
  <tileset firstgid="1" name="spritesheet" tilewidth="64" tileheight="64">
   <image source="../tiles/spritesheet.png" trans="adb2b9" width="1024" height="512"/>
  </tileset>
+ <tileset firstgid="129" name="end" tilewidth="64" tileheight="64">
+  <image source="../story/end.png" width="1024" height="1024"/>
+ </tileset>
  <layer name="Tile Layer 1" width="20" height="12">
   <data encoding="base64" compression="zlib">
-   eJxjYKAtYIRiStXQyrxRQDqgJHxx6SPHTEJ6GNHUEKueWHsJYXoAADAgACE=
+   eJxNxdVSFQAUAMCL2IligEVY2N0BvwZiByrY3YUtdovdhY3YXdjtPjjjedjZ/EQiUUD+v0dTyBjGMo7xTGAik5jMFKZSxLTwdGaEiylhJrOYzRzmMo/5LGAhi1jMkvBSloWXs4KVrGI1a1jLOtZTygY2sonN4S1sDW9jO2XsYCe72M0e9rKP/RzgIIfChzkSPko5xzjOCU5yitOc4SznOM8FLoYvcTl8hatco4Lr3OAmt7jNHe5SyT2qwvd5EH7IIx7zhKc84zkveMkrXvOGt7wLv6c6/IGPfOIzX/jKN77zg5/84jd/SCT9P4ka4WRqUova1KEu9ahPAxrSiMY0ISXclGbhVJrTgpa0Io10WtOGtrSjPRlkhrPIDnegI53oTBdy6Eo3utODnvSiN33CfekX7s8ABjKIwQxhKMMYzghGMopc8sJ/ARQvgMs=
   </data>
  </layer>
 </map>
