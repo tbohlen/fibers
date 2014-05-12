@@ -18,7 +18,7 @@
  </layer>
  <layer name="knitting" width="32" height="25">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMApGwSgYBTDASyU1o2DwA9aBdsAIBQBqLAAg
+   eJztziECACAIwEAKUf//XJLdAgbv8sIiAAA49kWz2i+YkK8HPlVtkAAh
   </data>
  </layer>
  <objectgroup name="ground" width="32" height="25">
