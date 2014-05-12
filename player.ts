@@ -359,7 +359,7 @@ class Player {
             this.rigidSprite.body.setVelocity(testVel)
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.leftBlockingShape, 1000/60, point, normal);
-            console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
+            //console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
             // move the body back
             this.rigidSprite.body.setVelocity(origVel);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
@@ -384,7 +384,7 @@ class Player {
             this.rigidSprite.body.setVelocity(testVel)
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.rightBlockingShape, 1000/60, point, normal);
-            console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
+            //console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
             // move the body back
             this.rigidSprite.body.setVelocity(origVel);
             // you can move left if you aren't currently intersecting and won't in the next movement step left
