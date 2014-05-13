@@ -87,11 +87,14 @@ class Progression
 
     getNextState()
     {
-        console.log("let's progress to the next state");
         var nextName = this.currentEntry["nextName"];
         if (!(nextName in this.entries))
         {
             console.log(nextName + " not found in entries");
+        } else if (nextName == "end")
+        {
+            this.currentEntry = this.entries["start"];
+            return new MenuState(this.game, "menuStart");
         } else
         {
             this.currentEntry = this.entries[nextName];

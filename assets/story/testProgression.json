@@ -7,9 +7,9 @@
   "cut1": {
       "stateType" : "CutsceneState",
       "map" : "testcutscene2",
-      "nextName" : "cut2"
+      "nextName" : "end"
     },
-  "cut2": {
+  "end": {
       "stateType" : "CutsceneState",
       "map" : "testcutscene3",
       "nextName" : "firstLev"
