@@ -184,7 +184,9 @@ class Player {
         if (normal[1] > 0 && normal[1] >= Math.abs(normal[0]))
         {
             //console.log("On ground is true");
+            var wasOnGround:boolean = this.onGround;
             this.onGround = true;
+            this.handleLanding(wasOnGround, this.onGround);
             this.groundShape = otherShape;
         }
         // also need to check if this stopped us from moving left or right in the air
@@ -576,14 +578,27 @@ class Player {
         }
     }
 
+    // check for landing based on two boolean inputs, then do appropriate landing actions
+    // right now, we just play a sound effect when the player lands.
+    handleLanding(wasOnGround:boolean, isOnGround:boolean)
+    {
+        if (!wasOnGround && isOnGround)
+        {
+            this.game.sfx.setCurrentFX(this.game.sfx.landSFX);
+        }
+    }
+
     update()
     {
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
 
         // double check that we are on the ground
-        this.onGround = this.stillOnGround();
+        var wasOnGround:boolean = this.onGround;
+        var isOnGround:boolean = this.stillOnGround();
+        this.onGround = isOnGround;
         //console.log("on ground is " + this.onGround);
+        this.handleLanding(wasOnGround, isOnGround);
 
         // reset back to last checkpoint when R is pressed
         if (this.game.keyboard.keyPressed("R"))
