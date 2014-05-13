@@ -267,8 +267,8 @@ class Tool extends RigidSprite implements Interactable
             }
             else
             {
-                this.highlightSprite.x = this.initialPos[0];
-                this.highlightSprite.y = this.initialPos[1];
+                this.highlightSprite.x = this.initialPos[0] - 64;
+                this.highlightSprite.y = this.initialPos[1] + 64;
             }
 
             this.highlightSprite.x -= offset[0];
