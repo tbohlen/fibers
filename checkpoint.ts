@@ -128,6 +128,7 @@ class Checkpoint implements Interactable
                 if (obj.properties.yarn == "true")
                 {
                     game.progression.addYarnBall(); // will cause animation
+                    game.sfx.setCurrentFX(game.sfx.collectYarnSFX);
                     Sequence.makeSequence(game, "animateYarnBall",[
                         new SequenceAction(game, 0, function() {
                             game.keyboard.toggleKeyboard(false);

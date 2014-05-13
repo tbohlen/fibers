@@ -221,17 +221,27 @@ class Tool extends RigidSprite implements Interactable
                 var buildable:Buildable = this.buildables[i];
                 if (this.game.keyboard.keyPressed("W"))
                 {
+                    if (buildable.ratioYarnUsed() == 1){
+                        this.game.sfx.setCurrentFX(this.game.sfx.noKnitSFX);
+                    } else {
+                        this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
+                    }
                     buildable.buildUp();
-                    this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
                 }
                 else if (this.game.keyboard.keyPressed("S"))
                 {
+                    if (buildable.ratioYarnUsed() == 0){
+                        this.game.sfx.setCurrentFX(this.game.sfx.noKnitSFX);
+                    } else {
+                        this.game.sfx.setCurrentFX(this.game.sfx.knitDownSFX);
+                    }
                     buildable.buildDown();
-                    this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
-                } else if (!this.game.sfxSource.paused &&
+                }
+                else if (!this.game.sfxSource.paused &&
                             ((this.game.sfx.currentSFX == this.game.sfx.knitDownSFX) ||
                             (this.game.sfx.currentSFX == this.game.sfx.knitUpSFX)))
                 {
+                    // no longer actively building, so pause the knitting sound!
                     this.game.sfxSource.pause();
                 }
             }
