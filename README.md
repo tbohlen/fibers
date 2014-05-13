@@ -159,7 +159,8 @@ Options 2: Under properties, assign "progress" to "start", "current", or "next"
 # Setting a progression
 - Progression file is in json format. (Look at testProgression for an example)
 - First level of json will be names that are completely up to you. However, there must be at least one name called
-    "start". This will be the start state of the progression.
+    "start" and another called "end". "start" will be the start state of the progression. "end" will determine
+    which state should return to the main menu after completion.
 - Assigned to each of these names will be a dictionary with the following mappings
     - "stateType" --> the type of state that should be used (e.g. MenuState or PlayState)
     - "map" --> the filename of the map to be loaded (e.g. mainMenu, dynamicTest. Don't include the .json extension)
