@@ -58,8 +58,8 @@ class Tool extends RigidSprite implements Interactable
         var spriteParams:any = {
             x: options.initialPos[0],
             y: options.initialPos[1],
-            width: options.width,
-            height: options.height,
+            width: 128,
+            height: 128,
             color: [1.0, 1.0, 1.0, 1.0]
         };
         this.highlightSprite = Draw2DSprite.create(spriteParams);
@@ -71,7 +71,7 @@ class Tool extends RigidSprite implements Interactable
                 if (texture != null)
                 {
                     this.highlightSprite.setTexture(texture);
-                    this.highlightSprite.setTextureRectangle([0, 0, 64, 64]);
+                    this.highlightSprite.setTextureRectangle([0, 0, 128, 128]);
                     console.log("set texture for highlight sprite");
                 }
             }
