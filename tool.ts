@@ -58,8 +58,8 @@ class Tool extends RigidSprite implements Interactable
         var spriteParams:any = {
             x: options.initialPos[0],
             y: options.initialPos[1],
-            width: options.width,
-            height: options.height,
+            width: 128,
+            height: 128,
             color: [1.0, 1.0, 1.0, 1.0]
         };
         this.highlightSprite = Draw2DSprite.create(spriteParams);
@@ -71,7 +71,7 @@ class Tool extends RigidSprite implements Interactable
                 if (texture != null)
                 {
                     this.highlightSprite.setTexture(texture);
-                    this.highlightSprite.setTextureRectangle([0, 0, 64, 64]);
+                    this.highlightSprite.setTextureRectangle([0, 0, 128, 128]);
                     console.log("set texture for highlight sprite");
                 }
             }
@@ -221,17 +221,27 @@ class Tool extends RigidSprite implements Interactable
                 var buildable:Buildable = this.buildables[i];
                 if (this.game.keyboard.keyPressed("W"))
                 {
+                    if (buildable.ratioYarnUsed() == 1){
+                        this.game.sfx.setCurrentFX(this.game.sfx.noKnitSFX, true);
+                    } else {
+                        this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
+                    }
                     buildable.buildUp();
-                    this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
                 }
                 else if (this.game.keyboard.keyPressed("S"))
                 {
+                    if (buildable.ratioYarnUsed() == 0){
+                        this.game.sfx.setCurrentFX(this.game.sfx.noKnitSFX, true);
+                    } else {
+                        this.game.sfx.setCurrentFX(this.game.sfx.knitDownSFX);
+                    }
                     buildable.buildDown();
-                    this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
-                } else if (!this.game.sfxSource.paused &&
+                }
+                else if (!this.game.sfxSource.paused &&
                             ((this.game.sfx.currentSFX == this.game.sfx.knitDownSFX) ||
                             (this.game.sfx.currentSFX == this.game.sfx.knitUpSFX)))
                 {
+                    // no longer actively building, so pause the knitting sound!
                     this.game.sfxSource.pause();
                 }
             }
@@ -267,8 +277,8 @@ class Tool extends RigidSprite implements Interactable
             }
             else
             {
-                this.highlightSprite.x = this.initialPos[0];
-                this.highlightSprite.y = this.initialPos[1];
+                this.highlightSprite.x = this.initialPos[0] - 64;
+                this.highlightSprite.y = this.initialPos[1] + 64;
             }
 
             this.highlightSprite.x -= offset[0];

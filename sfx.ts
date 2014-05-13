@@ -1,5 +1,6 @@
 /**
  * Created by ethanis on 5/8/14.
+ * We load all of the game's sfx up front
  */
 /// <reference path="jslib-modular/turbulenz.d.ts" />
 /// <reference path="interfaces.ts" />
@@ -25,13 +26,14 @@ class SFXData
 
 class SFX
 {
-    walkSFX:SFXData;
     jumpSFX:SFXData;
     landSFX:SFXData;
     knitUpSFX:SFXData;
     knitDownSFX:SFXData;
     collectYarnSFX:SFXData;
+    noKnitSFX:SFXData;
 
+    // the currently-playing sfx
     currentSFX:SFXData;
 
     game:GameObject;
@@ -40,20 +42,21 @@ class SFX
     {
         this.game = game;
 
-        this.walkSFX = new SFXData("jump.wav", game);
         this.jumpSFX= new SFXData("jump.wav", game);
-        this.landSFX = new SFXData("jump.wav", game);
-        this.knitUpSFX = new SFXData("sewing_machine.wav", game);
-        this.knitDownSFX = new SFXData("sewing_machine.wav", game);
-        this.collectYarnSFX = new SFXData("sewing_machine.wav", game);
+        this.landSFX = new SFXData("land.wav", game);
+        this.knitUpSFX = new SFXData("knit3.mp3", game);
+        this.knitDownSFX = new SFXData("knit2.mp3", game);
+        this.collectYarnSFX = new SFXData("yarn3.wav", game);
+        this.noKnitSFX = new SFXData("noknit.wav", game);
     }
 
-    setCurrentFX(sound:SFXData)
+
+    setCurrentFX(sound:SFXData, shouldRepeat:boolean = false)
     {
         var data:Sound = sound.soundData;
         if (data)
         {
-            if (this.currentSFX != sound || !this.game.sfxSource.playing){
+            if (this.currentSFX != sound || !this.game.sfxSource.playing || shouldRepeat){
                 this.currentSFX = sound;
                 this.game.sfxSource.rewind();
                 this.game.sfxSource.play(data);

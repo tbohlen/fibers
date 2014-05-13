@@ -17,6 +17,7 @@
 
 class Player {
     SPEED = 0.2;
+    PULL_SPEED = 0.1;
     JUMP_SPEED = 0.5;
     DIST_EPSILON = 0.25;
     CLIMB_SPEED = 2;
@@ -184,7 +185,9 @@ class Player {
         if (normal[1] > 0 && normal[1] >= Math.abs(normal[0]))
         {
             //console.log("On ground is true");
+            var wasOnGround:boolean = this.onGround;
             this.onGround = true;
+            this.handleLanding(wasOnGround, this.onGround);
             this.groundShape = otherShape;
         }
         // also need to check if this stopped us from moving left or right in the air
@@ -264,7 +267,8 @@ class Player {
     {
         // we should only be allowed to walk if we are on the ground.
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        var newVel:number[] = [-1*this.SPEED, vel[1]];
+        var walkingSpeed:number = this.isPulling ? this.PULL_SPEED : this.SPEED;
+        var newVel:number[] = [-1*walkingSpeed, vel[1]];
         this.rigidSprite.body.setVelocity(newVel);
         if (!this.isPulling) {
             this.facing = Direction.LEFT;
@@ -274,7 +278,8 @@ class Player {
     walkRight()
     {
         var vel:number[] = this.rigidSprite.body.getVelocity();
-        var newVel:number[] = [this.SPEED, vel[1]];
+        var walkingSpeed:number = this.isPulling ? this.PULL_SPEED : this.SPEED;
+        var newVel:number[] = [walkingSpeed, vel[1]];
         this.rigidSprite.body.setVelocity(newVel);
         if (!this.isPulling) {
             this.facing = Direction.RIGHT;
@@ -356,7 +361,7 @@ class Player {
             // test for an intersection if we did move in that direction
             var origVel:number[] = this.rigidSprite.body.getVelocity();
             var testVel:number[] = [-this.SPEED, origVel[1]];
-            this.rigidSprite.body.setVelocity(testVel)
+            this.rigidSprite.body.setVelocity(testVel);
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.leftBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.leftBlockingShape, 1000/60, point, normal);
             //console.log("Left intersecting: " + intersecting + ", sweep: " + sweepHit);
@@ -381,7 +386,7 @@ class Player {
             // test for an intersection if we did move in that direction
             var origVel:number[] = this.rigidSprite.body.getVelocity();
             var testVel:number[] = [this.SPEED, origVel[1]];
-            this.rigidSprite.body.setVelocity(testVel)
+            this.rigidSprite.body.setVelocity(testVel);
             var intersecting:boolean = this.game.collisionHelp.collisionUtils.intersects(this.rigidSprite.body.shapes[0], this.rightBlockingShape);
             var sweepHit:number = this.game.collisionHelp.collisionUtils.sweepTest(this.rigidSprite.body.shapes[0], this.rightBlockingShape, 1000/60, point, normal);
             //console.log("Right intersecting: " + intersecting + ", sweep: " + sweepHit);
@@ -576,14 +581,27 @@ class Player {
         }
     }
 
+    // check for landing based on two boolean inputs, then do appropriate landing actions
+    // right now, we just play a sound effect when the player lands.
+    handleLanding(wasOnGround:boolean, isOnGround:boolean)
+    {
+        if (!wasOnGround && isOnGround)
+        {
+            this.game.sfx.setCurrentFX(this.game.sfx.landSFX);
+        }
+    }
+
     update()
     {
         // reset rotation just in case
         this.rigidSprite.body.setRotation(0);
 
         // double check that we are on the ground
-        this.onGround = this.stillOnGround();
+        var wasOnGround:boolean = this.onGround;
+        var isOnGround:boolean = this.stillOnGround();
+        this.onGround = isOnGround;
         //console.log("on ground is " + this.onGround);
+        this.handleLanding(wasOnGround, isOnGround);
 
         // reset back to last checkpoint when R is pressed
         if (this.game.keyboard.keyPressed("R"))
