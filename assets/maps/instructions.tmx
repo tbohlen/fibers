@@ -12,6 +12,9 @@
  <tileset firstgid="513" name="instructions" tilewidth="64" tileheight="64">
   <image source="../story/instructions.png" width="1024" height="1024"/>
  </tileset>
+ <tileset firstgid="769" name="tiles" tilewidth="64" tileheight="64">
+  <image source="../tiles/tiles.png" width="512" height="1024"/>
+ </tileset>
  <layer name="background" width="40" height="13">
   <data encoding="base64" compression="zlib">
    eJzt1LsOgkAQheF9NdEGpEFouDQijUqj0IA+vH9iptlkEqqdLZjkK059Tsa5/13R44YBR5xwQGKY5e544IkRZ+RIkRlmuRfemDCjRIUCF8Mst2DFB1+06FCjMcxa77JDf5ehs9a77NDfZeis9S479HcZOmu9yw79XYbOWu+x/D+t91j+n9Z7LP9P633/f9vyD679tY0=
@@ -102,7 +105,7 @@
  </objectgroup>
  <layer name="grandmas instructions" width="40" height="13">
   <data encoding="base64" compression="zlib">
-   eJzN0ktTTnEAx/HTk0qXhxnVk+4LIbm9AnaaNmTDG8iOnXZ6N13cKgu6ULTILcLCJREtcsulFggRPmOexRnzPI+YPPWb+cycc+bM+X8XpykIgkPByt1hjix3RIodpXm5I1LsGC1/8X4rbbTTwXFOcJJTnKaTLro5s5Sxi9hZztFDL330c54LDDDIRS4xlOAbe9lHQ+hZI/uTnBmJBEEmq8giO5K8b5jLXOEq17jOCDe4ySi3uM2dBN84wMHkR/xajJL49To9hRRRTCxF313ucZ8HjPGQcR7xmAme8JTJP3QkWxXV8etcPXnkU0A03hdN0DnFM57zgpe8YprXvOEt75hh9h/7wivVUUY5FVSGunaxO/Tuez7wkTk+8ZkvzPOVbyzwnR9L0Jdqe6gP3Wdm+E/JIpscVpNLHvkUEGUNazP+c+BvK3ReEcXEKGE9pZRRTgWVVFGd5r4NzqthI5vYTC1bqGMr29jODnamuS/d+wlRUUwr
+   eJzN0jlPFHEAxuFhV1BYVhKBRZarUFC8+ATYaWxUGuy00U477eTbqIAHWngrRyF4ghaCoqAW3nehAiIeT8wWE7O7HtksvsmTzE5m5v8rdmcQBLuC/3e72TPfEVm2l33zHZFl++n4i+cPcJBDdNJFN4c5wlGO0cNxTuQy9g92klOc5gxnOcd5LnCRXvroZyDNNzazhU2he1tpy3BmJBIEURZQSFEkc98lBhniMle4yjWuc4NhRrjJrTTfaGdb5iN+LkFV6nqJnnIqqCSRpe82o4xxh7uMc4/7TDDJAx7y6DcdmVZPQ+q6WE8JMUqJp/riaTof84SnPOM5L3jJK17zhre84/0/9oVXrSNJDbXUhbpaWR969gMf+cQU08zwmVm+MMdXvvE99d72aBDsiOYg9pdtYGPod7TA/5RCiljIIoopIUYpcRZTVpD7pmwrd14FlSSoYinVJKmhljrqachz3zLnLaeRJlawkmZWsZo1rGUdLXnuy/d+AFydTOw=
   </data>
  </layer>
  <objectgroup name="checkpoints" width="40" height="13">
