@@ -50,12 +50,13 @@ class SFX
         this.noKnitSFX = new SFXData("noknit.wav", game);
     }
 
-    setCurrentFX(sound:SFXData)
+
+    setCurrentFX(sound:SFXData, shouldRepeat:boolean = false)
     {
         var data:Sound = sound.soundData;
         if (data)
         {
-            if (this.currentSFX != sound || !this.game.sfxSource.playing){
+            if (this.currentSFX != sound || !this.game.sfxSource.playing || shouldRepeat){
                 this.currentSFX = sound;
                 this.game.sfxSource.rewind();
                 this.game.sfxSource.play(data);
