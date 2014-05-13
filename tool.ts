@@ -222,6 +222,8 @@ class Tool extends RigidSprite implements Interactable
                 if (this.game.keyboard.keyPressed("W"))
                 {
                     if (buildable.ratioYarnUsed() == 1){
+                        // stop player so that we can repeatedly trigger noKnit, even if it is already the current sound
+                        this.game.sfxSource.stop();
                         this.game.sfx.setCurrentFX(this.game.sfx.noKnitSFX);
                     } else {
                         this.game.sfx.setCurrentFX(this.game.sfx.knitUpSFX);
@@ -231,6 +233,8 @@ class Tool extends RigidSprite implements Interactable
                 else if (this.game.keyboard.keyPressed("S"))
                 {
                     if (buildable.ratioYarnUsed() == 0){
+                        // stop player so that we can repeatedly trigger noKnit, even if it is already the current sound
+                        this.game.sfxSource.stop();
                         this.game.sfx.setCurrentFX(this.game.sfx.noKnitSFX);
                     } else {
                         this.game.sfx.setCurrentFX(this.game.sfx.knitDownSFX);
