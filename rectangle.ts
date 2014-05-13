@@ -442,12 +442,15 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
         if (!this.isBuildable)
         {
             var offsetConst:number = 18; // keep this less than half the player's width. Otherwise you get weird cases where the player can wedge themselves into corners
+            var offsetConstTwo:number = 4;
             var offsetLeft:number = left + offsetConst;
             var offsetRight:number = right - offsetConst;
             var offsetTop:number = top - offsetConst;
             var offsetBottom:number = bottom + offsetConst;
-            vertices = [[left, offsetBottom], [offsetLeft, bottom], [offsetRight, bottom], [right, offsetBottom],
-                        [right, offsetTop], [offsetRight, top], [offsetLeft, top], [left, offsetTop]];
+            var offsetBottomTwo:number = bottom + offsetConstTwo;
+            var horizCenter:number = (left + right) / 2;
+            vertices = [[left, offsetBottom], [offsetLeft, offsetBottomTwo], [horizCenter, bottom], [offsetRight, offsetBottomTwo], [right, offsetBottom],
+                        [right, top], [left, top]];
         }
         else
         {
@@ -536,6 +539,12 @@ class Rectangle extends RigidSprite implements Buildable, Climbable, Interactabl
                 sprite.setTexture(this.texture);
                 sprite.setTextureRectangle(this.finalTextureRectangle);
             }
+        }
+
+        if (!this.isBuildable)
+        {
+            // prevent additional rotation
+            this.body.setRotation(this.rotation);
         }
 
         if (this.currentSize > 0) {
