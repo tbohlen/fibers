@@ -102,6 +102,8 @@ interface ToolOptions extends RigidSpriteOptions
 {
     buildable ?: Buildable;
     toolYarnBall ?: ToolYarnBall;
+    width : number;
+    height : number;
 }
 
 interface ChainOptions extends RigidSpriteOptions

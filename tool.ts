@@ -25,6 +25,9 @@ class Tool extends RigidSprite implements Interactable
     game:GameObject;
     buildables:Buildable[];
     toolYarnBall:ToolYarnBall;
+    texture:Texture;
+    playerOverlapping:boolean = false;
+    highlightSprite:Draw2DSprite;
 
     constructor (options:ToolOptions, game:GameObject)
     {
@@ -49,6 +52,30 @@ class Tool extends RigidSprite implements Interactable
         this.body.shapes[0].setMask(0);
 
         this.body.setPosition(options.initialPos);
+
+        // make the sprite to show when the player is overlapping with the tool
+        // build the player sprite
+        var spriteParams:any = {
+            x: options.initialPos[0],
+            y: options.initialPos[1],
+            width: options.width,
+            height: options.height,
+            color: [1.0, 1.0, 1.0, 1.0]
+        };
+        this.highlightSprite = Draw2DSprite.create(spriteParams);
+        game.graphicsDevice.createTexture({
+            src: "assets/glow.png",
+            mipmaps: true,
+            onload: (texture:Texture) =>
+            {
+                if (texture != null)
+                {
+                    this.highlightSprite.setTexture(texture);
+                    this.highlightSprite.setTextureRectangle([0, 0, 64, 64]);
+                    console.log("set texture for highlight sprite");
+                }
+            }
+        });
     }
 
     static constructFromTiled(obj:any, tileset:Tileset, game:GameObject) {
@@ -83,7 +110,9 @@ class Tool extends RigidSprite implements Interactable
             initialPos : [obj.x + obj.width/2, obj.y + obj.height/2],
             gid: obj.gid,
             body : body,
-            buildable : null
+            buildable : null,
+            width: obj.width,
+            height: obj.height
         };
 
         if (!(obj.properties.prebuilt == "true"))
@@ -185,6 +214,7 @@ class Tool extends RigidSprite implements Interactable
         if (this.game.collisionHelp.collisionUtils.intersects(this.body.shapes[0], player.rigidSprite.body.shapes[0])
                                                   && this.buildables.length > 0 && !this.isDead)
         {
+            this.playerOverlapping = true;
             // handle key presses
             for (var i:number = 0; i < this.buildables.length; i++)
             {
@@ -215,13 +245,38 @@ class Tool extends RigidSprite implements Interactable
     }
 
     draw(draw2D:Draw2D, offset:number[]) {
-        if (this.game.debugMode){
+        if (this.game.debugMode)
+        {
             this.sprite.setColor(Chain.debugColorChain);
-        } else {
+        }
+        else
+        {
             this.sprite.setColor([0,0,0,0]);
         }
 
         super.draw(draw2D, offset);
+
+        if (this.playerOverlapping)
+        {
+            if (this.body != null)
+            {
+                var pos:number[] = this.body.getPosition();
+                this.highlightSprite.x = pos[0];
+                this.highlightSprite.y = pos[1];
+                //this.highlightSprite.rotation = this.body.getRotation();
+            }
+            else
+            {
+                this.highlightSprite.x = this.initialPos[0];
+                this.highlightSprite.y = this.initialPos[1];
+            }
+
+            this.highlightSprite.x -= offset[0];
+            this.highlightSprite.y -= offset[1];
+            draw2D.drawSprite(this.highlightSprite);
+
+            this.playerOverlapping = false;
+        }
     }
 
 }
