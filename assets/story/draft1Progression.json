@@ -50,12 +50,18 @@
   "fourthLev": {
     "stateType" : "PlayState",
     "map" : "upcube",
-    "nextName" : "end"
+    "nextName" : "end1"
   },
 
-  "end": {
+  "end1": {
       "stateType" : "CutsceneState",
-      "map" : "endCut",
+      "map" : "endCutMake",
+      "nextName" : "end2"
+  },
+
+  "end2": {
+      "stateType" : "CutsceneState",
+      "map" : "endCutHappy",
       "nextName" : ""
   }
 }
