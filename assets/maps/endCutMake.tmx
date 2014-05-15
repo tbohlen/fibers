@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="12" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="spritesheet" tilewidth="64" tileheight="64">
+  <image source="../tiles/spritesheet.png" trans="adb2b9" width="1024" height="512"/>
+ </tileset>
+ <tileset firstgid="129" name="endHappy" tilewidth="64" tileheight="64">
+  <image source="../story/endHappy.png" width="1024" height="1024"/>
+ </tileset>
+ <tileset firstgid="385" name="endMake" tilewidth="64" tileheight="64">
+  <image source="../story/endMake.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="20" height="12">
+  <data encoding="base64" compression="zlib">
+   eJxNw9VSFQAUAMALdmKgWCg2oGKLjb+G3SBid2K3GNiBrdhid2GLnfvgjGdnNj8pkcj/d7RjHOs4xzvBiU5yslOc6jSnW2BhOCMscqbFznK2c5zrPOe7wIUucrFLXBouC5e7wpWucrUlrnGt61zvBje6yc1uCbeG29zuDnda6i53u8e9lrnP/R7woIfCw+ERj3rM45Z7wpOe8rRnPOs5z3vBivBieMnLXvGq17zuDSu96S1ve8e73vN++CB86CMf+8SnPvO5L3xpla987Rvf+i58H37wo9V+8rNf/Oo3v/vDn/7yt39MJP+fFCZbw5rWsrZ1rGs969vAhjaysSk2CZuGzWxuqi1saZqtbG0b29rOdNvbwYywY9jJznaxq93sbqZZZtvDnvYyx972CfuG/ezvAAc6yFwHO8ShDnO4IxxpnqPCv402gLw=
+  </data>
+ </layer>
+</map>
