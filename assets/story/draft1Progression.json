@@ -56,12 +56,19 @@
   "end1": {
       "stateType" : "CutsceneState",
       "map" : "endCutMake",
-      "nextName" : "end"
+      "nextName" : "end2"
   },
 
-  "end": {
+  "end2": {
       "stateType" : "CutsceneState",
       "map" : "endCutHappy",
-      "nextName" : ""
+      "nextName" : "end"
+  },
+  
+  "end": {
+	  "stateType" : "CutsceneState",
+      "map" : "endCutHappy",
+	  "nextName" : ""
   }
+  
 }
