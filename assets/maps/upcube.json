@@ -104,7 +104,7 @@
                      "isBuildable":"true",
                      "isClimbable":"true",
                      "isSolid":"false",
-                     "maxHeight":"5",
+                     "maxHeight":"6",
                      "minHeight":"0",
                      "prebuilt":"true",
                      "rotation":"180",

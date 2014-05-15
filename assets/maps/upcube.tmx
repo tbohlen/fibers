@@ -62,7 +62,7 @@
     <property name="isBuildable" value="true"/>
     <property name="isClimbable" value="true"/>
     <property name="isSolid" value="false"/>
-    <property name="maxHeight" value="5"/>
+    <property name="maxHeight" value="6"/>
     <property name="minHeight" value="0"/>
     <property name="prebuilt" value="true"/>
     <property name="rotation" value="180"/>
